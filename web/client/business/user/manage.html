@@ -1,0 +1,85 @@
+<div class="container">
+    <div ng-controller="userManageController">
+        <div class="row">
+            <div class="col-sm-12">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary btn-sm"location-go="/business/user/create">新建用户</button>
+                    </div>
+                </form>
+                <br/>
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label>用户名：</label>
+                        <input name="userName" type="text" class="form-control input-sm" ng-model="searchRequest.userName" placeholder="用户名"/>
+                    </div>
+                    <div class="form-group">
+                        <label>状态：</label>
+                        <select name="isDisable" ng-model="searchRequest.isDisable" ng-options="option.isDisable as option.name for option in isDisableOptions" class="form-control input-sm" required>
+                            <option value="">--选择--</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>角色：</label>
+                        <select name="isDeveloper" ng-model="searchRequest.isDeveloper" ng-options="option.isDeveloper as option.name for option in isDeveloperOptions" class="form-control input-sm" required>
+                            <option value="">--选择--</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary btn-sm" ng-click="searchRequest.page=1;search();">搜索</button>
+                    </div>
+                </form>
+                <br/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-bordered table-condensed table-hover">
+                    <thead>
+                    <tr class="active">
+                        <th width="25" align="center">#</th>
+                        <th width="200">用户名</th>
+                        <th width="100">状态</th>
+                        <th width="100">角色</th>
+                        <th width="100">登录次数</th>
+                        <th width="200">创建者</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="user in pagerResult.records track by $index">
+                        <td>{{$index + 1}}</td>
+                        <td>{{user.userName}}</td>
+                        <td>{{user.isDisable ? "冻结" : "激活"}}</td>
+                        <td>{{user.isDeveloper ? "开发者" : "使用者";}}</td>
+                        <td>{{user.loginCount}}</td>
+                        <td>{{user.creator.userName}}</td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-primary btn-xs" location-go="/business/user/detail/{{user.id}}">详情</button>
+                                <button type="button" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">详情</span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                    <li><a href="javascript:void(0);" location-go="/business/user/update/{{user.id}}">修改</a></li>
+                                    <!--<li><a href="javascript:void(0);" ng-click="openDeleteModal(goods)">删除</a></li>-->
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div>
+            <div class="pull-left">
+                <pagination class="pagination-sm" boundary-links="true" rotate="false" max-size="10" total-items="pagerResult.total" ng-model="searchRequest.page" ng-change="search();" items-per-page="searchRequest.pageSize" first-text="首页" previous-text="上页" next-text="下页" last-text="尾页"></pagination>
+            </div>
+            <div class="pull-left">
+                <select name="pageSize" ng-change="searchRequest.page=1;search();" ng-model="searchRequest.pageSize" ng-options="pageSize for pageSize in pageSizeList" class="form-control input-sm"></select>
+            </div>
+            <div class="pull-left form-control-static clearfix">&nbsp;共{{pagerResult.total ? pagerResult.total : 0}}条记录</div>
+        </div>
+    </div>
+</div>

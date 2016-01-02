@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>BlackDream</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <script>
+        var arr, reg = new RegExp("(^| )theme=([^;]*)(;|$)");
+        if(arr = document.cookie.match(reg)){
+            var theme = unescape(arr[2]).split('"')[0];
+            document.write('<link type="text/css" rel="stylesheet" href="/client/library/bootstrap/theme/'+ theme + '.min.css"/>')
+        }
+        else{
+            document.write('<link type="text/css" rel="stylesheet" href="/client/library/bootstrap/theme/default.min.css"/>')
+        }
+    </script>
+    <link type="text/css" rel="stylesheet" href="/client/framework/framework.css"/>
+    <script data-main="/client/framework/main.js" src="/client/library/require/require.min.js"></script>
+</head>
+<body ng-controller="frameworkController">
+    <header id="framework-header" class="navbar navbar-fixed-top navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a style="padding: 7px 10px 7px 10px;" class="navbar-brand"  location-go="/" href="javascript:void(0);">
+                    <img style="margin: 0 10px;height: 100%;display: inline;vertical-align: middle;" src="/client/framework/logo.jpg"/>BlackDream
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <form class="navbar-form navbar-left" role="search" ng-submit="search();">
+                    <div class="form-group has-feedback">
+                        <input type="text" ng-model="searchText" class="form-control input-sm" placeholder="他们的生成器">
+                        <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <span ng-bind="user.userName"></span><span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:void(0);" ng-click="openTooltipHistoryModal()">消息记录</a></li>
+                            <li><a href="javascript:void(0);" ng-click="openSelectThemeModal()">设置主题</a></li>
+                            <li><a href="javascript:void(0);" ng-click="openUpdatePasswordModal()">修改密码</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="javascript:void(0);" ng-click="openLogoutModal()">退出系统</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">开始<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li ng-if="!user.creator"><a href="javascript:void(0);" location-go="/business/user/manage">我的用户</a></li>
+                            <li ng-if="user.isDeveloper"><a href="javascript:void(0);" location-go="/business/generator/manage">我的生成器</a></li>
+                            <li><a href="javascript:void(0);" location-go="/business/generatorInstance/manage">我的实例</a></li>
+                            <!--<li role="separator" class="divider"></li>-->
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">帮助<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:void(0);" location-go="/guide">指南</a></li>
+                            <li><a href="javascript:void(0);" ng-click="openAboutModal()">关于</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div class="container-fluid" id="framework-main">
+        <div class="row" >
+            <div class="col-sm-12">
+                <div id="framework-page">
+                    <div ng-view></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer id="framework-footer">
+        <div class="container-fluid">
+            <p>无聊乏味的工作是令人不快的，尽可能多地将乏味的工作自动化。为了你，也为自己。</p>
+        </div>
+    </footer>
+    <!-- 消息条组 -->
+    <div id="framework-tooltip" >
+        <alert ng-repeat="tooltip in tooltips track by $index" type="{{tooltip.level}}" close="tooltips.splice($index,1)"><span ng-bind="tooltip.message"></span></alert>
+    </div>
+    <!-- 加载进度 -->
+    <div id="framework-loading" ng-show="loadStatus.status.loading"></div>
+    <!-- 消息记录 -->
+    <script id="framework/tooltip-history.html" type="text/ng-template" >
+        <div class="modal-header">
+            <h3 class="modal-title">消息记录</h3>
+        </div>
+        <div class="modal-body">
+            <table class="table table-bordered table-condensed table-hover">
+                <thead>
+                <tr class="active">
+                    <th>#</th><th>级别</th><th>内容</th><th>时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="{{tooltip.level}}" ng-repeat="tooltip in result.records track by $index">
+                    <td>{{$index + 1}}</td><td>{{tooltip.type}}</td><td>{{tooltip.message}}</td><td>{{tooltip.dateTime}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <pagination class="pagination-sm" boundary-links="true" rotate="false" max-size="10" total-items="result.total"
+                ng-model="pager.page" ng-change="search()" items-per-page="pager.pageSize"
+                first-text="首页" previous-text="上页" next-text="下页" last-text="尾页">
+            </pagination>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-sm btn-primary" ng-click="confirm()">确定</button>
+        </div>
+    </script>
+    <!-- 退出系统 -->
+    <script id="framework/logout.html" type="text/ng-template" >
+        <div class="modal-header">
+            <h3 class="modal-title">退出系统</h3>
+        </div>
+        <div class="modal-body">确定退出系统？</div>
+        <div class="modal-footer">
+            <button class="btn btn-sm btn-warning" type="button" ng-click="cancel()">取消</button>
+            <button class="btn btn-sm btn-primary" type="button" ng-click="confirm()">确定</button>
+        </div>
+    </script>
+    <!-- 弹出对话框 -->
+    <script id="framework/alert.html" type="text/ng-template" >
+        <div class="modal-header">
+            <h3 class="modal-title">提示</h3>
+        </div>
+        <div class="modal-body" ng-bind="message"></div>
+        <div class="modal-footer">
+            <button class="btn btn-sm btn-primary" type="button" ng-click="confirm()">确定</button>
+        </div>
+    </script>
+    <!-- 选择主题对话框 -->
+    <script id="framework/theme.html" type="text/ng-template" >
+        <div class="modal-header">
+            <h3 class="modal-title">选择主题</h3>
+        </div>
+        <div class="modal-body">
+            <div style="height: 600px;overflow-y: scroll;overflow-x: hidden;">
+                <div class="row" ng-repeat="theme in themes">
+                    <div class="col-sm-12">
+                        <div class="thumbnail" ng-dblclick="selectTheme(theme)">
+                            <img width="450" height="270" ng-src="/client/library/bootstrap/theme/{{theme}}.png" alt="{{theme}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-sm btn-default" type="button" ng-click="selectTheme('default')">默认主题</button>
+            <button class="btn btn-sm btn-primary" type="button" ng-click="cancel()">关闭</button>
+        </div>
+    </script>
+    <!-- 修改密码 -->
+    <script id="framework/passwordUpdate.html" type="text/ng-template" >
+        <div class="modal-header">
+            <h3 class="modal-title">修改密码</h3>
+        </div>
+        <div class="modal-body">
+            <form name="frameworkPasswordUpdateForm" class="form-horizontal" role="form" novalidate>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label"><span class="text-required">*</span>&nbsp;原密码</label>
+                    <div class="col-sm-6">
+                        <input name="oldPassword" uib-tooltip="{{getMessage('oldPassword',frameworkPasswordUpdateForm.oldPassword.$error,validateMessages)}}"
+                               tooltip-trigger="none" tooltip-is-open="frameworkPasswordUpdateForm.oldPassword.$invalid && frameworkPasswordUpdateForm.oldPassword.$dirty"
+                               ng-model="request.oldPassword" type="password" class="form-control input-sm" placeholder="原密码" ng-pattern="/^\w{6,20}$/" required/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label"><span class="text-required">*</span>&nbsp;新密码</label>
+                    <div class="col-sm-6">
+                        <input name="newPassword" uib-tooltip="{{getMessage('newPassword',frameworkPasswordUpdateForm.newPassword.$error,validateMessages)}}"
+                               tooltip-trigger="none" tooltip-is-open="frameworkPasswordUpdateForm.newPassword.$invalid && frameworkPasswordUpdateForm.newPassword.$dirty"
+                               ng-model="request.newPassword" type="password" class="form-control input-sm" placeholder="新密码" validator="{repeat:repeatNewPassword}" ng-pattern="/^\w{6,20}$/" required/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label"><span class="text-required">*</span>&nbsp;确认新密码</label>
+                    <div class="col-sm-6">
+                        <input name="repeatPassword" uib-tooltip="{{getMessage('repeatPassword',frameworkPasswordUpdateForm.repeatPassword.$error,validateMessages)}}"
+                               tooltip-trigger="none" tooltip-is-open="frameworkPasswordUpdateForm.repeatPassword.$invalid && frameworkPasswordUpdateForm.repeatPassword.$dirty"
+                               ng-model="request.repeatPassword" type="password" class="form-control input-sm" placeholder="确认新密码" validator="{repeat:repeatRepeatPassword}" ng-pattern="/^\w{6,20}$/" required/>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-sm btn-warning" type="button" ng-click="cancel()">取消</button>
+            <button class="btn btn-sm btn-primary" type="button" ng-click="confirm()" ng-disabled="frameworkPasswordUpdateForm.$invalid || frameworkPasswordUpdateForm.$pristine">确定</button>
+        </div>
+    </script>
+    <!-- 关于对话框 -->
+    <script id="framework/about.html" type="text/ng-template" >
+        <div class="modal-header">
+            <h3 class="modal-title">关于</h3>
+        </div>
+        <div class="modal-body">
+            <div class="media">
+                <div class="media-left">
+                    <a href="javascript:void(0)">
+                        <img class="media-object" width="220" height="220" src="/client/framework/logo.jpg"/>
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h1 class="media-heading">BlackDream</h1>
+                    <form name="templateDetailForm" class="form-horizontal" role="form" novalidate>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Version</label>
+                            <div class="col-sm-9 form-control-static">1.0.0</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Author</label>
+                            <div class="col-sm-9 form-control-static">LaineyC</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">GitHub</label>
+                            <div class="col-sm-9 form-control-static"><a target="_blank" href="https://github.com/LaineyC">https://github.com/LaineyC</a></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Release</label>
+                            <div class="col-sm-9 form-control-static">2016-01-01</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Server</label>
+                            <div class="col-sm-9 form-control-static">Tomcat8</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">JDK</label>
+                            <div class="col-sm-9 form-control-static">1.8</div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-sm btn-primary" type="button" ng-click="confirm()">确定</button>
+        </div>
+    </script>
+</body>
+</html>

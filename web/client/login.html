@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>BlackDream</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script>
+        var arr, reg = new RegExp("(^| )theme=([^;]*)(;|$)");
+        if(arr = document.cookie.match(reg)){
+            var theme = unescape(arr[2]).replace('"', "").replace('"', "");
+            document.write('<link type="text/css" rel="stylesheet" href="/client/library/bootstrap/theme/'+ theme + '.min.css"/>')
+        }
+        else{
+            document.write('<link type="text/css" rel="stylesheet" href="/client/library/bootstrap/theme/default.min.css"/>')
+        }
+    </script>
+    <link type="text/css" rel="stylesheet" href="/client/login.css"/>
+    <script type="text/javascript" src="/client/library/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/client/login.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">BlackDream 1.0.0</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">用户名</label>
+                            <div class="col-sm-4">
+                                <input id="username" type="text" class="form-control input-sm" placeholder="4-32位数字或字母">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">密码</label>
+                            <div class="col-sm-4">
+                                <input id="password" type="password" class="form-control input-sm" placeholder="6-32位数字或字母">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-4">
+                                <button id="sign-in" type="button" class="btn btn-primary btn-sm">登录</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="alert" class="alert alert-danger hide" role="alert"></div>
+                    <div id="progress" class="progress hide">
+                        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                            <span class="sr-only">20% Complete</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

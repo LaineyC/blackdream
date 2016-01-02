@@ -1,0 +1,322 @@
+<div class="container">
+    <div ng-controller="dynamicModelCreateController">
+        <div class="row">
+            <div class="col-sm-12">
+                <form name="dynamicModelCreateForm" class="form-horizontal" role="form" novalidate>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label"><span class="text-required">*</span>&nbsp;名称</label>
+                        <div class="col-sm-3">
+                            <input name="name" uib-tooltip="{{getMessage('name',dynamicModelCreateForm.name.$error,validateMessages)}}"
+                                   tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.name.$invalid && dynamicModelCreateForm.name.$dirty"
+                                   ng-model="createRequest.name" type="text" class="form-control input-sm" placeholder="名称" ng-maxlength="20" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label"><span class="text-required">*</span>&nbsp;图标</label>
+                        <div class="col-sm-3">
+                            <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span ng-if="!iconControl.selectedItem">选择图标</span>
+                                        <span ng-if="iconControl.selectedItem" class="glyphicon glyphicon-{{iconControl.selectedItem}}"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" style="width:575px;">
+                                        <li>
+                                            <div class="clearfix">
+                                                <div ng-repeat="icon in iconControl.icons" style="float: left;font-size: 20px;margin: 5px;">
+                                                    <span ng-click="iconControl.select(icon);" class="glyphicon glyphicon-{{icon}}"></span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="alert alert-danger" ng-show="dynamicModelCreateForm.icon.$invalid && dynamicModelCreateForm.icon.$dirty">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">子模型</label>
+                        <div class="col-sm-11">
+                            <label class="checkbox-inline" ng-repeat="child in childrenControl.children track by $index">
+                                <input type="checkbox" ng-model="child.$checked" ng-true-value="{{true}}" ng-false-value="{{false}}">{{child.name}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">普通属性</label>
+                        <div class="col-sm-11">
+                            <table class="table table-bordered table-condensed table-hover">
+                                <caption><button type="button" class="btn btn-primary btn-sm" ng-click="propertiesControl.add();">添加</button></caption>
+                                <thead>
+                                <tr class="active">
+                                    <th width="25">#</th>
+                                    <th width="150"><span class="text-required">*</span>名称</th>
+                                    <th width="150"><span class="text-required">*</span>标题</th>
+                                    <th width="125"><span class="text-required">*</span>类型</th>
+                                    <th width="100">宽度</th>
+                                    <th width="125">默认值</th>
+                                    <th width="150">可选值</th>
+                                    <th width="100">验证规则</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody ui-sortable="propertiesControl.sortableOptions" ng-model="createRequest.properties">
+                                <tr ng-repeat="property in createRequest.properties" ng-init="property.__hashKey = hashKey(property)">
+                                    <td>{{$index + 1}}</td>
+                                    <td>
+                                        <input name="name{{property.__hashKey}}" uib-tooltip="{{getMessage('name',dynamicModelCreateForm['name' + property.__hashKey].$error,propertyControl.validateMessages)}}"
+                                                tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.name{{property.__hashKey}}.$invalid && dynamicModelCreateForm.name{{property.__hashKey}}.$dirty"
+                                                ng-model="property.name" type="text" class="form-control input-sm" ng-pattern="/^[a-zA-Z_]\w{0,19}$/" required/>
+                                    </td>
+                                    <td>
+                                        <input name="label{{property.__hashKey}}" uib-tooltip="{{getMessage('label',dynamicModelCreateForm['label' + property.__hashKey].$error,propertyControl.validateMessages)}}"
+                                                tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.label{{property.__hashKey}}.$invalid && dynamicModelCreateForm.label{{property.__hashKey}}.$dirty"
+                                                ng-model="property.label" type="text" class="form-control input-sm" ng-maxlength="10" required/>
+                                    </td>
+                                    <td>
+                                        <select name="type{{property.__hashKey}}" uib-tooltip="{{getMessage('type',dynamicModelCreateForm['type' + property.__hashKey].$error,propertyControl.validateMessages)}}"
+                                                tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.type{{property.__hashKey}}.$invalid && dynamicModelCreateForm.type{{property.__hashKey}}.$dirty"
+                                                ng-change="propertyControl.changeType(property)" ng-model="property.type" ng-options="option.type as option.type for option in propertyControl.typeOptions"
+                                                class="form-control input-sm" required>
+                                            <option value="">--选择类型--</option>
+                                        </select>
+                                    </td>
+                                    <td><input ng-model="property.viewWidth" readonly="readonly" type="number" class="form-control input-sm"/></td>
+                                    <td ng-switch="property.type">
+                                        <select ng-switch-when="Boolean" ng-model="property.defaultValue" ng-options="option for option in [true,false]" class="form-control input-sm">
+                                            <option value="">--请选择--</option>
+                                        </select>
+                                        <input ng-switch-when="Long" ng-model="property.defaultValue" type="number" class="form-control input-sm"/>
+                                        <input ng-switch-when="Double" ng-model="property.defaultValue" type="number" class="form-control input-sm"/>
+                                        <input ng-switch-when="String" ng-model="property.defaultValue" type="text" class="form-control input-sm"/>
+                                        <input ng-switch-when="Date" ng-model="property.defaultValue" disabled="disabled" type="text" class="form-control input-sm"/>
+                                        <select ng-switch-when="Enum" ng-model="property.defaultValue" ng-options="option for option in property.optionalValues" class="form-control input-sm">
+                                            <option value="">--请选择--</option>
+                                        </select>
+                                        <input ng-switch-when="Model" ng-model="property.defaultValue" disabled="disabled" type="text" class="form-control input-sm"/>
+                                    </td>
+                                    <td>
+                                        <div class="input-group" ng-if="'Enum'==property.type">
+                                            <input type="text" class="form-control input-sm" ng-model="property.optionalValue" ng-keyup="propertyControl.addOptionalValue(property, $event)">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                                                <ul class="dropdown-menu dropdown-menu-right">
+                                                    <li ng-repeat="optionalValue in property.optionalValues track by $index">
+                                                        <a href="javascript:void(0)">{{optionalValue}}&nbsp;&nbsp;<i class="glyphicon glyphicon-remove" ng-click="propertyControl.removeOptionalValue(property, $index)"></i></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">设置规则 <span class="caret"></span></button>
+                                            <ul class="dropdown-menu" style="width:250px;">
+                                                <li>
+                                                    <a href="javascript:void(0)">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">必输</span>&nbsp;
+                                                            <input type="checkbox" ng-model="property.validator.required"/>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li ng-if="propertyControl.validatorRules[property.type].min">
+                                                    <a href="javascript:void(0)">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">最小</span>
+                                                            <input ng-model="property.validator.min" type="number" class="form-control input-sm"/>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li ng-if="propertyControl.validatorRules[property.type].max">
+                                                    <a href="javascript:void(0)">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">最大</span>
+                                                        <input ng-model="property.validator.max" type="number" class="form-control input-sm"/>
+                                                    </div>
+                                                </a>
+                                                </li>
+                                                <li ng-if="propertyControl.validatorRules[property.type].minlength">
+                                                    <a href="javascript:void(0)">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">最短</span>
+                                                            <input ng-model="property.validator.minlength" type="number" class="form-control input-sm"/>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li ng-if="propertyControl.validatorRules[property.type].maxlength">
+                                                    <a href="javascript:void(0)">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">最长</span>
+                                                            <input ng-model="property.validator.maxlength" type="number" class="form-control input-sm"/>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li ng-if="propertyControl.validatorRules[property.type].pattern">
+                                                    <a href="javascript:void(0)">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">正则</span>
+                                                            <input ng-model="property.validator.pattern" type="text" class="form-control input-sm"/>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary btn-sm" ng-click="propertiesControl.delete(property, $index)">删除</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">级联属性</label>
+                        <div class="col-sm-11">
+                            <table class="table table-bordered table-condensed table-hover">
+                                <caption><button type="button" class="btn btn-primary btn-sm" ng-click="associationControl.add();">添加</button></caption>
+                                <thead>
+                                <tr class="active">
+                                    <th width="25">#</th>
+                                    <th width="150"><span class="text-required">*</span>名称</th>
+                                    <th width="150"><span class="text-required">*</span>标题</th>
+                                    <th width="125"><span class="text-required">*</span>类型</th>
+                                    <th width="100"><span class="text-required">*</span>宽度</th>
+                                    <th width="125">默认值</th>
+                                    <th width="150">可选值</th>
+                                    <th width="100">验证规则</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody ui-sortable="associationControl.sortableOptions" ng-model="createRequest.association">
+                                <tr ng-repeat="property in createRequest.association" ng-init="property.__hashKey = hashKey(property)">
+                                    <td>{{$index + 1}}</td>
+                                    <td>
+                                        <input name="name{{property.__hashKey}}" uib-tooltip="{{getMessage('name',dynamicModelCreateForm['name' + property.__hashKey].$error,propertyControl.validateMessages)}}"
+                                               tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.name{{property.__hashKey}}.$invalid && dynamicModelCreateForm.name{{property.__hashKey}}.$dirty"
+                                               ng-model="property.name" type="text" class="form-control input-sm" ng-pattern="/^[a-zA-Z_]\w{0,19}$/" required/>
+                                    </td>
+                                    <td>
+                                        <input name="label{{property.__hashKey}}" uib-tooltip="{{getMessage('label',dynamicModelCreateForm['label' + property.__hashKey].$error,propertyControl.validateMessages)}}"
+                                               tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.label{{property.__hashKey}}.$invalid && dynamicModelCreateForm.label{{property.__hashKey}}.$dirty"
+                                               ng-model="property.label" type="text" class="form-control input-sm" ng-maxlength="10" required/>
+                                    </td>
+                                    <td>
+                                        <select name="type{{property.__hashKey}}" uib-tooltip="{{getMessage('type',dynamicModelCreateForm['type' + property.__hashKey].$error,propertyControl.validateMessages)}}"
+                                                tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.type{{property.__hashKey}}.$invalid && dynamicModelCreateForm.type{{property.__hashKey}}.$dirty"
+                                                ng-change="propertyControl.changeType(property)" ng-model="property.type" ng-options="option.type as option.type for option in propertyControl.typeOptions"
+                                                class="form-control input-sm" required>
+                                            <option value="">--选择类型--</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input name="viewWidth{{property.__hashKey}}" uib-tooltip="{{getMessage('viewWidth',dynamicModelCreateForm['viewWidth' + property.__hashKey].$error,propertyControl.validateMessages)}}"
+                                                tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.viewWidth{{property.__hashKey}}.$invalid && dynamicModelCreateForm.viewWidth{{property.__hashKey}}.$dirty"
+                                                ng-model="property.viewWidth" type="number" class="form-control input-sm" min="0" max="1000" required/>
+                                    </td>
+                                    <td ng-switch="property.type">
+                                        <select ng-switch-when="Boolean" ng-model="property.defaultValue" ng-options="option for option in [true,false]" class="form-control input-sm">
+                                            <option value="">--请选择--</option>
+                                        </select>
+                                        <input ng-switch-when="Long" ng-model="property.defaultValue" type="number" class="form-control input-sm"/>
+                                        <input ng-switch-when="Double" ng-model="property.defaultValue" type="number" class="form-control input-sm"/>
+                                        <input ng-switch-when="String" ng-model="property.defaultValue" type="text" class="form-control input-sm"/>
+                                        <input ng-switch-when="Date" ng-model="property.defaultValue" disabled="disabled" type="text" class="form-control input-sm"/>
+                                        <select ng-switch-when="Enum" ng-model="property.defaultValue" ng-options="option for option in property.optionalValues" class="form-control input-sm">
+                                            <option value="">--请选择--</option>
+                                        </select>
+                                        <input ng-switch-when="Model" ng-model="property.defaultValue" disabled="disabled" type="text" class="form-control input-sm"/>
+                                    </td>
+                                    <td>
+                                        <div class="input-group" ng-if="'Enum'==property.type">
+                                            <input type="text" class="form-control input-sm" ng-model="property.optionalValue" ng-keyup="propertyControl.addOptionalValue(property, $event)">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                                                <ul class="dropdown-menu dropdown-menu-right">
+                                                    <li ng-repeat="optionalValue in property.optionalValues track by $index">
+                                                        <a href="javascript:void(0)">{{optionalValue}}&nbsp;&nbsp;<i class="glyphicon glyphicon-remove" ng-click="propertyControl.removeOptionalValue(property, $index)"></i></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">设置规则 <span class="caret"></span></button>
+                                            <ul class="dropdown-menu" style="width:250px;">
+                                                <li>
+                                                    <a href="javascript:void(0)">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">必输</span>&nbsp;
+                                                            <input type="checkbox" ng-model="property.validator.required"/>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li ng-if="propertyControl.validatorRules[property.type].min">
+                                                    <a href="javascript:void(0)">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">最小</span>
+                                                            <input ng-model="property.validator.min" type="number" class="form-control input-sm"/>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li ng-if="propertyControl.validatorRules[property.type].max">
+                                                    <a href="javascript:void(0)">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">最大</span>
+                                                            <input ng-model="property.validator.max" type="number" class="form-control input-sm"/>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li ng-if="propertyControl.validatorRules[property.type].minlength">
+                                                    <a href="javascript:void(0)">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">最短</span>
+                                                            <input ng-model="property.validator.minlength" type="number" class="form-control input-sm"/>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li ng-if="propertyControl.validatorRules[property.type].maxlength">
+                                                    <a href="javascript:void(0)">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">最长</span>
+                                                            <input ng-model="property.validator.maxlength" type="number" class="form-control input-sm"/>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li ng-if="propertyControl.validatorRules[property.type].pattern">
+                                                    <a href="javascript:void(0)">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">正则</span>
+                                                            <input ng-model="property.validator.pattern" type="text" class="form-control input-sm"/>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary btn-sm" ng-click="associationControl.delete(property, $index)">删除</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3 col-sm-offset-4">
+                            <button type="button" class="btn btn-warning btn-sm" location-back="/business/dynamicModel/manage/{{createRequest.generatorId}}">取消</button>
+                            <button type="button" ng-disabled="dynamicModelCreateForm.$invalid || dynamicModelCreateForm.$pristine || iconControl.$error" class="btn btn-primary btn-sm" ng-click="create()">保存</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

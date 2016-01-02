@@ -1,0 +1,63 @@
+<div class="container">
+    <div ng-controller="generatorInstanceManageController">
+        <div class="row">
+            <div class="col-sm-12">
+                <!--
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label>名称：</label>
+                        <input name="name" type="text" class="form-control input-sm" ng-model="searchRequest.name" placeholder="名称"/>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary btn-sm" ng-click="searchRequest.page=1;search();">搜索</button>
+                    </div>
+                </form>
+                <br/>
+                -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-bordered table-condensed table-hover">
+                    <thead>
+                    <tr class="active">
+                        <th width="25">#</th>
+                        <th width="200">名称</th>
+                        <th width="200">所属生成器</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="generatorInstance in pagerResult.records track by $index">
+                        <td>{{$index + 1}}</td>
+                        <td>{{generatorInstance.name}}</td>
+                        <td>{{generatorInstance.generator.name}}</td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-primary btn-xs" location-go="/business/generatorInstance/detail/{{generatorInstance.id}}">详情</button>
+                                <button type="button" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">详情</span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                    <li><a href="javascript:void(0);" location-go="/business/generatorInstance/update/{{generatorInstance.id}}">修改</a></li>
+                                    <li><a href="javascript:void(0);" location-go="/business/dataModel/manage/{{generatorInstance.id}}">工作台</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div>
+            <div class="pull-left">
+                <pagination class="pagination-sm" boundary-links="true" rotate="false" max-size="10" total-items="pagerResult.total" ng-model="searchRequest.page" ng-change="search();" items-per-page="searchRequest.pageSize" first-text="首页" previous-text="上页" next-text="下页" last-text="尾页"></pagination>
+            </div>
+            <div class="pull-left">
+                <select name="pageSize" ng-change="searchRequest.page=1;search();" ng-model="searchRequest.pageSize" ng-options="pageSize for pageSize in pageSizeList" class="form-control input-sm"></select>
+            </div>
+            <div class="pull-left form-control-static clearfix">&nbsp;共{{pagerResult.total ? pagerResult.total : 0}}条记录</div>
+        </div>
+    </div>
+</div>

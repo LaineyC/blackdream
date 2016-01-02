@@ -1,0 +1,24 @@
+<div class="container">
+    <div ng-controller="generatorInstanceCreateController">
+        <div class="row">
+            <div class="col-sm-12">
+                <form name="generatorInstanceCreateForm" class="form-horizontal" role="form" novalidate>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label"><span class="text-required">*</span>&nbsp;名称</label>
+                        <div class="col-sm-3">
+                            <input name="name" uib-tooltip="{{getMessage('name',generatorInstanceCreateForm.name.$error,validateMessages)}}"
+                                   tooltip-trigger="none" tooltip-is-open="generatorInstanceCreateForm.name.$invalid && generatorInstanceCreateForm.name.$dirty"
+                                   ng-model="createRequest.name" type="text" class="form-control input-sm" placeholder="名称" ng-maxlength="20" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3 col-sm-offset-4">
+                            <button type="button" class="btn btn-warning btn-sm" location-back>取消</button>
+                            <button type="button" ng-disabled="generatorInstanceCreateForm.$invalid || generatorInstanceCreateForm.$pristine" class="btn btn-primary btn-sm" ng-click="create()">保存</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

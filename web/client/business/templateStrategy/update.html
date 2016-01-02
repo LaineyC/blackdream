@@ -1,0 +1,65 @@
+<div ng-controller="templateStrategyUpdateController">
+    <div class="row">
+        <div class="col-sm-12 condensed-list">
+            <form name="templateStrategyUpdateForm" class="form-inline" role="form" novalidate>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <i class="glyphicon glyphicon-plus" ng-class="updateRequest.children.length ? (updateRequest.$closed ? 'glyphicon-plus' : 'glyphicon-minus') : 'glyphicon-ban-circle'" ng-click="updateRequest.$closed =!updateRequest.$closed;"></i>
+                        <label>策略名称</label>
+                        <div class="input-group">
+                            <span class="input-group-addon" ng-class="{'text-required': templateStrategyUpdateForm.name.$error.required}">name</span>
+                            <input name="name" uib-tooltip="{{getMessage('name',templateStrategyUpdateForm.name.$error,tagRules.TemplateStrategy.attributes)}}"
+                                   tooltip-trigger="none" tooltip-is-open="templateStrategyUpdateForm.name.$invalid && templateStrategyUpdateForm.name.$dirty"
+                                   ng-model="updateRequest.name" type="text" class="form-control input-sm" placeholder="名称" ng-maxlength="tagRules.TemplateStrategy.attributes.name.maxlength.rule" ng-required="tagRules.TemplateStrategy.attributes.name.required.rule"/>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li ng-repeat="tagName in tagRules.TemplateStrategy.children"><a href="javascript:void(0);" ng-click="add(tagName,updateRequest)">{{tagName}}</a></li>
+                            </ul>
+                        </div>
+                        <ul ui-sortable="sortableOptions" ng-model="updateRequest.children" ng-init="parent=updateRequest;" ng-include="'recursion'" class="list-group" ng-show="!updateRequest.$closed && updateRequest.children.length"></ul>
+                    </li>
+                </ul>
+            </form>
+            <br/>
+            <form class="form-horizontal" role="form" novalidate>
+                <div class="form-group">
+                    <div class="col-sm-3 col-sm-offset-4">
+                        <button type="button" class="btn btn-warning btn-sm" location-back="/business/templateStrategy/manage/{{updateRequest.generator.id}}">取消</button>
+                        <button type="button" ng-disabled="templateStrategyUpdateForm.$invalid || templateStrategyUpdateForm.$pristine" class="btn btn-primary btn-sm" ng-click="update()">保存</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script id="recursion" type="text/ng-template">
+    <li class="list-group-item" ng-repeat="child in parent.children" ng-init="p=parent;child.__hashKey = hashKey(child);formatTag(child);">
+        <i class="glyphicon glyphicon-plus" ng-class="child.children.length ? (child.$closed ? 'glyphicon-plus' : 'glyphicon-minus') : 'glyphicon-ban-circle'" ng-click="child.$closed =! child.$closed;"></i>
+        <label>{{child.tagName}}</label>
+        <div class="input-group" ng-repeat="(name,attribute) in tagRules[child.tagName].attributes" style="margin-right: 5px;" ng-switch="name">
+            <span class="input-group-addon" ng-class="{'text-required':attribute.required.rule && templateStrategyUpdateForm[name + child.__hashKey].$error.required}">{{name}}</span>
+            <select ng-switch-when="template" uib-tooltip="{{getMessage(name,templateStrategyUpdateForm[name + child.__hashKey].$error,tagRules[child.tagName].attributes)}}"
+                    tooltip-trigger="none" tooltip-is-open="templateStrategyUpdateForm[name + child.__hashKey].$invalid && templateStrategyUpdateForm[name + child.__hashKey].$dirty"
+                    name="{{name + child.__hashKey}}" ng-model="child[name]" ng-options="template.id as template.name for template in templates" class="form-control input-sm" ng-required="attribute.required.rule">
+                <option value="">--选择模板--</option>
+            </select>
+            <input ng-switch-default uib-tooltip="{{getMessage(name,templateStrategyUpdateForm[name + child.__hashKey].$error,tagRules[child.tagName].attributes)}}"
+                   tooltip-trigger="none" tooltip-is-open="templateStrategyUpdateForm[name + child.__hashKey].$invalid && templateStrategyUpdateForm[name + child.__hashKey].$dirty"
+                   name="{{name + child.__hashKey}}" type="text" ng-model="child[name]" size="{{attribute.size}}" class="form-control input-sm" ng-required="attribute.required.rule"/>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary btn-sm" ng-click="delete(child,p);"><span class="glyphicon glyphicon-remove"></span></button>
+            <button ng-if="tagRules[child.tagName].children.length" type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </button>
+            <ul ng-if="tagRules[child.tagName].children.length" class="dropdown-menu dropdown-menu-right" role="menu">
+                <li ng-repeat="tagName in tagRules[child.tagName].children"><a href="javascript:void(0);" ng-click="add(tagName,child)">{{tagName}}</a></li>
+            </ul>
+        </div>
+        <ul ui-sortable="sortableOptions" ng-model="child.children" class="list-group" ng-include="'recursion'" ng-show="!child.$closed && child.children.length" ng-init="parent=child;"></ul>
+    </li>
+</script>

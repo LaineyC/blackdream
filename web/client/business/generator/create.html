@@ -1,0 +1,44 @@
+<div class="container">
+    <div ng-controller="generatorCreateController">
+        <div class="row">
+            <div class="col-sm-12">
+                <form name="generatorCreateForm" class="form-horizontal" role="form" novalidate>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label"><span class="text-required">*</span>&nbsp;名称</label>
+                        <div class="col-sm-3">
+                            <input name="name" uib-tooltip="{{getMessage('name',generatorCreateForm.name.$error,validateMessages)}}"
+                                   tooltip-trigger="none" tooltip-is-open="generatorCreateForm.name.$invalid && generatorCreateForm.name.$dirty"
+                                   ng-model="createRequest.name" type="text" class="form-control input-sm" placeholder="名称" ng-maxlength="20" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">开放</label>
+                        <div class="col-sm-3">
+                            <input name="isOpen" ng-model="createRequest.isOpen" type="checkbox" class="input-sm" ng-true-value="true" ng-false-value="false"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="alert alert-danger" ng-show="generatorCreateForm.isOpen.$invalid && generatorCreateForm.isOpen.$dirty">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">描述</label>
+                        <div class="col-sm-3">
+                            <textarea name="description" ng-model="createRequest.description" class="form-control" placeholder="详情" rows="5" ></textarea>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="alert alert-danger" ng-show="generatorCreateForm.description.$invalid && generatorCreateForm.description.$dirty">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3 col-sm-offset-4">
+                            <button type="button" class="btn btn-warning btn-sm" location-back="/business/generator/manage">取消</button>
+                            <button type="button" ng-disabled="generatorCreateForm.$invalid || generatorCreateForm.$pristine" class="btn btn-primary btn-sm" ng-click="create()">保存</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

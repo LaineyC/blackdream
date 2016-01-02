@@ -1,0 +1,233 @@
+<div class="container">
+    <div ng-controller="guideController">
+        <div class="row">
+            <div class="col-sm-3" style="position: relative;min-height: 1px;">
+                <div style="position: fixed;top:65px;width: 225px;">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">开发手册</div>
+                        <div class="list-group" >
+                            <a href="javascript:void(0)" ng-click="anchorScroll('a1')" class="list-group-item">我的生成器</a>
+                            <a href="javascript:void(0)" ng-click="anchorScroll('a2')" class="list-group-item">数据模型</a>
+                            <a href="javascript:void(0)" ng-click="anchorScroll('a3')" class="list-group-item">模板文件</a>
+                            <a href="javascript:void(0)" ng-click="anchorScroll('a4')" class="list-group-item">策略文件</a>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">用户手册</div>
+                        <div class="list-group" >
+                            <a href="javascript:void(0)" ng-click="anchorScroll('a5')" class="list-group-item">他们的生成器</a>
+                            <a href="javascript:void(0)" ng-click="anchorScroll('a6')" class="list-group-item">我的实例</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-9">
+                <div class="panel panel-primary" id="a1">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">我的生成器</h3>
+                    </div>
+                    <div class="panel-body">
+                       <p>一个生成器由数据模型、模板文件、策略文件三部分构成。</p>
+                    </div>
+                </div>
+                <div class="panel panel-primary" id="a2">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">数据模型</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>数据模型定义了生成器所需源数据的数据类型结构，每个生成器可定制多个数据模型。</p>
+                    </div>
+                </div>
+                <div class="panel panel-primary" id="a3">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">模板文件</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>模板文件定义了生成代码的模板，采用velocity模板实现。</p>
+                        <p>velocity模板所能访问的变量由策略文件TemplateContext标签定义。</p>
+                        <table class="table table-bordered table-condensed table-hover">
+                            <caption>velocity模板内置变量 <a target="_blank" href="http://velocity.apache.org/tools/releases/2.0/generic.html">API文档</a></caption>
+                            <thead>
+                                <tr class="active">
+                                    <th class="col-sm-4">变量名</th>
+                                    <th>变量说明</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>alternator</td><td></td></tr>
+                                <tr><td>class</td><td></td></tr>
+                                <tr><td>context</td><td></td></tr>
+                                <tr><td>conversion</td><td></td></tr>
+                                <tr><td>date</td><td>对Date操作：格式化、比较等</td></tr>
+                                <tr><td>display</td><td></td></tr>
+                                <tr><td>escape</td><td>对template进行escaping</td></tr>
+                                <tr><td>field</td><td></td></tr>
+                                <tr><td>loop</td><td>更好地控制 #foreach loop</td></tr>
+                                <tr><td>link</td><td></td></tr>
+                                <tr><td>list</td><td>透明地处理array和list</td></tr>
+                                <tr><td>math</td><td>数学运算</td></tr>
+                                <tr><td>number</td><td>对数字格式化和convert</td></tr>
+                                <tr><td>render</td><td>对VTL的字符串执行 eval</td></tr>
+                                <tr><td>resource</td><td>国际化支持</td></tr>
+                                <tr><td>sort</td><td>对collections array iterator进行排序</td></tr>
+                                <tr><td>xml</td><td>对xml文件读取，需要dom4j的支持</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel panel-primary" id="a4">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">策略文件</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>策略文件定义了代码生成和文件生成的规则。</p>
+                        <p>代码生成策略定义了一组标签，采用EL表达式访问变量。</p>
+                        <p>内置变量data（类型DataModel）和global（类型Global）。</p>
+                        <pre>
+DataModel {
+    //数据对象的名称
+    name:String
+
+    //上级
+    parent:DataModel
+
+    //子级
+    children:List&lt;DataModel>
+
+    //由数据模型设定的普通属性
+    properties:Map&lt;String,Object>
+
+    //由数据模型设定的级联属性
+    association:List&lt;Map&lt;String,Object>>
+
+    //所属生成器实例
+    generatorInstance:GeneratorInstance
+
+    //定义该DataModel的properties属性和association属性的模型
+    dynamicModel:DynamicModel
+}
+
+Global {
+    //生成号
+    generateId:Long
+
+    //当前用户
+    user:User
+}
+                        </pre>
+                        <table class="table table-bordered table-condensed table-hover">
+                            <caption>内置函数</caption>
+                            <thead>
+                            <tr class="active">
+                                <th class="col-sm-3">函数名</th>
+                                <th class="col-sm-4">函数说明</th>
+                                <th>使用举例</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span>fn:contains</span></td>
+                                    <td><span>判断字符串是否包含另外一个字符串</span></td>
+                                    <td><span>${fn:contains(name, searchString)}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span>fn:containsIgnoreCase</span></td>
+                                    <td><span>判断字符串是否包含另外一个字符串(大小写无关)</span></td>
+                                    <td><span>${fn:containsIgnoreCase(name, searchString)}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span>fn:endsWith</span></td>
+                                    <td><span>判断字符串是否以另外字符串结束</span></td>
+                                    <td><span>${fn:endsWith(filename, ".txt")}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span>fn:escapeXml</span></td>
+                                    <td><span>把一些字符转成XML表示，例如&lt;字符应该转为&amp;lt;</span></td>
+                                    <td><span>${fn:escapeXml(param:info)}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span>fn:indexOf</span></td>
+                                    <td><span>子字符串在母字符串中出现的位置</span></td>
+                                    <td><span>${fn:indexOf(name, "-")}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span>fn:join</span></td>
+                                    <td><span>将数组中的数据联合成一个新字符串，并使用指定字符格开</span></td>
+                                    <td><span>${fn:join(array, ";")}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span>fn:length</span></td>
+                                    <td><span>获取字符串的长度，或者数组的大小</span></td>
+                                    <td><span>${fn:length(shoppingCart.products)}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span>fn:replace</span></td>
+                                    <td><span>替换字符串中指定的字符</span></td>
+                                    <td><span>${fn:replace(text, "-", "&amp;#149;")}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span>fn:split</span></td>
+                                    <td><span>把字符串按照指定字符切分</span></td>
+                                    <td><span>${fn:split(customerNames, ";")}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span>fn:startsWith</span></td>
+                                    <td><span>判断字符串是否以某个子串开始</span></td>
+                                    <td><span>${fn:startsWith(product.id, "100-")}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span>fn:substring</span></td>
+                                    <td><span>获取子串</span></td>
+                                    <td><span>${fn:substring(zip, 6, -1)}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span>fn:substringAfter</span></td>
+                                    <td>
+                                        <p><span>获取从某个字符所在位置开始的子串</span></p>
+                                    </td>
+                                    <td><span>${fn:substringAfter(zip, "-")}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span>fn:substringBefore</span></td>
+                                    <td><span>获取从开始到某个字符所在位置的子串</span></td>
+                                    <td><span>${fn:substringBefore(zip, "-")}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span>fn:toLowerCase</span></td>
+                                    <td><span>转为小写</span></td>
+                                    <td><span>${fn.toLowerCase(product.name)}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span>fn:toUpperCase</span></td>
+                                    <td><span>转为大写字符</span></td>
+                                    <td><span>${fn.toUpperCase(product.name)}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span>fn:trim</span></td>
+                                    <td><span>去除字符串前后的空格</span></td>
+                                    <td><span>${fn.trim(name)}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel panel-primary" id="a5">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">他们的生成器</h3>
+                    </div>
+                    <div class="panel-body">
+                       <p>由开发者制定好的生成器。</p>
+                    </div>
+                </div>
+                <div class="panel panel-primary" id="a6">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">我的实例</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>每个生成器可以有多个实例，一个实例一份数据。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

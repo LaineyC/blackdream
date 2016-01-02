@@ -1,0 +1,92 @@
+<div class="container">
+    <div ng-controller="dynamicModelDetailController">
+        <div class="row">
+            <div class="col-sm-12">
+                <form name="dynamicModelDetailForm" class="form-horizontal" role="form" novalidate>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">名称</label>
+                        <div class="col-sm-3 form-control-static">{{dynamicModel.name}}</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">图标</label>
+                        <div class="col-sm-3 form-control-static"><span class="glyphicon glyphicon-{{dynamicModel.icon}}"></span></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">子模型</label>
+                        <div>
+                            <div class="col-sm-1 form-control-static" ng-repeat="child in dynamicModel.children track by $index">{{child.name}}</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">普通属性</label>
+                        <div class="col-sm-11">
+                            <table class="table table-bordered table-condensed table-hover">
+                                <thead>
+                                <tr class="active">
+                                    <th width="25">#</th>
+                                    <th width="100">名称</th>
+                                    <th width="100">标题</th>
+                                    <th width="100">类型</th>
+                                    <th width="50">宽度</th>
+                                    <th width="100">默认值</th>
+                                    <th width="250">可选值</th>
+                                    <th width="250">验证规则</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="property in dynamicModel.properties track by $index">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{property.name}}</td>
+                                    <td>{{property.label}}</td>
+                                    <td>{{property.type}}</td>
+                                    <td>{{property.viewWidth}}</td>
+                                    <td>{{property.defaultValue}}</td>
+                                    <td><span ng-repeat="optionalValue in property.optionalValues track by $index">{{optionalValue}}&nbsp;</span></td>
+                                    <td><span ng-repeat="(k,v) in property.validator track by $index">{{k}}:{{v}}&nbsp;</span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">级联属性</label>
+                        <div class="col-sm-11">
+                            <table class="table table-bordered table-condensed table-hover">
+                                <thead>
+                                <tr class="active">
+                                    <th width="25">#</th>
+                                    <th width="100">名称</th>
+                                    <th width="100">标题</th>
+                                    <th width="100">类型</th>
+                                    <th width="50">宽度</th>
+                                    <th width="100">默认值</th>
+                                    <th width="250">可选值</th>
+                                    <th width="250">验证规则</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="property in dynamicModel.association track by $index">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{property.name}}</td>
+                                    <td>{{property.label}}</td>
+                                    <td>{{property.type}}</td>
+                                    <td>{{property.viewWidth}}</td>
+                                    <td>{{property.defaultValue}}</td>
+                                    <td><span ng-repeat="optionalValue in property.optionalValues track by $index">{{optionalValue}}&nbsp;</span></td>
+                                    <td><span ng-repeat="(k,v) in property.validator track by $index">{{k}}:{{v}}&nbsp;</span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3 col-sm-offset-4">
+                            <button type="button" class="btn btn-warning btn-sm" location-go="/business/dynamicModel/update/{{dynamicModel.id}}">修改</button>
+                            <button type="button" class="btn btn-primary btn-sm" location-back="/business/dynamicModel/manage/{{dynamicModel.generator.id}}">返回</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,79 @@
+<div ng-controller="templateManageEditController">
+    <div class="row" style="position: relative;">
+        <div class="col-sm-2" style="width: 20%;position: fixed;top: 65px; bottom: 0;overflow: auto;">
+            <div class="row">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-primary btn-sm" location-back>返回</button>
+                    <div class="btn-group pull-right" role="group">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                字体<span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li ng-class="{'active':'12px' == aceFontSize}"><a href="javascript:void(0);" ng-click="selectAceFontSize('12px')">12px</a></li>
+                                <li ng-class="{'active':'13px' == aceFontSize}"><a href="javascript:void(0);" ng-click="selectAceFontSize('13px')">13px</a></li>
+                                <li ng-class="{'active':'14px' == aceFontSize}"><a href="javascript:void(0);" ng-click="selectAceFontSize('14px')">14px</a></li>
+                                <li ng-class="{'active':'15px' == aceFontSize}"><a href="javascript:void(0);" ng-click="selectAceFontSize('15px')">15px</a></li>
+                                <li ng-class="{'active':'16px' == aceFontSize}"><a href="javascript:void(0);" ng-click="selectAceFontSize('16px')">16px</a></li>
+                                <li ng-class="{'active':'17px' == aceFontSize}"><a href="javascript:void(0);" ng-click="selectAceFontSize('17px')">17px</a></li>
+                                <li ng-class="{'active':'18px' == aceFontSize}"><a href="javascript:void(0);" ng-click="selectAceFontSize('18px')">18px</a></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                主题<span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li ng-repeat="theme in aceThemes" ng-class="{'active':theme == aceTheme}">
+                                    <a href="javascript:void(0);" ng-click="selectAceTheme(theme)">{{theme}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-primary" ng-click="dirtyData.saveDirty()"  ng-disabled="!dirtyData.hasDirtyData();">
+                            <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" ng-click="templateControl.add();">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12" style="width: 20%;position: fixed;top: 100px; bottom: 0;overflow: auto;">
+                    <div class="list-group" style="padding-left: 0;">
+                        <a ng-repeat="template in templates" ng-dblclick="templateControl.view(template)" href="javascript:void(0)" class="list-group-item">
+                            {{$index + 1}}
+                            <label>{{template.name}}</label>
+                            <button ng-if="!child.children.length" type="button" class="btn btn-primary btn-xs pull-right" ng-click="templateControl.delete(template,$index);">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-10" style="width: 80%;margin-left: 20%;">
+            <uib-tabset>
+                <uib-tab ng-repeat="template in tabsControl.data" active="template.active" ng-init="tabsControl.initScope(template, this)">
+                    <uib-tab-heading><label>{{template.name}}</label></uib-tab-heading>
+                    <br/>
+                    <form name="templateUpdateForm" class="form-horizontal" role="form" novalidate>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label"><span class="text-required">*&nbsp;</span>名称</label>
+                            <div class="col-sm-3">
+                                <input name="name" uib-tooltip="{{getMessage('name',templateUpdateForm.name.$error,validateMessages)}}"
+                                       tooltip-trigger="none" tooltip-is-open="templateUpdateForm.name.$invalid && templateUpdateForm.name.$dirty"
+                                       ng-model="template.name" type="text" class="form-control input-sm" ng-maxlength="20" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div style="min-height: 725px;margin-top: 5px;" ace-editor ace-theme="aceTheme" ace-font-size="aceFontSize" ng-model="template.code"></div>
+                            </div>
+                        </div>
+                    </form>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+</div>

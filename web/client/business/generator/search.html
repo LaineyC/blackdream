@@ -1,0 +1,27 @@
+<div class="container">
+    <div ng-controller="generatorSearchController">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-header" ng-repeat="generator in result.records">
+                    <h4>
+                        <a href="javascript:void(0);" location-go="/business/generatorInstance/create/{{generator.id}}">
+                            <span ng-bind-html="generator.developer.userName"></span>/<span ng-bind-html="generator.name"></span>
+                        </a>
+                    </h4>
+                    <div>{{generator.description}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <pagination ng-if="result.total" class="pagination-sm" boundary-links="true" rotate="false" max-size="10" total-items="result.total"
+                    ng-model="searchRequest.page" ng-change="search();" items-per-page="searchRequest.pageSize"
+                    first-text="首页" previous-text="上页" next-text="下页" last-text="尾页">
+                </pagination>
+                <div class="page-header" ng-if="!result.total">
+                    <h3>未搜索到结果</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
