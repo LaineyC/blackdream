@@ -86,33 +86,33 @@
                         <pre>
 DataModel {
     //数据对象的名称
-    name:String
+    String  name
 
     //上级
-    parent:DataModel
+    DataModel parent
 
     //子级
-    children:List&lt;DataModel>
+    List&lt;DataModel> children
 
     //由数据模型设定的普通属性
-    properties:Map&lt;String,Object>
+    Map&lt;String,Object> properties
 
     //由数据模型设定的级联属性
-    association:List&lt;Map&lt;String,Object>>
+    List&lt;Map&lt;String,Object>> association
 
     //所属生成器实例
-    generatorInstance:GeneratorInstance
+    GeneratorInstance generatorInstance
 
     //定义该DataModel的properties属性和association属性的模型
-    dynamicModel:DynamicModel
+    DynamicModel dynamicModel
 }
 
 Global {
     //生成号
-    generateId:Long
+    Long generateId
 
     //当前用户
-    user:User
+    User user
 }
                         </pre>
                         <table class="table table-bordered table-condensed table-hover">

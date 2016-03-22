@@ -13,30 +13,30 @@ public class IdWorker {
     /**
      * 机器标识位数
      */
-    private final static long workerIdBits = 5L;
+    private final static long workerIdBits = 2L;
 
     /**
-     * 机器ID支持机器节点数0~31
+     * 机器ID支持机器节点数0~3
      */
     public final static long maxWorkerId = ~(-1L << workerIdBits);
 
     /**
      * 毫秒内自增位
      */
-    private final static long sequenceBits = 10L;
+    private final static long sequenceBits = 8L;
 
     /**
-     * 机器ID偏左移10位
+     * 机器ID偏左移8位
      */
     private final static long workerIdShift = sequenceBits;
 
     /**
-     * 时间毫秒左移15位
+     * 时间毫秒左移10位
      */
     private final static long timestampLeftShift = sequenceBits + workerIdBits;
 
     /**
-     * 毫秒内sequence范围0~1023
+     * 毫秒内sequence范围0~255
      */
     public final static long sequenceMask = ~(-1L << sequenceBits);
 
