@@ -4,15 +4,17 @@ define(
         "use strict";
 
         module.controller("generatorInstanceCreateController", [
-            "$scope", "$routeParams", "location", "generatorInstanceApi",
-            function($scope, $routeParams, location, generatorInstanceApi){
+            "$scope", "$routeParams", "location", "generatorInstanceApi", "viewPage",
+            function($scope, $routeParams, location, generatorInstanceApi, viewPage){
+                viewPage.setViewPageTitle("实例新建");
                 var generatorId = $routeParams.generatorId;
 
                 $scope.createRequest = {generatorId:generatorId};
 
                 $scope.create = function(){
-                    generatorInstanceApi.create($scope.createRequest).success(function(){
-                        location.back();
+                    generatorInstanceApi.create($scope.createRequest).success(function(generatorInstance){
+                        //location.back();
+                        location.go("/business/generatorInstance/detail/" + generatorInstance.id);
                     });
                 };
 

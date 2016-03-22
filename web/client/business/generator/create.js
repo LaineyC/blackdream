@@ -4,8 +4,9 @@ define(
         "use strict";
 
         module.controller("generatorCreateController", [
-            "$scope", "alert", "location", "generatorApi",
-            function($scope, alert, location, generatorApi){
+            "$scope", "alert", "location", "generatorApi", "viewPage",
+            function($scope, alert, location, generatorApi, viewPage){
+                viewPage.setViewPageTitle("生成器新建");
 
                 $scope.createRequest = {isOpen : false};
 

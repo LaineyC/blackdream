@@ -42,7 +42,7 @@ html, body{
 }
 
 .text-required{
-    color: red;
+    color: #d44950;
 }
 
 .condensed-list .list-group {

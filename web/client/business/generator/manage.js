@@ -3,8 +3,9 @@ define(
         "use strict";
 
         module.controller("generatorManageController", [
-            "$scope", "$modal", "generatorApi", "security",
-            function($scope, $modal, generatorApi, security){
+            "$scope", "$modal", "generatorApi", "security", "viewPage",
+            function($scope, $modal, generatorApi, security, viewPage){
+                viewPage.setViewPageTitle("生成器管理");
                 var user = security.getUser();
                 $scope.searchRequest = {page:1, pageSize:10, developerId: user.id};
 

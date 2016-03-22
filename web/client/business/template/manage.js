@@ -3,8 +3,9 @@ define(
         "use strict";
 
         module.controller("templateManageController", [
-            "$scope", "$modal", "$routeParams", "templateApi",
-            function($scope, $modal, $routeParams, templateApi){
+            "$scope", "$modal", "$routeParams", "templateApi", "viewPage",
+            function($scope, $modal, $routeParams, templateApi, viewPage){
+                viewPage.setViewPageTitle("模板管理");
                 var generatorId = $routeParams.generatorId;
 
                 $scope.searchRequest = {page:1, pageSize:10, generatorId:generatorId};

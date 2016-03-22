@@ -4,8 +4,9 @@ define(
         "use strict";
 
         module.controller("templateStrategyDetailController", [
-            "$scope", "$routeParams", "location", "templateStrategyApi", "templateApi",
-            function($scope, $routeParams, location, templateStrategyApi, templateApi){
+            "$scope", "$routeParams", "location", "templateStrategyApi", "templateApi", "viewPage",
+            function($scope, $routeParams, location, templateStrategyApi, templateApi, viewPage){
+                viewPage.setViewPageTitle("策略文件详情");
                 $scope.templateStrategy = {};
 
                 var id = $routeParams.id;

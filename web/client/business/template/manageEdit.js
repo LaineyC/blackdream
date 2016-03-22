@@ -3,8 +3,9 @@ define(
         "use strict";
 
         module.controller("templateManageEditController", [
-            "$scope", "$modal", "$routeParams", "templateApi","base64", "$cookies",
-            function($scope, $modal, $routeParams, templateApi, base64, $cookies){
+            "$scope", "$modal", "$routeParams", "templateApi","base64", "$cookies", "viewPage",
+            function($scope, $modal, $routeParams, templateApi, base64, $cookies, viewPage){
+                viewPage.setViewPageTitle("模板编辑");
                 var generatorId = $routeParams.generatorId;
                 $scope.generatorId = generatorId;
 

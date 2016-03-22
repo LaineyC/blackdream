@@ -12,7 +12,7 @@
                         <tabset ng-if="!!generatorInstances.length || !!generators.length">
                             <tab active="true" ng-if="!!generatorInstances.length" heading="我的实例">
                                 <div class="list-group">
-                                    <a ng-repeat="generatorInstance in generatorInstances" href="javascript:void(0);" class="list-group-item" location-go="/business/dataModel/manage/{{generatorInstance.id}}">
+                                    <a ng-repeat="generatorInstance in generatorInstances" href="javascript:void(0);" class="list-group-item" location-go="/business/generatorInstance/detail/{{generatorInstance.id}}">
                                         <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> {{generatorInstance.name}}
                                     </a>
                                 </div>

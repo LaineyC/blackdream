@@ -118,6 +118,22 @@ define(
                 return provider;
             }
         ]);
+        //当前页面
+        framework.factory("viewPage",[
+            function(){
+                var provider = {},
+                    viewPage = {};
+                //设置用户信息信息
+                provider.setViewPageTitle = function(title){
+                    viewPage.title = title;
+                };
+                //获取用户信息信息
+                provider.getViewPage = function(){
+                    return viewPage;
+                };
+                return provider;
+            }
+        ]);
         //http响应解析服务
         framework.factory("http", [
             function() {
@@ -652,13 +668,15 @@ define(
         ]);
         //框架总控制器
         framework.controller("frameworkController", [
-            "$scope", "$cookies", "$window", "$modal", "loadStatus", "tooltip", "alert", "security", "$http", "userApi", "location",
-            function($scope, $cookies, $window, $modal, loadStatus, tooltip, alert, security, $http, userApi, location) {
+            "$scope", "$cookies", "$window", "$modal", "loadStatus", "tooltip", "alert", "security", "$http", "userApi", "location","viewPage",
+            function($scope, $cookies, $window, $modal, loadStatus, tooltip, alert, security, $http, userApi, location, viewPage) {
 
                 userApi.get({}).success(function(user){
                     security.setUser(user);
                     $scope.user = user;
                 });
+
+                $scope.viewPage = viewPage.getViewPage();
 
                 $scope.loadStatus = {status: loadStatus.getStatus()};
 

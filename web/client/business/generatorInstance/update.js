@@ -4,8 +4,9 @@ define(
         "use strict";
 
         module.controller("generatorInstanceUpdateController", [
-            "$scope", "$routeParams", "location", "generatorInstanceApi",
-            function($scope, $routeParams, location, generatorInstanceApi){
+            "$scope", "$routeParams", "location", "generatorInstanceApi", "viewPage",
+            function($scope, $routeParams, location, generatorInstanceApi, viewPage){
+                viewPage.setViewPageTitle("实例修改");
                 $scope.updateRequest = {};
 
                 var id = $routeParams.id;

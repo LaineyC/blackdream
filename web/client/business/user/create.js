@@ -4,8 +4,9 @@ define(
         "use strict";
 
         module.controller("userCreateController", [
-            "$scope", "alert", "location", "userApi",
-            function($scope, alert, location, userApi){
+            "$scope", "alert", "location", "userApi","viewPage",
+            function($scope, alert, location, userApi, viewPage){
+                viewPage.setViewPageTitle("用户新建");
 
                 $scope.createRequest = {isDisable : false};
 

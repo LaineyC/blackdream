@@ -3,8 +3,9 @@ define(
         "use strict";
 
         module.controller("templateStrategyManageController", [
-            "$scope", "$modal", "$routeParams", "templateStrategyApi",
-            function($scope, $modal, $routeParams, templateStrategyApi){
+            "$scope", "$modal", "$routeParams", "templateStrategyApi", "viewPage",
+            function($scope, $modal, $routeParams, templateStrategyApi, viewPage){
+                viewPage.setViewPageTitle("策略文件管理");
                 var generatorId = $routeParams.generatorId;
 
                 $scope.searchRequest = {page:1, pageSize:10,generatorId:generatorId};

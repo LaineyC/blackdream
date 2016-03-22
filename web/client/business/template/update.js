@@ -4,9 +4,9 @@ define(
         "use strict";
 
         module.controller("templateUpdateController", [
-            "$scope", "$routeParams", "location", "templateApi",
-            function($scope, $routeParams, location, templateApi){
-
+            "$scope", "$routeParams", "location", "templateApi", "viewPage",
+            function($scope, $routeParams, location, templateApi, viewPage){
+                viewPage.setViewPageTitle("模板修改");
                 $scope.updateRequest = {};
 
                 var id = $routeParams.id;

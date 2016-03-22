@@ -4,7 +4,7 @@
             <div class="col-sm-12">
                 <form name="generatorCreateForm" class="form-horizontal" role="form" novalidate>
                     <div class="form-group">
-                        <label class="col-sm-1 control-label"><span class="text-required">*</span>&nbsp;名称</label>
+                        <label class="col-sm-1 control-label"><span class="text-required">名称</span></label>
                         <div class="col-sm-3">
                             <input name="name" uib-tooltip="{{getMessage('name',generatorCreateForm.name.$error,validateMessages)}}"
                                    tooltip-trigger="none" tooltip-is-open="generatorCreateForm.name.$invalid && generatorCreateForm.name.$dirty"
@@ -24,7 +24,7 @@
                     <div class="form-group">
                         <label class="col-sm-1 control-label">描述</label>
                         <div class="col-sm-3">
-                            <textarea name="description" ng-model="createRequest.description" class="form-control" placeholder="详情" rows="5" ></textarea>
+                            <textarea name="description" ng-model="createRequest.description" class="form-control" placeholder="描述" rows="5" ></textarea>
                         </div>
                         <div class="col-sm-2">
                             <div class="alert alert-danger" ng-show="generatorCreateForm.description.$invalid && generatorCreateForm.description.$dirty">

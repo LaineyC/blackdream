@@ -4,8 +4,9 @@ define(
         "use strict";
 
         module.controller("dynamicModelCreateController", [
-            "$scope", "$routeParams", "location", "dynamicModelApi",
-            function($scope, $routeParams, location, dynamicModelApi){
+            "$scope", "$routeParams", "location", "dynamicModelApi", "viewPage",
+            function($scope, $routeParams, location, dynamicModelApi, viewPage){
+                viewPage.setViewPageTitle("数据模型新建");
                 var generatorId = $routeParams.generatorId;
 
                 $scope.createRequest = {generatorId: generatorId, children:[],properties:[],association:[]};

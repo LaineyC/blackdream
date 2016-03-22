@@ -3,8 +3,10 @@ define(
         "use strict";
 
         module.controller("userManageController", [
-            "$scope", "$modal", "userApi",
-            function($scope, $modal, userApi){
+            "$scope", "$modal", "userApi", "viewPage",
+            function($scope, $modal, userApi, viewPage){
+                viewPage.setViewPageTitle("用户管理");
+
                 $scope.searchRequest = {page:1, pageSize:10};
 
                 $scope.pageSizeList = [10, 20, 50, 100];

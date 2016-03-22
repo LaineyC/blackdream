@@ -4,7 +4,7 @@
             <div class="col-sm-12">
                 <form name="templateCreateForm" class="form-horizontal" role="form" novalidate>
                     <div class="form-group">
-                        <label class="col-sm-1 control-label"><span class="text-required">*</span>&nbsp;名称</label>
+                        <label class="col-sm-1 control-label"><span class="text-required">名称</span></label>
                         <div class="col-sm-3">
                             <input name="name" uib-tooltip="{{getMessage('name',templateCreateForm.name.$error,validateMessages)}}"
                                    tooltip-trigger="none" tooltip-is-open="templateCreateForm.name.$invalid && templateCreateForm.name.$dirty"
@@ -12,7 +12,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-1 control-label"><span class="text-required">*</span>&nbsp;模板文件</label>
+                        <label class="col-sm-1 control-label"><span class="text-required">模板文件</span></label>
                         <div class="col-sm-3">
                             <div style="position: relative;width: 128px;height: 128px;overflow: hidden;">
                                 <img style="position: absolute;top:0;right: 0;width: 128px;height: 128px;" ngf-src="templateControl.templateImage || '/client/business/template/unSelect.jpg'" alt="图标"  class="img-thumbnail"/>

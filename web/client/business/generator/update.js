@@ -4,9 +4,9 @@ define(
         "use strict";
 
         module.controller("generatorUpdateController", [
-            "$scope", "$routeParams", "location", "generatorApi",
-            function($scope, $routeParams, location, generatorApi){
-
+            "$scope", "$routeParams", "location", "generatorApi", "viewPage",
+            function($scope, $routeParams, location, generatorApi, viewPage){
+                viewPage.setViewPageTitle("生成器修改");
                 $scope.updateRequest = {};
 
                 var id = $routeParams.id;

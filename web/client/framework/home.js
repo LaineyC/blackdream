@@ -5,8 +5,9 @@ define(
     function (module) {
     "use strict";
         module.controller("homeController", [
-            "$scope", "generatorApi", "generatorInstanceApi", "security",
-            function($scope, generatorApi, generatorInstanceApi, security){
+            "$scope", "generatorApi", "generatorInstanceApi", "security", "viewPage",
+            function($scope, generatorApi, generatorInstanceApi, security, viewPage){
+                viewPage.setViewPageTitle("首页");
                 var user = security.getUser();
                 generatorInstanceApi.search({page:1, pageSize:20}).success(function(pagerResult){
                     $scope.generatorInstances = pagerResult.records;

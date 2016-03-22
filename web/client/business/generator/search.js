@@ -3,8 +3,9 @@ define(
         "use strict";
 
         module.controller("generatorSearchController", [
-            "$scope", "$routeParams", "generatorApi",
-            function($scope, $routeParams, generatorApi){
+            "$scope", "$routeParams", "generatorApi", "viewPage",
+            function($scope, $routeParams, generatorApi, viewPage){
+                viewPage.setViewPageTitle("生成器查询");
                 var searchText = $routeParams.searchText;
                 $scope.searchRequest = {page:1, pageSize:10,name:searchText,isOpen:true};
 

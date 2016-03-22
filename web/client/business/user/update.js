@@ -4,8 +4,9 @@ define(
         "use strict";
 
         module.controller("userUpdateController", [
-            "$scope", "$routeParams", "location", "userApi",
-            function($scope, $routeParams, location, userApi){
+            "$scope", "$routeParams", "location", "userApi","viewPage",
+            function($scope, $routeParams, location, userApi, viewPage){
+                viewPage.setViewPageTitle("用户修改");
 
                 $scope.updateRequest = {isResetPassword:false};
 

@@ -4,8 +4,9 @@ define(
         "use strict";
 
         module.controller("dataModelManageController", [
-            "$scope", "$modal", "$routeParams", "dataModelApi", "templateStrategyApi", "dynamicModelApi", "generatorInstanceApi", "$q","alert",
-            function($scope, $modal, $routeParams, dataModelApi, templateStrategyApi, dynamicModelApi, generatorInstanceApi, $q, alert){
+            "$scope", "$modal", "$routeParams", "dataModelApi", "templateStrategyApi", "dynamicModelApi", "generatorInstanceApi", "$q","alert", "viewPage",
+            function($scope, $modal, $routeParams, dataModelApi, templateStrategyApi, dynamicModelApi, generatorInstanceApi, $q, alert, viewPage){
+                viewPage.setViewPageTitle("工作台");
                 var generatorInstanceId = $routeParams.generatorInstanceId;
                 var dynamicModelCache = {};
                 var dataModelCache = {};

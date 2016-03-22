@@ -4,8 +4,9 @@ define(
         "use strict";
 
         module.controller("templateCreateController", [
-            "$scope", "$routeParams", "location", "templateApi",
-            function($scope, $routeParams, location, templateApi){
+            "$scope", "$routeParams", "location", "templateApi", "viewPage",
+            function($scope, $routeParams, location, templateApi, viewPage){
+                viewPage.setViewPageTitle("模板新建");
                 var generatorId = $routeParams.generatorId;
 
                 $scope.createRequest = {generatorId:generatorId};
