@@ -7,7 +7,7 @@
                         <i class="glyphicon glyphicon-plus" ng-class="updateRequest.children.length ? (updateRequest.$closed ? 'glyphicon-plus' : 'glyphicon-minus') : 'glyphicon-ban-circle'" ng-click="updateRequest.$closed =!updateRequest.$closed;"></i>
                         <label>策略名称</label>
                         <div class="input-group">
-                            <span class="input-group-addon" ng-class="{'text-required': templateStrategyUpdateForm.name.$error.required}">name</span>
+                            <span class="input-group-addon" ng-class="{'text-danger': templateStrategyUpdateForm.name.$error.required}">name</span>
                             <input name="name" uib-tooltip="{{getMessage('name',templateStrategyUpdateForm.name.$error,tagRules.TemplateStrategy.attributes)}}"
                                    tooltip-trigger="none" tooltip-is-open="templateStrategyUpdateForm.name.$invalid && templateStrategyUpdateForm.name.$dirty"
                                    ng-model="updateRequest.name" type="text" class="form-control input-sm" placeholder="名称" ng-maxlength="tagRules.TemplateStrategy.attributes.name.maxlength.rule" ng-required="tagRules.TemplateStrategy.attributes.name.required.rule"/>
@@ -41,7 +41,7 @@
         <i class="glyphicon glyphicon-plus" ng-class="child.children.length ? (child.$closed ? 'glyphicon-plus' : 'glyphicon-minus') : 'glyphicon-ban-circle'" ng-click="child.$closed =! child.$closed;"></i>
         <label>{{child.tagName}}</label>
         <div class="input-group" ng-repeat="(name,attribute) in tagRules[child.tagName].attributes" style="margin-right: 5px;" ng-switch="name">
-            <span class="input-group-addon" ng-class="{'text-required':attribute.required.rule && templateStrategyUpdateForm[name + child.__hashKey].$error.required}">{{name}}</span>
+            <span class="input-group-addon" ng-class="{'text-danger':attribute.required.rule && templateStrategyUpdateForm[name + child.__hashKey].$error.required}">{{name}}</span>
             <select ng-switch-when="template" uib-tooltip="{{getMessage(name,templateStrategyUpdateForm[name + child.__hashKey].$error,tagRules[child.tagName].attributes)}}"
                     tooltip-trigger="none" tooltip-is-open="templateStrategyUpdateForm[name + child.__hashKey].$invalid && templateStrategyUpdateForm[name + child.__hashKey].$dirty"
                     name="{{name + child.__hashKey}}" ng-model="child[name]" ng-options="template.id as template.name for template in templates" class="form-control input-sm" ng-required="attribute.required.rule">

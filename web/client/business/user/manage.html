@@ -10,19 +10,16 @@
                 <br/>
                 <form class="form-inline">
                     <div class="form-group">
-                        <label>用户名：</label>
                         <input name="userName" type="text" class="form-control input-sm" ng-model="searchRequest.userName" placeholder="用户名"/>
                     </div>
                     <div class="form-group">
-                        <label>状态：</label>
                         <select name="isDisable" ng-model="searchRequest.isDisable" ng-options="option.isDisable as option.name for option in isDisableOptions" class="form-control input-sm" required>
-                            <option value="">--选择--</option>
+                            <option value="">--状态--</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>角色：</label>
                         <select name="isDeveloper" ng-model="searchRequest.isDeveloper" ng-options="option.isDeveloper as option.name for option in isDeveloperOptions" class="form-control input-sm" required>
-                            <option value="">--选择--</option>
+                            <option value="">--角色--</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -57,14 +54,7 @@
                         <td>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-primary btn-xs" location-go="/business/user/detail/{{user.id}}">详情</button>
-                                <button type="button" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown">
-                                    <span class="caret"></span>
-                                    <span class="sr-only">详情</span>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                    <li><a href="javascript:void(0);" location-go="/business/user/update/{{user.id}}">修改</a></li>
-                                    <!--<li><a href="javascript:void(0);" ng-click="openDeleteModal(goods)">删除</a></li>-->
-                                </ul>
+                                <button type="button" class="btn btn-primary btn-xs" location-go="/business/user/update/{{user.id}}">修改</button>
                             </div>
                         </td>
                     </tr>
@@ -77,9 +67,12 @@
                 <pagination class="pagination-sm" boundary-links="true" rotate="false" max-size="10" total-items="pagerResult.total" ng-model="searchRequest.page" ng-change="search();" items-per-page="searchRequest.pageSize" first-text="首页" previous-text="上页" next-text="下页" last-text="尾页"></pagination>
             </div>
             <div class="pull-left">
-                <select name="pageSize" ng-change="searchRequest.page=1;search();" ng-model="searchRequest.pageSize" ng-options="pageSize for pageSize in pageSizeList" class="form-control input-sm"></select>
+                &nbsp;
+                <ul class="pagination pagination-sm">
+                    <li ng-class="{'active': searchRequest.pageSize==pageSize}" ng-repeat="pageSize in pageSizeList track by $index" ><a href="javascript:void(0);" ng-click="searchRequest.pageSize=pageSize;searchRequest.page=1;search();">{{pageSize}}</a></li>
+                </ul>
             </div>
-            <div class="pull-left form-control-static clearfix">&nbsp;共{{pagerResult.total ? pagerResult.total : 0}}条记录</div>
+            <div class="pull-left form-control-static clearfix">&nbsp;共&nbsp;{{pagerResult.total ? pagerResult.total : 0}}&nbsp;条</div>
         </div>
     </div>
 </div>

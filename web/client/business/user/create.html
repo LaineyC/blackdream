@@ -4,7 +4,7 @@
             <div class="col-sm-12">
                 <form name="userCreateForm" class="form-horizontal" role="form" novalidate>
                     <div class="form-group">
-                        <label class="col-sm-1 control-label"><span class="text-required">用户名</span></label>
+                        <label class="col-sm-1 control-label"><span class="text-danger">用户名</span></label>
                         <div class="col-sm-3">
                             <input uib-tooltip="{{getMessage('userName',userCreateForm.userName.$error,validateMessages)}}"
                                     tooltip-trigger="none" tooltip-is-open="userCreateForm.userName.$invalid && userCreateForm.userName.$dirty"

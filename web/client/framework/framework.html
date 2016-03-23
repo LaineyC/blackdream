@@ -83,8 +83,8 @@
         </div>
     </div>
     <footer id="framework-footer">
-        <div class="container-fluid">
-            <p>无聊乏味的工作是令人不快的，尽可能多地将乏味的工作自动化。为了你，也为自己。</p>
+        <div class="page-header">
+            <strong>无聊乏味的工作是令人不快的，尽可能多地将乏味的工作自动化。为了你，也为自己。</strong>
         </div>
     </footer>
     <!-- 消息条组 -->
@@ -170,7 +170,7 @@
         <div class="modal-body">
             <form name="frameworkPasswordUpdateForm" class="form-horizontal" role="form" novalidate>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label"><span class="text-required">原密码</span></label>
+                    <label class="col-sm-3 control-label"><span class="text-danger">原密码</span></label>
                     <div class="col-sm-6">
                         <input name="oldPassword" uib-tooltip="{{getMessage('oldPassword',frameworkPasswordUpdateForm.oldPassword.$error,validateMessages)}}"
                                tooltip-trigger="none" tooltip-is-open="frameworkPasswordUpdateForm.oldPassword.$invalid && frameworkPasswordUpdateForm.oldPassword.$dirty"
@@ -178,7 +178,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label"><span class="text-required">新密码</span></label>
+                    <label class="col-sm-3 control-label"><span class="text-danger">新密码</span></label>
                     <div class="col-sm-6">
                         <input name="newPassword" uib-tooltip="{{getMessage('newPassword',frameworkPasswordUpdateForm.newPassword.$error,validateMessages)}}"
                                tooltip-trigger="none" tooltip-is-open="frameworkPasswordUpdateForm.newPassword.$invalid && frameworkPasswordUpdateForm.newPassword.$dirty"
@@ -186,7 +186,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label"><span class="text-required">确认新密码</span></label>
+                    <label class="col-sm-3 control-label"><span class="text-danger">确认新密码</span></label>
                     <div class="col-sm-6">
                         <input name="repeatPassword" uib-tooltip="{{getMessage('repeatPassword',frameworkPasswordUpdateForm.repeatPassword.$error,validateMessages)}}"
                                tooltip-trigger="none" tooltip-is-open="frameworkPasswordUpdateForm.repeatPassword.$invalid && frameworkPasswordUpdateForm.repeatPassword.$dirty"

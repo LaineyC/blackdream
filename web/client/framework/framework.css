@@ -9,7 +9,7 @@ html, body{
 
 #framework-main{
     margin-top: 62.5px;
-    min-height: 850px;
+    min-height: 800px;
 }
 
 #framework-footer{
@@ -41,10 +41,6 @@ html, body{
     margin-top: 0;
 }
 
-.text-required{
-    color: #d44950;
-}
-
 .condensed-list .list-group {
     margin-top: 5px;
     margin-bottom: 5px;
@@ -53,4 +49,8 @@ html, body{
 
 .condensed-list .list-group-item{
     padding: 5px;
+}
+
+.input-group-addon.text-danger{
+    color: #a94442;
 }

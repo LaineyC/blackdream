@@ -51,7 +51,7 @@
                         <br/>
                         <form name="dataModelEditForm" class="form-horizontal" role="form" novalidate>
                             <div class="form-group">
-                                <label class="col-sm-1 control-label"><span class="text-required">名称</span></label>
+                                <label class="col-sm-1 control-label"><span class="text-danger">名称</span></label>
                                 <div class="col-sm-3">
                                     <input name="name" uib-tooltip="{{getMessage('name',dataModelEditForm.name.$error,validateMessages)}}"
                                            tooltip-trigger="none" tooltip-is-open="dataModelEditForm.name.$invalid && dataModelEditForm.name.$dirty"
@@ -59,7 +59,7 @@
                                 </div>
                             </div>
                             <div class="form-group" ng-repeat="property in dataModel.dynamicModel.properties">
-                                <label class="col-sm-1 control-label"><span ng-class="{'text-required': property.validator.required}">{{property.label}}</span></label>
+                                <label class="col-sm-1 control-label"><span ng-class="{'text-danger': property.validator.required}">{{property.label}}</span></label>
                                 <div class="col-sm-3" ng-switch="property.type">
                                     <input name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
                                             tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
@@ -100,7 +100,7 @@
                                         <tr class="active">
                                             <th width="25">#</th>
                                             <th width="{{property.viewWidth}}" ng-repeat="property in dataModel.dynamicModel.association">
-                                                <span ng-class="{'text-required': property.validator.required}">{{property.label}}</span>
+                                                <span ng-class="{'text-danger': property.validator.required}">{{property.label}}</span>
                                             </th>
                                             <th>操作</th>
                                         </tr>
