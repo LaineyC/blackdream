@@ -21,22 +21,22 @@
             <div class="col-sm-4">
                 <div class="panel panel-default" ng-if="!!generatorInstances.length || !!generators.length">
                     <div class="panel-body">
-                        <tabset ng-if="!!generatorInstances.length || !!generators.length">
-                            <tab active="true" ng-if="!!generatorInstances.length" heading="我的实例">
+                        <uib-tabset ng-if="!!generatorInstances.length || !!generators.length">
+                            <uib-tab active="true" ng-if="!!generatorInstances.length" heading="我的实例">
                                 <div class="list-group">
                                     <a ng-repeat="generatorInstance in generatorInstances" href="javascript:void(0);" class="list-group-item" location-go="/business/generatorInstance/detail/{{generatorInstance.id}}">
                                         <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> {{generatorInstance.name}}
                                     </a>
                                 </div>
-                            </tab>
-                            <tab ng-if="!!generators.length" heading="我的生成器">
+                            </uib-tab>
+                            <uib-tab ng-if="!!generators.length" heading="我的生成器">
                                 <div class="list-group">
                                     <a ng-repeat="generator in generators" href="javascript:void(0);" class="list-group-item" location-go="/business/generator/detail/{{generator.id}}">
                                         <span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span> {{generator.name}}
                                     </a>
                                 </div>
-                            </tab>
-                        </tabset>
+                            </uib-tab>
+                        </uib-tabset>
                     </div>
                 </div>
             </div>

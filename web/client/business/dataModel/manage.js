@@ -4,8 +4,8 @@ define(
         "use strict";
 
         module.controller("dataModelManageController", [
-            "$scope", "$modal", "$routeParams", "dataModelApi", "templateStrategyApi", "dynamicModelApi", "generatorInstanceApi", "$q","alert", "viewPage",
-            function($scope, $modal, $routeParams, dataModelApi, templateStrategyApi, dynamicModelApi, generatorInstanceApi, $q, alert, viewPage){
+            "$scope", "$uibModal", "$routeParams", "dataModelApi", "templateStrategyApi", "dynamicModelApi", "generatorInstanceApi", "$q","alert", "viewPage",
+            function($scope, $uibModal, $routeParams, dataModelApi, templateStrategyApi, dynamicModelApi, generatorInstanceApi, $q, alert, viewPage){
                 viewPage.setViewPageTitle("工作台");
                 var generatorInstanceId = $routeParams.generatorInstanceId;
                 var dynamicModelCache = {};
@@ -173,10 +173,10 @@ define(
                         alert.show("未选择生成策略");
                         return;
                     }
-                    $modal.open({
+                    $uibModal.open({
                         size: "lg",
                         templateUrl: "dataModel/console.html",
-                        controller: ["$scope","$modalInstance",function ($scope, $modalInstance){
+                        controller: ["$scope","$uibModalInstance",function ($scope, $uibModalInstance){
                             $scope.runResult = $outScope.runResult;
                             $scope.runResult.push({type:"message",content:"正在生成并压缩代码..."});
                             generatorInstanceApi.run({id:generatorInstanceId,templateStrategyId:$outScope.templateStrategyControl.selectedItem.id}).success(function(result){
@@ -189,7 +189,7 @@ define(
                             });
 
                             $scope.confirm = function(){
-                                $modalInstance.close();
+                                $uibModalInstance.close();
                             };
 
                             $scope.clear = function(){
@@ -200,13 +200,13 @@ define(
                 };
 
                 $scope.consoleModalOpen = function(){
-                    $modal.open({
+                    $uibModal.open({
                         size: "lg",
                         templateUrl: "dataModel/console.html",
-                        controller: ["$scope","$modalInstance",function ($scope, $modalInstance){
+                        controller: ["$scope","$uibModalInstance",function ($scope, $uibModalInstance){
                             $scope.runResult = $outScope.runResult;
                             $scope.confirm = function(){
-                                $modalInstance.close();
+                                $uibModalInstance.close();
                             };
 
                             $scope.clear = function(){
@@ -463,16 +463,16 @@ define(
                 };
 
                 $scope.dataModelPickerModalOpen = function(dataModel, valueModel, propertyName, title, $ctrl){
-                    $modal.open({
+                    $uibModal.open({
                         templateUrl: "dataModel/dataModelPicker.html",
-                        controller: ["$scope","$modalInstance",function ($scope, $modalInstance){
+                        controller: ["$scope","$uibModalInstance",function ($scope, $uibModalInstance){
                             $scope.dataModel = $outScope.dataModel;
                             $scope.title = "选择" + title;
 
                             $scope.select = function(selectDataModel){
                                 valueModel[propertyName] = {id:selectDataModel.id,name:selectDataModel.name};
                                 $outScope.dataModelControl.dirtyData.addUpdateData(dataModel);
-                                $modalInstance.close();
+                                $uibModalInstance.close();
                             };
 
                             $scope.clear = function(){
@@ -480,11 +480,11 @@ define(
                                 $ctrl.$setViewValue(null);
                                 $ctrl.$render();
                                 $outScope.dataModelControl.dirtyData.addUpdateData(dataModel);
-                                $modalInstance.close();
+                                $uibModalInstance.close();
                             };
 
                             $scope.confirm = function(){
-                                $modalInstance.close();
+                                $uibModalInstance.close();
                             };
 
                         }]

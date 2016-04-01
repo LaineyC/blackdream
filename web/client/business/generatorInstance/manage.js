@@ -3,8 +3,8 @@ define(
         "use strict";
 
         module.controller("generatorInstanceManageController", [
-            "$scope", "$modal", "generatorInstanceApi", "viewPage",
-            function($scope, $modal, generatorInstanceApi, viewPage){
+            "$scope", "generatorInstanceApi", "viewPage",
+            function($scope, generatorInstanceApi, viewPage){
                 viewPage.setViewPageTitle("实例管理");
                 $scope.searchRequest = {page:1, pageSize:10};
 

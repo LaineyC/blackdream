@@ -45,9 +45,9 @@
             </div>
         </div>
         <div class="col-sm-10" style="width: 80%;margin-left: 20%;">
-                <tabset ng-if="tabsControl.data.length">
-                    <tab ng-repeat="dataModel in tabsControl.data" active="dataModel.active" ng-init="tabsControl.initScope(dataModel,this)">
-                        <tab-heading><i class="glyphicon glyphicon-{{dataModel.dynamicModel.icon}}"></i> <label>{{dataModel.name}}</label></tab-heading>
+                <uib-tabset ng-if="tabsControl.data.length">
+                    <uib-tab ng-repeat="dataModel in tabsControl.data" active="dataModel.active" ng-init="tabsControl.initScope(dataModel,this)">
+                        <uib-tab-heading><i class="glyphicon glyphicon-{{dataModel.dynamicModel.icon}}"></i> <label>{{dataModel.name}}</label></uib-tab-heading>
                         <br/>
                         <form name="dataModelEditForm" class="form-horizontal" role="form" novalidate>
                             <div class="form-group">
@@ -150,8 +150,8 @@
                                 </div>
                             </div>
                         </form>
-                    </tab>
-                </tabset>
+                    </uib-tab>
+                </uib-tabset>
         </div>
     </div>
 </div>

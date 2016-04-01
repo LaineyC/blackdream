@@ -558,16 +558,16 @@ define(
         ]);
         //alert服务
         framework.factory("alert", [
-            "$modal",
-            function( $modal ){
+            "$uibModal",
+            function( $uibModal ){
                 return {
                     show: function (message) {
-                        $modal.open({
+                        $uibModal.open({
                             templateUrl: "framework/alert.html",
-                            controller: ["$scope", "$modalInstance", function ($scope, $modalInstance) {
+                            controller: ["$scope", "$uibModalInstance", function ($scope, $uibModalInstance) {
                                 $scope.message = message;
                                 $scope.confirm = function () {
-                                    $modalInstance.close();
+                                    $uibModalInstance.close();
                                 }
                             }]
                         });
@@ -668,8 +668,8 @@ define(
         ]);
         //框架总控制器
         framework.controller("frameworkController", [
-            "$scope", "$cookies", "$window", "$modal", "loadStatus", "tooltip", "alert", "security", "$http", "userApi", "location","viewPage",
-            function($scope, $cookies, $window, $modal, loadStatus, tooltip, alert, security, $http, userApi, location, viewPage) {
+            "$scope", "$cookies", "$window", "$uibModal", "loadStatus", "tooltip", "alert", "security", "$http", "userApi", "location","viewPage",
+            function($scope, $cookies, $window, $uibModal, loadStatus, tooltip, alert, security, $http, userApi, location, viewPage) {
 
                 userApi.get({}).success(function(user){
                     security.setUser(user);
@@ -693,12 +693,12 @@ define(
                 };
 
                 $scope.openTooltipHistoryModal = function(){
-                    $modal.open({
+                    $uibModal.open({
                         size: "lg",
                         templateUrl: "framework/tooltip-history.html",
-                        controller: ["$scope","$modalInstance",function ($scope, $modalInstance){
+                        controller: ["$scope","$uibModalInstance",function ($scope, $uibModalInstance){
                             $scope.confirm = function(){
-                                $modalInstance.close();
+                                $uibModalInstance.close();
                             };
                             $scope.pager = {page:1, pageSize:10};
                             $scope.search = function(){
@@ -710,9 +710,9 @@ define(
                 };
 
                 $scope.openUpdatePasswordModal = function(){
-                    $modal.open({
+                    $uibModal.open({
                         templateUrl: "framework/passwordUpdate.html",
-                        controller: ["$scope","$modalInstance",function ($scope, $modalInstance){
+                        controller: ["$scope","$uibModalInstance",function ($scope, $uibModalInstance){
                             $scope.request = {};
 
                             $scope.validateMessages = {
@@ -746,11 +746,11 @@ define(
                             };
 
                             $scope.cancel = function(){
-                                $modalInstance.close();
+                                $uibModalInstance.close();
                             };
                             $scope.confirm = function(){
                                 userApi.passwordUpdate($scope.request).success(function(){
-                                    $modalInstance.close();
+                                    $uibModalInstance.close();
                                 });
                             };
                             $scope.repeatNewPassword = function($scope, ctrl){
@@ -782,15 +782,15 @@ define(
                 };
 
                 $scope.openLogoutModal = function(){
-                    $modal.open({
+                    $uibModal.open({
                         templateUrl: "framework/logout.html",
-                        controller: ["$scope","$modalInstance",function ($scope, $modalInstance){
+                        controller: ["$scope","$uibModalInstance",function ($scope, $uibModalInstance){
                             $scope.cancel = function(){
-                                $modalInstance.close();
+                                $uibModalInstance.close();
                             };
                             $scope.confirm = function(){
                                 userApi.logout({}).success(function(){
-                                    $modalInstance.close();
+                                    $uibModalInstance.close();
                                     window.location = "/client/login.html";
                                 });
                             }
@@ -799,20 +799,20 @@ define(
                 };
 
                 $scope.openAboutModal = function(){
-                    $modal.open({
+                    $uibModal.open({
                         templateUrl: "framework/about.html",
-                        controller: ["$scope","$modalInstance",function ($scope, $modalInstance){
+                        controller: ["$scope","$uibModalInstance",function ($scope, $uibModalInstance){
                             $scope.confirm = function(){
-                                $modalInstance.close();
+                                $uibModalInstance.close();
                             }
                         }]
                     });
                 };
 
                 $scope.openSelectThemeModal = function(){
-                    $modal.open({
+                    $uibModal.open({
                         templateUrl: "framework/theme.html",
-                        controller: ["$scope","$modalInstance",function ($scope, $modalInstance){
+                        controller: ["$scope","$uibModalInstance",function ($scope, $uibModalInstance){
                             $scope.themes = [
                                 "cerulean","cosmo","cyborg","darkly","flatly","journal","lumen","paper","readable","sandstone","simplex","slate","spacelab","superhero","united","yeti"
                             ];
@@ -823,11 +823,11 @@ define(
                                     $window.location.reload();
                                 }
                                 else{
-                                    $modalInstance.close();
+                                    $uibModalInstance.close();
                                 }
                             };
                             $scope.cancel = function(){
-                                $modalInstance.close();
+                                $uibModalInstance.close();
                             };
                         }]
                     });

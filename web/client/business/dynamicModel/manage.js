@@ -3,8 +3,8 @@ define(
         "use strict";
 
         module.controller("dynamicModelManageController", [
-            "$scope", "$modal", "$routeParams", "dynamicModelApi", "viewPage",
-            function($scope, $modal, $routeParams, dynamicModelApi, viewPage){
+            "$scope", "$routeParams", "dynamicModelApi", "viewPage",
+            function($scope, $routeParams, dynamicModelApi, viewPage){
                 viewPage.setViewPageTitle("数据模型管理");
                 var generatorId = $routeParams.generatorId;
 
