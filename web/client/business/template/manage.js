@@ -3,8 +3,8 @@ define(
         "use strict";
 
         module.controller("templateManageController", [
-            "$scope", "$modal", "$routeParams", "templateApi", "viewPage",
-            function($scope, $modal, $routeParams, templateApi, viewPage){
+            "$scope", "$routeParams", "templateApi", "viewPage",
+            function($scope, $routeParams, templateApi, viewPage){
                 viewPage.setViewPageTitle("模板管理");
                 var generatorId = $routeParams.generatorId;
 
@@ -19,7 +19,6 @@ define(
                 };
 
                 $scope.search();
-
             }
         ]);
     }
