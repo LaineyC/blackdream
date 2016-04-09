@@ -69,6 +69,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
 
     @Override
     public PagerResult<Generator> search(GeneratorSearchRequest request) {
+        String keyword = StringUtils.hasText(request.getKeyword())  ? request.getKeyword() : null;
         String name =  StringUtils.hasText(request.getName())  ? request.getName() : null;
         Boolean isOpen = request.getIsOpen();
         Long developerId = request.getDeveloperId();
@@ -81,9 +82,14 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
                     return false;
                 }
             }
-            if (name != null) {
+            if (keyword != null) {
                 User developerPersistence = userRepository.selectById(generator.getDeveloper().getId());
-                if (!generator.getName().contains(name) && !developerPersistence.getUserName().contains(name)) {
+                if (!generator.getName().contains(keyword) && !developerPersistence.getUserName().contains(keyword)) {
+                    return false;
+                }
+            }
+            if (name != null) {
+                if (!generator.getName().contains(name)) {
                     return false;
                 }
             }

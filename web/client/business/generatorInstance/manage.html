@@ -2,18 +2,15 @@
     <div ng-controller="generatorInstanceManageController">
         <div class="row">
             <div class="col-sm-12">
-                <!--
                 <form class="form-inline">
                     <div class="form-group">
-                        <label>名称：</label>
                         <input name="name" type="text" class="form-control input-sm" ng-model="searchRequest.name" placeholder="名称"/>
                     </div>
                     <div class="form-group">
-                        <button type="button" class="btn btn-primary btn-sm" ng-click="searchRequest.page=1;search();">搜索</button>
+                        <button type="button" class="btn btn-info btn-sm" ng-click="searchRequest.page=1;search();">搜索</button>
                     </div>
                 </form>
                 <br/>
-                -->
             </div>
         </div>
         <div class="row">
@@ -34,9 +31,9 @@
                         <td>{{generatorInstance.generator.name}}</td>
                         <td>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-primary btn-sm" location-go="/business/generatorInstance/detail/{{generatorInstance.id}}">详情</button>
-                                <button type="button" class="btn btn-primary btn-sm" location-go="/business/generatorInstance/update/{{generatorInstance.id}}">修改</button>
-                                <button type="button" class="btn btn-primary btn-sm" location-go="/business/dataModel/manage/{{generatorInstance.id}}">工作台</button>
+                                <button type="button" class="btn btn-info btn-sm" location-go="/business/generatorInstance/detail/{{generatorInstance.id}}">详情</button>
+                                <button type="button" class="btn btn-warning btn-sm" location-go="/business/generatorInstance/update/{{generatorInstance.id}}">修改</button>
+                                <button type="button" class="btn btn-success btn-sm" location-go="/business/dataModel/manage/{{generatorInstance.id}}">工作台</button>
                             </div>
                         </td>
                     </tr>

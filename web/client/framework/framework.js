@@ -526,24 +526,13 @@ define(
                     return flashTooltips;
                 };
                 //success info warning danger
-                provider.show = function(message, level){
-                    add(message, !level ? "info" : level);
-                };
-
-                provider.success = function(message){
-                    add(message, "success");
-                };
-
-                provider.info = function(message){
-                    add(message, "info");
-                };
-
-                provider.warning = function(message){
-                    add(message, "warning");
-                };
-
-                provider.danger = function(message){
-                    add(message, "danger");
+                provider.open = function(message){
+                    var level = "info";
+                    if(angular.isObject(message)){
+                        level = message.level;
+                        message = message.message;
+                    }
+                    add(message, level);
                 };
 
                 provider.search = function(page, pageSize){
@@ -561,14 +550,54 @@ define(
             "$uibModal",
             function( $uibModal ){
                 return {
-                    show: function (message) {
+                    open: function (message) {
+                        var title, confirm;
+                        if(angular.isObject(message)){
+                            title = message.title;
+                            confirm = message.confirm;
+                            message = message.message;
+                        }
                         $uibModal.open({
                             templateUrl: "framework/alert.html",
                             controller: ["$scope", "$uibModalInstance", function ($scope, $uibModalInstance) {
                                 $scope.message = message;
+                                $scope.title = title || "提示";
                                 $scope.confirm = function () {
+                                    confirm && confirm();
                                     $uibModalInstance.close();
                                 }
+                            }]
+                        });
+                    }
+                };
+            }
+        ]);
+        //confirm服务
+        framework.factory("confirm", [
+            "$uibModal",
+            function( $uibModal ){
+                return {
+                    open: function (message) {
+                        var title, cancel, confirm;
+                        if(angular.isObject(message)){
+                            title = message.title;
+                            confirm = message.confirm;
+                            cancel = message.cancel;
+                            message = message.message;
+                        }
+                        $uibModal.open({
+                            templateUrl: "framework/confirm.html",
+                            controller: ["$scope", "$uibModalInstance", function ($scope, $uibModalInstance) {
+                                $scope.message = message;
+                                $scope.title = title || "确认";
+                                $scope.cancel = function () {
+                                    cancel && cancel();
+                                    $uibModalInstance.close();
+                                };
+                                $scope.confirm = function () {
+                                    confirm && confirm();
+                                    $uibModalInstance.close();
+                                };
                             }]
                         });
                     }
@@ -609,19 +638,23 @@ define(
                     function($q, loadStatus, tooltip){
                         return {
                             "request": function(config) {
-                                loadStatus.run();
+                                if(config.url != "/api?method=session.heartbeat"){
+                                    loadStatus.run();
+                                }
                                 return config;
                             },
                             "requestError": function(rejection) {
-                                tooltip.warning("loading拦截器请求错误");
+                                tooltip.open({message:"loading拦截器请求错误",level:"warning"});
                                 return $q.reject(rejection);
                             },
                             "response": function(response) {
-                                loadStatus.stop();
+                                if(response.config.url != "/api?method=session.heartbeat"){
+                                    loadStatus.stop();
+                                }
                                 return response;
                             },
                             "responseError": function(response) {
-                                tooltip.danger("loading拦截器响应错误");
+                                tooltip.open({message:"loading拦截器响应错误",level:"danger"});
                                 return $q.reject(response);
                             }
                         };
@@ -636,7 +669,7 @@ define(
                                 return config;
                             },
                             "requestError": function(rejection) {
-                                tooltip.warning("error拦截器请求错误");
+                                tooltip.open({message:"error拦截器请求错误",level:"warning"});
                                 return $q.reject(rejection);
                             },
                             "response": function(response) {
@@ -646,7 +679,7 @@ define(
                                         location.go("/401");
                                         return;
                                     }
-                                    tooltip.danger(error.message);
+                                    tooltip.open({message:error.message,level:"danger"});
                                     return $q.reject(error);
                                 }
                                 var body = http.parseBody(response);
@@ -656,7 +689,7 @@ define(
                                 return response;
                             },
                             "responseError": function(response) {
-                                tooltip.danger("error拦截器响应错误");
+                                tooltip.open({message:"error拦截器响应错误",level:"danger"});
                                 return $q.reject(response);
                             }
                         };
@@ -668,8 +701,10 @@ define(
         ]);
         //框架总控制器
         framework.controller("frameworkController", [
-            "$scope", "$cookies", "$window", "$uibModal", "loadStatus", "tooltip", "alert", "security", "$http", "userApi", "location","viewPage",
-            function($scope, $cookies, $window, $uibModal, loadStatus, tooltip, alert, security, $http, userApi, location, viewPage) {
+            "$scope", "$cookies", "$window", "$uibModal", "$interval", "loadStatus", "tooltip", "alert", "security", "$http", "userApi", "location","viewPage", "systemApi",
+            function($scope, $cookies, $window, $uibModal, $interval, loadStatus, tooltip, alert, security, $http, userApi, location, viewPage, systemApi) {
+                //半小时会话心跳 防止session过期
+                $interval(function(){systemApi.heartbeat({});}, 45 * 60 * 1000);
 
                 userApi.get({}).success(function(user){
                     security.setUser(user);
@@ -682,13 +717,13 @@ define(
 
                 $scope.tooltips = tooltip.getFlash();
 
-                $scope.searchText = "";
+                $scope.keyword = "";
                 $scope.search = function(){
-                    if("" == $scope.searchText){
+                    if("" == $scope.keyword){
                         location.go("/business/generator/search");
                     }
                     else{
-                        location.go("/business/generator/search/" + $scope.searchText);
+                        location.go("/business/generator/search/" + $scope.keyword);
                     }
                 };
 

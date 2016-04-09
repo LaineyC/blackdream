@@ -16,7 +16,7 @@ define(
                 {path: "/business/generator/create",templateUrl: "business/generator/create.html",dependencies: ["business/generator/create"],permission: null},
                 {path: "/business/generator/update/:id",templateUrl: "business/generator/update.html",dependencies: ["business/generator/update"],permission: null},
                 {path: "/business/generator/detail/:id",templateUrl: "business/generator/detail.html",dependencies: ["business/generator/detail"],permission: null},
-                {path: "/business/generator/search/:searchText",templateUrl: "business/generator/search.html",dependencies: ["business/generator/search"],permission: null},
+                {path: "/business/generator/search/:keyword",templateUrl: "business/generator/search.html",dependencies: ["business/generator/search"],permission: null},
                 {path: "/business/generator/search",templateUrl: "business/generator/search.html",dependencies: ["business/generator/search"],permission: null},
 
                 {path: "/business/template/manage/:generatorId",templateUrl: "business/template/manage.html",dependencies: ["business/template/manage"],permission: null},

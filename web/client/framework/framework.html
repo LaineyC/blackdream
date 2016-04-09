@@ -13,6 +13,7 @@
             document.write('<link type="text/css" rel="stylesheet" href="/client/library/bootstrap/theme/default.min.css"/>')
         }
     </script>
+    <link rel="shortcut icon" href="/client/framework/logo.jpg" title="BlackDream">
     <link type="text/css" rel="stylesheet" href="/client/framework/framework.css"/>
     <script data-main="/client/framework/main.js" src="/client/library/require/require.min.js"></script>
 </head>
@@ -33,7 +34,7 @@
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <form class="navbar-form navbar-left" role="search" ng-submit="search();">
                     <div class="form-group has-feedback">
-                        <input type="text" ng-model="searchText" class="form-control input-sm" placeholder="他们的生成器">
+                        <input type="text" ng-model="keyword" class="form-control input-sm" placeholder="他们的生成器">
                         <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
                     </div>
                     <div class="input-group input-group-sm">
@@ -83,9 +84,7 @@
         </div>
     </div>
     <footer id="framework-footer">
-        <div class="page-header">
-            <strong>无聊乏味的工作是令人不快的，尽可能多地将乏味的工作自动化。为了你，也为自己！</strong>
-        </div>
+        <strong class="text-info">无聊乏味的工作是令人不快的，尽可能多地将乏味的工作自动化。为了你，也为自己！</strong>
     </footer>
     <!-- 消息条组 -->
     <div id="framework-tooltip" >
@@ -134,10 +133,21 @@
     <!-- 弹出对话框 -->
     <script id="framework/alert.html" type="text/ng-template" >
         <div class="modal-header">
-            <h3 class="modal-title">提示</h3>
+            <h3 class="modal-title">{{title}}</h3>
         </div>
         <div class="modal-body" ng-bind="message"></div>
         <div class="modal-footer">
+            <button class="btn btn-sm btn-primary" type="button" ng-click="confirm()">确定</button>
+        </div>
+    </script>
+    <!-- 确认对话框 -->
+    <script id="framework/confirm.html" type="text/ng-template" >
+        <div class="modal-header">
+            <h3 class="modal-title">{{title}}</h3>
+        </div>
+        <div class="modal-body" ng-bind="message"></div>
+        <div class="modal-footer">
+            <button class="btn btn-sm btn-warning" type="button" ng-click="cancel()">取消</button>
             <button class="btn btn-sm btn-primary" type="button" ng-click="confirm()">确定</button>
         </div>
     </script>

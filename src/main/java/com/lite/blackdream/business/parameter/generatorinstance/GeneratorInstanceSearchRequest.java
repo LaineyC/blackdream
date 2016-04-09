@@ -7,8 +7,17 @@ import com.lite.blackdream.framework.model.PagerRequest;
  */
 public class GeneratorInstanceSearchRequest extends PagerRequest {
 
+    private String name;
+
     public GeneratorInstanceSearchRequest(){
 
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

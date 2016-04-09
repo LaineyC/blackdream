@@ -1,6 +1,17 @@
 define(["business/module"],function(module){
     "use strict";
 
+    module.factory("systemApi",[
+        "$http",
+        function($http){
+            var provider = {};
+
+            provider.heartbeat = function(request) { return $http.post("/api?method=session.heartbeat", request); };
+
+            return provider;
+        }
+    ]);
+
     module.factory("userApi",[
         "$http",
         function($http){

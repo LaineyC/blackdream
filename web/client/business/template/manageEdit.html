@@ -6,7 +6,7 @@
                     <button type="button" class="btn btn-primary btn-sm" location-back>返回</button>
                     <div class="btn-group pull-right" role="group">
                         <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 字体<span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right">
@@ -20,7 +20,7 @@
                             </ul>
                         </div>
                         <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 主题<span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right">
@@ -29,22 +29,22 @@
                                 </li>
                             </ul>
                         </div>
-                        <button type="button" class="btn btn-sm btn-primary" ng-click="dirtyData.saveDirty()"  ng-disabled="!dirtyData.hasDirtyData();">
-                            <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
+                        <button type="button" class="btn btn-sm btn-warning" ng-click="dirtyData.saveDirty()"  ng-disabled="!dirtyData.hasDirtyData();">
+                            <span class="glyphicon glyphicon-save" aria-hidden="true">保存</span>
                         </button>
-                        <button type="button" class="btn btn-sm btn-primary" ng-click="templateControl.add();">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        <button type="button" class="btn btn-sm btn-success" ng-click="templateControl.add();">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true">新建</span>
                         </button>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12" style="width: 20%;position: fixed;top: 100px; bottom: 0;overflow: auto;">
+                <div class="col-sm-12 condensed-list" style="width: 20%;position: fixed;top: 100px; bottom: 0;overflow: auto;">
                     <div class="list-group" style="padding-left: 0;">
                         <a ng-repeat="template in templates" ng-dblclick="templateControl.view(template)" href="javascript:void(0)" class="list-group-item">
                             {{$index + 1}}
                             <label>{{template.name}}</label>
-                            <button ng-if="!child.children.length" type="button" class="btn btn-primary btn-xs pull-right" ng-click="templateControl.delete(template,$index);">
+                            <button ng-if="!child.children.length" type="button" class="btn btn-danger btn-xs pull-right" ng-click="templateControl.delete(template,$index);">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </button>
                         </a>

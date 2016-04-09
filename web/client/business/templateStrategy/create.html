@@ -13,7 +13,7 @@
                                    ng-model="createRequest.name" type="text" class="form-control input-sm" placeholder="名称" ng-maxlength="tagRules.TemplateStrategy.attributes.name.maxlength.rule" ng-required="tagRules.TemplateStrategy.attributes.name.required.rule"/>
                         </div>
                         <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button type="button" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </button>
                             <ul class="dropdown-menu">
@@ -52,8 +52,8 @@
                    name="{{name + child.__hashKey}}" type="text" ng-model="child[name]" size="{{attribute.size}}" class="form-control input-sm" ng-required="attribute.required.rule"/>
         </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-primary btn-sm" ng-click="delete(child,p);"><span class="glyphicon glyphicon-remove"></span></button>
-            <button ng-if="tagRules[child.tagName].children.length" type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown">
+            <button type="button" class="btn btn-danger btn-sm" ng-click="delete(child,p);"><span class="glyphicon glyphicon-remove"></span></button>
+            <button ng-if="tagRules[child.tagName].children.length" type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
             </button>
             <ul ng-if="tagRules[child.tagName].children.length" class="dropdown-menu dropdown-menu-right" role="menu">

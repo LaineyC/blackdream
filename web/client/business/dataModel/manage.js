@@ -170,7 +170,7 @@ define(
                 $scope.runResult = [];
                 $scope.run = function(){
                     if(!$outScope.templateStrategyControl.selectedItem){
-                        alert.show("未选择生成策略");
+                        alert.open("未选择生成策略");
                         return;
                     }
                     $uibModal.open({

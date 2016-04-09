@@ -14,6 +14,8 @@ import com.lite.blackdream.framework.util.FileUtil;
 import com.lite.blackdream.framework.util.ZipUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
 import java.io.File;
 import java.util.*;
 
@@ -104,11 +106,25 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
 
     @Override
     public PagerResult<GeneratorInstance> search(GeneratorInstanceSearchRequest request) {
-        GeneratorInstance generatorInstanceTemplate = new GeneratorInstance();
-        generatorInstanceTemplate.setIsDelete(false);
         User currentUser = request.getCurrentUser();
-        generatorInstanceTemplate.setUser(currentUser);
-        List<GeneratorInstance> records = generatorInstanceRepository.selectList(generatorInstanceTemplate);
+        Long userId = currentUser.getId();
+        String name =  StringUtils.hasText(request.getName())  ? request.getName() : null;
+        List<GeneratorInstance> records = generatorInstanceRepository.filter(generatorInstance -> {
+            if(generatorInstance.getIsDelete()){
+                return false;
+            }
+            if (name != null) {
+                if (!generatorInstance.getName().contains(name)) {
+                    return false;
+                }
+            }
+            if (userId != null) {
+                if (!userId.equals(generatorInstance.getUser().getId())) {
+                    return false;
+                }
+            }
+            return true;
+        });
         Integer page = request.getPage();
         Integer pageSize = request.getPageSize();
         Integer fromIndex = (page - 1) * pageSize;

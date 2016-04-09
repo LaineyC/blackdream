@@ -7,6 +7,8 @@ import com.lite.blackdream.framework.model.PagerRequest;
  */
 public class GeneratorSearchRequest extends PagerRequest {
 
+    private String keyword;
+
     private String name;
 
     private Boolean isOpen;
@@ -15,6 +17,14 @@ public class GeneratorSearchRequest extends PagerRequest {
 
     public GeneratorSearchRequest(){
 
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 
     public String getName() {
