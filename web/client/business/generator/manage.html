@@ -42,12 +42,14 @@
                         <td>{{generator.isOpen ? "开放" : "私有";}}</td>
                         <td>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-primary btn-xs" location-go="/business/generator/detail/{{generator.id}}">详情</button>
-                                <button type="button" class="btn btn-primary btn-xs" location-go="/business/generator/update/{{generator.id}}">修改</button>
-                                <button type="button" class="btn btn-primary btn-xs" location-go="/business/dynamicModel/manage/{{generator.id}}">数据模型管理</button>
-                                <button type="button" class="btn btn-primary btn-xs" location-go="/business/template/manageEdit/{{generator.id}}">模板文件管理</button>
-                                <button type="button" class="btn btn-primary btn-xs" location-go="/business/templateStrategy/manage/{{generator.id}}">策略文件管理</button>
-                                <button type="button" class="btn btn-primary btn-xs" location-go="/business/generatorInstance/create/{{generator.id}}">新建实例</button>
+                                <button type="button" class="btn btn-primary btn-sm" location-go="/business/generator/detail/{{generator.id}}">详情</button>
+                                <button type="button" class="btn btn-primary btn-sm" location-go="/business/generator/update/{{generator.id}}">修改</button>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-primary btn-sm" location-go="/business/dynamicModel/manage/{{generator.id}}">数据模型管理</button>
+                                <button type="button" class="btn btn-primary btn-sm" location-go="/business/template/manageEdit/{{generator.id}}">模板文件管理</button>
+                                <button type="button" class="btn btn-primary btn-sm" location-go="/business/templateStrategy/manage/{{generator.id}}">策略文件管理</button>
+                                <button type="button" class="btn btn-primary btn-sm" location-go="/business/generatorInstance/create/{{generator.id}}">新建实例</button>
                             </div>
                         </td>
                     </tr>
@@ -57,13 +59,13 @@
         </div>
         <div>
             <div class="pull-left">
-                <uib-pagination class="pagination-sm" boundary-links="true" rotate="false" max-size="10" total-items="pagerResult.total" ng-model="searchRequest.page" ng-change="search();" items-per-page="searchRequest.pageSize" first-text="首页" previous-text="上页" next-text="下页" last-text="尾页"></uib-pagination>
+                <ul class="pagination pagination-sm">
+                    <li ng-class="{'active': searchRequest.pageSize==pageSize}" ng-repeat="pageSize in [10, 20, 50]" ><a href="javascript:void(0);" ng-click="(searchRequest.pageSize!=pageSize)&&(searchRequest.pageSize=pageSize)&&(searchRequest.page=1)&&search();">{{pageSize}}</a></li>
+                </ul>
             </div>
             <div class="pull-left">
                 &nbsp;
-                <ul class="pagination pagination-sm">
-                    <li ng-class="{'active': searchRequest.pageSize==pageSize}" ng-repeat="pageSize in pageSizeList track by $index" ><a href="javascript:void(0);" ng-click="searchRequest.pageSize=pageSize;searchRequest.page=1;search();">{{pageSize}}</a></li>
-                </ul>
+                <uib-pagination class="pagination-sm" boundary-links="true" rotate="false" max-size="10" total-items="pagerResult.total" ng-model="searchRequest.page" ng-change="search();" items-per-page="searchRequest.pageSize" first-text="首页" previous-text="上页" next-text="下页" last-text="尾页"></uib-pagination>
             </div>
             <div class="pull-left form-control-static clearfix">&nbsp;共&nbsp;{{pagerResult.total ? pagerResult.total : 0}}&nbsp;条</div>
         </div>

@@ -9,8 +9,6 @@ define(
                 var user = security.getUser();
                 $scope.searchRequest = {page:1, pageSize:10, developerId: user.id};
 
-                $scope.pageSizeList = [10, 20, 50, 100];
-
                 $scope.statuses = [
                     {isOpen:true,name:"公开"},
                     {isOpen:false,name:"私有"}

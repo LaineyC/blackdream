@@ -2,6 +2,8 @@ package com.lite.blackdream.framework.util;
 
 /**
  * @author LaineyC
+ * JavaScript整数最大支持53位
+ * 时间41位 机器号1位 毫秒ID自增6位 一共48位
  */
 public class IdWorker {
 
@@ -13,32 +15,32 @@ public class IdWorker {
     /**
      * 机器标识位数
      */
-    private final static long workerIdBits = 2L;
+    private final static long workerIdBits = 1L;
 
     /**
-     * 机器ID支持机器节点数0~3
+     * 机器ID支持机器节点数0~1
      */
     public final static long maxWorkerId = ~(-1L << workerIdBits);
 
     /**
      * 毫秒内自增位
      */
-    private final static long sequenceBits = 8L;
+    private final static long sequenceBits = 6L;
 
     /**
-     * 机器ID偏左移8位
+     * 毫秒内sequence范围0~63
+     */
+    public final static long sequenceMask = ~(-1L << sequenceBits);
+
+    /**
+     * 机器ID偏左移6位
      */
     private final static long workerIdShift = sequenceBits;
 
     /**
-     * 时间毫秒左移10位
+     * 时间毫秒左移7位
      */
     private final static long timestampLeftShift = sequenceBits + workerIdBits;
-
-    /**
-     * 毫秒内sequence范围0~255
-     */
-    public final static long sequenceMask = ~(-1L << sequenceBits);
 
     private final long workerId;
 

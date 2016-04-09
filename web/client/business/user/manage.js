@@ -9,8 +9,6 @@ define(
 
                 $scope.searchRequest = {page:1, pageSize:10};
 
-                $scope.pageSizeList = [10, 20, 50, 100];
-
                 $scope.isDisableOptions = [
                     {isDisable:false,name:"激活"},
                     {isDisable:true,name:"冻结"}

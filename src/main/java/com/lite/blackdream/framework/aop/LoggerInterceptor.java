@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lite.blackdream.business.domain.User;
 import com.lite.blackdream.framework.model.Request;
 import com.lite.blackdream.framework.util.JsonObjectMapper;
+import com.lite.blackdream.framework.util.WebUtil;
 import com.lite.blackdream.framework.web.RequestWrapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,7 +28,7 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
         HttpSession session = request.getSession(false);
         String sessionId = session == null ? null : session.getId();
         String method = requestWrapper.getParameter("method");
-        logger.info("session=" + sessionId +",method=" + method + ",parameter=" + requestWrapper.getRequestLog());
+        logger.info("ip=" + WebUtil.getIp(request) + ",session=" + sessionId + ",method=" + method +  ",parameter=" + requestWrapper.getRequestLog());
     }
 
 }

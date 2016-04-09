@@ -1,3 +1,4 @@
+window.BLACKDREAM_VERSION = "1.0.0";
 require.config({
     baseUrl: "/client",
     paths:{
@@ -77,7 +78,7 @@ require.config({
             exports:"jquery-ui"
         }
     },
-    urlArgs: "timestamp=" + new Date().getTime()
+    urlArgs: "_v=" + window.BLACKDREAM_VERSION
 });
 
 require(

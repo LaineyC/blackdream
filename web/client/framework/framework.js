@@ -60,7 +60,7 @@ define(
                             if(!config.permission) {
                                 providers.route.when(config.path, {
                                     template: config.template,
-                                    templateUrl: baseUrl + config.templateUrl,
+                                    templateUrl: baseUrl + config.templateUrl + "?_v=" + window.BLACKDREAM_VERSION,
                                     resolve: loadDependencies(config.dependencies)
                                 });
                             }

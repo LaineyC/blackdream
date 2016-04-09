@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.lite.blackdream.business.domain.User;
+import com.lite.blackdream.framework.util.WebUtil;
 import com.lite.blackdream.framework.web.RequestWrapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,11 +45,11 @@ public class ErrorResolver implements HandlerExceptionResolver {
         if(exception instanceof AppException){
             AppException appException = (AppException)exception;
             errorMessage = appException.getErrorMessage();
-            logger.error("session=" + sessionId +",method=" + method + ",message=" + errorMessage.getMessage() + ",parameter=" + requestWrapper.getRequestLog());
+            logger.error("ip=" + WebUtil.getIp(request) + ",session=" + sessionId + ",method=" + method  + ",parameter=" + requestWrapper.getRequestLog() + ",message=" + errorMessage.getMessage());
         }
         else{
             errorMessage = new ErrorMessage("[" + method + "]服务不可用");
-            logger.error("session=" + sessionId +",method=" + method + ",message=" + errorMessage.getMessage() + ",parameter=" + requestWrapper.getRequestLog(), exception);
+            logger.error("ip=" + WebUtil.getIp(request) + ",session=" + sessionId + ",method=" + method  + ",parameter=" + requestWrapper.getRequestLog() + ",message=" + errorMessage.getMessage(), exception);
         }
         HttpInputMessage inputMessage = new ServletServerHttpRequest(requestWrapper);
         List<MediaType> acceptedMediaTypes = inputMessage.getHeaders().getAccept();
