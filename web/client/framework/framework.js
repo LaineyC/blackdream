@@ -50,6 +50,94 @@ define(
         ]);
         //加载模板的基础路径
         var baseUrl = "/client/";
+        var routeConfig = {
+            defaultRoute: "/404",
+            routes: [
+                // path：模板逻辑路径
+                // templateUrl：模板物理真实路径
+                // dependencies：每当路由器通过逻辑路径映射真实路径并且加载模板的时候，每个模本需要相应的依赖，如：angularjs的控制器，一些相关的插件（有些插件仅在某些业务才学要 文件上传等）
+                // permission：加载这个模板时需要的权限
+                {path: "/", templateUrl: "framework/home.html", dependencies: ["framework/home"], permission: null},
+                {path: "/404", templateUrl: "framework/404.html", dependencies: null, permission: null},
+                {path: "/401", templateUrl: "framework/401.html", dependencies: null, permission: null},
+                {path: "/guide", templateUrl: "framework/guide.html", dependencies: ["framework/guide"], permission: null}
+            ]
+        };
+        //设置框架默认路由
+        framework.config(["configProvider",function(configProvider){
+            configProvider.setRouteConfig(framework, routeConfig);
+        }]);
+        //http拦截器
+        framework.config([
+            "$provide", "$httpProvider",
+            function($provide, $httpProvider){
+                //加载进度条拦截器
+                $provide.factory("loadingInterceptor",[
+                    "$q", "loadStatus", "tooltip",
+                    function($q, loadStatus, tooltip){
+                        return {
+                            "request": function(config) {
+                                if(config.url != "/api?method=session.heartbeat"){
+                                    loadStatus.run();
+                                }
+                                return config;
+                            },
+                            "requestError": function(rejection) {
+                                tooltip.open({message:"loading拦截器请求错误",level:"warning"});
+                                return $q.reject(rejection);
+                            },
+                            "response": function(response) {
+                                if(response.config.url != "/api?method=session.heartbeat"){
+                                    loadStatus.stop();
+                                }
+                                return response;
+                            },
+                            "responseError": function(response) {
+                                tooltip.open({message:"loading拦截器响应错误",level:"danger"});
+                                return $q.reject(response);
+                            }
+                        };
+                    }
+                ]);
+                //服务端错误处理拦截器
+                $provide.factory("errorInterceptor", [
+                    "$q", "tooltip", "http", "location",
+                    function($q, tooltip, http, location){
+                        return {
+                            "request": function(config) {
+                                return config;
+                            },
+                            "requestError": function(rejection) {
+                                tooltip.open({message:"error拦截器请求错误",level:"warning"});
+                                return $q.reject(rejection);
+                            },
+                            "response": function(response) {
+                                var error = http.parseError(response);
+                                if(error){
+                                    if(error.code == "401"){
+                                        location.go("/401");
+                                        return;
+                                    }
+                                    tooltip.open({message:error.message,level:"danger"});
+                                    return $q.reject(error);
+                                }
+                                var body = http.parseBody(response);
+                                if(!(body == null ||  body == undefined)){
+                                    response.data = body;
+                                }
+                                return response;
+                            },
+                            "responseError": function(response) {
+                                tooltip.open({message:"error拦截器响应错误",level:"danger"});
+                                return $q.reject(response);
+                            }
+                        };
+                    }
+                ]);
+                $httpProvider.interceptors.push("errorInterceptor");
+                $httpProvider.interceptors.push("loadingInterceptor");
+            }
+        ]);
         //配置服务
         framework.provider("config", [
             function() {
@@ -84,24 +172,6 @@ define(
                 };
             }
         ]);
-
-        var routeConfig = {
-            defaultRoute: "/404",
-            routes: [
-                // path：模板逻辑路径
-                // templateUrl：模板物理真实路径
-                // dependencies：每当路由器通过逻辑路径映射真实路径并且加载模板的时候，每个模本需要相应的依赖，如：angularjs的控制器，一些相关的插件（有些插件仅在某些业务才学要 文件上传等）
-                // permission：加载这个模板时需要的权限
-                {path: "/", templateUrl: "framework/home.html", dependencies: ["framework/home"], permission: null},
-                {path: "/404", templateUrl: "framework/404.html", dependencies: null, permission: null},
-                {path: "/401", templateUrl: "framework/401.html", dependencies: null, permission: null},
-                {path: "/guide", templateUrl: "framework/guide.html", dependencies: ["framework/guide"], permission: null}
-            ]
-        };
-        //设置框架默认路由
-        framework.config(["configProvider",function(configProvider){
-            configProvider.setRouteConfig(framework, routeConfig);
-        }]);
         //框架安全服务
         framework.factory("security",[
             function(){
@@ -130,6 +200,22 @@ define(
                 //获取用户信息信息
                 provider.getViewPage = function(){
                     return viewPage;
+                };
+                return provider;
+            }
+        ]);
+        //粘贴板
+        framework.factory("clipboard",[
+            function(){
+                var provider = {},
+                    clipboard = {};
+                //
+                provider.get = function(sourceType){
+                    return clipboard[sourceType];
+                };
+                //
+                provider.copy = function(sourceType, value){
+                    clipboard[sourceType] = value;
                 };
                 return provider;
             }
@@ -626,77 +712,6 @@ define(
                     }
                 };
                 return provider;
-            }
-        ]);
-        //http拦截器
-        framework.config([
-            "$provide", "$httpProvider",
-            function($provide, $httpProvider){
-                //加载进度条拦截器
-                $provide.factory("loadingInterceptor",[
-                    "$q", "loadStatus", "tooltip",
-                    function($q, loadStatus, tooltip){
-                        return {
-                            "request": function(config) {
-                                if(config.url != "/api?method=session.heartbeat"){
-                                    loadStatus.run();
-                                }
-                                return config;
-                            },
-                            "requestError": function(rejection) {
-                                tooltip.open({message:"loading拦截器请求错误",level:"warning"});
-                                return $q.reject(rejection);
-                            },
-                            "response": function(response) {
-                                if(response.config.url != "/api?method=session.heartbeat"){
-                                    loadStatus.stop();
-                                }
-                                return response;
-                            },
-                            "responseError": function(response) {
-                                tooltip.open({message:"loading拦截器响应错误",level:"danger"});
-                                return $q.reject(response);
-                            }
-                        };
-                    }
-                ]);
-                //服务端错误处理拦截器
-                $provide.factory("errorInterceptor", [
-                    "$q", "tooltip", "http", "location",
-                    function($q, tooltip, http, location){
-                        return {
-                            "request": function(config) {
-                                return config;
-                            },
-                            "requestError": function(rejection) {
-                                tooltip.open({message:"error拦截器请求错误",level:"warning"});
-                                return $q.reject(rejection);
-                            },
-                            "response": function(response) {
-                                var error = http.parseError(response);
-                                if(error){
-                                    if(error.code == "401"){
-                                        location.go("/401");
-                                        return;
-                                    }
-                                    tooltip.open({message:error.message,level:"danger"});
-                                    return $q.reject(error);
-                                }
-                                var body = http.parseBody(response);
-                                if(!(body == null ||  body == undefined)){
-                                    response.data = body;
-                                }
-                                return response;
-                            },
-                            "responseError": function(response) {
-                                tooltip.open({message:"error拦截器响应错误",level:"danger"});
-                                return $q.reject(response);
-                            }
-                        };
-                    }
-                ]);
-                $httpProvider.interceptors.push("errorInterceptor");
-                $httpProvider.interceptors.push("loadingInterceptor");
             }
         ]);
         //框架总控制器

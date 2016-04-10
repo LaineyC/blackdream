@@ -42,6 +42,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
 
         dynamicModel.setProperties(request.getProperties());
         dynamicModel.setAssociation(request.getAssociation());
+        dynamicModel.setPredefinedAssociation(request.getPredefinedAssociation());
 
         for(Long childId : request.getChildren()){
             DynamicModel child = new DynamicModel();
@@ -71,6 +72,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
         dynamicModel.setIcon(dynamicModelPersistence.getIcon());
         dynamicModel.setProperties(dynamicModelPersistence.getProperties());
         dynamicModel.setAssociation(dynamicModelPersistence.getAssociation());
+        dynamicModel.setPredefinedAssociation(dynamicModelPersistence.getPredefinedAssociation());
 
         Long generatorId = dynamicModelPersistence.getGenerator().getId();
         Generator generatorPersistence = generatorRepository.selectById(generatorId);
@@ -146,6 +148,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
             dynamicModel.setIcon(d.getIcon());
             dynamicModel.setProperties(d.getProperties());
             dynamicModel.setAssociation(d.getAssociation());
+            dynamicModel.setPredefinedAssociation(d.getPredefinedAssociation());
 
             Generator generatorPersistence = generatorRepository.selectById(generatorId);
             if(generatorPersistence == null){
@@ -187,6 +190,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
 
         dynamicModelPersistence.setProperties(request.getProperties());
         dynamicModelPersistence.setAssociation(request.getAssociation());
+        dynamicModelPersistence.setPredefinedAssociation(request.getPredefinedAssociation());
         dynamicModelRepository.update(dynamicModelPersistence);
         return dynamicModelPersistence;
     }

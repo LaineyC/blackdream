@@ -4,6 +4,7 @@ import com.lite.blackdream.business.domain.DynamicProperty;
 import com.lite.blackdream.framework.model.Request;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author LaineyC
@@ -19,6 +20,8 @@ public class DynamicModelUpdateRequest extends Request {
     private List<DynamicProperty> properties = new ArrayList<>();
 
     private List<DynamicProperty> association = new ArrayList<>();
+
+    private List<Map<String, Object>> predefinedAssociation = new ArrayList<>();
 
     private List<Long> children = new ArrayList<>();
 
@@ -64,6 +67,14 @@ public class DynamicModelUpdateRequest extends Request {
 
     public void setAssociation(List<DynamicProperty> association) {
         this.association = association;
+    }
+
+    public List<Map<String, Object>> getPredefinedAssociation() {
+        return predefinedAssociation;
+    }
+
+    public void setPredefinedAssociation(List<Map<String, Object>> predefinedAssociation) {
+        this.predefinedAssociation = predefinedAssociation;
     }
 
     public List<Long> getChildren() {

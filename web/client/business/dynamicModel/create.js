@@ -9,7 +9,7 @@ define(
                 viewPage.setViewPageTitle("数据模型新建");
                 var generatorId = $routeParams.generatorId;
 
-                $scope.createRequest = {generatorId: generatorId, children:[],properties:[],association:[]};
+                $scope.createRequest = {generatorId: generatorId, children:[],properties:[],association:[],predefinedAssociation:[]};
 
                 $scope.childrenControl = {};
                 dynamicModelApi.query({generatorId:generatorId}).success(function(children){
@@ -23,7 +23,15 @@ define(
                             $scope.createRequest.children.push(child.id);
                         }
                     }
-                    dynamicModelApi.create($scope.createRequest).success(function(){
+                    dynamicModelApi.create({
+                        generatorId:generatorId,
+                        name: $scope.createRequest.name,
+                        icon: $scope.createRequest.icon,
+                        children: $scope.createRequest.children,
+                        properties: $scope.createRequest.properties,
+                        association: $scope.createRequest.association,
+                        predefinedAssociation: $scope.predefinedAssociationControl.format($scope.createRequest.predefinedAssociation)
+                    }).success(function(){
                         location.go("/business/dynamicModel/manage/" + generatorId);
                     });
                 };
@@ -166,6 +174,59 @@ define(
                         $scope.createRequest.association.splice(index, 1);
                     }
                 };
+
+                $scope.predefinedAssociationControl = {
+                    sortableOptions:{
+                        update: function(e, ui) {
+                        },
+                        stop: function(e, ui) {
+                        }
+                    },
+                    add:function() {
+                        $scope.createRequest.predefinedAssociation.push({});
+
+                    },
+                    delete:function(entity, index) {
+                        $scope.createRequest.predefinedAssociation.splice(index, 1);
+                    },
+                    format:function(predefinedAssociation){
+                        var association = $scope.createRequest.association;
+                        var associationKeys = {dateTypeKeys:{},dataModelTypeKeys:{}};
+                        for(var i = 0 ; i < association.length ; i++){
+                            var prop = association[i];
+                            if(prop.type == "Date"){
+                                associationKeys.dateTypeKeys[prop.name] = true;
+                            }
+                            else if(prop.type == "Model"){
+                                associationKeys.dataModelTypeKeys[prop.name] = true;
+                            }
+                            else{
+                                //
+                            }
+                        }
+                        var newPredefinedAssociation = [];
+                        for(var i = 0 ; i < predefinedAssociation.length ;i++){
+                            var property = predefinedAssociation[i];
+                            var newProperty = {};
+                            for(var k in property){
+                                if(property[k] == undefined || property[k] == null){
+                                    continue;
+                                }
+                                if(k in associationKeys.dateTypeKeys){
+                                    newProperty[k] = new Date(property[k]).getTime();
+                                }
+                                else if(k in associationKeys.dataModelTypeKeys){
+                                    newProperty[k] = property[k].id;
+                                }
+                                else{
+                                    newProperty[k] = property[k];
+                                }
+                            }
+                            newPredefinedAssociation.push(newProperty);
+                        }
+                        return newPredefinedAssociation;
+                    }
+                }
 
             }
         ]);

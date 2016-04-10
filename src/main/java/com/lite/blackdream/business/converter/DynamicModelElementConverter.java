@@ -11,7 +11,10 @@ import org.dom4j.Element;
 import org.dom4j.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author LaineyC
@@ -87,6 +90,43 @@ public class DynamicModelElementConverter extends BaseElementConverter<DynamicMo
             });
         }
 
+        List<Map<String, Object>> predefinedAssociation = entity.getPredefinedAssociation();
+        if(!predefinedAssociation.isEmpty()) {
+            Element predefinedAssociationElement = element.addElement("predefinedAssociation");
+            predefinedAssociation.forEach(property -> {
+                Element propertiesElement = predefinedAssociationElement.addElement("property");
+                association.forEach(dynamicProperty -> {
+                    String propertyName = dynamicProperty.getName();
+                    Object propertyValue = property.get(propertyName);
+                    String propertyType = dynamicProperty.getType();
+                    if (propertyValue != null) {
+                        Element propertyElement = propertiesElement.addElement(propertyName);
+                        if ("Boolean".equals(propertyType)) {
+                            propertyElement.setText(propertyValue.toString());
+                        }
+                        else if ("Long".equals(propertyType)) {
+                            propertyElement.setText(propertyValue.toString());
+                        }
+                        else if ("Double".equals(propertyType)) {
+                            propertyElement.setText(propertyValue.toString());
+                        }
+                        else if ("String".equals(propertyType)) {
+                            propertyElement.setText(propertyValue.toString());
+                        }
+                        else if ("Date".equals(propertyType)) {
+                            propertyElement.setText(propertyValue.toString());
+                        }
+                        else if ("Enum".equals(propertyType)) {
+                            propertyElement.setText(propertyValue.toString());
+                        }
+                        else if ("Model".equals(propertyType)) {
+                            propertyElement.setText(propertyValue.toString());
+                        }
+                    }
+                });
+            });
+        }
+
         return element;
     }
 
@@ -145,6 +185,37 @@ public class DynamicModelElementConverter extends BaseElementConverter<DynamicMo
             ((List<Element>)((Element)associationNode).elements()).forEach(propertyElement -> {
                 DynamicProperty dynamicProperty = dynamicPropertyElementConverter.fromElement(propertyElement);
                 entity.getAssociation().add(dynamicProperty);
+            });
+        }
+
+        Node predefinedAssociationNode = element.element("predefinedAssociation");
+        if(predefinedAssociationNode != null) {
+            List<DynamicProperty> dynamicAssociation = entity.getAssociation();
+            ((List<Element>) ((Element) predefinedAssociationNode).elements()).forEach(propertyElement -> {
+                Map<String, Object> property = new LinkedHashMap<>();
+                dynamicAssociation.forEach(dynamicProperty -> {
+                    String propertyName = dynamicProperty.getName();
+                    Node propertyNode = propertyElement.element(propertyName);
+                    String propertyType = dynamicProperty.getType();
+                    if (propertyNode != null) {
+                        if ("Boolean".equals(propertyType)) {
+                            property.put(propertyName, Boolean.valueOf(propertyNode.getText()));
+                        } else if ("Long".equals(propertyType)) {
+                            property.put(propertyName, Long.valueOf(propertyNode.getText()));
+                        } else if ("Double".equals(propertyType)) {
+                            property.put(propertyName, Double.valueOf(propertyNode.getText()));
+                        } else if ("String".equals(propertyType)) {
+                            property.put(propertyName, propertyNode.getText());
+                        } else if ("Date".equals(propertyType)) {
+                            property.put(propertyName, Long.valueOf(propertyNode.getText()));
+                        } else if ("Enum".equals(propertyType)) {
+                            property.put(propertyName, propertyNode.getText());
+                        } else if ("Model".equals(propertyType)) {
+                            property.put(propertyName, Long.valueOf(propertyNode.getText()));
+                        }
+                    }
+                });
+                entity.getPredefinedAssociation().add(property);
             });
         }
 

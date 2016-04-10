@@ -4,9 +4,10 @@ define(
         "use strict";
 
         module.controller("dataModelManageController", [
-            "$scope", "$uibModal", "$routeParams", "dataModelApi", "templateStrategyApi", "dynamicModelApi", "generatorInstanceApi", "$q","alert", "viewPage",
-            function($scope, $uibModal, $routeParams, dataModelApi, templateStrategyApi, dynamicModelApi, generatorInstanceApi, $q, alert, viewPage){
+            "$scope", "$uibModal", "$routeParams", "dataModelApi", "templateStrategyApi", "dynamicModelApi", "generatorInstanceApi", "$q","alert", "viewPage", "clipboard",
+            function($scope, $uibModal, $routeParams, dataModelApi, templateStrategyApi, dynamicModelApi, generatorInstanceApi, $q, alert, viewPage, clipboard){
                 viewPage.setViewPageTitle("工作台");
+
                 var generatorInstanceId = $routeParams.generatorInstanceId;
                 var dynamicModelCache = {};
                 var dataModelCache = {};
@@ -199,7 +200,7 @@ define(
                     });
                 };
 
-                $scope.consoleModalOpen = function(){
+                $scope.openConsoleModal = function(){
                     $uibModal.open({
                         size: "lg",
                         templateUrl: "dataModel/console.html",
@@ -275,7 +276,7 @@ define(
                             var property = association[i];
                             var newProperty = {};
                             for(var k in property){
-                                if(property[k] == undefined || property[k] == null){
+                                if(k == "__hashKey" || property[k] == undefined || property[k] == null){
                                     continue;
                                 }
                                 if(k in dynamicModelKeys.associationKeys.dateTypeKeys){
@@ -454,6 +455,57 @@ define(
                             }
                         }
                         dataModel.association.push(record);
+                        dataModel.$scope.dataModelEditForm.$setDirty();
+                    },
+                    addPredefinedProperty:function(dataModel){
+                        var predefinedAssociation = dataModel.dynamicModel.predefinedAssociation;
+                        for(var i = 0 ; i < predefinedAssociation.length ; i++){
+                            var property = predefinedAssociation[i];
+                            var record = {};
+                            for(var k in property){
+                                record[k] = property[k];
+                            }
+                            dataModel.association.push(record);
+                        }
+                        dataModel.$scope.dataModelEditForm.$setDirty();
+                    },
+                    copyProperty:function(dataModel){
+                        if(dataModel.$copy){
+                            var association = [];
+                            for(var i = 0 ; i < dataModel.association.length ; i++){
+                                var property = dataModel.association[i];
+                                if(property.$copy){
+                                    delete property.$copy;
+                                    var record = {};
+                                    for(var k in property){
+                                        if(k == "$$hashKey" || k == "__hashKey"){
+                                            continue;
+                                        }
+                                        record[k] = property[k];
+                                    }
+                                    association.push(record);
+                                }
+                            }
+                            clipboard.copy(dataModel.dynamicModel.id, association);
+                        }
+                        dataModel.$copy = !dataModel.$copy;
+                    },
+                    hasClipboard:function(dataModel){
+                        return !!clipboard.get(dataModel.dynamicModel.id);
+                    },
+                    pasteProperty:function(dataModel){
+                        var association = clipboard.get(dataModel.dynamicModel.id);
+                        if(!association){
+                            return;
+                        }
+                        for(var i = 0 ; i < association.length ; i++){
+                            var property = association[i];
+                            var record = {};
+                            for(var k in property){
+                                record[k] = property[k];
+                            }
+                            dataModel.association.push(record);
+                        }
                         dataModel.$scope.dataModelEditForm.$setDirty();
                     },
                     removeProperty:function(dataModel, $index){

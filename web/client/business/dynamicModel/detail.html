@@ -80,6 +80,35 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered table-condensed table-hover">
+                                <caption><label>预设属性</label></caption>
+                                <thead>
+                                <tr class="active">
+                                    <th width="25">#</th>
+                                    <th width="{{property.viewWidth}}" ng-repeat="property in dynamicModel.association">{{property.label}}</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                                </thead>
+                                <tbody >
+                                <tr ng-repeat="propertyValue in dynamicModel.predefinedAssociation">
+                                    <td>{{$index + 1}}</td>
+                                    <td ng-repeat="property in dynamicModel.association" ng-switch="property.type">
+                                        <span ng-switch-when="Boolean">{{propertyValue[property.name]}}</span>
+                                        <span ng-switch-when="Long">{{propertyValue[property.name]}}</span>
+                                        <span ng-switch-when="Double">{{propertyValue[property.name]}}</span>
+                                        <span ng-switch-when="String">{{propertyValue[property.name]}}</span>
+                                        <span ng-switch-when="Date">{{propertyValue[property.name]  | date : 'yyyy-MM-dd'}}</span>
+                                        <span ng-switch-when="Enum">{{propertyValue[property.name]}}</span>
+                                        <span ng-switch-when="Model">{{propertyValue[property.name]}}</span>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-sm-3 col-sm-offset-4">
                             <button type="button" class="btn btn-warning btn-sm" location-go="/business/dynamicModel/update/{{dynamicModel.id}}">修改</button>
                             <button type="button" class="btn btn-primary btn-sm" location-back="/business/dynamicModel/manage/{{dynamicModel.generator.id}}">返回</button>

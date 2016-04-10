@@ -306,6 +306,63 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered table-condensed table-hover">
+                                <caption><label class="col-sm-1">预设属性</label> <button type="button" class="btn btn-primary btn-sm" ng-click="predefinedAssociationControl.add();">添加</button></caption>
+                                <thead>
+                                <tr class="active">
+                                    <th width="25">#</th>
+                                    <th width="{{property.viewWidth}}" ng-repeat="property in createRequest.association">
+                                        <span ng-class="{'text-danger': property.validator.required}">{{property.label}}</span>
+                                    </th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody ui-sortable="predefinedAssociationControl.sortableOptions" ng-model="createRequest.predefinedAssociation">
+                                <tr ng-repeat="propertyValue in createRequest.predefinedAssociation">
+                                    <td>{{$index + 1}}</td>
+                                    <td ng-repeat="property in createRequest.association" ng-switch="property.type" ng-init="propertyValue.__hashKey = hashKey(propertyValue)">
+                                        <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
+                                               tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
+                                               ng-switch-when="Boolean" ng-model="propertyValue[property.name]" type="checkbox" ng-true-value="true" ng-false-value="false"/>
+                                        <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
+                                               tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
+                                               ng-switch-when="Long" ng-model="propertyValue[property.name]" type="number" class="form-control input-sm"
+                                               min="property.validator.min" max="property.validator.max" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
+                                        <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
+                                               tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
+                                               ng-switch-when="Double" ng-model="propertyValue[property.name]" type="number" class="form-control input-sm"
+                                               min="property.validator.min" max="property.validator.max" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
+                                        <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
+                                               tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
+                                               ng-switch-when="String" ng-model="propertyValue[property.name]" type="text" class="form-control input-sm"
+                                               ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
+                                        <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
+                                               tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
+                                               ng-switch-when="Date" ng-model="propertyValue[property.name]" type="text" readonly="readonly" class="form-control input-sm" datepicker-popup="yyyy-MM-dd" is-open="opened" ng-click="opened = !opened" close-text="关闭" current-text="今天"  clear-text="清除"
+                                               ng-required="property.validator.required"/>
+                                        <select name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
+                                                tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
+                                                ng-switch-when="Enum" ng-model="propertyValue[property.name]" ng-options="option for option in property.optionalValues" class="form-control input-sm"
+                                                ng-required="property.validator.required">
+                                            <option value="">--选择--</option>
+                                        </select>
+                                        <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
+                                               tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
+                                               ng-switch-when="Model" ng-model="propertyValue[property.name].name" readonly="readonly" type="text" class="form-control input-sm" ng-click="dataModelPickerModalOpen(dataModel,propertyValue,property.name,property.label,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey]);"
+                                               ng-required="property.validator.required"/>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-danger btn-sm" ng-click="predefinedAssociationControl.delete(propertyValue, $index)">删除</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-sm-3 col-sm-offset-4">
                             <button type="button" class="btn btn-warning btn-sm" location-back="/business/dynamicModel/manage/{{createRequest.generatorId}}">取消</button>
                             <button type="button" ng-disabled="dynamicModelCreateForm.$invalid || dynamicModelCreateForm.$pristine || iconControl.$error" class="btn btn-primary btn-sm" ng-click="create()">保存</button>

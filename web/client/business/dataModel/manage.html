@@ -10,7 +10,7 @@
                                 工具<span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="javascript:void(0);" ng-click="consoleModalOpen();">控制台</a></li>
+                                <li><a href="javascript:void(0);" ng-click="openConsoleModal();">控制台</a></li>
                                 <li><a href="javascript:void(0);" ng-click="run();">代码生成</a></li>
                             </ul>
                         </div>
@@ -95,7 +95,12 @@
                             <div class="form-group" ng-if="dataModel.dynamicModel.association.length">
                                 <div class="col-sm-12">
                                     <table class="table table-bordered table-condensed table-hover">
-                                        <caption><button type="button" class="btn btn-primary btn-sm" ng-click="tabsControl.addProperty(dataModel);">添加属性</button></caption>
+                                        <caption>
+                                            <button type="button" class="btn btn-primary btn-sm" ng-click="tabsControl.addProperty(dataModel);">添加属性</button>
+                                            <button type="button" class="btn btn-primary btn-sm" ng-disabled="!dataModel.dynamicModel.predefinedAssociation.length" ng-click="tabsControl.addPredefinedProperty(dataModel);">预设属性</button>
+                                            <button type="button" class="btn btn-sm" ng-class="{'btn-default':!dataModel.$copy,'btn-warning':dataModel.$copy}" ng-click="tabsControl.copyProperty(dataModel);">复制属性</button>
+                                            <button type="button" class="btn btn-default btn-sm" ng-disabled="!tabsControl.hasClipboard(dataModel);" ng-click="tabsControl.pasteProperty(dataModel);">粘贴属性</button>
+                                        </caption>
                                         <thead>
                                         <tr class="active">
                                             <th width="25">#</th>
@@ -106,8 +111,8 @@
                                         </tr>
                                         </thead>
                                         <tbody ui-sortable="sortableOptions" ng-model="dataModel.association">
-                                        <tr ng-repeat="propertyValue in dataModel.association">
-                                            <td>{{$index + 1}}</td>
+                                        <tr ng-repeat="propertyValue in dataModel.association" ng-class="{'warning':propertyValue.$copy}">
+                                            <td ng-click="dataModel.$copy && (propertyValue.$copy = !propertyValue.$copy)">{{$index + 1}}</td>
                                             <td ng-repeat="property in dataModel.dynamicModel.association" ng-switch="property.type" ng-init="propertyValue.__hashKey = hashKey(propertyValue)">
                                                 <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
                                                        tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
@@ -126,7 +131,7 @@
                                                        ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
                                                 <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
                                                        tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
-                                                       ng-switch-when="Date" ng-model="propertyValue[property.name]" type="text" readonly="readonly" class="form-control input-sm" datepicker-popup="yyyy-MM-dd" is-open="opened" ng-click="opened = !opened" close-text="关闭" current-text="今天"  clear-text="清除"
+                                                       ng-switch-when="Date" ng-model="propertyValue[property.name]" type="text" readonly="readonly" class="form-control input-sm" uib-datepicker-popup="yyyy-MM-dd" is-open="opened" ng-click="opened = !opened" close-text="关闭" current-text="今天"  clear-text="清除"
                                                        ng-required="property.validator.required"/>
                                                 <select name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
                                                         tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"

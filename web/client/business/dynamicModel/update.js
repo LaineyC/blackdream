@@ -185,10 +185,73 @@ define(
                             $scope.updateRequest.children.push(child.id);
                         }
                     }
-                    dynamicModelApi.update($scope.updateRequest).success(function(){
+                    dynamicModelApi.update({
+                        id:$scope.updateRequest.id,
+                        name: $scope.updateRequest.name,
+                        icon: $scope.updateRequest.icon,
+                        children: $scope.updateRequest.children,
+                        properties: $scope.updateRequest.properties,
+                        association: $scope.updateRequest.association,
+                        predefinedAssociation: $scope.predefinedAssociationControl.format($scope.updateRequest.predefinedAssociation)
+                    }).success(function(){
                         location.go("/business/dynamicModel/manage/" + $scope.updateRequest.generator.id);
                     });
                 };
+
+                $scope.predefinedAssociationControl = {
+                    sortableOptions:{
+                        update: function(e, ui) {
+                        },
+                        stop: function(e, ui) {
+                            $scope.dynamicModelUpdateForm.$setDirty();
+                        }
+                    },
+                    add:function() {
+                        $scope.updateRequest.predefinedAssociation.push({});
+                        $scope.dynamicModelUpdateForm.$setDirty();
+                    },
+                    delete:function(entity, index) {
+                        $scope.updateRequest.predefinedAssociation.splice(index, 1);
+                        $scope.dynamicModelUpdateForm.$setDirty();
+                    },
+                    format:function(predefinedAssociation){
+                        var association = $scope.updateRequest.association;
+                        var associationKeys = {dateTypeKeys:{},dataModelTypeKeys:{}};
+                        for(var i = 0 ; i < association.length ; i++){
+                            var prop = association[i];
+                            if(prop.type == "Date"){
+                                associationKeys.dateTypeKeys[prop.name] = true;
+                            }
+                            else if(prop.type == "Model"){
+                                associationKeys.dataModelTypeKeys[prop.name] = true;
+                            }
+                            else{
+                                //
+                            }
+                        }
+                        var newPredefinedAssociation = [];
+                        for(var i = 0 ; i < predefinedAssociation.length ;i++){
+                            var property = predefinedAssociation[i];
+                            var newProperty = {};
+                            for(var k in property){
+                                if(property[k] == undefined || property[k] == null){
+                                    continue;
+                                }
+                                if(k in associationKeys.dateTypeKeys){
+                                    newProperty[k] = new Date(property[k]).getTime();
+                                }
+                                else if(k in associationKeys.dataModelTypeKeys){
+                                    newProperty[k] = property[k].id;
+                                }
+                                else{
+                                    newProperty[k] = property[k];
+                                }
+                            }
+                            newPredefinedAssociation.push(newProperty);
+                        }
+                        return newPredefinedAssociation;
+                    }
+                }
 
             }
         ]);
