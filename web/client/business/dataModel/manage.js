@@ -491,7 +491,8 @@ define(
                         dataModel.$copy = !dataModel.$copy;
                     },
                     hasClipboard:function(dataModel){
-                        return !!clipboard.get(dataModel.dynamicModel.id);
+                        var association = clipboard.get(dataModel.dynamicModel.id);
+                        return association && association.length;
                     },
                     pasteProperty:function(dataModel){
                         var association = clipboard.get(dataModel.dynamicModel.id);

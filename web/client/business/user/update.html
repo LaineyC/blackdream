@@ -8,21 +8,9 @@
                         <div class="col-sm-3 form-control-static">{{updateRequest.userName}}</div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-1 control-label">重置密码</label>
-                        <div class="col-sm-3">
-                            <input name="isResetPassword" ng-model="updateRequest.isResetPassword" type="checkbox" class="input-sm" ng-true-value="true" ng-false-value="false"/>
-                        </div>
-                        <div class="col-sm-2">
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label class="col-sm-1 control-label">冻结</label>
                         <div class="col-sm-3">
                             <input name="isDisable" ng-model="updateRequest.isDisable" type="checkbox" class="input-sm" ng-true-value="true" ng-false-value="false"/>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="alert alert-danger" ng-show="userUpdateForm.isDisable.$invalid && userUpdateForm.isDisable.$dirty">
-                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -30,9 +18,11 @@
                         <div class="col-sm-3">
                             <input name="isDeveloper" ng-model="updateRequest.isDeveloper" type="checkbox" class="input-sm" ng-true-value="true" ng-false-value="false"/>
                         </div>
-                        <div class="col-sm-2">
-                            <div class="alert alert-danger" ng-show="userUpdateForm.isDeveloper.$invalid && userUpdateForm.isDeveloper.$dirty">
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">重置密码</label>
+                        <div class="col-sm-3">
+                            <input name="isResetPassword" ng-model="updateRequest.isResetPassword" type="checkbox" class="input-sm" ng-true-value="true" ng-false-value="false"/>
                         </div>
                     </div>
                     <div class="form-group">

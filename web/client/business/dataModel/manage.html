@@ -67,11 +67,11 @@
                                     <input name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
                                            tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
                                            ng-switch-when="Long" ng-model="dataModel.properties[property.name]" type="number" class="form-control input-sm"
-                                           min="property.validator.min" max="property.validator.max" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
+                                           min="{{property.validator.min}}" max="{{property.validator.max}}" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
                                     <input name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
                                            tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
                                            ng-switch-when="Double" ng-model="dataModel.properties[property.name]" type="number" class="form-control input-sm"
-                                           min="property.validator.min" max="property.validator.max" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
+                                           min="{{property.validator.min}}" max="{{property.validator.max}}" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
                                     <input name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
                                            tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
                                            ng-switch-when="String" ng-model="dataModel.properties[property.name]" type="text" class="form-control input-sm"
@@ -120,11 +120,11 @@
                                                 <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
                                                        tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
                                                        ng-switch-when="Long" ng-model="propertyValue[property.name]" type="number" class="form-control input-sm"
-                                                       min="property.validator.min" max="property.validator.max" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
+                                                       min="{{property.validator.min}}" max="{{property.validator.max}}" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
                                                 <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
                                                        tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
                                                        ng-switch-when="Double" ng-model="propertyValue[property.name]" type="number" class="form-control input-sm"
-                                                       min="property.validator.min" max="property.validator.max" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
+                                                       min="{{property.validator.min}}" max="{{property.validator.max}}" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
                                                 <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
                                                        tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
                                                        ng-switch-when="String" ng-model="propertyValue[property.name]" type="text" class="form-control input-sm"
@@ -188,7 +188,7 @@
         <i class="glyphicon glyphicon-plus" ng-class="child.children.length ? (child.$expend ? 'glyphicon-minus' : 'glyphicon-plus') : 'glyphicon-ban-circle'" ng-click="child.$expend =! child.$expend;"></i>
         {{$index + 1}}
         <span class="glyphicon glyphicon-{{child.dynamicModel.icon}}"></span>
-        <label ng-dblclick="dataModelControl.view(child);">{{child.name}}</label>
+        <label ng-dblclick="dataModelControl.view(child);" style="cursor: pointer;">{{child.name}}</label>
         <div class="btn-group pull-right">
             <button ng-if="!child.children.length" type="button" class="btn btn-danger btn-xs" ng-click="dataModelControl.delete(p, $index, child);">
                 <span class="glyphicon glyphicon-remove"></span>

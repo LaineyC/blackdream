@@ -8,7 +8,7 @@ define(
             function($scope, alert, location, userApi, viewPage){
                 viewPage.setViewPageTitle("用户新建");
 
-                $scope.createRequest = {isDisable : false};
+                $scope.createRequest = {isDisable: false, isDeveloper:false};
 
                 $scope.create = function(){
                     userApi.create($scope.createRequest).success(function(){

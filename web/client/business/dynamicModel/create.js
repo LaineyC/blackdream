@@ -83,8 +83,40 @@ define(
                 };
 
                 $scope.getMessage = function(field, $error, validateMessages){
-                    for(var k in $error)
+                    if(!validateMessages)
+                        return;
+                    for(var k in $error){
                         return validateMessages[field][k];
+                    }
+                };
+
+                $scope.resetMessage = function(){
+                    $scope.associationMessages = {};
+                    for(var j = 0 ; j < $scope.createRequest.association.length ; j++){
+                        var property = $scope.createRequest.association[j];
+                        var validator = property.validator;
+                        if(validator){
+                            var fieldMessages = $scope.associationMessages[property.name] = {};
+                            if(validator.required){
+                                fieldMessages.required = "必输项";
+                            }
+                            if(validator.min != null && validator.min != undefined){
+                                fieldMessages.min = "最小" + validator.min;
+                            }
+                            if(validator.max != null && validator.max != undefined){
+                                fieldMessages.max = "最大" + validator.max;
+                            }
+                            if(validator.minlength != null && validator.minlength != undefined){
+                                fieldMessages.minlength = "最短" + validator.minlength + "位";
+                            }
+                            if(validator.maxlength != null && validator.maxlength != undefined){
+                                fieldMessages.maxlength = "最长" + validator.maxlength + "位";
+                            }
+                            if(validator.pattern != null && validator.pattern != undefined){
+                                fieldMessages.pattern = "格式不匹配" + validator.pattern;
+                            }
+                        }
+                    }
                 };
 
                 $scope.propertyControl = {

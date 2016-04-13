@@ -23,16 +23,16 @@
                     <div class="panel-body">
                         <uib-tabset ng-if="!!generatorInstances.length || !!generators.length">
                             <uib-tab active="true" ng-if="!!generatorInstances.length" heading="我的实例">
-                                <br/>
-                                <button ng-repeat="generatorInstance in generatorInstances" type="button" class="btn btn-primary btn-sm btn-block" location-go="/business/generatorInstance/detail/{{generatorInstance.id}}">
-                                    {{generatorInstance.name}}
-                                </button>
+                                <h4 ng-repeat="generatorInstance in generatorInstances">
+                                    <a href="javascript:void(0);" location-go="/business/generatorInstance/detail/{{generatorInstance.id}}"><i class="glyphicon glyphicon-briefcase"></i> {{generatorInstance.name}}</a>
+                                </h4>
+                                <button type="button" class="btn btn-info btn-sm" location-go="/business/generatorInstance/manage">更多</button>
                             </uib-tab>
                             <uib-tab ng-if="!!generators.length" heading="我的生成器">
-                                <br/>
-                                <button ng-repeat="generator in generators" type="button" class="btn btn-primary btn-sm btn-block" location-go="/business/generator/detail/{{generator.id}}">
-                                    {{generator.name}}
-                                </button>
+                                <h4 ng-repeat="generator in generators">
+                                    <a href="javascript:void(0);" location-go="/business/generator/detail/{{generator.id}}"><i class="glyphicon glyphicon-blackboard"></i> {{generator.name}}</a>
+                                </h4>
+                                <button type="button" class="btn btn-info btn-sm" location-go="/business/generator/manage">更多</button>
                             </uib-tab>
                         </uib-tabset>
                     </div>

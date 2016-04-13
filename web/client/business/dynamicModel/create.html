@@ -248,7 +248,7 @@
                                                     <a href="javascript:void(0)">
                                                         <div class="input-group">
                                                             <span class="input-group-addon">必输</span>&nbsp;
-                                                            <input type="checkbox" ng-model="property.validator.required"/>
+                                                            <input type="checkbox" ng-model="property.validator.required" ng-change="resetMessage()"/>
                                                         </div>
                                                     </a>
                                                 </li>
@@ -256,7 +256,7 @@
                                                     <a href="javascript:void(0)">
                                                         <div class="input-group">
                                                             <span class="input-group-addon">最小</span>
-                                                            <input ng-model="property.validator.min" type="number" class="form-control input-sm"/>
+                                                            <input ng-model="property.validator.min" type="number" class="form-control input-sm" ng-change="resetMessage()"/>
                                                         </div>
                                                     </a>
                                                 </li>
@@ -264,7 +264,7 @@
                                                     <a href="javascript:void(0)">
                                                         <div class="input-group">
                                                             <span class="input-group-addon">最大</span>
-                                                            <input ng-model="property.validator.max" type="number" class="form-control input-sm"/>
+                                                            <input ng-model="property.validator.max" type="number" class="form-control input-sm" ng-change="resetMessage()"/>
                                                         </div>
                                                     </a>
                                                 </li>
@@ -272,7 +272,7 @@
                                                     <a href="javascript:void(0)">
                                                         <div class="input-group">
                                                             <span class="input-group-addon">最短</span>
-                                                            <input ng-model="property.validator.minlength" type="number" class="form-control input-sm"/>
+                                                            <input ng-model="property.validator.minlength" type="number" class="form-control input-sm" ng-change="resetMessage()"/>
                                                         </div>
                                                     </a>
                                                 </li>
@@ -280,7 +280,7 @@
                                                     <a href="javascript:void(0)">
                                                         <div class="input-group">
                                                             <span class="input-group-addon">最长</span>
-                                                            <input ng-model="property.validator.maxlength" type="number" class="form-control input-sm"/>
+                                                            <input ng-model="property.validator.maxlength" type="number" class="form-control input-sm" ng-change="resetMessage()"/>
                                                         </div>
                                                     </a>
                                                 </li>
@@ -288,7 +288,7 @@
                                                     <a href="javascript:void(0)">
                                                         <div class="input-group">
                                                             <span class="input-group-addon">正则</span>
-                                                            <input ng-model="property.validator.pattern" type="text" class="form-control input-sm"/>
+                                                            <input ng-model="property.validator.pattern" type="text" class="form-control input-sm" ng-change="resetMessage()"/>
                                                         </div>
                                                     </a>
                                                 </li>
@@ -322,35 +322,37 @@
                                 <tr ng-repeat="propertyValue in createRequest.predefinedAssociation">
                                     <td>{{$index + 1}}</td>
                                     <td ng-repeat="property in createRequest.association" ng-switch="property.type" ng-init="propertyValue.__hashKey = hashKey(propertyValue)">
-                                        <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
+                                        <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey].$error,associationMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
                                                ng-switch-when="Boolean" ng-model="propertyValue[property.name]" type="checkbox" ng-true-value="true" ng-false-value="false"/>
-                                        <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
+                                        <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey].$error,associationMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
                                                ng-switch-when="Long" ng-model="propertyValue[property.name]" type="number" class="form-control input-sm"
-                                               min="property.validator.min" max="property.validator.max" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
-                                        <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
+                                               min="{{property.validator.min}}" max="{{property.validator.max}}" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
+                                        <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey].$error,associationMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
                                                ng-switch-when="Double" ng-model="propertyValue[property.name]" type="number" class="form-control input-sm"
-                                               min="property.validator.min" max="property.validator.max" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
-                                        <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
+                                               min="{{property.validator.min}}" max="{{property.validator.max}}" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
+                                        <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey].$error,associationMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
                                                ng-switch-when="String" ng-model="propertyValue[property.name]" type="text" class="form-control input-sm"
                                                ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
-                                        <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
+                                        <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey].$error,associationMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
                                                ng-switch-when="Date" ng-model="propertyValue[property.name]" type="text" readonly="readonly" class="form-control input-sm" datepicker-popup="yyyy-MM-dd" is-open="opened" ng-click="opened = !opened" close-text="关闭" current-text="今天"  clear-text="清除"
                                                ng-required="property.validator.required"/>
-                                        <select name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
+                                        <select name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey].$error,associationMessages)}}"
                                                 tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
                                                 ng-switch-when="Enum" ng-model="propertyValue[property.name]" ng-options="option for option in property.optionalValues" class="form-control input-sm"
                                                 ng-required="property.validator.required">
                                             <option value="">--选择--</option>
                                         </select>
-                                        <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
+                                        <!--
+                                        <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey].$error,associationMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
                                                ng-switch-when="Model" ng-model="propertyValue[property.name].name" readonly="readonly" type="text" class="form-control input-sm" ng-click="dataModelPickerModalOpen(dataModel,propertyValue,property.name,property.label,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey]);"
                                                ng-required="property.validator.required"/>
+                                         -->
                                     </td>
                                     <td>
                                         <div class="btn-group">
