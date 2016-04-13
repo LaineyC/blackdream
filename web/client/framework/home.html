@@ -23,15 +23,15 @@
                     <div class="panel-body">
                         <uib-tabset ng-if="!!generatorInstances.length || !!generators.length">
                             <uib-tab active="true" ng-if="!!generatorInstances.length" heading="我的实例">
-                                <h4 ng-repeat="generatorInstance in generatorInstances">
+                                <h5 ng-repeat="generatorInstance in generatorInstances">
                                     <a href="javascript:void(0);" location-go="/business/generatorInstance/detail/{{generatorInstance.id}}"><i class="glyphicon glyphicon-briefcase"></i> {{generatorInstance.name}}</a>
-                                </h4>
+                                </h5>
                                 <button type="button" class="btn btn-info btn-sm" location-go="/business/generatorInstance/manage">更多</button>
                             </uib-tab>
                             <uib-tab ng-if="!!generators.length" heading="我的生成器">
-                                <h4 ng-repeat="generator in generators">
+                                <h5 ng-repeat="generator in generators">
                                     <a href="javascript:void(0);" location-go="/business/generator/detail/{{generator.id}}"><i class="glyphicon glyphicon-blackboard"></i> {{generator.name}}</a>
-                                </h4>
+                                </h5>
                                 <button type="button" class="btn btn-info btn-sm" location-go="/business/generator/manage">更多</button>
                             </uib-tab>
                         </uib-tabset>
