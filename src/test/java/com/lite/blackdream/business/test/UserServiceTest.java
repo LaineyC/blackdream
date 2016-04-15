@@ -15,14 +15,13 @@ public class UserServiceTest extends ServiceTest {
     @Autowired
     private UserService userService;
 
-
     @Test
     public void create(){
         UserCreateRequest userCreateRequest = new UserCreateRequest();
         userCreateRequest.setUserName("cboss");
         userCreateRequest.setIsDisable(false);
         User currentUser = new User();
-        userCreateRequest.setCurrentUser(currentUser);
+        //userCreateRequest.setCurrentUser(currentUser);
         userService.create(userCreateRequest);
     }
 

@@ -5,15 +5,13 @@ import com.lite.blackdream.business.domain.DynamicModel;
 import com.lite.blackdream.business.domain.DynamicProperty;
 import com.lite.blackdream.business.domain.GeneratorInstance;
 import com.lite.blackdream.business.repository.DynamicModelRepository;
-import com.lite.blackdream.framework.layer.BaseElementConverter;
-import com.lite.blackdream.framework.model.Domain;
+import com.lite.blackdream.framework.component.BaseElementConverter;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;

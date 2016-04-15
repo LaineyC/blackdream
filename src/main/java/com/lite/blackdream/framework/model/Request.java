@@ -1,24 +1,22 @@
 package com.lite.blackdream.framework.model;
 
-import com.lite.blackdream.business.domain.User;
-
 /**
  * @author LaineyC
  */
 public class Request {
 
-    private User currentUser;
+    private Authentication authentication;
 
     public Request(){
 
     }
 
-    public User getCurrentUser() {
-        return currentUser;
+    public Authentication getAuthentication() {
+        return authentication;
     }
 
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
+    public void setAuthentication(Authentication authentication) {
+        this.authentication = authentication;
     }
 
 }

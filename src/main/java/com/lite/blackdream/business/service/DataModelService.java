@@ -2,7 +2,7 @@ package com.lite.blackdream.business.service;
 
 import com.lite.blackdream.business.domain.DataModel;
 import com.lite.blackdream.business.parameter.datamodel.*;
-import com.lite.blackdream.framework.layer.Service;
+import com.lite.blackdream.framework.component.Service;
 
 /**
  * @author LaineyC

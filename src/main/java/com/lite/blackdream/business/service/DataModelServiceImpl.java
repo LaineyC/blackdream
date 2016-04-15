@@ -8,7 +8,7 @@ import com.lite.blackdream.business.repository.DataModelRepository;
 import com.lite.blackdream.business.repository.DynamicModelRepository;
 import com.lite.blackdream.business.repository.GeneratorInstanceRepository;
 import com.lite.blackdream.framework.exception.AppException;
-import com.lite.blackdream.framework.layer.BaseService;
+import com.lite.blackdream.framework.component.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.LinkedList;

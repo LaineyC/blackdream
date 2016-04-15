@@ -28,10 +28,8 @@ public class SecurityInterceptor extends HandlerInterceptorAdapter{
             return true;
         }
         HttpSession session = request.getSession();
-        if(session.getAttribute("user") == null){
-            ErrorMessage errorMessage = new ErrorMessage("权限不足");
-            errorMessage.setCode("401");
-            throw new AppException(errorMessage);
+        if(session.getAttribute("authentication") == null){
+            throw new AppException(new ErrorMessage("401", "权限不足"));
         }
         return true;
     }

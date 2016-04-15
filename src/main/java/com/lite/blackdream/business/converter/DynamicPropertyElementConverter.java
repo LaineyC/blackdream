@@ -1,8 +1,7 @@
 package com.lite.blackdream.business.converter;
 
 import com.lite.blackdream.business.domain.DynamicProperty;
-import com.lite.blackdream.business.domain.tag.Tag;
-import com.lite.blackdream.framework.layer.BaseElementConverter;
+import com.lite.blackdream.framework.component.BaseElementConverter;
 import org.dom4j.Attribute;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;

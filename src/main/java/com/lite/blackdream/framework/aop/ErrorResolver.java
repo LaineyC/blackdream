@@ -37,19 +37,22 @@ public class ErrorResolver implements HandlerExceptionResolver {
 
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception exception) {
         RequestWrapper requestWrapper = (RequestWrapper)request;
-        HttpSession session = request.getSession(false);
-        String sessionId = session == null ? null : session.getId();
-        ModelAndView modelAndView = new ModelAndView();
         String method = requestWrapper.getParameter("method");
         ErrorMessage errorMessage;
         if(exception instanceof AppException){
             AppException appException = (AppException)exception;
             errorMessage = appException.getErrorMessage();
-            logger.error("ip=" + WebUtil.getIp(request) + ",session=" + sessionId + ",method=" + method  + ",parameter=" + requestWrapper.getRequestLog() + ",message=" + errorMessage.getMessage());
+            Throwable cause = appException.getCause();
+            if(cause == null){
+                logger.error("ip=" + WebUtil.getIp(request) + ",method=" + method  + ",parameter=" + requestWrapper.getRequestLog() + ",message=" + errorMessage.getMessage());
+            }
+            else{
+                logger.error("ip=" + WebUtil.getIp(request) + ",method=" + method  + ",parameter=" + requestWrapper.getRequestLog() + ",message=" + errorMessage.getMessage(), exception);
+            }
         }
         else{
             errorMessage = new ErrorMessage("[" + method + "]服务不可用");
-            logger.error("ip=" + WebUtil.getIp(request) + ",session=" + sessionId + ",method=" + method  + ",parameter=" + requestWrapper.getRequestLog() + ",message=" + errorMessage.getMessage(), exception);
+            logger.error("ip=" + WebUtil.getIp(request) + ",method=" + method  + ",parameter=" + requestWrapper.getRequestLog() + ",message=" + errorMessage.getMessage(), exception);
         }
         HttpInputMessage inputMessage = new ServletServerHttpRequest(requestWrapper);
         List<MediaType> acceptedMediaTypes = inputMessage.getHeaders().getAccept();
@@ -66,7 +69,7 @@ public class ErrorResolver implements HandlerExceptionResolver {
                 break;
             }
         }
-        return modelAndView;
+        return new ModelAndView();
     }
 
 }

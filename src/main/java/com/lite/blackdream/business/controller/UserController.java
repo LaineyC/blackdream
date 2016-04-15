@@ -3,7 +3,8 @@ package com.lite.blackdream.business.controller;
 import com.lite.blackdream.business.domain.User;
 import com.lite.blackdream.business.parameter.user.*;
 import com.lite.blackdream.business.service.UserService;
-import com.lite.blackdream.framework.layer.BaseController;
+import com.lite.blackdream.framework.component.BaseController;
+import com.lite.blackdream.framework.model.Authentication;
 import com.lite.blackdream.framework.model.PagerResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,14 +39,17 @@ public class UserController extends BaseController {
     @RequestMapping(params="method=user.login")
     public UserLoginResponse login(UserLoginRequest request, HttpServletRequest servletRequest) {
         User user = userService.login(request);
-        servletRequest.getSession().setAttribute("user", user);
+        Authentication authentication = new Authentication();
+        authentication.setUserId(user.getId());
+        authentication.setUserName(user.getUserName());
+        servletRequest.getSession().setAttribute("authentication", authentication);
         return new UserLoginResponse(user);
     }
 
     @ResponseBody
     @RequestMapping(params="method=user.logout")
     public UserLogoutResponse logout(UserLogoutRequest request, HttpServletRequest servletRequest) {
-        servletRequest.getSession().removeAttribute("user");
+        servletRequest.getSession().removeAttribute("authentication");
         return new UserLogoutResponse(null);
     }
 

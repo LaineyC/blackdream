@@ -1,7 +1,7 @@
 package com.lite.blackdream.business.converter;
 
 import com.lite.blackdream.business.domain.tag.Tag;
-import com.lite.blackdream.framework.layer.ElementConverter;
+import com.lite.blackdream.framework.component.ElementConverter;
 import com.lite.blackdream.framework.model.BeanDefinition;
 import com.lite.blackdream.framework.model.Domain;
 import com.lite.blackdream.framework.util.ReflectionUtil;

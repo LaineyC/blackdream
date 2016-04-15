@@ -6,7 +6,7 @@ import com.lite.blackdream.business.parameter.dynamicmodel.*;
 import com.lite.blackdream.business.repository.DynamicModelRepository;
 import com.lite.blackdream.business.repository.GeneratorRepository;
 import com.lite.blackdream.framework.exception.AppException;
-import com.lite.blackdream.framework.layer.BaseService;
+import com.lite.blackdream.framework.component.BaseService;
 import com.lite.blackdream.framework.model.PagerResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

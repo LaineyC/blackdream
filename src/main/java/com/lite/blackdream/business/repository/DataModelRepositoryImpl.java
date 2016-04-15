@@ -1,9 +1,7 @@
 package com.lite.blackdream.business.repository;
 
 import com.lite.blackdream.business.domain.DataModel;
-import com.lite.blackdream.framework.exception.AppException;
-import com.lite.blackdream.framework.exception.ErrorMessage;
-import com.lite.blackdream.framework.layer.BaseRepository;
+import com.lite.blackdream.framework.component.BaseRepository;
 import com.lite.blackdream.framework.model.DirtyData;
 import com.lite.blackdream.framework.util.FileUtil;
 import org.apache.commons.logging.Log;

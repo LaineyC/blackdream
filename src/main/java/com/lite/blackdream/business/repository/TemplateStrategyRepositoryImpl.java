@@ -1,7 +1,7 @@
 package com.lite.blackdream.business.repository;
 
 import com.lite.blackdream.business.domain.TemplateStrategy;
-import com.lite.blackdream.framework.layer.BaseRepository;
+import com.lite.blackdream.framework.component.BaseRepository;
 import org.springframework.stereotype.Repository;
 
 /**

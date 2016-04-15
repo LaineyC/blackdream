@@ -2,7 +2,7 @@ package com.lite.blackdream.business.service;
 
 import com.lite.blackdream.business.domain.User;
 import com.lite.blackdream.business.parameter.user.*;
-import com.lite.blackdream.framework.layer.Service;
+import com.lite.blackdream.framework.component.Service;
 import com.lite.blackdream.framework.model.PagerResult;
 
 /**

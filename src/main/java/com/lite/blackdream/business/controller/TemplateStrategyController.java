@@ -3,7 +3,7 @@ package com.lite.blackdream.business.controller;
 import com.lite.blackdream.business.domain.TemplateStrategy;
 import com.lite.blackdream.business.parameter.templatestrategy.*;
 import com.lite.blackdream.business.service.TemplateStrategyService;
-import com.lite.blackdream.framework.layer.BaseController;
+import com.lite.blackdream.framework.component.BaseController;
 import com.lite.blackdream.framework.model.PagerResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

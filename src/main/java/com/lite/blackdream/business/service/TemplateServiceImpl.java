@@ -2,22 +2,19 @@ package com.lite.blackdream.business.service;
 
 import com.lite.blackdream.business.domain.Generator;
 import com.lite.blackdream.business.domain.Template;
-import com.lite.blackdream.business.domain.User;
 import com.lite.blackdream.business.parameter.template.*;
 import com.lite.blackdream.business.repository.GeneratorRepository;
 import com.lite.blackdream.business.repository.TemplateRepository;
 import com.lite.blackdream.framework.exception.AppException;
-import com.lite.blackdream.framework.layer.BaseService;
+import com.lite.blackdream.framework.component.BaseService;
 import com.lite.blackdream.framework.model.Base64FileItem;
 import com.lite.blackdream.framework.model.PagerResult;
 import com.lite.blackdream.framework.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 

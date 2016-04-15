@@ -4,7 +4,8 @@ import com.lite.blackdream.business.domain.User;
 import com.lite.blackdream.business.parameter.user.*;
 import com.lite.blackdream.business.repository.UserRepository;
 import com.lite.blackdream.framework.exception.AppException;
-import com.lite.blackdream.framework.layer.BaseService;
+import com.lite.blackdream.framework.component.BaseService;
+import com.lite.blackdream.framework.model.Authentication;
 import com.lite.blackdream.framework.model.PagerResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,7 +32,9 @@ public class UserServiceImpl extends BaseService implements UserService {
 
     @Override
     public User create(UserCreateRequest request) {
-        User currentUser = request.getCurrentUser();
+        Authentication authentication = request.getAuthentication();
+        Long userId = authentication.getUserId();
+        User currentUser = userRepository.selectById(userId);
         if(currentUser.getCreator() != null){
             throw new AppException("权限不足");
         }
@@ -95,7 +98,9 @@ public class UserServiceImpl extends BaseService implements UserService {
 
     @Override
     public User update(UserUpdateRequest request) {
-        User currentUser = request.getCurrentUser();
+        Authentication authentication = request.getAuthentication();
+        Long userId = authentication.getUserId();
+        User currentUser = userRepository.selectById(userId);
         if(currentUser.getCreator() != null){
             throw new AppException("权限不足");
         }
@@ -117,8 +122,9 @@ public class UserServiceImpl extends BaseService implements UserService {
 
     @Override
     public void passwordUpdate(UserPasswordUpdateRequest request) {
-        User currentUser = request.getCurrentUser();
-        User userPersistence = userRepository.selectById(currentUser.getId());
+        Authentication authentication = request.getAuthentication();
+        Long userId = authentication.getUserId();
+        User userPersistence = userRepository.selectById(userId);
         if(userPersistence == null){
             throw new AppException("用户不存在");
         }
@@ -134,9 +140,10 @@ public class UserServiceImpl extends BaseService implements UserService {
 
     @Override
     public User get(UserGetRequest request) {
-        User currentUser = request.getCurrentUser();
+        Authentication authentication = request.getAuthentication();
+        Long userId = authentication.getUserId();
         if(request.getId() == null) {
-            request.setId(currentUser.getId());
+            request.setId(userId);
         }
         User userPersistence = userRepository.selectById(request.getId());
         User user = new User();

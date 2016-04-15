@@ -1,7 +1,7 @@
 package com.lite.blackdream.business.repository;
 
 import com.lite.blackdream.business.domain.GeneratorInstance;
-import com.lite.blackdream.framework.layer.Repository;
+import com.lite.blackdream.framework.component.Repository;
 
 /**
  * @author LaineyC

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.lite.blackdream.business.domain.DataModel;
 import com.lite.blackdream.business.domain.User;
+import com.lite.blackdream.framework.model.Authentication;
 import com.lite.blackdream.framework.model.Base64FileItem;
 import com.lite.blackdream.framework.model.Request;
 import com.lite.blackdream.framework.util.JsonObjectMapper;
@@ -49,12 +50,9 @@ public class RequestHandlerInterceptor extends HandlerInterceptorAdapter {
         Request requestBody = (Request)requestInstanceObjectMapper.readValue(requestWrapper.getRequestData(), clazz);
         requestWrapper.setRequestBody(requestBody);
 
-        User currentUser = (User)requestWrapper.getSession().getAttribute("user");
-        if(currentUser != null){
-            User user = new User();
-            user.setId(currentUser.getId());
-            user.setUserName(currentUser.getUserName());
-            requestBody.setCurrentUser(user);
+        Authentication authentication = (Authentication)requestWrapper.getSession().getAttribute("authentication");
+        if(authentication != null){
+            requestBody.setAuthentication(authentication);
         }
 
         String requestLog = requestLogObjectMapper.writeValueAsString(requestBody);

@@ -11,6 +11,11 @@ public class ErrorMessage {
 
     private String message;
 
+    public ErrorMessage(String code, String message) {
+        this.code = code;
+        this.message = message;
+    }
+
     public ErrorMessage(String message) {
         this.message = message;
     }

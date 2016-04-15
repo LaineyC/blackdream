@@ -8,7 +8,7 @@ import com.lite.blackdream.business.parameter.templatestrategy.*;
 import com.lite.blackdream.business.repository.GeneratorRepository;
 import com.lite.blackdream.business.repository.TemplateStrategyRepository;
 import com.lite.blackdream.framework.exception.AppException;
-import com.lite.blackdream.framework.layer.BaseService;
+import com.lite.blackdream.framework.component.BaseService;
 import com.lite.blackdream.framework.model.BeanDefinition;
 import com.lite.blackdream.framework.model.Domain;
 import com.lite.blackdream.framework.model.PagerResult;

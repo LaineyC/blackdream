@@ -8,7 +8,8 @@ import com.lite.blackdream.business.parameter.generatorinstance.*;
 import com.lite.blackdream.business.repository.*;
 import com.lite.blackdream.framework.el.Context;
 import com.lite.blackdream.framework.exception.AppException;
-import com.lite.blackdream.framework.layer.BaseService;
+import com.lite.blackdream.framework.component.BaseService;
+import com.lite.blackdream.framework.model.Authentication;
 import com.lite.blackdream.framework.model.PagerResult;
 import com.lite.blackdream.framework.util.FileUtil;
 import com.lite.blackdream.framework.util.ZipUtils;
@@ -48,7 +49,8 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
 
     @Override
     public GeneratorInstance create(GeneratorInstanceCreateRequest request) {
-        User currentUser = request.getCurrentUser();
+        Authentication authentication = request.getAuthentication();
+        Long userId = authentication.getUserId();
         GeneratorInstance generatorInstance = new GeneratorInstance();
         generatorInstance.setId(idWorker.nextId());
         generatorInstance.setName(request.getName());
@@ -59,7 +61,9 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             throw new AppException("生成器不存在");
         }
         generatorInstance.setGenerator(generatorPersistence);
-        generatorInstance.setUser(currentUser);
+        User user = new User();
+        user.setId(userId);
+        generatorInstance.setUser(user);
 
         DataModel dataModel = new DataModel();
         dataModel.setId(idWorker.nextId());
@@ -106,8 +110,8 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
 
     @Override
     public PagerResult<GeneratorInstance> search(GeneratorInstanceSearchRequest request) {
-        User currentUser = request.getCurrentUser();
-        Long userId = currentUser.getId();
+        Authentication authentication = request.getAuthentication();
+        Long userId = authentication.getUserId();
         String name =  StringUtils.hasText(request.getName())  ? request.getName() : null;
         List<GeneratorInstance> records = generatorInstanceRepository.filter(generatorInstance -> {
             if(generatorInstance.getIsDelete()){
@@ -176,7 +180,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
 
     @Override
     public Object run(GeneratorInstanceRunRequest request) {
-        User currentUser = request.getCurrentUser();
+        Authentication authentication = request.getAuthentication();
         Long id = request.getId();
         GeneratorInstance generatorInstance = generatorInstanceRepository.selectById(id);
 
@@ -186,7 +190,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         Long generatorId = generatorInstance.getGenerator().getId();
         DynamicModelQueryRequest dynamicModelQueryRequest = new DynamicModelQueryRequest();
         dynamicModelQueryRequest.setGeneratorId(generatorId);
-        dynamicModelQueryRequest.setCurrentUser(currentUser);
+        dynamicModelQueryRequest.setAuthentication(authentication);
         List<DynamicModel> dynamicModels = dynamicModelService.query(dynamicModelQueryRequest);
         Map<Long, DynamicModel> dynamicModelCache = new HashMap<>();
         Map<Long, Map<String,  Map<String, Set<String>>>> dynamicModelKeysCache = new HashMap<>();
@@ -338,10 +342,8 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         global.setGenerateId(generateId);
         global.setTemplateCache(templateCache);
         User user = new User();
-        user.setId(currentUser.getId());
-        user.setUserName(currentUser.getUserName());
-        user.setLoginCount(currentUser.getLoginCount());
-        user.setIsDeveloper(currentUser.getIsDeveloper());
+        user.setId(authentication.getUserId());
+        user.setUserName(authentication.getUserName());
         global.setUser(user);
 
         Context context = new Context();
@@ -364,7 +366,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             }
             return messageList;
         }
-        String generatePath = FileUtil.codebasePath + FileUtil.fileSeparator + currentUser.getId() + FileUtil.fileSeparator + generateId;
+        String generatePath = FileUtil.codebasePath + FileUtil.fileSeparator + authentication.getUserId() + FileUtil.fileSeparator + generateId;
         File generateFolder = new File(generatePath);
         try {
             ZipUtils.compress(generateFolder);
@@ -373,7 +375,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             throw new AppException(e,"压缩代码失败");
         }
         FileUtil.deleteFile(generateFolder);
-        return "/Codebase/" + currentUser.getId() + "/" + generateId + ".zip";
+        return "/Codebase/" + authentication.getUserId() + "/" + generateId + ".zip";
     }
 
 }

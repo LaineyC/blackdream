@@ -2,7 +2,7 @@ package com.lite.blackdream.business.service;
 
 import com.lite.blackdream.business.domain.TemplateStrategy;
 import com.lite.blackdream.business.parameter.templatestrategy.*;
-import com.lite.blackdream.framework.layer.Service;
+import com.lite.blackdream.framework.component.Service;
 import com.lite.blackdream.framework.model.PagerResult;
 
 import java.util.List;

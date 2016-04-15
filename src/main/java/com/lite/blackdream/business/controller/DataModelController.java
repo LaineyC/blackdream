@@ -3,7 +3,7 @@ package com.lite.blackdream.business.controller;
 import com.lite.blackdream.business.domain.DataModel;
 import com.lite.blackdream.business.parameter.datamodel.*;
 import com.lite.blackdream.business.service.DataModelService;
-import com.lite.blackdream.framework.layer.BaseController;
+import com.lite.blackdream.framework.component.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

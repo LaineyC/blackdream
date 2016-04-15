@@ -25,10 +25,8 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
 
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception exception) throws Exception {
         RequestWrapper requestWrapper = (RequestWrapper)request;
-        HttpSession session = request.getSession(false);
-        String sessionId = session == null ? null : session.getId();
         String method = requestWrapper.getParameter("method");
-        logger.info("ip=" + WebUtil.getIp(request) + ",session=" + sessionId + ",method=" + method +  ",parameter=" + requestWrapper.getRequestLog());
+        logger.info("ip=" + WebUtil.getIp(request) + ",method=" + method +  ",parameter=" + requestWrapper.getRequestLog());
     }
 
 }

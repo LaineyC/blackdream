@@ -6,7 +6,8 @@ import com.lite.blackdream.business.parameter.generator.*;
 import com.lite.blackdream.business.repository.GeneratorRepository;
 import com.lite.blackdream.business.repository.UserRepository;
 import com.lite.blackdream.framework.exception.AppException;
-import com.lite.blackdream.framework.layer.BaseService;
+import com.lite.blackdream.framework.component.BaseService;
+import com.lite.blackdream.framework.model.Authentication;
 import com.lite.blackdream.framework.model.PagerResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,14 +29,17 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
 
     @Override
     public Generator create(GeneratorCreateRequest request) {
-        User currentUser = request.getCurrentUser();
+        Authentication authentication = request.getAuthentication();
+        Long userId = authentication.getUserId();
         Generator generator = new Generator();
         generator.setId(idWorker.nextId());
         generator.setName(request.getName());
         generator.setIsDelete(false);
         generator.setIsOpen(request.getIsOpen());
         generator.setDescription(request.getDescription());
-        generator.setDeveloper(currentUser);
+        User developer = new User();
+        developer.setId(userId);
+        generator.setDeveloper(developer);
         generatorRepository.insert(generator);
         return generator;
     }
@@ -47,13 +51,14 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
 
     @Override
     public Generator get(GeneratorGetRequest request) {
-        User currentUser = request.getCurrentUser();
+        Authentication authentication = request.getAuthentication();
+        Long userId = authentication.getUserId();
         Long id = request.getId();
         Generator generatorPersistence = generatorRepository.selectById(id);
         if(generatorPersistence == null){
             throw new AppException("项目不存在");
         }
-        if(!currentUser.getId().equals(generatorPersistence.getDeveloper().getId())){
+        if(!userId.equals(generatorPersistence.getDeveloper().getId())){
             throw new AppException("权限不足");
         }
         Generator generator = new Generator();
@@ -122,13 +127,14 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
 
     @Override
     public Generator update(GeneratorUpdateRequest request) {
-        User currentUser = request.getCurrentUser();
+        Authentication authentication = request.getAuthentication();
+        Long userId = authentication.getUserId();
         Long id = request.getId();
         Generator generatorPersistence = generatorRepository.selectById(id);
         if(generatorPersistence == null){
             throw new AppException("项目不存在");
         }
-        if(!currentUser.getId().equals(generatorPersistence.getDeveloper().getId())){
+        if(!userId.equals(generatorPersistence.getDeveloper().getId())){
             throw new AppException("权限不足");
         }
         generatorPersistence.setName(request.getName());
