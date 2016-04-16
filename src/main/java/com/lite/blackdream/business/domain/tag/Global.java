@@ -1,5 +1,6 @@
 package com.lite.blackdream.business.domain.tag;
 
+import com.lite.blackdream.business.domain.Generator;
 import com.lite.blackdream.business.domain.Template;
 import com.lite.blackdream.business.domain.User;
 
@@ -16,6 +17,8 @@ public class Global {
     private Long generateId;
 
     private User user;
+
+    private Generator generator;
 
     private Map<Long, Template> templateCache = new HashMap<>();
 
@@ -37,6 +40,14 @@ public class Global {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Generator getGenerator() {
+        return generator;
+    }
+
+    public void setGenerator(Generator generator) {
+        this.generator = generator;
     }
 
     public Map<Long, Template> getTemplateCache() {

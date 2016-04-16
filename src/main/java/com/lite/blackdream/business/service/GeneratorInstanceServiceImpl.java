@@ -39,9 +39,6 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
     private TemplateStrategyRepository templateStrategyRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private TemplateRepository templateRepository;
 
     @Autowired
@@ -188,6 +185,8 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         TemplateStrategy templateStrategy = templateStrategyRepository.selectById(templateStrategyId);
 
         Long generatorId = generatorInstance.getGenerator().getId();
+        Generator generator = generatorRepository.selectById(generatorId);
+
         DynamicModelQueryRequest dynamicModelQueryRequest = new DynamicModelQueryRequest();
         dynamicModelQueryRequest.setGeneratorId(generatorId);
         dynamicModelQueryRequest.setAuthentication(authentication);
@@ -324,8 +323,6 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
 
         Template templateTemplate = new Template();
         templateTemplate.setIsDelete(false);
-        Generator generator = new Generator();
-        generator.setId(generatorId);
         templateTemplate.setGenerator(generator);
         List<Template> templates = templateRepository.selectList(templateTemplate);
         Map<Long, Template> templateCache = new HashMap<>();
@@ -345,6 +342,12 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         user.setId(authentication.getUserId());
         user.setUserName(authentication.getUserName());
         global.setUser(user);
+        global.setGenerator(new Generator(){
+            {
+                this.setId(generator.getId());
+                this.setName(generator.getName());
+            }
+        });
 
         Context context = new Context();
         context.setVariable("global", global);
@@ -366,7 +369,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             }
             return messageList;
         }
-        String generatePath = FileUtil.codebasePath + FileUtil.fileSeparator + authentication.getUserId() + FileUtil.fileSeparator + generateId;
+        String generatePath = FileUtil.codebasePath + FileUtil.fileSeparator + authentication.getUserId() + FileUtil.fileSeparator + generator.getName() + "_" + generateId;
         File generateFolder = new File(generatePath);
         try {
             ZipUtils.compress(generateFolder);
@@ -375,7 +378,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             throw new AppException(e,"压缩代码失败");
         }
         FileUtil.deleteFile(generateFolder);
-        return "/Codebase/" + authentication.getUserId() + "/" + generateId + ".zip";
+        return "/Codebase/" + authentication.getUserId() + "/" + generator.getName() + "_" + generateId + ".zip";
     }
 
 }

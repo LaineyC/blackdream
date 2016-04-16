@@ -47,7 +47,7 @@
                             <span ng-bind="user.userName"></span><span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="javascript:void(0);" ng-click="openTooltipHistoryModal()">消息记录</a></li>
+                            <li><a href="javascript:void(0);" ng-click="openTooltipHistoryModal()">系统消息</a></li>
                             <li><a href="javascript:void(0);" ng-click="openSelectThemeModal()">设置主题</a></li>
                             <li><a href="javascript:void(0);" ng-click="openUpdatePasswordModal()">修改密码</a></li>
                             <li role="separator" class="divider"></li>
@@ -95,7 +95,7 @@
     <!-- 消息记录 -->
     <script id="framework/tooltip-history.html" type="text/ng-template" >
         <div class="modal-header">
-            <h3 class="modal-title">消息记录</h3>
+            <h3 class="modal-title">系统消息</h3>
         </div>
         <div class="modal-body">
             <table class="table table-bordered table-condensed table-hover">
@@ -106,7 +106,7 @@
                 </thead>
                 <tbody>
                 <tr class="{{tooltip.level}}" ng-repeat="tooltip in result.records track by $index">
-                    <td>{{$index + 1}}</td><td>{{tooltip.type}}</td><td>{{tooltip.message}}</td><td>{{tooltip.dateTime}}</td>
+                    <td>{{$index + 1}}</td><td>{{tooltip.type}}</td><td>{{tooltip.message}}</td><td>{{tooltip.dateTime | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
                 </tr>
                 </tbody>
             </table>

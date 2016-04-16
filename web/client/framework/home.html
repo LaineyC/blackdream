@@ -22,16 +22,24 @@
                 <div class="panel panel-default" ng-if="!!generatorInstances.length || !!generators.length">
                     <div class="panel-body">
                         <uib-tabset ng-if="!!generatorInstances.length || !!generators.length">
-                            <uib-tab active="true" ng-if="!!generatorInstances.length" heading="我的实例">
-                                <h5 ng-repeat="generatorInstance in generatorInstances">
-                                    <a href="javascript:void(0);" location-go="/business/generatorInstance/detail/{{generatorInstance.id}}"><i class="glyphicon glyphicon-briefcase"></i> {{generatorInstance.name}}</a>
-                                </h5>
+                            <uib-tab active="true" ng-if="!!generatorInstances.length">
+                                <uib-tab-heading><label>我的实例</label></uib-tab-heading>
+                                <br/>
+                                <div class="list-group">
+                                    <a href="javascript:void(0);" class="list-group-item" ng-repeat="generatorInstance in generatorInstances" location-go="/business/generatorInstance/detail/{{generatorInstance.id}}">
+                                        <i class="glyphicon glyphicon-briefcase"></i> {{generatorInstance.name}}
+                                    </a>
+                                </div>
                                 <button type="button" class="btn btn-info btn-sm" location-go="/business/generatorInstance/manage">更多</button>
                             </uib-tab>
-                            <uib-tab ng-if="!!generators.length" heading="我的生成器">
-                                <h5 ng-repeat="generator in generators">
-                                    <a href="javascript:void(0);" location-go="/business/generator/detail/{{generator.id}}"><i class="glyphicon glyphicon-blackboard"></i> {{generator.name}}</a>
-                                </h5>
+                            <uib-tab ng-if="!!generators.length">
+                                <uib-tab-heading><label>我的生成器</label></uib-tab-heading>
+                                <br/>
+                                <div class="list-group">
+                                    <a href="javascript:void(0);" class="list-group-item" ng-repeat="generator in generators" location-go="/business/generator/detail/{{generator.id}}">
+                                        <i class="glyphicon glyphicon-blackboard"></i> {{generator.name}}
+                                    </a>
+                                </div>
                                 <button type="button" class="btn btn-info btn-sm" location-go="/business/generator/manage">更多</button>
                             </uib-tab>
                         </uib-tabset>

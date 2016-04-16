@@ -588,7 +588,7 @@ define(
                     if(!message){
                         return;
                     }
-                    var messageItem = {message: message, level:level};
+                    var messageItem = {message: message, level:level,dateTime: new Date()};
                     flashTooltips.push(messageItem);
                     tooltips.unshift(messageItem);
                     if(tooltips.length > max){
