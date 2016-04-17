@@ -7,7 +7,6 @@ import com.lite.blackdream.framework.el.Parser;
 import com.lite.blackdream.framework.util.FileUtil;
 import com.lite.blackdream.framework.util.VelocityUtil;
 import org.apache.velocity.tools.generic.*;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +16,7 @@ import java.util.Map;
 public class File extends Tag {
 
     private static final Map<String, Object> VAR_MAP = new HashMap<>();
+
     static{
         VAR_MAP.put("alternator",new AlternatorTool());
         VAR_MAP.put("class",new ClassTool());

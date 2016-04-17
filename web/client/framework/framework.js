@@ -719,7 +719,7 @@ define(
             "$scope", "$cookies", "$window", "$uibModal", "$interval", "loadStatus", "tooltip", "alert", "security", "$http", "userApi", "location","viewPage", "systemApi",
             function($scope, $cookies, $window, $uibModal, $interval, loadStatus, tooltip, alert, security, $http, userApi, location, viewPage, systemApi) {
                 //半小时会话心跳 防止session过期
-                $interval(function(){systemApi.heartbeat({});}, 45 * 60 * 1000);
+                $interval(function(){systemApi.heartbeat({});}, 30 * 60 * 1000);
 
                 userApi.get({}).success(function(user){
                     security.setUser(user);

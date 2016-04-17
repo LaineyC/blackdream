@@ -88,7 +88,7 @@
     </footer>
     <!-- 消息条组 -->
     <div id="framework-tooltip" >
-        <alert ng-repeat="tooltip in tooltips track by $index" type="{{tooltip.level}}" close="tooltips.splice($index,1)"><span ng-bind="tooltip.message"></span></alert>
+        <uib-alert ng-repeat="tooltip in tooltips track by $index" type="{{tooltip.level}}" close="tooltips.splice($index,1)"><span ng-bind="tooltip.message"></span></uib-alert>
     </div>
     <!-- 加载进度 -->
     <div id="framework-loading" ng-show="loadStatus.status.loading"></div>
@@ -101,12 +101,12 @@
             <table class="table table-bordered table-condensed table-hover">
                 <thead>
                 <tr class="active">
-                    <th>#</th><th>级别</th><th>内容</th><th>时间</th>
+                    <th width="25">#</th><th width="100">级别</th><th width="200">时间</th><th>内容</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr class="{{tooltip.level}}" ng-repeat="tooltip in result.records track by $index">
-                    <td>{{$index + 1}}</td><td>{{tooltip.type}}</td><td>{{tooltip.message}}</td><td>{{tooltip.dateTime | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+                    <td>{{$index + 1}}</td><td>{{tooltip.level}}</td><td>{{tooltip.dateTime | date : 'yyyy-MM-dd HH:mm:ss'}}</td><td>{{tooltip.message}}</td>
                 </tr>
                 </tbody>
             </table>

@@ -83,13 +83,13 @@ public class UserServiceImpl extends BaseService implements UserService {
         user.setIsDelete(false);
         User userPersistence = userRepository.selectOne(user);
         if(userPersistence == null){
-            throw new AppException("用户不存在");
+            throw new AppException("用户名或密码错误");
         }
         if(userPersistence.getIsDisable()){
-            throw new AppException("账号已冻结");
+            throw new AppException("用户名或密码错误");
         }
         if(!passwordEncoder.matches(password, userPersistence.getPassword())){
-            throw new AppException("密码不正确");
+            throw new AppException("用户名或密码错误");
         }
         userPersistence.setLoginCount(userPersistence.getLoginCount() + 1);
         userRepository.update(userPersistence);

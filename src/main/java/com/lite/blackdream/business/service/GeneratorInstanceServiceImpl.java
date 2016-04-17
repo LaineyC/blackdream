@@ -335,26 +335,36 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         });
 
         Long generateId = idWorker.nextId();
+        TemplateStrategy templateStrategyClone = templateStrategy.clone();
+
         Global global = new Global();
         global.setGenerateId(generateId);
         global.setTemplateCache(templateCache);
-        User user = new User();
-        user.setId(authentication.getUserId());
-        user.setUserName(authentication.getUserName());
-        global.setUser(user);
+        global.setUser(new User(){
+            {
+                this.setId(authentication.getUserId());
+                this.setUserName(authentication.getUserName());
+            }
+        });
         global.setGenerator(new Generator(){
             {
                 this.setId(generator.getId());
                 this.setName(generator.getName());
             }
         });
+        global.setGeneratorInstance(new GeneratorInstance(){
+            {
+                this.setId(generatorInstance.getId());
+                this.setName(generatorInstance.getName());
+            }
+        });
+        global.setTemplateStrategy(templateStrategyClone);
 
         Context context = new Context();
         context.setVariable("global", global);
         context.setVariable("data", dataModelTargetCache.get(rootDataModel.getId()));
-        templateStrategy = templateStrategy.clone();
         try {
-            templateStrategy.execute(context);
+            templateStrategyClone.execute(context);
         }
         catch (Throwable e){
             List<String> messageList = new ArrayList<>();
