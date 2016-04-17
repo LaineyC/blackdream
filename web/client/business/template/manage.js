@@ -92,10 +92,10 @@ define(
                     }
                 };
                 $scope.templateControl = {
-                    index: new Date().getTime(),
+                    index: 1,
                     add: function(){
                         var id = ($scope.templateControl.index++).toString(32);
-                        var template = {id: 0 - id, name:"新建模板" + "_" + id,code:"hello blackdream",$view:true};
+                        var template = {id: 0 - id, name:"新建模板" + "(" + id + ")",code:"hello blackdream",$view:true};
                         templateApi.create({
                             generatorId:generatorId,
                             name:template.name,

@@ -378,7 +378,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             }
             return messageList;
         }
-        String generatePath = FileUtil.codebasePath + FileUtil.fileSeparator + authentication.getUserId() + FileUtil.fileSeparator + generator.getName() + "_" + generateId;
+        String generatePath = FileUtil.codebasePath + FileUtil.fileSeparator + authentication.getUserId() + FileUtil.fileSeparator + generator.getName() + "(" + generateId + ")";
         File generateFolder = new File(generatePath);
         try {
             ZipUtils.compress(generateFolder);
@@ -387,7 +387,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             throw new AppException(e,"压缩代码失败");
         }
         FileUtil.deleteFile(generateFolder);
-        return "/Codebase/" + authentication.getUserId() + "/" + generator.getName() + "_" + generateId + ".zip";
+        return "/Codebase/" + authentication.getUserId() + "/" + generator.getName() + "(" + generateId + ").zip";
     }
 
 }

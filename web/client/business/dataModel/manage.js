@@ -326,7 +326,7 @@ define(
                             })();
                         }
                     },
-                    index: new Date().getTime(),
+                    index: 1,
                     add: function(dynamicModel, parent){
                         parent = parent == null ? $scope.dataModel : parent;
                         var id = ($scope.dataModelControl.index++).toString(32);
@@ -340,7 +340,7 @@ define(
                             }
                         }
 
-                        var dataModel = {id: 0 - id, dynamicModel: dynamicModel, parent:parent, properties:properties, association:[], name:"新建" + dynamicModel.name + "_" + id,$view:true};
+                        var dataModel = {id: 0 - id, dynamicModel: dynamicModel, parent:parent, properties:properties, association:[], name:"新建" + dynamicModel.name + "(" + id + ")",$view:true};
                         dataModelApi.create({
                             rootId:$scope.generatorInstance.dataModel.id,
                             name:dataModel.name,
