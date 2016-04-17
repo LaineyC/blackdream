@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import com.lite.blackdream.business.domain.User;
 import com.lite.blackdream.framework.util.WebUtil;
 import com.lite.blackdream.framework.web.RequestWrapper;
 import org.apache.commons.logging.Log;

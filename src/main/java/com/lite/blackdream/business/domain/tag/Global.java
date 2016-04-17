@@ -16,9 +16,9 @@ public class Global {
 
     private User user;
 
-    private TemplateStrategy templateStrategy;
-
     private Generator generator;
+
+    private TemplateStrategy templateStrategy;
 
     private GeneratorInstance generatorInstance;
 
@@ -44,20 +44,20 @@ public class Global {
         this.user = user;
     }
 
-    public TemplateStrategy getTemplateStrategy() {
-        return templateStrategy;
-    }
-
-    public void setTemplateStrategy(TemplateStrategy templateStrategy) {
-        this.templateStrategy = templateStrategy;
-    }
-
     public Generator getGenerator() {
         return generator;
     }
 
     public void setGenerator(Generator generator) {
         this.generator = generator;
+    }
+
+    public TemplateStrategy getTemplateStrategy() {
+        return templateStrategy;
+    }
+
+    public void setTemplateStrategy(TemplateStrategy templateStrategy) {
+        this.templateStrategy = templateStrategy;
     }
 
     public GeneratorInstance getGeneratorInstance() {

@@ -1,13 +1,10 @@
 package com.lite.blackdream.framework.aop;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.lite.blackdream.business.domain.DataModel;
-import com.lite.blackdream.business.domain.User;
 import com.lite.blackdream.framework.model.Authentication;
 import com.lite.blackdream.framework.model.Base64FileItem;
 import com.lite.blackdream.framework.model.Request;

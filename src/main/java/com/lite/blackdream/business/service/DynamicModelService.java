@@ -4,7 +4,6 @@ import com.lite.blackdream.business.domain.DynamicModel;
 import com.lite.blackdream.business.parameter.dynamicmodel.*;
 import com.lite.blackdream.framework.component.Service;
 import com.lite.blackdream.framework.model.PagerResult;
-
 import java.util.List;
 
 /**

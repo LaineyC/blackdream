@@ -19,11 +19,7 @@ define(
                 {path: "/business/generator/search/:keyword",templateUrl: "business/generator/search.html",dependencies: ["business/generator/search"],permission: null},
                 {path: "/business/generator/search",templateUrl: "business/generator/search.html",dependencies: ["business/generator/search"],permission: null},
 
-                {path: "/business/template/manage/:generatorId",templateUrl: "business/template/manage.html",dependencies: ["business/template/manage"],permission: null},
-                {path: "/business/template/create/:generatorId",templateUrl: "business/template/create.html",dependencies: ["business/template/create"],permission: null},
-                {path: "/business/template/update/:id",templateUrl: "business/template/update.html",dependencies: ["business/template/update"],permission: null},
-                {path: "/business/template/detail/:id",templateUrl: "business/template/detail.html",dependencies: ["business/template/detail"],permission: null},
-                {path: "/business/template/manageEdit/:generatorId",templateUrl: "business/template/manageEdit.html",dependencies: ["ace","business/template/manageEdit"],permission: null},
+                {path: "/business/template/manage/:generatorId",templateUrl: "business/template/manage.html",dependencies: ["ace","business/template/manage"],permission: null},
 
                 {path: "/business/dynamicModel/manage/:generatorId",templateUrl: "business/dynamicModel/manage.html",dependencies: ["business/dynamicModel/manage"],permission: null},
                 {path: "/business/dynamicModel/create/:generatorId",templateUrl: "business/dynamicModel/create.html",dependencies: ["business/dynamicModel/create"],permission: null},

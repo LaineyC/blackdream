@@ -2,9 +2,6 @@ package com.lite.blackdream.business.domain;
 
 import com.lite.blackdream.framework.model.Domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author LaineyC
  */
