@@ -65,7 +65,7 @@ public class UserServiceImpl extends BaseService implements UserService {
             user.setPassword(passwordEncoder.encode(ConfigProperties.PASSWORD));
             user.setIsDisable(false);
             user.setIsDeveloper(true);
-            user.setLoginCount(1);
+            user.setLoginCount(0);
             user.setCreator(null);
             userRepository.insert(user);
         }
