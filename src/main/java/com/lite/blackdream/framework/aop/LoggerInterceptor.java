@@ -18,7 +18,7 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception exception) throws Exception {
         RequestWrapper requestWrapper = (RequestWrapper)request;
         String method = requestWrapper.getParameter("method");
-        logger.info("ip=" + WebUtil.getIp(request) + ",method=" + method +  ",parameter=" + requestWrapper.getRequestLog());
+        logger.info("IP=" + WebUtil.getIp(request) + ",方法=" + method +  ",参数=" + requestWrapper.getRequestLog());
     }
 
 }

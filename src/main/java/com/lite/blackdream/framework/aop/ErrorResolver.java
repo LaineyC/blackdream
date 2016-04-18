@@ -41,15 +41,15 @@ public class ErrorResolver implements HandlerExceptionResolver {
             errorMessage = appException.getErrorMessage();
             Throwable cause = appException.getCause();
             if(cause == null){
-                logger.error("ip=" + WebUtil.getIp(request) + ",method=" + method  + ",parameter=" + requestWrapper.getRequestLog() + ",message=" + errorMessage.getMessage());
+                logger.error("IP=" + WebUtil.getIp(request) + ",方法=" + method  + ",参数=" + requestWrapper.getRequestLog() + ",消息=" + errorMessage.getMessage());
             }
             else{
-                logger.error("ip=" + WebUtil.getIp(request) + ",method=" + method  + ",parameter=" + requestWrapper.getRequestLog() + ",message=" + errorMessage.getMessage(), exception);
+                logger.error("IP=" + WebUtil.getIp(request) + ",方法=" + method  + ",参数=" + requestWrapper.getRequestLog() + ",消息=" + errorMessage.getMessage(), exception);
             }
         }
         else{
             errorMessage = new ErrorMessage("[" + method + "]服务不可用");
-            logger.error("ip=" + WebUtil.getIp(request) + ",method=" + method  + ",parameter=" + requestWrapper.getRequestLog() + ",message=" + errorMessage.getMessage(), exception);
+            logger.error("IP=" + WebUtil.getIp(request) + ",方法=" + method  + ",参数=" + requestWrapper.getRequestLog() + ",消息=" + errorMessage.getMessage(), exception);
         }
         HttpInputMessage inputMessage = new ServletServerHttpRequest(requestWrapper);
         List<MediaType> acceptedMediaTypes = inputMessage.getHeaders().getAccept();

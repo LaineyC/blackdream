@@ -12,38 +12,6 @@ import sun.misc.BASE64Decoder;
  */
 public class FileUtil {
 
-    public final static String fileSeparator = File.separator;
-
-    /**
-     * web项目根路径
-     */
-    public static String rootPath;
-
-    /**
-     * 项目所有数据资源存储路径
-     */
-    public final static String projectPath = fileSeparator + "BlackDream";
-
-    /**
-     * 数据库存储路径
-     */
-    public final static String databasePath = projectPath + fileSeparator + "Database";
-
-    /**
-     * 文件库存储路径
-     */
-    public final static String filebasePath = projectPath + fileSeparator + "Filebase";
-
-    /**
-     * 日志库存储路径
-     */
-    public final static String logbasePath = projectPath + fileSeparator + "Logbase";
-
-    /**
-     * 代码库 生成代码的临时路径
-     */
-    public static String codebasePath;
-
     public static void writeBase64(String base64, String fileAbsolutePath) throws IOException {
         File parentPathFile = new File(fileAbsolutePath).getParentFile();
         if(!parentPathFile.exists()){

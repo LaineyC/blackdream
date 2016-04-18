@@ -9,6 +9,7 @@ import com.lite.blackdream.framework.exception.AppException;
 import com.lite.blackdream.framework.component.BaseService;
 import com.lite.blackdream.framework.model.Base64FileItem;
 import com.lite.blackdream.framework.model.PagerResult;
+import com.lite.blackdream.framework.util.ConfigProperties;
 import com.lite.blackdream.framework.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,7 +47,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         //String extension = templateFile.getExtension();
         String fileName = idWorker.nextId() + ".vm";
         String uploadPath = "/Template/" + generatorId + "/" + fileName;
-        String fileAbsolutePath = FileUtil.filebasePath + uploadPath.replace("/", FileUtil.fileSeparator);
+        String fileAbsolutePath = ConfigProperties.FILEBASE_PATH + uploadPath.replace("/", ConfigProperties.fileSeparator);
         try {
             FileUtil.writeBase64(templateFile.getContent(), fileAbsolutePath);
         }
@@ -88,7 +89,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
             throw new AppException("模板不存在");
         }
         templateRepository.delete(templatePersistence);
-        String fileAbsolutePath = FileUtil.filebasePath + templatePersistence.getUrl().replace("/", FileUtil.fileSeparator);
+        String fileAbsolutePath = ConfigProperties.FILEBASE_PATH + templatePersistence.getUrl().replace("/", ConfigProperties.fileSeparator);
         File templateFile = new File(fileAbsolutePath);
         if(!templateFile.delete()){
             throw new AppException("文件未删除");
@@ -167,7 +168,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         Base64FileItem templateFile = request.getTemplateFile();
         if(templateFile != null){
             String uploadPath = templatePersistence.getUrl();
-            String fileAbsolutePath = FileUtil.filebasePath + uploadPath.replace("/", FileUtil.fileSeparator);
+            String fileAbsolutePath = ConfigProperties.FILEBASE_PATH + uploadPath.replace("/", ConfigProperties.fileSeparator);
             try {
                 FileUtil.writeBase64(templateFile.getContent(), fileAbsolutePath);
             }
@@ -188,7 +189,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
             throw new AppException("模板不存在");
         }
         String uploadPath = templatePersistence.getUrl();
-        String fileAbsolutePath = FileUtil.filebasePath + uploadPath.replace("/", FileUtil.fileSeparator);
+        String fileAbsolutePath = ConfigProperties.FILEBASE_PATH + uploadPath.replace("/", ConfigProperties.fileSeparator);
         File file = new File(fileAbsolutePath);
         byte buffer[] = new byte[(int) file.length()];
         try {

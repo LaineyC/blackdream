@@ -2,6 +2,7 @@ package com.lite.blackdream.business.domain.tag;
 
 import com.lite.blackdream.framework.el.Context;
 import com.lite.blackdream.framework.el.Parser;
+import com.lite.blackdream.framework.util.ConfigProperties;
 import com.lite.blackdream.framework.util.FileUtil;
 
 /**
@@ -27,9 +28,9 @@ public class Folder extends Tag {
         Global global = (Global)context.getVariable("global");
         Long generateId = global.getGenerateId();
         Long userId = global.getUser().getId();
-        String generatePath = FileUtil.codebasePath + FileUtil.fileSeparator + userId + FileUtil.fileSeparator + generateId;
-        String folder = generatePath + FileUtil.fileSeparator + this.getName();
-        folder = Parser.parseString(folder.replace(FileUtil.fileSeparator, "/"), exeContext);
+        String generatePath = ConfigProperties.CODEBASE_PATH + ConfigProperties.fileSeparator + userId + ConfigProperties.fileSeparator + generateId;
+        String folder = generatePath + ConfigProperties.fileSeparator + this.getName();
+        folder = Parser.parseString(folder.replace(ConfigProperties.fileSeparator, "/"), exeContext);
         FileUtil.mkdirs(folder);
         this.getChildren().forEach(child -> {
             child.setParent(this);

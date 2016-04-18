@@ -18,7 +18,7 @@ public class VelocityUtil {
         try {
             Properties properties = new Properties();
             properties.setProperty("resource.loader", "file");
-            properties.setProperty("file.resource.loader.path", FileUtil.filebasePath.replace(FileUtil.fileSeparator, "/"));
+            properties.setProperty("file.resource.loader.path", ConfigProperties.FILEBASE_PATH.replace(ConfigProperties.fileSeparator, "/"));
             properties.setProperty("input.encoding", "UTF-8");
             properties.put("output.encoding", "UTF-8");
             properties.setProperty("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.FileResourceLoader");

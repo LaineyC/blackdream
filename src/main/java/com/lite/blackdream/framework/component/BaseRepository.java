@@ -4,6 +4,7 @@ import com.lite.blackdream.framework.model.BeanDefinition;
 import com.lite.blackdream.framework.model.DirtyData;
 import com.lite.blackdream.framework.model.Domain;
 import com.lite.blackdream.framework.model.PropertyDefinition;
+import com.lite.blackdream.framework.util.ConfigProperties;
 import com.lite.blackdream.framework.util.FileUtil;
 import com.lite.blackdream.framework.util.ReflectionUtil;
 import org.apache.commons.logging.Log;
@@ -187,7 +188,7 @@ public abstract class BaseRepository<E extends Domain, ID extends Serializable> 
      */
     @Override
     public void init(){
-        File collectionFile = new File(FileUtil.databasePath + FileUtil.fileSeparator + beanDefinition.getBeanName());
+        File collectionFile = new File(ConfigProperties.DATABASE_PATH + ConfigProperties.fileSeparator + beanDefinition.getBeanName());
         if(!collectionFile.exists()){
             collectionFile.mkdirs();
         }
@@ -199,13 +200,13 @@ public abstract class BaseRepository<E extends Domain, ID extends Serializable> 
      */
     @Override
     public void read(){
-        File collectionFile = new File(FileUtil.databasePath + FileUtil.fileSeparator + beanDefinition.getBeanName());
+        File collectionFile = new File(ConfigProperties.DATABASE_PATH + ConfigProperties.fileSeparator + beanDefinition.getBeanName());
         File[] files = collectionFile.listFiles((dir, name) -> name.endsWith(".xml"));
 
         if(files != null) {
             for (File documentFile : files) {
                 Long id = Long.valueOf(documentFile.getName().split("\\.")[0]);
-                String filePath = FileUtil.databasePath + FileUtil.fileSeparator + beanDefinition.getBeanName() + FileUtil.fileSeparator + id + ".xml";
+                String filePath = ConfigProperties.DATABASE_PATH + ConfigProperties.fileSeparator + beanDefinition.getBeanName() + ConfigProperties.fileSeparator + id + ".xml";
                 try {
                     Document document = FileUtil.readXml(filePath);
                     Element element = document.getRootElement();
@@ -225,7 +226,7 @@ public abstract class BaseRepository<E extends Domain, ID extends Serializable> 
      */
     @Override
     public void remove(E entity){
-        String filePath = FileUtil.databasePath + FileUtil.fileSeparator + beanDefinition.getBeanName() + FileUtil.fileSeparator + entity.getId() + ".xml";
+        String filePath = ConfigProperties.DATABASE_PATH + ConfigProperties.fileSeparator + beanDefinition.getBeanName() + ConfigProperties.fileSeparator + entity.getId() + ".xml";
         File file = new File(filePath);
         if(!file.delete()){
             logger.error("remove:" + filePath);
@@ -241,7 +242,7 @@ public abstract class BaseRepository<E extends Domain, ID extends Serializable> 
         Document document = DocumentHelper.createDocument();
         Element element = elementConverter.toElement(entity);
         document.add(element);
-        String filePath = FileUtil.databasePath + FileUtil.fileSeparator + beanDefinition.getBeanName() + FileUtil.fileSeparator + entity.getId() + ".xml";
+        String filePath = ConfigProperties.DATABASE_PATH + ConfigProperties.fileSeparator + beanDefinition.getBeanName() + ConfigProperties.fileSeparator + entity.getId() + ".xml";
         try {
             FileUtil.writeXml(document, filePath);
         }

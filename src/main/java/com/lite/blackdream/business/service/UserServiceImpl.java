@@ -7,6 +7,7 @@ import com.lite.blackdream.framework.exception.AppException;
 import com.lite.blackdream.framework.component.BaseService;
 import com.lite.blackdream.framework.model.Authentication;
 import com.lite.blackdream.framework.model.PagerResult;
+import com.lite.blackdream.framework.util.ConfigProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,10 +27,6 @@ public class UserServiceImpl extends BaseService implements UserService {
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    private static final String SUPER_ADMIN_USERNAME = "LaineyC";
-
-    private static final String USER_DEFAULT_PASSWORD = "666666";
-
     @Override
     public User create(UserCreateRequest request) {
         Authentication authentication = request.getAuthentication();
@@ -45,7 +42,7 @@ public class UserServiceImpl extends BaseService implements UserService {
             throw new AppException("用户名已注册");
         }
         user.setId(idWorker.nextId());
-        user.setPassword(passwordEncoder.encode(USER_DEFAULT_PASSWORD));
+        user.setPassword(passwordEncoder.encode(ConfigProperties.PASSWORD));
         user.setIsDisable(request.getIsDisable());
         user.setIsDeveloper(request.getIsDeveloper());
         user.setLoginCount(0);
@@ -59,13 +56,13 @@ public class UserServiceImpl extends BaseService implements UserService {
         long count = userRepository.count(new User());
         if(count == 0){
             User user = new User();
-            user.setUserName(SUPER_ADMIN_USERNAME);
+            user.setUserName(ConfigProperties.USERNAME);
             user.setIsDelete(false);
             if(userRepository.exists(user, null)){
                 throw new AppException("用户名已注册");
             }
             user.setId(idWorker.nextId());
-            user.setPassword(passwordEncoder.encode(USER_DEFAULT_PASSWORD));
+            user.setPassword(passwordEncoder.encode(ConfigProperties.PASSWORD));
             user.setIsDisable(false);
             user.setIsDeveloper(true);
             user.setLoginCount(1);
@@ -114,7 +111,7 @@ public class UserServiceImpl extends BaseService implements UserService {
         userPersistence.setIsDisable(request.getIsDisable());
         userPersistence.setIsDeveloper(request.getIsDeveloper());
         if(request.getIsResetPassword()){
-            userPersistence.setPassword(passwordEncoder.encode(USER_DEFAULT_PASSWORD));
+            userPersistence.setPassword(passwordEncoder.encode(ConfigProperties.PASSWORD));
         }
         userRepository.update(userPersistence);
         return userPersistence;

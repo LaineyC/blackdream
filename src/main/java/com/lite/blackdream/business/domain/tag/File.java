@@ -4,6 +4,7 @@ import com.lite.blackdream.business.domain.Generator;
 import com.lite.blackdream.business.domain.Template;
 import com.lite.blackdream.framework.el.Context;
 import com.lite.blackdream.framework.el.Parser;
+import com.lite.blackdream.framework.util.ConfigProperties;
 import com.lite.blackdream.framework.util.FileUtil;
 import com.lite.blackdream.framework.util.VelocityUtil;
 import org.apache.velocity.tools.generic.*;
@@ -62,11 +63,11 @@ public class File extends Tag {
         Long userId = global.getUser().getId();
         Generator generator = global.getGenerator();
         Map<Long, Template> templateCache = global.getTemplateCache();
-        String generatePath = FileUtil.codebasePath + FileUtil.fileSeparator + userId + FileUtil.fileSeparator + generator.getName() + "(" + generateId + ")";
-        String outFile = generatePath + FileUtil.fileSeparator + this.getName();
-        outFile = Parser.parseString(outFile.replace(FileUtil.fileSeparator, "/"), exeContext);
+        String generatePath = ConfigProperties.CODEBASE_PATH + ConfigProperties.fileSeparator + userId + ConfigProperties.fileSeparator + generator.getName() + "(" + generateId + ")";
+        String outFile = generatePath + ConfigProperties.fileSeparator + this.getName();
+        outFile = Parser.parseString(outFile.replace(ConfigProperties.fileSeparator, "/"), exeContext);
         String templateFile = templateCache.get(template.getId()).getUrl();
-        templateFile = templateFile.replace(FileUtil.fileSeparator, "/");
+        templateFile = templateFile.replace(ConfigProperties.fileSeparator, "/");
         Map<String,Object> varMap = new HashMap<>();
         this.getChildren().forEach(child -> {
             child.setParent(this);

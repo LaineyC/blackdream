@@ -3,6 +3,7 @@ package com.lite.blackdream.business.repository;
 import com.lite.blackdream.business.domain.DataModel;
 import com.lite.blackdream.framework.component.BaseRepository;
 import com.lite.blackdream.framework.model.DirtyData;
+import com.lite.blackdream.framework.util.ConfigProperties;
 import com.lite.blackdream.framework.util.FileUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -112,7 +113,7 @@ public class DataModelRepositoryImpl extends BaseRepository<DataModel, Long> imp
      */
     @Override
     public void read(){
-        File collectionFile = new File(FileUtil.databasePath + FileUtil.fileSeparator + beanDefinition.getBeanName());
+        File collectionFile = new File(ConfigProperties.DATABASE_PATH + ConfigProperties.fileSeparator + beanDefinition.getBeanName());
         File[] generatorInstanceFiles = collectionFile.listFiles(file -> file.isDirectory());
         if(generatorInstanceFiles != null){
             for(File generatorInstanceFile : generatorInstanceFiles){
@@ -123,7 +124,7 @@ public class DataModelRepositoryImpl extends BaseRepository<DataModel, Long> imp
                     Map<Long, DataModel> descendants = new LinkedHashMap<>();
                     for (File dataModelFile : dataModelFiles) {
                         Long id = Long.valueOf(dataModelFile.getName().split("\\.")[0]);
-                        String filePath = FileUtil.databasePath + FileUtil.fileSeparator + beanDefinition.getBeanName() + FileUtil.fileSeparator + generatorInstanceFolderName + FileUtil.fileSeparator + id + ".xml";
+                        String filePath = ConfigProperties.DATABASE_PATH + ConfigProperties.fileSeparator + beanDefinition.getBeanName() + ConfigProperties.fileSeparator + generatorInstanceFolderName + ConfigProperties.fileSeparator + id + ".xml";
                         try {
                             Document document = FileUtil.readXml(filePath);
                             Element element = document.getRootElement();
@@ -170,7 +171,7 @@ public class DataModelRepositoryImpl extends BaseRepository<DataModel, Long> imp
     @Override
     public void remove(DataModel entity){
         Long generatorInstanceId = entity.getGeneratorInstance().getId();
-        String filePath = FileUtil.databasePath + FileUtil.fileSeparator + beanDefinition.getBeanName() + FileUtil.fileSeparator + generatorInstanceId.toString() + FileUtil.fileSeparator + entity.getId() + ".xml";
+        String filePath = ConfigProperties.DATABASE_PATH + ConfigProperties.fileSeparator + beanDefinition.getBeanName() + ConfigProperties.fileSeparator + generatorInstanceId.toString() + ConfigProperties.fileSeparator + entity.getId() + ".xml";
         File file = new File(filePath);
         if(!file.delete()){
             logger.error("remove:" + filePath);
@@ -187,9 +188,9 @@ public class DataModelRepositoryImpl extends BaseRepository<DataModel, Long> imp
         Element element = elementConverter.toElement(entity);
         document.add(element);
         Long generatorInstanceId = entity.getGeneratorInstance().getId();
-        String filePath = FileUtil.databasePath + FileUtil.fileSeparator + beanDefinition.getBeanName() + FileUtil.fileSeparator + generatorInstanceId.toString() + FileUtil.fileSeparator + entity.getId() + ".xml";
+        String filePath = ConfigProperties.DATABASE_PATH + ConfigProperties.fileSeparator + beanDefinition.getBeanName() + ConfigProperties.fileSeparator + generatorInstanceId.toString() + ConfigProperties.fileSeparator + entity.getId() + ".xml";
         try {
-            File generatorInstanceFile = new File(FileUtil.databasePath + FileUtil.fileSeparator + beanDefinition.getBeanName() + FileUtil.fileSeparator + generatorInstanceId.toString());
+            File generatorInstanceFile = new File(ConfigProperties.DATABASE_PATH + ConfigProperties.fileSeparator + beanDefinition.getBeanName() + ConfigProperties.fileSeparator + generatorInstanceId.toString());
             if(!generatorInstanceFile.exists()){
                 generatorInstanceFile.mkdirs();
             }

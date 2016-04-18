@@ -32,7 +32,7 @@ html, body{
 #framework-tooltip{
     right: 10px;
     position: fixed;
-    top: 10px;
+    top: 62.5px;
     z-index: 1051;
 }
 #framework-tooltip > .alert{
@@ -45,13 +45,17 @@ html, body{
 }
 
 .condensed-list .list-group {
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 1px;
+    margin-bottom: 1px;
     padding-left: 15px;
 }
 
 .condensed-list .list-group-item{
-    padding: 3px;
+    padding: 2px;
+}
+
+.condensed-list .list-group-item label{
+    margin-bottom: 3px;
 }
 
 .input-group-addon.text-danger{

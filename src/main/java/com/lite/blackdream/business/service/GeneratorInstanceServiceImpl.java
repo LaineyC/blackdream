@@ -11,6 +11,7 @@ import com.lite.blackdream.framework.exception.AppException;
 import com.lite.blackdream.framework.component.BaseService;
 import com.lite.blackdream.framework.model.Authentication;
 import com.lite.blackdream.framework.model.PagerResult;
+import com.lite.blackdream.framework.util.ConfigProperties;
 import com.lite.blackdream.framework.util.FileUtil;
 import com.lite.blackdream.framework.util.ZipUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -378,7 +379,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             }
             return messageList;
         }
-        String generatePath = FileUtil.codebasePath + FileUtil.fileSeparator + authentication.getUserId() + FileUtil.fileSeparator + generator.getName() + "(" + generateId + ")";
+        String generatePath = ConfigProperties.CODEBASE_PATH + ConfigProperties.fileSeparator + authentication.getUserId() + ConfigProperties.fileSeparator + generator.getName() + "(" + generateId + ")";
         File generateFolder = new File(generatePath);
         try {
             ZipUtils.compress(generateFolder);

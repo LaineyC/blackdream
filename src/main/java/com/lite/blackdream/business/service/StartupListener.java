@@ -1,6 +1,7 @@
 package com.lite.blackdream.business.service;
 
 import com.lite.blackdream.business.repository.*;
+import com.lite.blackdream.framework.util.ConfigProperties;
 import com.lite.blackdream.framework.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -45,23 +46,23 @@ public class StartupListener implements ApplicationListener<ContextRefreshedEven
     @Override
     public void onApplicationEvent(ContextRefreshedEvent evt) {
         if (evt.getApplicationContext().getParent() != null) {
-            File databasePath = new File(FileUtil.databasePath);
+            File databasePath = new File(ConfigProperties.DATABASE_PATH);
             if(!databasePath.exists()){
                 databasePath.mkdirs();
             }
-            File filebasePath = new File(FileUtil.filebasePath);
+            File filebasePath = new File(ConfigProperties.FILEBASE_PATH);
             if(!filebasePath.exists()){
                 filebasePath.mkdirs();
             }
-            File logbasePath = new File(FileUtil.logbasePath);
+            File logbasePath = new File(ConfigProperties.LOGBASE_PATH);
             if(!logbasePath.exists()){
                 logbasePath.mkdirs();
             }
 
             String rootPath = System.getProperty("blackdream.root");
-            FileUtil.rootPath = rootPath;
-            FileUtil.codebasePath = rootPath + FileUtil.fileSeparator + "Codebase";
-            File codebasePath = new File(FileUtil.codebasePath);
+            ConfigProperties.ROOT_PATH = rootPath;
+            ConfigProperties.CODEBASE_PATH = rootPath + ConfigProperties.fileSeparator + "Codebase";
+            File codebasePath = new File(ConfigProperties.CODEBASE_PATH);
             if(!codebasePath.exists()){
                 codebasePath.mkdirs();
             }
