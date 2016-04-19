@@ -50,7 +50,7 @@
                                     <th width="150"><span class="text-danger">名称</span></th>
                                     <th width="150"><span class="text-danger">标题</span></th>
                                     <th width="125"><span class="text-danger">类型</span></th>
-                                    <th width="100">宽度</th>
+                                    <th width="100"><span class="text-danger">宽比</span></th>
                                     <th width="125">默认值</th>
                                     <th width="150">可选值</th>
                                     <th width="100">验证规则</th>
@@ -78,7 +78,11 @@
                                             <option value="">--选择类型--</option>
                                         </select>
                                     </td>
-                                    <td><input ng-model="property.viewWidth" readonly="readonly" type="number" class="form-control input-sm"/></td>
+                                    <td>
+                                        <input name="viewWidth{{property.__hashKey}}" uib-tooltip="{{getMessage('viewWidth1',dynamicModelCreateForm['viewWidth' + property.__hashKey].$error,propertyControl.validateMessages)}}"
+                                               tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.viewWidth{{property.__hashKey}}.$invalid && dynamicModelCreateForm.viewWidth{{property.__hashKey}}.$dirty"
+                                               ng-model="property.viewWidth" type="number" class="form-control input-sm" ng-pattern="/^(1|2|3|4|5|6|7|8|9|10|11)$/" required/>
+                                    </td>
                                     <td ng-switch="property.type">
                                         <select ng-switch-when="Boolean" ng-model="property.defaultValue" ng-options="option for option in [true,false]" class="form-control input-sm">
                                             <option value="">--请选择--</option>

@@ -169,10 +169,16 @@ define(
                         type:{
                             required:"必输项"
                         },
+                        viewWidth1:{
+                            required:"必输项",
+                            pattern:"1-11整数",
+                            number:"整数类型"
+                        },
                         viewWidth:{
                             required:"必输项",
                             min:"最小0",
-                            max:"最大1000"
+                            max:"最大1000",
+                            number:"数字类型"
                         }
                     }
                 };
@@ -185,7 +191,7 @@ define(
                         }
                     },
                     add:function() {
-                        $scope.createRequest.properties.push({});
+                        $scope.createRequest.properties.push({viewWidth:2});
                     },
                     delete:function(entity, index) {
                         $scope.createRequest.properties.splice(index, 1);

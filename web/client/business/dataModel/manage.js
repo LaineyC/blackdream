@@ -329,7 +329,7 @@ define(
                     index: 1,
                     add: function(dynamicModel, parent){
                         parent = parent == null ? $scope.dataModel : parent;
-                        var id = ($scope.dataModelControl.index++).toString(32);
+                        var id = $scope.dataModelControl.index++;
 
                         var dynamicModelProperties = dynamicModel.properties;
                         var properties = {};

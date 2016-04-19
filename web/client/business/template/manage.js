@@ -94,7 +94,7 @@ define(
                 $scope.templateControl = {
                     index: 1,
                     add: function(){
-                        var id = ($scope.templateControl.index++).toString(32);
+                        var id = $scope.templateControl.index++;
                         var template = {id: 0 - id, name:"新建模板" + "(" + id + ")",code:"hello blackdream",$view:true};
                         templateApi.create({
                             generatorId:generatorId,
