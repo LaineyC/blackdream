@@ -4,7 +4,7 @@
             <form name="templateStrategyUpdateForm" class="form-inline" role="form" novalidate>
                 <ul class="list-group">
                     <li class="list-group-item">
-                        <i class="glyphicon glyphicon-plus" ng-class="updateRequest.children.length ? (updateRequest.$closed ? 'glyphicon-plus' : 'glyphicon-minus') : 'glyphicon-ban-circle'" ng-click="updateRequest.$closed =!updateRequest.$closed;"></i>
+                        <i class="glyphicon glyphicon-plus" ng-class="updateRequest.children.length ? (updateRequest.$closed ? 'glyphicon-plus' : 'glyphicon-minus') : 'glyphicon-leaf'" ng-click="updateRequest.$closed =!updateRequest.$closed;"></i>
                         <label>策略名称</label>
                         <div class="input-group">
                             <span class="input-group-addon" ng-class="{'text-danger': templateStrategyUpdateForm.name.$error.required}">name</span>
@@ -38,7 +38,7 @@
 </div>
 <script id="recursion" type="text/ng-template">
     <li class="list-group-item" ng-repeat="child in parent.children" ng-init="p=parent;child.__hashKey = hashKey(child);formatTag(child);">
-        <i class="glyphicon glyphicon-plus" ng-class="child.children.length ? (child.$closed ? 'glyphicon-plus' : 'glyphicon-minus') : 'glyphicon-ban-circle'" ng-click="child.$closed =! child.$closed;"></i>
+        <i class="glyphicon glyphicon-plus" ng-class="child.children.length ? (child.$closed ? 'glyphicon-plus' : 'glyphicon-minus') : 'glyphicon-leaf'" ng-click="child.$closed =! child.$closed;"></i>
         <label>{{child.tagName}}</label>
         <div class="input-group" ng-repeat="(name,attribute) in tagRules[child.tagName].attributes" style="margin-right: 5px;" ng-switch="name">
             <span class="input-group-addon" ng-class="{'text-danger':attribute.required.rule && templateStrategyUpdateForm[name + child.__hashKey].$error.required}">{{name}}</span>

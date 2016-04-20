@@ -1,13 +1,13 @@
 <div ng-controller="templateStrategyDetailController">
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12 condensed-list">
             <form name="templateStrategyDetailForm" class="form-inline" role="form" novalidate>
                 <ul class="list-group">
                     <li class="list-group-item">
                         <i class="glyphicon glyphicon-plus" ng-class="templateStrategy.$closed ? 'glyphicon-plus' : 'glyphicon-minus'" ng-click="templateStrategy.$closed =!templateStrategy.$closed;"></i>
                         <label>策略名称</label>
                         <div class="input-group">
-                            <span class="input-group-addon" style="color: #31708f">name</span>
+                            <span class="input-group-addon text-info">name</span>
                             <span class="input-group-addon">{{templateStrategy.name}}</span>
                         </div>
                         <ul ng-init="parent=templateStrategy;" ng-include="'recursion'" class="list-group" ng-show="!templateStrategy.$closed && templateStrategy.children.length"></ul>
@@ -28,10 +28,10 @@
 </div>
 <script id="recursion" type="text/ng-template">
     <li class="list-group-item" ng-repeat="child in parent.children" ng-init="formatTag(child);">
-        <i class="glyphicon glyphicon-plus" ng-class="child.$closed ? 'glyphicon-plus' : 'glyphicon-minus'" ng-click="child.$closed =! child.$closed;"></i>
+        <i class="glyphicon glyphicon-plus" ng-class="child.children.length ? (child.$closed ? 'glyphicon-plus' : 'glyphicon-minus') : 'glyphicon-leaf'" ng-click="child.$closed =! child.$closed;"></i>
         <label>{{child.tagName}}</label>
         <div class="input-group" ng-repeat="attribute in tagRules[child.tagName].attributes" style="margin-right: 5px;">
-            <span class="input-group-addon" style="color: #31708f">{{attribute.name}}</span>
+            <span class="input-group-addon text-info">{{attribute.name}}</span>
             <span class="input-group-addon">{{child[attribute.name]}}</span>
         </div>
         <ul class="list-group" ng-include="'recursion'" ng-show="!child.$closed && child.children.length" ng-init="parent=child;"></ul>
