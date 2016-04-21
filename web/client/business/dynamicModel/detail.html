@@ -27,7 +27,7 @@
                                     <th width="100">名称</th>
                                     <th width="100">标题</th>
                                     <th width="100">类型</th>
-                                    <th width="50">宽度</th>
+                                    <th width="50">宽比</th>
                                     <th width="100">默认值</th>
                                     <th width="250">可选值</th>
                                     <th width="250">验证规则</th>
@@ -82,7 +82,7 @@
                     <div class="form-group">
                         <div class="col-sm-12">
                             <table class="table table-bordered table-condensed table-hover">
-                                <caption><label>预设属性</label></caption>
+                                <caption><label class="col-sm-1">预设属性</label></caption>
                                 <thead>
                                 <tr class="active">
                                     <th width="25">#</th>
@@ -98,7 +98,7 @@
                                         <span ng-switch-when="Long">{{propertyValue[property.name]}}</span>
                                         <span ng-switch-when="Double">{{propertyValue[property.name]}}</span>
                                         <span ng-switch-when="String">{{propertyValue[property.name]}}</span>
-                                        <span ng-switch-when="Date">{{propertyValue[property.name]  | date : 'yyyy-MM-dd'}}</span>
+                                        <span ng-switch-when="Date">{{propertyValue[property.name] | date : 'yyyy-MM-dd'}}</span>
                                         <span ng-switch-when="Enum">{{propertyValue[property.name]}}</span>
                                         <span ng-switch-when="Model">{{propertyValue[property.name]}}</span>
                                     </td>
