@@ -51,12 +51,13 @@
                                 <thead>
                                 <tr class="active">
                                     <th width="25">#</th>
+                                    <th width="125"><span class="text-danger">标题</span></th>
+                                    <th width="80"><span class="text-danger">宽比</span></th>
                                     <th width="150"><span class="text-danger">名称</span></th>
-                                    <th width="150"><span class="text-danger">标题</span></th>
-                                    <th width="125"><span class="text-danger">类型</span></th>
-                                    <th width="100"><span class="text-danger">宽比</span></th>
+                                    <th width="100"><span class="text-danger">类型</span></th>
                                     <th width="125">默认值</th>
                                     <th width="150">可选值</th>
+                                    <th width="100">级联脚本</th>
                                     <th width="100">验证规则</th>
                                     <th>操作</th>
                                 </tr>
@@ -65,38 +66,38 @@
                                 <tr ng-repeat="property in updateRequest.properties" ng-init="property.__hashKey = hashKey(property)">
                                     <td>{{$index + 1}}</td>
                                     <td>
-                                        <input name="name{{property.__hashKey}}" uib-tooltip="{{getMessage('name',dynamicModelUpdateForm['name' + property.__hashKey].$error,propertyControl.validateMessages)}}"
-                                               tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.name{{property.__hashKey}}.$invalid && dynamicModelUpdateForm.name{{property.__hashKey}}.$dirty"
-                                               ng-model="property.name" type="text" class="form-control input-sm" ng-pattern="/^[a-zA-Z_]\w{0,19}$/" required/>
-                                    </td>
-                                    <td>
                                         <input name="label{{property.__hashKey}}" uib-tooltip="{{getMessage('label',dynamicModelUpdateForm['label' + property.__hashKey].$error,propertyControl.validateMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.label{{property.__hashKey}}.$invalid && dynamicModelUpdateForm.label{{property.__hashKey}}.$dirty"
                                                ng-model="property.label" type="text" class="form-control input-sm" ng-maxlength="10" required/>
-                                    </td>
-                                    <td>
-                                        <select name="type{{property.__hashKey}}" uib-tooltip="{{getMessage('type',dynamicModelUpdateForm['type' + property.__hashKey].$error,propertyControl.validateMessages)}}"
-                                                tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.type{{property.__hashKey}}.$invalid && dynamicModelUpdateForm.type{{property.__hashKey}}.$dirty"
-                                                ng-change="propertyControl.changeType(property)" ng-model="property.type" ng-options="option.type as option.type for option in propertyControl.typeOptions"
-                                                class="form-control input-sm" required>
-                                            <option value="">--选择类型--</option>
-                                        </select>
                                     </td>
                                     <td>
                                         <input name="viewWidth{{property.__hashKey}}" uib-tooltip="{{getMessage('viewWidth1',dynamicModelUpdateForm['viewWidth' + property.__hashKey].$error,propertyControl.validateMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.viewWidth{{property.__hashKey}}.$invalid && dynamicModelUpdateForm.viewWidth{{property.__hashKey}}.$dirty"
                                                ng-model="property.viewWidth" type="number" class="form-control input-sm" ng-pattern="/^(1|2|3|4|5|6|7|8|9|10|11)$/" required/>
                                     </td>
+                                    <td>
+                                        <input name="name{{property.__hashKey}}" uib-tooltip="{{getMessage('name',dynamicModelUpdateForm['name' + property.__hashKey].$error,propertyControl.validateMessages)}}"
+                                               tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.name{{property.__hashKey}}.$invalid && dynamicModelUpdateForm.name{{property.__hashKey}}.$dirty"
+                                               ng-model="property.name" type="text" class="form-control input-sm" ng-pattern="/^[a-zA-Z_]\w{0,19}$/" required/>
+                                    </td>
+                                    <td>
+                                        <select name="type{{property.__hashKey}}" uib-tooltip="{{getMessage('type',dynamicModelUpdateForm['type' + property.__hashKey].$error,propertyControl.validateMessages)}}"
+                                                tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.type{{property.__hashKey}}.$invalid && dynamicModelUpdateForm.type{{property.__hashKey}}.$dirty"
+                                                ng-change="propertyControl.changeType(property)" ng-model="property.type" ng-options="option.type as option.type for option in propertyControl.typeOptions"
+                                                class="form-control input-sm" required>
+                                            <option value="">--选择--</option>
+                                        </select>
+                                    </td>
                                     <td ng-switch="property.type">
                                         <select ng-switch-when="Boolean" ng-model="property.defaultValue" ng-options="option for option in [true,false]" class="form-control input-sm">
-                                            <option value="">--请选择--</option>
+                                            <option value="">--选择--</option>
                                         </select>
                                         <input ng-switch-when="Long" ng-model="property.defaultValue" type="number" class="form-control input-sm"/>
                                         <input ng-switch-when="Double" ng-model="property.defaultValue" type="number" class="form-control input-sm"/>
                                         <input ng-switch-when="String" ng-model="property.defaultValue" type="text" class="form-control input-sm"/>
-                                        <input ng-switch-when="Date" ng-model="property.defaultValue" disabled="disabled" type="text" class="form-control input-sm"/>
+                                        <input ng-switch-when="Date" ng-model="property.defaultValue" readonly="readonly" type="text" class="form-control input-sm" uib-datepicker-popup="yyyy-MM-dd" is-open="opened" ng-click="opened = !opened" close-text="关闭" current-text="今天"  clear-text="清除"/>
                                         <select ng-switch-when="Enum" ng-model="property.defaultValue" ng-options="option for option in property.optionalValues" class="form-control input-sm">
-                                            <option value="">--请选择--</option>
+                                            <option value="">--选择--</option>
                                         </select>
                                         <input ng-switch-when="Model" ng-model="property.defaultValue" disabled="disabled" type="text" class="form-control input-sm"/>
                                     </td>
@@ -111,6 +112,18 @@
                                                     </li>
                                                 </ul>
                                             </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">编写脚本 <span class="caret"></span></button>
+                                            <ul class="dropdown-menu" style="width:250px;">
+                                                <li>
+                                                    <a href="javascript:void(0)">
+                                                        <textarea rows="15" cols="25" ng-model="property.cascadeScript"></textarea>
+                                                    </a>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </td>
                                     <td>
@@ -186,12 +199,13 @@
                                 <thead>
                                 <tr class="active">
                                     <th width="25">#</th>
+                                    <th width="125"><span class="text-danger">标题</span></th>
+                                    <th width="80"><span class="text-danger">宽度</span></th>
                                     <th width="150"><span class="text-danger">名称</span></th>
-                                    <th width="150"><span class="text-danger">标题</span></th>
-                                    <th width="125"><span class="text-danger">类型</span></th>
-                                    <th width="100"><span class="text-danger">宽度</span></th>
+                                    <th width="100"><span class="text-danger">类型</span></th>
                                     <th width="125">默认值</th>
                                     <th width="150">可选值</th>
+                                    <th width="100">级联脚本</th>
                                     <th width="100">验证规则</th>
                                     <th>操作</th>
                                 </tr>
@@ -200,38 +214,38 @@
                                 <tr ng-repeat="property in updateRequest.association" ng-init="property.__hashKey = hashKey(property)">
                                     <td>{{$index + 1}}</td>
                                     <td>
-                                        <input name="name{{property.__hashKey}}" uib-tooltip="{{getMessage('name',dynamicModelUpdateForm['name' + property.__hashKey].$error,propertyControl.validateMessages)}}"
-                                               tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.name{{property.__hashKey}}.$invalid && dynamicModelUpdateForm.name{{property.__hashKey}}.$dirty"
-                                               ng-model="property.name" type="text" class="form-control input-sm" ng-pattern="/^[a-zA-Z_]\w{0,19}$/" required/>
-                                    </td>
-                                    <td>
                                         <input name="label{{property.__hashKey}}" uib-tooltip="{{getMessage('label',dynamicModelUpdateForm['label' + property.__hashKey].$error,propertyControl.validateMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.label{{property.__hashKey}}.$invalid && dynamicModelUpdateForm.label{{property.__hashKey}}.$dirty"
                                                ng-model="property.label" type="text" class="form-control input-sm" ng-maxlength="10" required/>
-                                    </td>
-                                    <td>
-                                        <select name="type{{property.__hashKey}}" uib-tooltip="{{getMessage('type',dynamicModelUpdateForm['type' + property.__hashKey].$error,propertyControl.validateMessages)}}"
-                                                tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.type{{property.__hashKey}}.$invalid && dynamicModelUpdateForm.type{{property.__hashKey}}.$dirty"
-                                                ng-change="propertyControl.changeType(property)" ng-model="property.type" ng-options="option.type as option.type for option in propertyControl.typeOptions"
-                                                class="form-control input-sm" required>
-                                            <option value="">--选择类型--</option>
-                                        </select>
                                     </td>
                                     <td>
                                         <input name="viewWidth{{property.__hashKey}}" uib-tooltip="{{getMessage('viewWidth',dynamicModelUpdateForm['viewWidth' + property.__hashKey].$error,propertyControl.validateMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.viewWidth{{property.__hashKey}}.$invalid && dynamicModelUpdateForm.viewWidth{{property.__hashKey}}.$dirty"
                                                ng-model="property.viewWidth" type="number" class="form-control input-sm" min="0" max="1000" required/>
                                     </td>
+                                    <td>
+                                        <input name="name{{property.__hashKey}}" uib-tooltip="{{getMessage('name',dynamicModelUpdateForm['name' + property.__hashKey].$error,propertyControl.validateMessages)}}"
+                                               tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.name{{property.__hashKey}}.$invalid && dynamicModelUpdateForm.name{{property.__hashKey}}.$dirty"
+                                               ng-model="property.name" type="text" class="form-control input-sm" ng-pattern="/^[a-zA-Z_]\w{0,19}$/" required/>
+                                    </td>
+                                    <td>
+                                        <select name="type{{property.__hashKey}}" uib-tooltip="{{getMessage('type',dynamicModelUpdateForm['type' + property.__hashKey].$error,propertyControl.validateMessages)}}"
+                                                tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.type{{property.__hashKey}}.$invalid && dynamicModelUpdateForm.type{{property.__hashKey}}.$dirty"
+                                                ng-change="propertyControl.changeType(property)" ng-model="property.type" ng-options="option.type as option.type for option in propertyControl.typeOptions"
+                                                class="form-control input-sm" required>
+                                            <option value="">--选择--</option>
+                                        </select>
+                                    </td>
                                     <td ng-switch="property.type">
                                         <select ng-switch-when="Boolean" ng-model="property.defaultValue" ng-options="option for option in [true,false]" class="form-control input-sm">
-                                            <option value="">--请选择--</option>
+                                            <option value="">--选择--</option>
                                         </select>
                                         <input ng-switch-when="Long" ng-model="property.defaultValue" type="number" class="form-control input-sm"/>
                                         <input ng-switch-when="Double" ng-model="property.defaultValue" type="number" class="form-control input-sm"/>
                                         <input ng-switch-when="String" ng-model="property.defaultValue" type="text" class="form-control input-sm"/>
-                                        <input ng-switch-when="Date" ng-model="property.defaultValue" disabled="disabled" type="text" class="form-control input-sm"/>
+                                        <input ng-switch-when="Date" ng-model="property.defaultValue" readonly="readonly" type="text" class="form-control input-sm" uib-datepicker-popup="yyyy-MM-dd" is-open="opened" ng-click="opened = !opened" close-text="关闭" current-text="今天"  clear-text="清除"/>
                                         <select ng-switch-when="Enum" ng-model="property.defaultValue" ng-options="option for option in property.optionalValues" class="form-control input-sm">
-                                            <option value="">--请选择--</option>
+                                            <option value="">--选择--</option>
                                         </select>
                                         <input ng-switch-when="Model" ng-model="property.defaultValue" disabled="disabled" type="text" class="form-control input-sm"/>
                                     </td>
@@ -246,6 +260,18 @@
                                                     </li>
                                                 </ul>
                                             </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">编写脚本 <span class="caret"></span></button>
+                                            <ul class="dropdown-menu" style="width:250px;">
+                                                <li>
+                                                    <a href="javascript:void(0)">
+                                                        <textarea rows="15" cols="25" ng-model="property.cascadeScript"></textarea>
+                                                    </a>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </td>
                                     <td>
@@ -347,7 +373,7 @@
                                                ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
                                         <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelUpdateForm['$association$' + property.name + propertyValue.__hashKey].$error,associationMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dynamicModelUpdateForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
-                                               ng-switch-when="Date" ng-model="propertyValue[property.name]" type="text" readonly="readonly" class="form-control input-sm" datepicker-popup="yyyy-MM-dd" is-open="opened" ng-click="opened = !opened" close-text="关闭" current-text="今天"  clear-text="清除"
+                                               ng-switch-when="Date" ng-model="propertyValue[property.name]" type="text" readonly="readonly" class="form-control input-sm" uib-datepicker-popup="yyyy-MM-dd" is-open="opened" ng-click="opened = !opened" close-text="关闭" current-text="今天"  clear-text="清除"
                                                ng-required="property.validator.required"/>
                                         <select name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelUpdateForm['$association$' + property.name + propertyValue.__hashKey].$error,associationMessages)}}"
                                                 tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dynamicModelUpdateForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"

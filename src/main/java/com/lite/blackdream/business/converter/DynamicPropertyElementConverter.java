@@ -60,6 +60,12 @@ public class DynamicPropertyElementConverter extends BaseElementConverter<Dynami
             }
         }
 
+        String cascadeScript = entity.getCascadeScript();
+        if(cascadeScript != null){
+            Element cascadeScriptElement = element.addElement("cascadeScript");
+            cascadeScriptElement.setText(cascadeScript);
+        }
+
         Map<String, Object> validator = entity.getValidator();
         if(validator != null) {
             Element validatorElement = element.addElement("validator");
@@ -131,6 +137,11 @@ public class DynamicPropertyElementConverter extends BaseElementConverter<Dynami
             for (int i = 0; i < optionalValuesElements.size() ; i++) {
                 optionalValues[i] = optionalValuesElements.get(i).getText();
             }
+        }
+
+        Node cascadeScriptNode = element.element("cascadeScript");
+        if(cascadeScriptNode != null){
+            entity.setType(cascadeScriptNode.getText());
         }
 
         Element validatorNode = element.element("validator");

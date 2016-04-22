@@ -22,9 +22,9 @@ public class DynamicProperty extends Domain{
 
     private Double viewWidth;
 
-    private String multipleValue;
-
     private String[] optionalValues;
+
+    private String cascadeScript;
 
     private Map<String, Object> validator = new LinkedHashMap<>();
 
@@ -72,20 +72,20 @@ public class DynamicProperty extends Domain{
         this.viewWidth = viewWidth;
     }
 
-    public String getMultipleValue() {
-        return multipleValue;
-    }
-
-    public void setMultipleValue(String multipleValue) {
-        this.multipleValue = multipleValue;
-    }
-
     public String[] getOptionalValues() {
         return optionalValues;
     }
 
     public void setOptionalValues(String[] optionalValues) {
         this.optionalValues = optionalValues;
+    }
+
+    public String getCascadeScript() {
+        return cascadeScript;
+    }
+
+    public void setCascadeScript(String cascadeScript) {
+        this.cascadeScript = cascadeScript;
     }
 
     public Map<String, Object> getValidator() {

@@ -82,6 +82,10 @@ define(
                                     propertiesKeys.dataModelTypeKeys[property.name] = true;
                                 }
 
+                                if(property.cascadeScript){
+                                    property.cascadeFunction = new Function("property", property.cascadeScript);
+                                }
+
                                 var validator = property.validator;
                                 if(validator){
                                     var fieldMessages = propertiesMessages[property.name] = {};
@@ -112,6 +116,10 @@ define(
                                 }
                                 else if(property.type == "Model"){
                                     associationKeys.dataModelTypeKeys[property.name] = true;
+                                }
+
+                                if(property.cascadeScript){
+                                    property.cascadeFunction = new Function("property", property.cascadeScript);
                                 }
 
                                 var validator = property.validator;

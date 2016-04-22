@@ -221,7 +221,14 @@ define(
                         }
                     },
                     add:function() {
-                        $scope.createRequest.predefinedAssociation.push({});
+                        var properties = {};
+                        for(var i = 0 ; i < $scope.createRequest.association.length ; i++){
+                            var property = $scope.createRequest.association[i];
+                            if(property.defaultValue != null){
+                                properties[property.name] = property.defaultValue;
+                            }
+                        }
+                        $scope.createRequest.predefinedAssociation.push(properties);
 
                     },
                     delete:function(entity, index) {

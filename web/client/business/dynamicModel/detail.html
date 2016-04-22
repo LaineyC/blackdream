@@ -24,24 +24,26 @@
                                 <thead>
                                 <tr class="active">
                                     <th width="25">#</th>
-                                    <th width="100">名称</th>
                                     <th width="100">标题</th>
-                                    <th width="100">类型</th>
                                     <th width="50">宽比</th>
+                                    <th width="100">名称</th>
+                                    <th width="100">类型</th>
                                     <th width="100">默认值</th>
-                                    <th width="250">可选值</th>
-                                    <th width="250">验证规则</th>
+                                    <th width="200">可选值</th>
+                                    <th width="200">级联脚本</th>
+                                    <th width="200">验证规则</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr ng-repeat="property in dynamicModel.properties track by $index">
                                     <td>{{$index + 1}}</td>
-                                    <td>{{property.name}}</td>
                                     <td>{{property.label}}</td>
-                                    <td>{{property.type}}</td>
                                     <td>{{property.viewWidth}}</td>
+                                    <td>{{property.name}}</td>
+                                    <td>{{property.type}}</td>
                                     <td>{{property.defaultValue}}</td>
                                     <td><span ng-repeat="optionalValue in property.optionalValues track by $index">{{optionalValue}}&nbsp;</span></td>
+                                    <td>{{property.cascadeScript}}</td>
                                     <td><span ng-repeat="(k,v) in property.validator track by $index">{{k}}:{{v}}&nbsp;</span></td>
                                 </tr>
                                 </tbody>
@@ -55,24 +57,26 @@
                                 <thead>
                                 <tr class="active">
                                     <th width="25">#</th>
-                                    <th width="100">名称</th>
                                     <th width="100">标题</th>
-                                    <th width="100">类型</th>
                                     <th width="50">宽度</th>
+                                    <th width="100">名称</th>
+                                    <th width="100">类型</th>
                                     <th width="100">默认值</th>
-                                    <th width="250">可选值</th>
-                                    <th width="250">验证规则</th>
+                                    <th width="200">可选值</th>
+                                    <th width="200">级联脚本</th>
+                                    <th width="200">验证规则</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr ng-repeat="property in dynamicModel.association track by $index">
                                     <td>{{$index + 1}}</td>
-                                    <td>{{property.name}}</td>
                                     <td>{{property.label}}</td>
-                                    <td>{{property.type}}</td>
                                     <td>{{property.viewWidth}}</td>
+                                    <td>{{property.name}}</td>
+                                    <td>{{property.type}}</td>
                                     <td>{{property.defaultValue}}</td>
                                     <td><span ng-repeat="optionalValue in property.optionalValues track by $index">{{optionalValue}}&nbsp;</span></td>
+                                    <td>{{property.cascadeScript}}</td>
                                     <td><span ng-repeat="(k,v) in property.validator track by $index">{{k}}:{{v}}&nbsp;</span></td>
                                 </tr>
                                 </tbody>

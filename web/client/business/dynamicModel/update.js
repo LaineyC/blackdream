@@ -148,6 +148,7 @@ define(
                     },
                     removeOptionalValue: function(property, $index){
                         property.optionalValues.splice($index, 1);
+                        $scope.dynamicModelUpdateForm.$setDirty();
                     },
                     changeType:function(property){
                         property.defaultValue = null;
@@ -246,7 +247,14 @@ define(
                         }
                     },
                     add:function() {
-                        $scope.updateRequest.predefinedAssociation.push({});
+                        var properties = {};
+                        for(var i = 0 ; i < $scope.updateRequest.association.length ; i++){
+                            var property = $scope.updateRequest.association[i];
+                            if(property.defaultValue != null){
+                                properties[property.name] = property.defaultValue;
+                            }
+                        }
+                        $scope.updateRequest.predefinedAssociation.push(properties);
                         $scope.dynamicModelUpdateForm.$setDirty();
                     },
                     delete:function(entity, index) {

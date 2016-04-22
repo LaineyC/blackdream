@@ -230,7 +230,6 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
                 newDynamicProperty.setViewWidth(property.getViewWidth());
                 newDynamicProperty.setType(property.getType());
                 newDynamicProperty.setDefaultValue(property.getDefaultValue());
-                newDynamicProperty.setMultipleValue(property.getMultipleValue());
                 newDynamicModel.getProperties().add(newDynamicProperty);
             });
             List<DynamicProperty> association = dynamicModel.getAssociation();
@@ -249,7 +248,6 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
                 newDynamicProperty.setViewWidth(property.getViewWidth());
                 newDynamicProperty.setType(property.getType());
                 newDynamicProperty.setDefaultValue(property.getDefaultValue());
-                newDynamicProperty.setMultipleValue(property.getMultipleValue());
                 newDynamicModel.getAssociation().add(newDynamicProperty);
             });
             dynamicModelCache.put(newDynamicModel.getId(), newDynamicModel);
