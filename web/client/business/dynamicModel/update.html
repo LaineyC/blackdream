@@ -114,7 +114,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td align="center">
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">编写脚本 <span class="caret"></span></button>
                                             <ul class="dropdown-menu" style="width:250px;">
@@ -124,7 +124,7 @@
                                             </ul>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td align="center">
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">设置规则 <span class="caret"></span></button>
                                             <ul class="dropdown-menu" style="width:250px;">
@@ -260,7 +260,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td align="center">
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">编写脚本 <span class="caret"></span></button>
                                             <ul class="dropdown-menu" style="width:250px;">
@@ -270,7 +270,7 @@
                                             </ul>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td align="center">
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">设置规则 <span class="caret"></span></button>
                                             <ul class="dropdown-menu" style="width:250px;">
@@ -351,7 +351,7 @@
                                 <tbody ui-sortable="predefinedAssociationControl.sortableOptions" ng-model="updateRequest.predefinedAssociation">
                                 <tr ng-repeat="propertyValue in updateRequest.predefinedAssociation">
                                     <td>{{$index + 1}}</td>
-                                    <td ng-repeat="property in updateRequest.association" ng-switch="property.type" ng-init="propertyValue.__hashKey = hashKey(propertyValue)">
+                                    <td align="center" ng-repeat="property in updateRequest.association" ng-switch="property.type" ng-init="propertyValue.__hashKey = hashKey(propertyValue)">
                                         <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelUpdateForm['$association$' + property.name + propertyValue.__hashKey].$error,associationMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dynamicModelUpdateForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
                                                ng-switch-when="Boolean" ng-model="propertyValue[property.name]" type="checkbox" ng-true-value="true" ng-false-value="false"/>

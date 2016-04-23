@@ -141,7 +141,7 @@ public class DynamicPropertyElementConverter extends BaseElementConverter<Dynami
 
         Node cascadeScriptNode = element.element("cascadeScript");
         if(cascadeScriptNode != null){
-            entity.setType(cascadeScriptNode.getText());
+            entity.setCascadeScript(cascadeScriptNode.getText());
         }
 
         Element validatorNode = element.element("validator");

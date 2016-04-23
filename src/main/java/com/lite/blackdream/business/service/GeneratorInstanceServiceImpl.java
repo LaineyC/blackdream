@@ -44,6 +44,9 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
     @Autowired
     private DynamicModelService dynamicModelService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public GeneratorInstance create(GeneratorInstanceCreateRequest request) {
         Authentication authentication = request.getAuthentication();
@@ -333,29 +336,33 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         });
 
         Long generateId = idWorker.nextId();
+        User developer = userRepository.selectById(generator.getDeveloper().getId());
         TemplateStrategy templateStrategyClone = templateStrategy.clone();
 
         Global global = new Global();
         global.setGenerateId(generateId);
         global.setTemplateCache(templateCache);
-        global.setUser(new User(){
-            {
-                this.setId(authentication.getUserId());
-                this.setUserName(authentication.getUserName());
-            }
-        });
-        global.setGenerator(new Generator(){
-            {
-                this.setId(generator.getId());
-                this.setName(generator.getName());
-            }
-        });
-        global.setGeneratorInstance(new GeneratorInstance(){
-            {
-                this.setId(generatorInstance.getId());
-                this.setName(generatorInstance.getName());
-            }
-        });
+
+        User userClone = new User();
+        userClone.setId(authentication.getUserId());
+        userClone.setUserName(authentication.getUserName());
+        global.setUser(userClone);
+
+        Generator generatorClone = new Generator();
+        generatorClone.setId(generator.getId());
+        generatorClone.setName(generator.getName());
+        global.setGenerator(generatorClone);
+
+        GeneratorInstance generatorInstanceClone = new GeneratorInstance();
+        generatorInstanceClone.setId(generatorInstance.getId());
+        generatorInstanceClone.setName(generatorInstance.getName());
+        global.setGeneratorInstance(generatorInstanceClone);
+
+        User developerClone = new User();
+        developerClone.setId(developer.getId());
+        developerClone.setUserName(developer.getUserName());
+        global.setDeveloper(developerClone);
+
         global.setTemplateStrategy(templateStrategyClone);
 
         Context context = new Context();

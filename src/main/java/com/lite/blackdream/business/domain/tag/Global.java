@@ -16,6 +16,8 @@ public class Global {
 
     private User user;
 
+    private  User developer;
+
     private Generator generator;
 
     private TemplateStrategy templateStrategy;
@@ -42,6 +44,14 @@ public class Global {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public User getDeveloper() {
+        return developer;
+    }
+
+    public void setDeveloper(User developer) {
+        this.developer = developer;
     }
 
     public Generator getGenerator() {

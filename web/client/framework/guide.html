@@ -84,10 +84,35 @@
                     <div class="panel-body">
                         <p>策略文件定义了代码生成和文件生成的规则。</p>
                         <p>代码生成策略定义了一组标签，采用<strong class="text-warning">EL表达式</strong>访问变量。</p>
-                        <p>策略内置变量<span class="text-info">data</span>（类型<strong class="text-warning">DataModel</strong>）和<span class="text-info">global</span>（类型<strong class="text-warning">Global</strong>）。</p>
+                        <p>策略内置变量<span class="text-info">global</span>（类型<strong class="text-warning">Global</strong>）和<span class="text-info">data</span>（类型<strong class="text-warning">DataModel</strong>）。</p>
                         <pre style="background-color:inherit;">
+<span class="text-success">//全局变量</span>
+<strong class="text-warning">Global</strong> <span class="text-warning">{</span>
+
+    <span class="text-success">//生成号</span>
+    <span class="text-primary">Long</span> <span class="text-info">generateId</span>
+
+    <span class="text-success">//生成代码时的用户</span>
+    <span class="text-primary">User</span> <span class="text-info">user</span>
+
+    <span class="text-success">//生成器开发者</span>
+    <span class="text-primary">User</span> <span class="text-info">developer</span>
+
+    <span class="text-success">//生成器</span>
+    <span class="text-primary">Generator</span> <span class="text-info">generator</span>
+
+    <span class="text-success">//生成器实例</span>
+    <span class="text-primary">GeneratorInstance</span> <span class="text-info">generatorInstance</span>
+
+    <span class="text-success">//生成策略</span>
+    <span class="text-primary">TemplateStrategy</span> <span class="text-info">templateStrategy</span>
+<span class="text-warning">}</span>
+
 <span class="text-success">//数据模型</span>
 <strong class="text-warning">DataModel</strong> <span class="text-warning">{</span>
+
+    <span class="text-success">//ID</span>
+    <span class="text-primary">Long</span> <span class="text-info">id</span>
 
     <span class="text-success">//数据对象的名称</span>
     <span class="text-primary">String</span> <span class="text-info">name</span>
@@ -108,27 +133,11 @@
     <span class="text-primary">DynamicModel</span> <span class="text-info">dynamicModel</span>
 <span class="text-warning">}</span>
 
-<span class="text-success">//全局变量</span>
-<strong class="text-warning">Global</strong> <span class="text-warning">{</span>
-
-    <span class="text-success">//生成号</span>
-    <span class="text-primary">Long</span> <span class="text-info">generateId</span>
-
-    <span class="text-success">//当前用户</span>
-    <span class="text-primary">User</span> <span class="text-info">user</span>
-
-    <span class="text-success">//所属生成器</span>
-    <span class="text-primary">Generator</span> <span class="text-info">generator</span>
-
-    <span class="text-success">//所属生成器实例</span>
-    <span class="text-primary">GeneratorInstance</span> <span class="text-info">generatorInstance</span>
-
-    <span class="text-success">//生成策略</span>
-    <span class="text-primary">TemplateStrategy</span> <span class="text-info">templateStrategy</span>
-<span class="text-warning">}</span>
-
 <span class="text-success">//用户</span>
 <strong class="text-warning">User</strong> <span class="text-warning">{</span>
+
+    <span class="text-success">//ID</span>
+    <span class="text-primary">Long</span> <span class="text-info">id</span>
 
     <span class="text-success">//用户名</span>
     <span class="text-primary">String</span> <span class="text-info">userName</span>
@@ -137,14 +146,31 @@
 <span class="text-success">//生成器</span>
 <strong class="text-warning">Generator</strong> <span class="text-warning">{</span>
 
-    <span class="text-success">//名称</span>
+    <span class="text-success">//ID</span>
+    <span class="text-primary">Long</span> <span class="text-info">id</span>
+
+    <span class="text-success">//生成器名称</span>
     <span class="text-primary">String</span> <span class="text-info">name</span>
+<span class="text-warning">}</span>
 
-    <span class="text-success">//开发者</span>
-    <span class="text-primary">User</span> <span class="text-info">developer</span>
+<span class="text-success">//生成器实例</span>
+<strong class="text-warning">GeneratorInstance</strong> <span class="text-warning">{</span>
 
-    <span class="text-success">//描述</span>
-    <span class="text-primary">String</span> <span class="text-info">description</span>
+    <span class="text-success">//ID</span>
+    <span class="text-primary">Long</span> <span class="text-info">id</span>
+
+    <span class="text-success">//生成器实例名称</span>
+    <span class="text-primary">String</span> <span class="text-info">name</span>
+<span class="text-warning">}</span>
+
+<span class="text-success">//生成策略</span>
+<strong class="text-warning">TemplateStrategy</strong> <span class="text-warning">{</span>
+
+    <span class="text-success">//ID</span>
+    <span class="text-primary">Long</span> <span class="text-info">id</span>
+
+    <span class="text-success">//生成策略名称</span>
+    <span class="text-primary">String</span> <span class="text-info">name</span>
 <span class="text-warning">}</span>
                         </pre>
                         <table class="table table-bordered table-condensed table-hover">
