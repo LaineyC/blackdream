@@ -14,6 +14,7 @@
             $codeImg =  $("#code-img");
 
         var status = {progress:0, max:60, step:10, now:0, response:null, submit:false};
+        
         function progressRun(){
             $progress.removeClass("hide");
             var hasError = status.response && status.response.error;
@@ -47,7 +48,8 @@
             }
             window.setTimeout(progressRun, 10);
         }
-        $signIn.click(function(){
+
+        var signInFun = function(){
             if(status.submit)
                 return;
             var username = $.trim($username.val()),
@@ -70,11 +72,11 @@
                 $alert.text("密码为6-32位数字或字母");
             }
             /*
-            else if(errorTime >= 3 && code === ""){
-                $alert.removeClass("hide");
-                $alert.text("请填写验证码");
-            }
-            */
+             else if(errorTime >= 3 && code === ""){
+             $alert.removeClass("hide");
+             $alert.text("请填写验证码");
+             }
+             */
             else{
                 $alert.addClass("hide");
                 $alert.text("");
@@ -94,7 +96,22 @@
                     }
                 });
             }
+        };
+
+        $signIn.click(signInFun);
+
+        $username.keyup(function(event){
+            if(event.which == 13){
+                signInFun();
+            }
         });
+
+        $password.keyup(function(event){
+            if(event.which == 13){
+                signInFun();
+            }
+        });
+
         /*
         $codeImg.click(function(){
             $(this).find("img").attr("src","http://manage.dingcai.com/verificationCode.jsp?date=" + new Date().getTime());

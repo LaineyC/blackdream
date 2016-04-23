@@ -3,26 +3,26 @@
         <div class="row">
             <div class="col-sm-3" style="position: relative;min-height: 1px;">
                 <div style="position: fixed;top:65px;width: 225px;">
-                    <div class="panel panel-primary">
+                    <div class="panel panel-default">
                         <div class="panel-heading"><label>开发手册</label></div>
                         <div class="list-group" >
-                            <a href="javascript:void(0)" ng-click="anchorScroll('a1')" class="list-group-item">我的生成器</a>
-                            <a href="javascript:void(0)" ng-click="anchorScroll('a2')" class="list-group-item">数据模型</a>
-                            <a href="javascript:void(0)" ng-click="anchorScroll('a3')" class="list-group-item">模板文件</a>
-                            <a href="javascript:void(0)" ng-click="anchorScroll('a4')" class="list-group-item">生成策略</a>
+                            <a href="javascript:void(0)" ng-click="anchorScroll('a1')" class="list-group-item"><label>我的生成器</label></a>
+                            <a href="javascript:void(0)" ng-click="anchorScroll('a2')" class="list-group-item"><label>数据模型</label></a>
+                            <a href="javascript:void(0)" ng-click="anchorScroll('a3')" class="list-group-item"><label>模板文件</label></a>
+                            <a href="javascript:void(0)" ng-click="anchorScroll('a4')" class="list-group-item"><label>生成策略</label></a>
                         </div>
                     </div>
-                    <div class="panel panel-primary">
+                    <div class="panel panel-default">
                         <div class="panel-heading"><label>用户手册</label></div>
                         <div class="list-group" >
-                            <a href="javascript:void(0)" ng-click="anchorScroll('a5')" class="list-group-item">他们的生成器</a>
-                            <a href="javascript:void(0)" ng-click="anchorScroll('a6')" class="list-group-item">我的实例</a>
+                            <a href="javascript:void(0)" ng-click="anchorScroll('a5')" class="list-group-item"><label>他们的生成器</label></a>
+                            <a href="javascript:void(0)" ng-click="anchorScroll('a6')" class="list-group-item"><label>我的实例</label></a>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-sm-9">
-                <div class="panel panel-primary" id="a1">
+                <div class="panel panel-default" id="a1">
                     <div class="panel-heading">
                         <h3 class="panel-title"><label>我的生成器</label></h3>
                     </div>
@@ -30,7 +30,7 @@
                        <p>一个生成器由<strong class="text-warning">数据模型</strong>、<strong class="text-warning">模板文件</strong>、<strong class="text-warning">生成策略</strong>三部分构成。</p>
                     </div>
                 </div>
-                <div class="panel panel-primary" id="a2">
+                <div class="panel panel-default" id="a2">
                     <div class="panel-heading">
                         <h3 class="panel-title"><label>数据模型</label></h3>
                     </div>
@@ -40,13 +40,13 @@
                         <p><span class="text-info">property</span>是（定义相应属性集后）用户通过工作台添加的一行记录，通过<span class="text-info">property[名称]</span>或者<span class="text-info">property.名称</span>来访问属性的值。</p>
                     </div>
                 </div>
-                <div class="panel panel-primary" id="a3">
+                <div class="panel panel-default" id="a3">
                     <div class="panel-heading">
                         <h3 class="panel-title"><label>模板文件</label></h3>
                     </div>
                     <div class="panel-body">
                         <p>模板文件定义了生成代码的模板，采用<strong class="text-warning">Velocity</strong>模板实现。</p>
-                        <p><strong class="text-warning">Velocity</strong>模板所能访问的变量由策略文件（<strong class="text-warning">TemplateContext</strong>标签及其子标签）定义。</p>
+                        <p><strong class="text-warning">Velocity</strong>模板所能访问的变量由生成策略的<strong class="text-warning">TemplateContext</strong>标签定义。</p>
                         <table class="table table-bordered table-condensed table-hover">
                             <caption>模板内置变量 <a target="_blank" href="http://velocity.apache.org/tools/releases/2.0/generic.html" class="text-info">API文档</a></caption>
                             <thead>
@@ -77,13 +77,13 @@
                         </table>
                     </div>
                 </div>
-                <div class="panel panel-primary" id="a4">
+                <div class="panel panel-default" id="a4">
                     <div class="panel-heading">
                         <h3 class="panel-title"><label>生成策略</label></h3>
                     </div>
                     <div class="panel-body">
-                        <p>策略文件定义了代码生成和文件生成的规则。</p>
-                        <p>代码生成策略定义了一组标签，采用<strong class="text-warning">EL表达式</strong>访问变量。</p>
+                        <p>生成策略是一组标签集，定义了文件（一般是源代码文件）生成和文件夹生成的规则。</p>
+                        <p>标签中的属性采用<strong class="text-warning">EL表达式</strong>访问变量。</p>
                         <p>策略内置变量<span class="text-info">global</span>（类型<strong class="text-warning">Global</strong>）和<span class="text-info">data</span>（类型<strong class="text-warning">DataModel</strong>）。</p>
                         <pre style="background-color:inherit;">
 <span class="text-success">//全局变量</span>
@@ -269,7 +269,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="panel panel-primary" id="a5">
+                <div class="panel panel-default" id="a5">
                     <div class="panel-heading">
                         <h3 class="panel-title"><label>他们的生成器</label></h3>
                     </div>
@@ -277,7 +277,7 @@
                        <p>由开发者制定好的生成器。</p>
                     </div>
                 </div>
-                <div class="panel panel-primary" id="a6">
+                <div class="panel panel-default" id="a6">
                     <div class="panel-heading">
                         <h3 class="panel-title"><label>我的实例</label></h3>
                     </div>

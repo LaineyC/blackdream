@@ -12,38 +12,38 @@
                         <p>核心设计：多生成器，多用户，多实例。</p>
                         <br/>
                         <p>快速构建：几分钟即可定制一款简单的代码生成器。</p>
-                        <p class="text-right"><a href="javascript:void(0);" location-go="/guide">快速指南</a></p>
+                        <p class="text-right"><a href="javascript:void(0);" location-go="/guide"><strong>快速指南</strong></a></p>
                     </div>
                 </div>
                 <div class="page-header">
-                    <p class="text-primary"><a href="javascript:void(0);" ng-click="openAboutModal()">当前版本：1.0.0</a></p>
+                    <p class="text-primary"><a href="javascript:void(0);" ng-click="openAboutModal()"><strong>当前版本：1.0.0</strong></a></p>
                 </div>
             </div>
             <div class="col-sm-4">
-                <div class="panel panel-default" ng-if="!!generatorInstances.length || !!generators.length">
+                <div class="panel panel-default" ng-if="!!generatorInstances.length">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><label>我的实例</label></h3>
+                    </div>
                     <div class="panel-body">
-                        <uib-tabset ng-if="!!generatorInstances.length || !!generators.length">
-                            <uib-tab active="true" ng-if="!!generatorInstances.length">
-                                <uib-tab-heading><label>我的实例</label></uib-tab-heading>
-                                <br/>
-                                <div class="list-group">
-                                    <a href="javascript:void(0);" class="list-group-item" ng-repeat="generatorInstance in generatorInstances" location-go="/business/generatorInstance/detail/{{generatorInstance.id}}">
-                                        <i class="text-info glyphicon glyphicon-briefcase"></i> {{generatorInstance.name}}
-                                    </a>
-                                </div>
-                                <button type="button" class="btn btn-info btn-sm" location-go="/business/generatorInstance/manage">更多</button>
-                            </uib-tab>
-                            <uib-tab ng-if="!!generators.length">
-                                <uib-tab-heading><label>我的生成器</label></uib-tab-heading>
-                                <br/>
-                                <div class="list-group">
-                                    <a href="javascript:void(0);" class="list-group-item" ng-repeat="generator in generators" location-go="/business/generator/detail/{{generator.id}}">
-                                        <i class="text-info glyphicon glyphicon-blackboard"></i> {{generator.name}}
-                                    </a>
-                                </div>
-                                <button type="button" class="btn btn-info btn-sm" location-go="/business/generator/manage">更多</button>
-                            </uib-tab>
-                        </uib-tabset>
+                        <div class="page-header" style="margin: 5px;" ng-repeat="generatorInstance in generatorInstances">
+                            <a href="javascript:void(0);" location-go="/business/generatorInstance/detail/{{generatorInstance.id}}">
+                                <strong class="text-primary">{{generatorInstance.name}}</strong>
+                            </a>
+                        </div>
+                        <button type="button" class="btn btn-link btn-sm" location-go="/business/generatorInstance/manage"><strong>更多</strong></button>
+                    </div>
+                </div>
+                <div class="panel panel-default" ng-if="!!generators.length">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><label>我的生成器</label></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="page-header" style="margin: 5px;" ng-repeat="generator in generators">
+                            <a href="javascript:void(0);" location-go="/business/generator/detail/{{generator.id}}">
+                                <strong class="text-primary">{{generator.name}}</strong>
+                            </a>
+                        </div>
+                        <button type="button" class="btn btn-link btn-sm" location-go="/business/generator/manage"><strong>更多</strong></button>
                     </div>
                 </div>
             </div>

@@ -50,8 +50,6 @@
                             <li><a href="javascript:void(0);" ng-click="openTooltipHistoryModal()">系统消息</a></li>
                             <li><a href="javascript:void(0);" ng-click="openSelectThemeModal()">设置主题</a></li>
                             <li><a href="javascript:void(0);" ng-click="openUpdatePasswordModal()">修改密码</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="javascript:void(0);" ng-click="openLogoutModal()">退出系统</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -60,7 +58,6 @@
                             <li ng-if="!user.creator"><a href="javascript:void(0);" location-go="/business/user/manage">我的用户</a></li>
                             <li ng-if="user.isDeveloper"><a href="javascript:void(0);" location-go="/business/generator/manage">我的生成器</a></li>
                             <li><a href="javascript:void(0);" location-go="/business/generatorInstance/manage">我的实例</a></li>
-                            <!--<li role="separator" class="divider"></li>-->
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -70,6 +67,7 @@
                             <li><a href="javascript:void(0);" ng-click="openAboutModal()">关于</a></li>
                         </ul>
                     </li>
+                    <li><a href="javascript:void(0);" ng-click="openLogoutModal()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退出</a></li>
                 </ul>
             </div>
         </div>
