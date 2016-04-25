@@ -10,13 +10,14 @@
                             <a href="javascript:void(0)" ng-click="anchorScroll('a2')" class="list-group-item"><label>数据模型</label></a>
                             <a href="javascript:void(0)" ng-click="anchorScroll('a3')" class="list-group-item"><label>模板文件</label></a>
                             <a href="javascript:void(0)" ng-click="anchorScroll('a4')" class="list-group-item"><label>生成策略</label></a>
+                            <a href="javascript:void(0)" ng-click="anchorScroll('a5')" class="list-group-item"><label>数据结构</label></a>
                         </div>
                     </div>
                     <div class="panel panel-default">
                         <div class="panel-heading"><label>用户手册</label></div>
                         <div class="list-group" >
-                            <a href="javascript:void(0)" ng-click="anchorScroll('a5')" class="list-group-item"><label>他们的生成器</label></a>
-                            <a href="javascript:void(0)" ng-click="anchorScroll('a6')" class="list-group-item"><label>我的实例</label></a>
+                            <a href="javascript:void(0)" ng-click="anchorScroll('a6')" class="list-group-item"><label>他们的生成器</label></a>
+                            <a href="javascript:void(0)" ng-click="anchorScroll('a7')" class="list-group-item"><label>我的实例</label></a>
                         </div>
                     </div>
                 </div>
@@ -36,22 +37,164 @@
                     </div>
                     <div class="panel-body">
                         <p>数据模型定义了生成器所需源数据的数据类型结构，每个生成器可制定多个数据模型。</p>
-                        <p>级联脚本通过<strong class="text-warning">JavaScript</strong>编写， 脚本内置变量<span class="text-info">property</span>。</p>
-                        <p><span class="text-info">property</span>是（定义相应属性集后）用户通过工作台添加的一行记录，通过<span class="text-info">property[名称]</span>或者<span class="text-info">property.名称</span>来访问属性的值。</p>
-                    </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><label>名称</label></div>
+                            <div class="panel-body">
+                                <p>数据模型的名称。</p>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><label>图标</label></div>
+                            <div class="panel-body">
+                                <p>数据模型的图标。</p>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><label>子模型</label></div>
+                            <div class="panel-body">
+                                <p>子模型定义了该数据模型下能添加的子数据模型类型。</p>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><label>普通属性</label></div>
+                            <div class="panel-body">
+                                <p>普通属性定义了DataModel类型properties属性的数据结构。</p>
+                                <table class="table table-bordered table-condensed table-hover">
+                                    <thead>
+                                    <tr class="active">
+                                        <th class="col-sm-3">列</th>
+                                        <th>列说明</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td><span><span class="text-info">标题</span></span></td>
+                                        <td><span>properties对应Key的中文提示。</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><span class="text-info">宽比</span></span></td>
+                                        <td><span>一行分12格大小，标题默认占位1格，宽比指的是控件所占的格子数量。</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><span class="text-info">名称</span></span></td>
+                                        <td><span>properties的一个Key。</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><span class="text-info">类型</span></span></td>
+                                        <td>
+                                            <span>properties对应Key的值类型，不同类型对应不同的HTML控件</span>
+                                            <p>支持
+                                                <span class="text-info">Boolean</span>，<span class="text-info">Long</span>，
+                                                <span class="text-info">Double</span>，<span class="text-info">String</span>，
+                                                <span class="text-info">Date</span>，<span class="text-info">Enum</span>，
+                                                <span class="text-info">Model</span>类型。<span class="text-info">Model</span>指某一个已定义的DataModel类型。
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><span class="text-info">默认值</span></span></td>
+                                        <td><span>添加properties对应Key的值时的默认值。</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><span class="text-info">可选值</span></span></td>
+                                        <td><span>对于<span class="text-info">Enum</span>枚举类型的枚举值。</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><span class="text-info">级联脚本</span></span></td>
+                                        <td>
+                                            <span>HTML控件change事件所触发执行的脚本，一般用作级联操作。</span>
+                                            <p>级联脚本用<strong class="text-warning">JavaScript</strong>编写， 脚本内置变量<span class="text-info">property</span>。</p>
+                                            <p><span class="text-info">property</span>的引用等于properties，通过<span class="text-info">property[名称]</span>或者<span class="text-info">property.名称</span>来访问属性的值。</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><span class="text-info">验证规则</span></span></td>
+                                        <td><span>添加properties对应Key的值的验证规则。</span></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><label>级联属性</label></div>
+                            <div class="panel-body">
+                                <p>级联属性定义了DataModel类型association属性集合元素的数据结构。</p>
+                                <table class="table table-bordered table-condensed table-hover">
+                                    <thead>
+                                    <tr class="active">
+                                        <th class="col-sm-3">列</th>
+                                        <th>列说明</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td><span><span class="text-info">标题</span></span></td>
+                                        <td><span>添加属性时，表格列的标题。</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><span class="text-info">宽度</span></span></td>
+                                        <td><span>添加属性时，表格列的宽度。</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><span class="text-info">名称</span></span></td>
+                                        <td><span>集合元素对应的Key。</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><span class="text-info">类型</span></span></td>
+                                        <td>
+                                            <span>集合元素对应Key的值类型，不同类型对应不同的HTML控件。</span>
+                                            <p>支持
+                                                <span class="text-info">Boolean</span>，<span class="text-info">Long</span>，
+                                                <span class="text-info">Double</span>，<span class="text-info">String</span>，
+                                                <span class="text-info">Date</span>，<span class="text-info">Enum</span>，
+                                                <span class="text-info">Model</span>类型。<span class="text-info">Model</span>指某一个已定义的DataModel类型。
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><span class="text-info">默认值</span></span></td>
+                                        <td><span>添加集合元素对应Key的值时的默认值。</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><span class="text-info">可选值</span></span></td>
+                                        <td><span>对于<span class="text-info">Enum</span>枚举类型的枚举值。</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><span class="text-info">级联脚本</span></span></td>
+                                        <td>
+                                            <span>HTML控件change事件所触发执行的脚本，一般用作级联操作。</span>
+                                            <p>级联脚本用<strong class="text-warning">JavaScript</strong>编写， 脚本内置变量<span class="text-info">property</span>。</p>
+                                            <p><span class="text-info">property</span>的引用等于集合元素，通过<span class="text-info">property[名称]</span>或者<span class="text-info">property.名称</span>来访问属性的值。</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><span class="text-info">验证规则</span></span></td>
+                                        <td><span>添加集合元素对应Key的值的验证规则。</span></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><label>预设属性</label></div>
+                            <div class="panel-body">
+                                <p>根据级联属性的定义，预设DataModel类型association属性的值。</p>
+                            </div>
+                        </div>
+                   </div>
                 </div>
                 <div class="panel panel-default" id="a3">
                     <div class="panel-heading">
                         <h3 class="panel-title"><label>模板文件</label></h3>
                     </div>
                     <div class="panel-body">
-                        <p>模板文件定义了生成代码的模板，采用<strong class="text-warning">Velocity</strong>模板实现。</p>
+                        <p>模板文件定义了生成文件（一般是源代码文件）的模板，采用<strong class="text-warning">Velocity</strong>模板实现。</p>
                         <p><strong class="text-warning">Velocity</strong>模板所能访问的变量由生成策略的<strong class="text-warning">TemplateContext</strong>标签定义。</p>
                         <table class="table table-bordered table-condensed table-hover">
                             <caption>模板内置变量 <a target="_blank" href="http://velocity.apache.org/tools/releases/2.0/generic.html" class="text-info">API文档</a></caption>
                             <thead>
                                 <tr class="active">
-                                    <th class="col-sm-4">变量名</th>
+                                    <th class="col-sm-3">变量名</th>
                                     <th>变量说明</th>
                                 </tr>
                             </thead>
@@ -82,10 +225,207 @@
                         <h3 class="panel-title"><label>生成策略</label></h3>
                     </div>
                     <div class="panel-body">
-                        <p>生成策略是一组标签集，定义了文件（一般是源代码文件）生成和文件夹生成的规则。</p>
+                        <p>生成策略是一组标签集，定义了生成文件（一般是源代码文件）和生成文件夹的规则。</p>
                         <p>标签中的属性采用<strong class="text-warning">EL表达式</strong>访问变量。</p>
                         <p>策略内置变量<span class="text-info">global</span>（类型<strong class="text-warning">Global</strong>）和<span class="text-info">data</span>（类型<strong class="text-warning">DataModel</strong>）。</p>
-                        <pre style="background-color:inherit;">
+                        <table class="table table-bordered table-condensed table-hover">
+                            <caption>策略内置标签</caption>
+                            <thead>
+                            <tr class="active">
+                                <th class="col-sm-3">标签名</th>
+                                <th>标签说明</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><span class="text-info">Break</span></td>
+                                <td><p>用于跳出<span class="text-info">Foreach</span>标签</p></td>
+                            </tr>
+                            <tr>
+                                <td><span class="text-info">Call</span></td>
+                                <td>
+                                    <p><span class="text-primary">function</span>（静态字符串） 调用定义的<span class="text-info">Function</span></p>
+                                    <p><span class="text-primary">argument1</span>（静态字符串） 实参1</p>
+                                    <p><span class="text-primary">argument2</span>（静态字符串） 实参2</p>
+                                    <p><span class="text-primary">argument3</span>（静态字符串） 实参3</p>
+                                    <p><span class="text-primary">argument4</span>（静态字符串） 实参4</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="text-info">Continue</span></td>
+                                <td><p>用于<span class="text-info">Foreach</span>标签的Continue操作</p></td>
+                            </tr>
+                            <tr>
+                                <td><span class="text-info">File</span></td>
+                                <td>
+                                    <p><span class="text-primary">name</span>（支持EL表达式的字符串） 生成文件名称（全路径），示例值：com/xx/${module.name}/domain/${domain.name}.java</p>
+                                    <p><span class="text-primary">template</span>（选择预定义的模板文件） 生成文件用到的模板文件</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="text-info">Folder</span></td>
+                                <td><p><span class="text-primary">name</span>（支持EL表达式的字符串） 生成文件夹名称（全路径），示例值：com/${project.name}/${module.name}/domain</p></td>
+                            </tr>
+                            <tr>
+                                <td><span class="text-info">Foreach</span></td>
+                                <td>
+                                    <p><span class="text-primary">item</span>（静态字符串） 迭代参数</p>
+                                    <p><span class="text-primary">items</span>（EL表达式获取的集合类型） 迭代的集合变量，示例值：${module.children}</p>
+                                    <p><span class="text-primary">status</span>（静态字符串） 迭代变量的名称，用来表示迭代的状态，可以访问到迭代自身的信息。
+                                        属性：<span class="text-info">first</span>，<span class="text-info">last</span>，<span class="text-info">index</span>，<span class="text-info">count</span>。
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="text-info">Function</span></td>
+                                <td>
+                                    <p><span class="text-primary">name</span>（静态字符串） 函数名称</p>
+                                    <p><span class="text-primary">argument1</span>（静态字符串） 形参1</p>
+                                    <p><span class="text-primary">argument2</span>（静态字符串） 形参2</p>
+                                    <p><span class="text-primary">argument3</span>（静态字符串） 形参3</p>
+                                    <p><span class="text-primary">argument4</span>（静态字符串） 形参4</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="text-info">If</span></td>
+                                <td><p><span class="text-primary">test</span>（EL表达式获取的布尔类型） If的判断条件，示例值：${isSuccess}</p></td>
+                            </tr>
+                            <tr>
+                                <td><span class="text-info">Return</span></td>
+                                <td><p>用于跳出<span class="text-info">Function</span>标签</td>
+                            </tr>
+                            <tr>
+                                <td><span class="text-info">Set</span></td>
+                                <td>
+                                    <p><span class="text-primary">var</span>（静态字符串） 变量名</p>
+                                    <p><span class="text-primary">value</span>（EL表达式获取的对象类型） 变量值</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="text-info">TemplateContext</span></td>
+                                <td>
+                                    <p><span class="text-primary">var</span>（静态字符串） 变量名</p>
+                                    <p><span class="text-primary">value</span>（EL表达式获取的对象类型） 变量值</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="text-info">TemplateStrategy</span></td>
+                                <td>
+                                    <p><span class="text-primary">name</span>（静态字符串） 名称</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="text-info">Var</span></td>
+                                <td>
+                                    <p><span class="text-primary">name</span>（静态字符串） 变量名</p>
+                                    <p><span class="text-primary">value</span>（EL表达式获取的对象类型） 变量值</p>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered table-condensed table-hover">
+                            <caption>策略内置函数</caption>
+                            <thead>
+                            <tr class="active">
+                                <th class="col-sm-3">函数名</th>
+                                <th class="col-sm-4">函数说明</th>
+                                <th>使用举例</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span><span class="text-info">fn:contains</span></span></td>
+                                    <td><span>判断字符串是否包含另外一个字符串</span></td>
+                                    <td><span>${fn:contains(name, searchString)}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span><span class="text-info">fn:containsIgnoreCase</span></span></td>
+                                    <td><span>判断字符串是否包含另外一个字符串(大小写无关)</span></td>
+                                    <td><span>${fn:containsIgnoreCase(name, searchString)}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span><span class="text-info">fn:endsWith</span></span></td>
+                                    <td><span>判断字符串是否以另外字符串结束</span></td>
+                                    <td><span>${fn:endsWith(filename, ".txt")}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span><span class="text-info">fn:escapeXml</span></span></td>
+                                    <td><span>把一些字符转成XML表示，例如&lt;字符应该转为&amp;lt;</span></td>
+                                    <td><span>${fn:escapeXml(param)}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span><span class="text-info">fn:indexOf</span></span></td>
+                                    <td><span>子字符串在母字符串中出现的位置</span></td>
+                                    <td><span>${fn:indexOf(name, "-")}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span><span class="text-info">fn:join</span></span></td>
+                                    <td><span>将数组中的数据联合成一个新字符串，并使用指定字符格开</span></td>
+                                    <td><span>${fn:join(array, ";")}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span><span class="text-info">fn:length</span></span></td>
+                                    <td><span>获取字符串的长度，或者数组的大小</span></td>
+                                    <td><span>${fn:length(shoppingCart.products)}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span><span class="text-info">fn:replace</span></span></td>
+                                    <td><span>替换字符串中指定的字符</span></td>
+                                    <td><span>${fn:replace(text, "-", "&amp;#149;")}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span><span class="text-info">fn:split</span></span></td>
+                                    <td><span>把字符串按照指定字符切分</span></td>
+                                    <td><span>${fn:split(customerNames, ";")}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span><span class="text-info">fn:startsWith</span></span></td>
+                                    <td><span>判断字符串是否以某个子串开始</span></td>
+                                    <td><span>${fn:startsWith(product.id, "100-")}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span><span class="text-info">fn:substring</span></span></td>
+                                    <td><span>获取子串</span></td>
+                                    <td><span>${fn:substring(zip, 6, -1)}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span><span class="text-info">fn:substringAfter</span></span></td>
+                                    <td>
+                                        <p><span>获取从某个字符所在位置开始的子串</span></p>
+                                    </td>
+                                    <td><span>${fn:substringAfter(zip, "-")}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span><span class="text-info">fn:substringBefore</span></span></td>
+                                    <td><span>获取从开始到某个字符所在位置的子串</span></td>
+                                    <td><span>${fn:substringBefore(zip, "-")}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span><span class="text-info">fn:toLowerCase</span></span></td>
+                                    <td><span>转为小写</span></td>
+                                    <td><span>${fn:toLowerCase(product.name)}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span><span class="text-info">fn:toUpperCase</span></span></td>
+                                    <td><span>转为大写字符</span></td>
+                                    <td><span>${fn:toUpperCase(product.name)}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span><span class="text-info">fn:trim</span></span></td>
+                                    <td><span>去除字符串前后的空格</span></td>
+                                    <td><span>${fn:trim(name)}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel panel-default" id="a5">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><label>数据结构</label></h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            <pre style="background-color:inherit;">
 <span class="text-success">//全局变量</span>
 <strong class="text-warning">Global</strong> <span class="text-warning">{</span>
 
@@ -172,104 +512,11 @@
     <span class="text-success">//生成策略名称</span>
     <span class="text-primary">String</span> <span class="text-info">name</span>
 <span class="text-warning">}</span>
-                        </pre>
-                        <table class="table table-bordered table-condensed table-hover">
-                            <caption>策略内置函数</caption>
-                            <thead>
-                            <tr class="active">
-                                <th class="col-sm-3">函数名</th>
-                                <th class="col-sm-4">函数说明</th>
-                                <th>使用举例</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><span><span class="text-info">fn:contains</span></span></td>
-                                    <td><span>判断字符串是否包含另外一个字符串</span></td>
-                                    <td><span>${fn:contains(name, searchString)}</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span><span class="text-info">fn:containsIgnoreCase</span></span></td>
-                                    <td><span>判断字符串是否包含另外一个字符串(大小写无关)</span></td>
-                                    <td><span>${fn:containsIgnoreCase(name, searchString)}</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span><span class="text-info">fn:endsWith</span></span></td>
-                                    <td><span>判断字符串是否以另外字符串结束</span></td>
-                                    <td><span>${fn:endsWith(filename, ".txt")}</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span><span class="text-info">fn:escapeXml</span></span></td>
-                                    <td><span>把一些字符转成XML表示，例如&lt;字符应该转为&amp;lt;</span></td>
-                                    <td><span>${fn:escapeXml(param:info)}</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span><span class="text-info">fn:indexOf</span></span></td>
-                                    <td><span>子字符串在母字符串中出现的位置</span></td>
-                                    <td><span>${fn:indexOf(name, "-")}</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span><span class="text-info">fn:join</span></span></td>
-                                    <td><span>将数组中的数据联合成一个新字符串，并使用指定字符格开</span></td>
-                                    <td><span>${fn:join(array, ";")}</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span><span class="text-info">fn:length</span></span></td>
-                                    <td><span>获取字符串的长度，或者数组的大小</span></td>
-                                    <td><span>${fn:length(shoppingCart.products)}</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span><span class="text-info">fn:replace</span></span></td>
-                                    <td><span>替换字符串中指定的字符</span></td>
-                                    <td><span>${fn:replace(text, "-", "&amp;#149;")}</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span><span class="text-info">fn:split</span></span></td>
-                                    <td><span>把字符串按照指定字符切分</span></td>
-                                    <td><span>${fn:split(customerNames, ";")}</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span><span class="text-info">fn:startsWith</span></span></td>
-                                    <td><span>判断字符串是否以某个子串开始</span></td>
-                                    <td><span>${fn:startsWith(product.id, "100-")}</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span><span class="text-info">fn:substring</span></span></td>
-                                    <td><span>获取子串</span></td>
-                                    <td><span>${fn:substring(zip, 6, -1)}</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span><span class="text-info">fn:substringAfter</span></span></td>
-                                    <td>
-                                        <p><span>获取从某个字符所在位置开始的子串</span></p>
-                                    </td>
-                                    <td><span>${fn:substringAfter(zip, "-")}</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span><span class="text-info">fn:substringBefore</span></span></td>
-                                    <td><span>获取从开始到某个字符所在位置的子串</span></td>
-                                    <td><span>${fn:substringBefore(zip, "-")}</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span><span class="text-info">fn:toLowerCase</span></span></td>
-                                    <td><span>转为小写</span></td>
-                                    <td><span>${fn.toLowerCase(product.name)}</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span><span class="text-info">fn:toUpperCase</span></span></td>
-                                    <td><span>转为大写字符</span></td>
-                                    <td><span>${fn.toUpperCase(product.name)}</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span><span class="text-info">fn:trim</span></span></td>
-                                    <td><span>去除字符串前后的空格</span></td>
-                                    <td><span>${fn.trim(name)}</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                            </pre>
+                        </p>
                     </div>
                 </div>
-                <div class="panel panel-default" id="a5">
+                <div class="panel panel-default" id="a6">
                     <div class="panel-heading">
                         <h3 class="panel-title"><label>他们的生成器</label></h3>
                     </div>
@@ -277,13 +524,13 @@
                        <p>由开发者制定好的生成器。</p>
                     </div>
                 </div>
-                <div class="panel panel-default" id="a6">
+                <div class="panel panel-default" id="a7">
                     <div class="panel-heading">
                         <h3 class="panel-title"><label>我的实例</label></h3>
                     </div>
                     <div class="panel-body">
                         <p>每个生成器可以创建多个实例，一个实例一份数据。</p>
-                        <p>用户通过搜索出的生成器生成实例，然后进控制台进行生成数据的输入。</p>
+                        <p>用户通过搜索出的生成器生成实例，然后进控制台进行生成器数据的输入。</p>
                     </div>
                 </div>
             </div>
