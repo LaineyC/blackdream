@@ -1,5 +1,4 @@
-# blackdream
-web版代码生成器框架
+# blackdream web版代码生成器框架
 <div>
     <div>
         <p><b>BlackDream</b>是一款源代码生成器构建框架，用于快速构建一款源代码生成器来生成目标代码，从而提升项目开发效率。</p>
