@@ -40,7 +40,7 @@
     <li class="list-group-item" ng-repeat="child in parent.children" ng-init="p=parent;child.__hashKey = hashKey(child);formatTag(child);">
         <i class="glyphicon glyphicon-plus" ng-class="child.children.length ? (child.$closed ? 'glyphicon-plus' : 'glyphicon-minus') : 'glyphicon-leaf'" ng-click="child.$closed =! child.$closed;"></i>
         <label>{{child.tagName}}</label>
-        <div class="input-group" ng-repeat="(name,attribute) in tagRules[child.tagName].attributes" style="margin-right: 5px;" ng-switch="name">
+        <div class="input-group" ng-repeat="(name,attribute) in tagRules[child.tagName].attributes" ng-switch="name">
             <span class="input-group-addon" ng-class="{'text-danger':attribute.required.rule && templateStrategyUpdateForm[name + child.__hashKey].$error.required}">{{name}}</span>
             <select ng-switch-when="template" uib-tooltip="{{getMessage(name,templateStrategyUpdateForm[name + child.__hashKey].$error,tagRules[child.tagName].attributes)}}"
                     tooltip-trigger="none" tooltip-is-open="templateStrategyUpdateForm[name + child.__hashKey].$invalid && templateStrategyUpdateForm[name + child.__hashKey].$dirty"

@@ -28,7 +28,8 @@
                         <h3 class="panel-title"><label>我的生成器</label></h3>
                     </div>
                     <div class="panel-body">
-                       <p>一个生成器由<strong class="text-warning">数据模型</strong>、<strong class="text-warning">模板文件</strong>、<strong class="text-warning">生成策略</strong>三部分构成。</p>
+                        <p>一个生成器由<strong class="text-warning">数据模型</strong>、<strong class="text-warning">模板文件</strong>、<strong class="text-warning">生成策略</strong>三部分构成。</p>
+                        <p>用户先是在工作台根据生成器预定义的<strong class="text-warning">数据模型</strong>输入相应源数据，然后选择<strong class="text-warning">生成策略</strong>，最后生成器根据<strong class="text-warning">生成策略</strong>及其对应的<strong class="text-warning">模板文件</strong>来生成相应的文件及文件夹。</p>
                     </div>
                 </div>
                 <div class="panel panel-default" id="a2">
@@ -217,7 +218,7 @@
                     <div class="panel-body">
                         <p>生成策略是一组标签集，定义了生成文件（一般是源代码文件）和生成文件夹的规则。</p>
                         <p>标签中的属性采用<strong class="text-warning">EL表达式</strong>访问变量。</p>
-                        <p>策略内置变量<span class="text-info">global</span>（类型<strong class="text-warning">Global</strong>）和<span class="text-info">data</span>（类型<strong class="text-warning">DataModel</strong>）。</p>
+                        <p>策略内置变量<span class="text-info">global</span>（<strong class="text-warning">Global</strong>类型）和<span class="text-info">data</span>（<strong class="text-warning">DataModel</strong>类型）。</p>
                         <table class="table table-bordered table-condensed table-hover">
                             <caption>策略内置标签</caption>
                             <thead>
@@ -425,7 +426,7 @@
                         <p><span class="text-warning">Java</span>编程语言的类型，相应的<span class="text-warning">JSON</span>结构相同。</p>
                         <p>
                             <pre style="background-color:inherit;">
-<span class="text-success">//全局变量</span>
+<span class="text-success">//全局变量（生成器在生成运行时的一些信息）</span>
 <strong class="text-warning">Global</strong> <span class="text-warning">{</span>
 
     <span class="text-success">//生成号</span>
@@ -447,7 +448,7 @@
     <span class="text-primary">TemplateStrategy</span> <span class="text-info">templateStrategy</span>
 <span class="text-warning">}</span>
 
-<span class="text-success">//数据模型</span>
+<span class="text-success">//源数据（在工作台输入的用于生成器的源数据）</span>
 <strong class="text-warning">DataModel</strong> <span class="text-warning">{</span>
 
     <span class="text-success">//ID</span>
@@ -509,6 +510,16 @@
     <span class="text-primary">Long</span> <span class="text-info">id</span>
 
     <span class="text-success">//生成策略名称</span>
+    <span class="text-primary">String</span> <span class="text-info">name</span>
+<span class="text-warning">}</span>
+
+<span class="text-success">//数据模型</span>
+<strong class="text-warning">DynamicModel</strong> <span class="text-warning">{</span>
+
+    <span class="text-success">//ID</span>
+    <span class="text-primary">Long</span> <span class="text-info">id</span>
+
+    <span class="text-success">//数据模型名称</span>
     <span class="text-primary">String</span> <span class="text-info">name</span>
 <span class="text-warning">}</span>
                             </pre>

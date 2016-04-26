@@ -54,7 +54,7 @@ public class ConfigProperties {
     public final static String PASSWORD;
 
     static{
-        InputStream is = ConfigProperties.class.getResourceAsStream("/config.properties");
+        InputStream is = ConfigProperties.class.getResourceAsStream("/blackdream.properties");
         Properties properties = new Properties();
         try {
             properties.load(is);
