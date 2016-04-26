@@ -7,8 +7,8 @@
     </div>
     <div>
         <h4><b>部署手册</b></h4>
-        <p>java8 tomcat7以上</p>
-        <p>blackdream.properties文件是<b>BlackDream</b>的配置文件</p>
+        <p>依赖Java8，Tomcat7以上。</p>
+        <p>blackdream.properties文件是<b>BlackDream</b>的配置文件。</p>
         <p>blackdream.username：系统root用户的用户名。</p>
         <p>blackdream.password：系统root用户的密码及系统用户的默认密码。</p>
         <p>blackdream.datapath：系统文件存储的根路径。</p>
