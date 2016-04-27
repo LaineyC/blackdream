@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" xmlns="http://www.w3.org/1999/html">
     <div ng-controller="guideController">
         <div class="row">
             <div class="col-sm-3" style="position: relative;min-height: 1px;">
@@ -235,11 +235,12 @@
                             <tr>
                                 <td><span class="text-info">Call</span></td>
                                 <td>
-                                    <p><span class="text-primary">function</span>（静态字符串） 调用定义的<span class="text-info">Function</span>。</p>
-                                    <p><span class="text-primary">argument1</span>（静态字符串） 实参1。</p>
-                                    <p><span class="text-primary">argument2</span>（静态字符串） 实参2。</p>
-                                    <p><span class="text-primary">argument3</span>（静态字符串） 实参3。</p>
-                                    <p><span class="text-primary">argument4</span>（静态字符串） 实参4。</p>
+                                    <p>调用<span class="text-info">Function</span>标签定义的函数。</p>
+                                    <p><span class="text-primary">function</span>（静态字符串）函数名称。 </p>
+                                    <p><span class="text-primary">argument1</span>（EL表达式获取的对象类型） 实参1。</p>
+                                    <p><span class="text-primary">argument2</span>（EL表达式获取的对象类型） 实参2。</p>
+                                    <p><span class="text-primary">argument3</span>（EL表达式获取的对象类型） 实参3。</p>
+                                    <p><span class="text-primary">argument4</span>（EL表达式获取的对象类型） 实参4。</p>
                                 </td>
                             </tr>
                             <tr>
@@ -249,6 +250,7 @@
                             <tr>
                                 <td><span class="text-info">File</span></td>
                                 <td>
+                                    <p>动态根据模板文件动态生成一个文件。</p>
                                     <p><span class="text-primary">name</span>（支持EL表达式的字符串） 生成文件名称（全路径）。</p>
                                     <p>示例值：com/xx/${module.name}/domain/${domain.name}.java</p>
                                     <p><span class="text-primary">template</span>（选择预定义的模板文件） 生成文件用到的模板文件。</p>
@@ -257,6 +259,7 @@
                             <tr>
                                 <td><span class="text-info">Folder</span></td>
                                 <td>
+                                    <p>动态生成一个文件夹。</p>
                                     <p><span class="text-primary">name</span>（支持EL表达式的字符串） 生成文件夹名称（全路径）。</p>
                                     <p>示例值：com/${project.name}/${module.name}/domain</p>
                                 </td>
@@ -264,6 +267,7 @@
                             <tr>
                                 <td><span class="text-info">Foreach</span></td>
                                 <td>
+                                    <p>迭代一个对象，支持<span class="text-info">Collection</span>，<span class="text-info">Map</span>，<span class="text-info">Array</span>，<span class="text-info">Iterator</span>，<span class="text-info">Enumeration</span>类型。</p>
                                     <p><span class="text-primary">item</span>（静态字符串） 迭代参数。</p>
                                     <p><span class="text-primary">items</span>（EL表达式获取的集合类型） 迭代的集合变量。</p>
                                     <p>示例值：${module.children}</p>
@@ -275,6 +279,7 @@
                             <tr>
                                 <td><span class="text-info">Function</span></td>
                                 <td>
+                                    <p>定义一个函数。</p>
                                     <p><span class="text-primary">name</span>（静态字符串） 函数名称。</p>
                                     <p><span class="text-primary">argument1</span>（静态字符串） 形参1。</p>
                                     <p><span class="text-primary">argument2</span>（静态字符串） 形参2。</p>
@@ -285,6 +290,7 @@
                             <tr>
                                 <td><span class="text-info">If</span></td>
                                 <td>
+                                    <p>用于条件判断。</p>
                                     <p><span class="text-primary">test</span>（EL表达式获取的布尔类型） If的判断条件。</p>
                                     <p>示例值：${isSuccess}</p>
                                 </td>
@@ -296,6 +302,7 @@
                             <tr>
                                 <td><span class="text-info">Set</span></td>
                                 <td>
+                                    <p>设置一个变量。</p>
                                     <p><span class="text-primary">var</span>（静态字符串） 变量名。</p>
                                     <p><span class="text-primary">value</span>（EL表达式获取的对象类型） 变量值。</p>
                                 </td>
@@ -303,6 +310,7 @@
                             <tr>
                                 <td><span class="text-info">TemplateContext</span></td>
                                 <td>
+                                    <p>定义模板文件（<span class="text-warning">Velocity</span>模板）用到的变量。</p>
                                     <p><span class="text-primary">var</span>（静态字符串） 变量名。</p>
                                     <p><span class="text-primary">value</span>（EL表达式获取的对象类型） 变量值。</p>
                                 </td>
@@ -310,12 +318,14 @@
                             <tr>
                                 <td><span class="text-info">TemplateStrategy</span></td>
                                 <td>
+                                    <p>定义一个生成策略。</p>
                                     <p><span class="text-primary">name</span>（静态字符串） 名称。</p>
                                 </td>
                             </tr>
                             <tr>
                                 <td><span class="text-info">Var</span></td>
                                 <td>
+                                    <p>定义一个变量。</p>
                                     <p><span class="text-primary">name</span>（静态字符串） 变量名。</p>
                                     <p><span class="text-primary">value</span>（EL表达式获取的对象类型） 变量值。</p>
                                 </td>
