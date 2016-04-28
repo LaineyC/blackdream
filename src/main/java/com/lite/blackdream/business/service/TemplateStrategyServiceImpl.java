@@ -9,6 +9,7 @@ import com.lite.blackdream.business.repository.GeneratorRepository;
 import com.lite.blackdream.business.repository.TemplateStrategyRepository;
 import com.lite.blackdream.framework.exception.AppException;
 import com.lite.blackdream.framework.component.BaseService;
+import com.lite.blackdream.framework.model.Authentication;
 import com.lite.blackdream.framework.model.BeanDefinition;
 import com.lite.blackdream.framework.model.Domain;
 import com.lite.blackdream.framework.model.PagerResult;
@@ -222,7 +223,7 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
 
     @Override
     public TemplateStrategy delete(TemplateStrategyDeleteRequest request) {
-        return null;
+        throw new AppException("未开放");
     }
 
     @Override
@@ -312,6 +313,14 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
         if(templateStrategyPersistence == null){
             throw new AppException("策略文件不存在");
         }
+
+        Authentication authentication = request.getAuthentication();
+        Long userId = authentication.getUserId();
+        Generator generatorPersistence = generatorRepository.selectById(templateStrategyPersistence.getGenerator().getId());
+        if(!userId.equals(generatorPersistence.getDeveloper().getId())){
+            throw new AppException("权限不足");
+        }
+
         templateStrategyPersistence.setName(request.getName());
 
         templateStrategyPersistence.getChildren().clear();

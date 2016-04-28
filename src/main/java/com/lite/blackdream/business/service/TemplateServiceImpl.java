@@ -7,6 +7,7 @@ import com.lite.blackdream.business.repository.GeneratorRepository;
 import com.lite.blackdream.business.repository.TemplateRepository;
 import com.lite.blackdream.framework.exception.AppException;
 import com.lite.blackdream.framework.component.BaseService;
+import com.lite.blackdream.framework.model.Authentication;
 import com.lite.blackdream.framework.model.Base64FileItem;
 import com.lite.blackdream.framework.model.PagerResult;
 import com.lite.blackdream.framework.util.ConfigProperties;
@@ -88,6 +89,14 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         if(templatePersistence == null){
             throw new AppException("模板不存在");
         }
+
+        Authentication authentication = request.getAuthentication();
+        Long userId = authentication.getUserId();
+        Generator generatorPersistence = generatorRepository.selectById(templatePersistence.getGenerator().getId());
+        if(!userId.equals(generatorPersistence.getDeveloper().getId())){
+            throw new AppException("权限不足");
+        }
+
         templateRepository.delete(templatePersistence);
         String fileAbsolutePath = ConfigProperties.FILEBASE_PATH + templatePersistence.getUrl().replace("/", ConfigProperties.fileSeparator);
         File templateFile = new File(fileAbsolutePath);
@@ -163,6 +172,14 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         if(templatePersistence == null){
             throw new AppException("模板不存在");
         }
+
+        Authentication authentication = request.getAuthentication();
+        Long userId = authentication.getUserId();
+        Generator generatorPersistence = generatorRepository.selectById(templatePersistence.getGenerator().getId());
+        if(!userId.equals(generatorPersistence.getDeveloper().getId())){
+            throw new AppException("权限不足");
+        }
+
         templatePersistence.setName(request.getName());
 
         Base64FileItem templateFile = request.getTemplateFile();

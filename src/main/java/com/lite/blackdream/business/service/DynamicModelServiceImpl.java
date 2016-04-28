@@ -7,6 +7,7 @@ import com.lite.blackdream.business.repository.DynamicModelRepository;
 import com.lite.blackdream.business.repository.GeneratorRepository;
 import com.lite.blackdream.framework.exception.AppException;
 import com.lite.blackdream.framework.component.BaseService;
+import com.lite.blackdream.framework.model.Authentication;
 import com.lite.blackdream.framework.model.PagerResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,7 +57,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
 
     @Override
     public DynamicModel delete(DynamicModelDeleteRequest request) {
-        return null;
+        throw new AppException("未开放");
     }
 
     @Override
@@ -177,6 +178,13 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
         DynamicModel dynamicModelPersistence = dynamicModelRepository.selectById(id);
         if(dynamicModelPersistence == null) {
             throw new AppException("模型不存在");
+        }
+
+        Authentication authentication = request.getAuthentication();
+        Long userId = authentication.getUserId();
+        Generator generatorPersistence = generatorRepository.selectById(dynamicModelPersistence.getGenerator().getId());
+        if(!userId.equals(generatorPersistence.getDeveloper().getId())){
+            throw new AppException("权限不足");
         }
 
         dynamicModelPersistence.setName(request.getName());

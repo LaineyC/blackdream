@@ -35,6 +35,7 @@ public class UserServiceImpl extends BaseService implements UserService {
         if(currentUser.getCreator() != null){
             throw new AppException("权限不足");
         }
+
         User user = new User();
         user.setUserName(request.getUserName());
         user.setIsDelete(false);
@@ -101,6 +102,7 @@ public class UserServiceImpl extends BaseService implements UserService {
         if(currentUser.getCreator() != null){
             throw new AppException("权限不足");
         }
+
         User user = new User();
         user.setId(request.getId());
         user.setIsDelete(false);

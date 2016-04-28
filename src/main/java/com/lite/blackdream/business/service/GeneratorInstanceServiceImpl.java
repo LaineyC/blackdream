@@ -81,7 +81,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
 
     @Override
     public GeneratorInstance delete(GeneratorInstanceDeleteRequest request) {
-        return null;
+        throw new AppException("未开放");
     }
 
     @Override
@@ -160,6 +160,14 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         if(generatorInstancePersistence == null){
             throw new AppException("实例不存在");
         }
+
+        Authentication authentication = request.getAuthentication();
+        Long userId = authentication.getUserId();
+        Generator generatorPersistence = generatorRepository.selectById(generatorInstancePersistence.getGenerator().getId());
+        if(!userId.equals(generatorPersistence.getDeveloper().getId())){
+            throw new AppException("权限不足");
+        }
+
         String name = request.getName();
         if(name != null){
             generatorInstancePersistence.setName(request.getName());
@@ -189,6 +197,10 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
 
         Long generatorId = generatorInstance.getGenerator().getId();
         Generator generator = generatorRepository.selectById(generatorId);
+
+        if(!authentication.getUserId().equals(generator.getDeveloper().getId())) {
+            throw new AppException("权限不足");
+        }
 
         DynamicModelQueryRequest dynamicModelQueryRequest = new DynamicModelQueryRequest();
         dynamicModelQueryRequest.setGeneratorId(generatorId);

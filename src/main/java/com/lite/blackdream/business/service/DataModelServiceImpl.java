@@ -2,13 +2,16 @@ package com.lite.blackdream.business.service;
 
 import com.lite.blackdream.business.domain.DataModel;
 import com.lite.blackdream.business.domain.DynamicModel;
+import com.lite.blackdream.business.domain.Generator;
 import com.lite.blackdream.business.domain.GeneratorInstance;
 import com.lite.blackdream.business.parameter.datamodel.*;
 import com.lite.blackdream.business.repository.DataModelRepository;
 import com.lite.blackdream.business.repository.DynamicModelRepository;
 import com.lite.blackdream.business.repository.GeneratorInstanceRepository;
+import com.lite.blackdream.business.repository.GeneratorRepository;
 import com.lite.blackdream.framework.exception.AppException;
 import com.lite.blackdream.framework.component.BaseService;
+import com.lite.blackdream.framework.model.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.LinkedList;
@@ -27,6 +30,9 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
 
     @Autowired
     private GeneratorInstanceRepository generatorInstanceRepository;
+
+    @Autowired
+    private GeneratorRepository generatorRepository;
 
     @Override
     public DataModel create(DataModelCreateRequest request) {
@@ -82,6 +88,18 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
             throw new AppException("root不存在");
         }
 
+        GeneratorInstance generatorInstancePersistence = generatorInstanceRepository.selectById(rootPersistence.getGeneratorInstance().getId());
+        if(generatorInstancePersistence == null){
+            throw new AppException("生成器实例不存在");
+        }
+
+        Authentication authentication = request.getAuthentication();
+        Long userId = authentication.getUserId();
+        Generator generatorPersistence = generatorRepository.selectById(generatorInstancePersistence.getGenerator().getId());
+        if(!userId.equals(generatorPersistence.getDeveloper().getId())){
+            throw new AppException("权限不足");
+        }
+
         DataModel dataModelPersistence = dataModelRepository.selectById(id, rootPersistence);
         if(dataModelPersistence == null) {
             throw new AppException("数据模型不存在");
@@ -128,6 +146,18 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
         DataModel rootPersistence = dataModelRepository.selectById(rootId);
         if(rootPersistence == null){
             throw new AppException("roo不存在");
+        }
+
+        GeneratorInstance generatorInstancePersistence = generatorInstanceRepository.selectById(rootPersistence.getGeneratorInstance().getId());
+        if(generatorInstancePersistence == null){
+            throw new AppException("生成器实例不存在");
+        }
+
+        Authentication authentication = request.getAuthentication();
+        Long userId = authentication.getUserId();
+        Generator generatorPersistence = generatorRepository.selectById(generatorInstancePersistence.getGenerator().getId());
+        if(!userId.equals(generatorPersistence.getDeveloper().getId())){
+            throw new AppException("权限不足");
         }
 
         DataModel dataModelPersistence = dataModelRepository.selectById(id, rootPersistence);
