@@ -34,14 +34,9 @@ public class ConfigProperties {
     public final static String LOGBASE_PATH;
 
     /**
-     * web项目根路径
+     * 临时文件存放路径
      */
-    public static String ROOT_PATH;
-
-    /**
-     * 代码库 生成代码的临时路径
-     */
-    public static String CODEBASE_PATH;
+    public final static String TEMPORARY_PATH;
 
     /**
      * 默认用户名
@@ -52,6 +47,11 @@ public class ConfigProperties {
      * 默认密码
      */
     public final static String PASSWORD;
+
+    /**
+     * web项目根路径
+     */
+    public static String ROOT_PATH;
 
     static{
         InputStream is = ConfigProperties.class.getResourceAsStream("/blackdream.properties");
@@ -68,6 +68,7 @@ public class ConfigProperties {
         DATABASE_PATH = DATA_PATH + fileSeparator + "Database";
         FILEBASE_PATH = DATA_PATH + fileSeparator + "Filebase";
         LOGBASE_PATH = DATA_PATH + fileSeparator + "Logbase";
+        TEMPORARY_PATH = DATA_PATH + fileSeparator + "Temporary";
     }
 
 }

@@ -63,7 +63,7 @@ public class File extends Tag {
         Long userId = global.getUser().getId();
         Generator generator = global.getGenerator();
         Map<Long, Template> templateCache = global.getTemplateCache();
-        String generatePath = ConfigProperties.CODEBASE_PATH + ConfigProperties.fileSeparator + userId + ConfigProperties.fileSeparator + generator.getName() + "(" + generateId + ")";
+        String generatePath = ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + userId + ConfigProperties.fileSeparator + generator.getName() + "(" + generateId + ")";
         String outFile = generatePath + ConfigProperties.fileSeparator + this.getName();
         outFile = Parser.parseString(outFile.replace(ConfigProperties.fileSeparator, "/"), exeContext);
         String templateFile = templateCache.get(template.getId()).getUrl();

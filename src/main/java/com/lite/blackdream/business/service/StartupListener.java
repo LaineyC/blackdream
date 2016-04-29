@@ -58,14 +58,13 @@ public class StartupListener implements ApplicationListener<ContextRefreshedEven
             if(!logbasePath.exists()){
                 logbasePath.mkdirs();
             }
-
-            String rootPath = System.getProperty("blackdream.root");
-            ConfigProperties.ROOT_PATH = rootPath;
-            ConfigProperties.CODEBASE_PATH = rootPath + ConfigProperties.fileSeparator + "Codebase";
-            File codebasePath = new File(ConfigProperties.CODEBASE_PATH);
-            if(!codebasePath.exists()){
-                codebasePath.mkdirs();
+            File temporaryPath = new File(ConfigProperties.TEMPORARY_PATH);
+            if(!temporaryPath.exists()){
+                temporaryPath.mkdirs();
             }
+
+            //项目web根路径
+            ConfigProperties.ROOT_PATH = System.getProperty("blackdream.root");
 
             //尽量按照依赖的情况决定初始化数据
             dynamicModelRepository.init();

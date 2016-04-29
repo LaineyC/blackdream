@@ -1,6 +1,7 @@
 package com.lite.blackdream.business.service;
 
 import com.lite.blackdream.business.domain.GeneratorInstance;
+import com.lite.blackdream.business.domain.RunResult;
 import com.lite.blackdream.business.parameter.generatorinstance.*;
 import com.lite.blackdream.business.parameter.generatorinstance.GeneratorInstanceCreateRequest;
 import com.lite.blackdream.framework.component.Service;
@@ -21,6 +22,6 @@ public interface GeneratorInstanceService extends Service {
 
     GeneratorInstance update(GeneratorInstanceUpdateRequest request);
 
-    Object run(GeneratorInstanceRunRequest request);
+    RunResult run(GeneratorInstanceRunRequest request);
 
 }

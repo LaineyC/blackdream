@@ -187,7 +187,8 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
     }
 
     @Override
-    public Object run(GeneratorInstanceRunRequest request) {
+    public RunResult run(GeneratorInstanceRunRequest request) {
+        RunResult runResult = new RunResult();
         Authentication authentication = request.getAuthentication();
         Long id = request.getId();
         GeneratorInstance generatorInstance = generatorInstanceRepository.selectById(id);
@@ -384,19 +385,20 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             templateStrategyClone.execute(context);
         }
         catch (Throwable e){
-            List<String> messageList = new ArrayList<>();
+            List<String> messages = new ArrayList<>();
             LinkedList<Throwable> exceptionStack = new LinkedList<>();
             exceptionStack.push(e);
             while (!exceptionStack.isEmpty()) {
                 Throwable exception = exceptionStack.pop();
-                messageList.add(exception.toString());
+                messages.add(exception.toString());
                 if(exception.getCause() != null){
                     exceptionStack.push(exception.getCause());
                 }
             }
-            return messageList;
+            runResult.setMessages(messages);
+            return runResult;
         }
-        String generatePath = ConfigProperties.CODEBASE_PATH + ConfigProperties.fileSeparator + authentication.getUserId() + ConfigProperties.fileSeparator + generator.getName() + "(" + generateId + ")";
+        String generatePath = ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + authentication.getUserId() + ConfigProperties.fileSeparator + generator.getName() + "(" + generateId + ")";
         File generateFolder = new File(generatePath);
         try {
             ZipUtils.compress(generateFolder);
@@ -405,7 +407,8 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             throw new AppException(e,"压缩代码失败");
         }
         FileUtil.deleteFile(generateFolder);
-        return "/Codebase/" + authentication.getUserId() + "/" + generator.getName() + "(" + generateId + ").zip";
+        runResult.setUrl(authentication.getUserId() + "/" + generator.getName() + "(" + generateId + ").zip");
+        return runResult;
     }
 
 }

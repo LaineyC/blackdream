@@ -2,12 +2,25 @@ define(["business/module"],function(module){
     "use strict";
 
     module.factory("systemApi",[
-        "$http",
-        function($http){
+        "$http","$window",
+        function($http, $window){
             var provider = {};
 
             provider.heartbeat = function(request) { return $http.post("/api?method=session.heartbeat", request); };
 
+            provider.download = function(request) {
+                return $http.post("/api?method=file.download", request, {responseType :"blob"}).success(function(data, status, headers){
+                    headers = headers();
+                    var document = $window.document;
+                    var aLink = document.createElement("a");
+                    var blob = new Blob([data]);
+                    var evt = document.createEvent("HTMLEvents");
+                    evt.initEvent("click", false, false);
+                    aLink.download = headers["filename"];
+                    aLink.href = URL.createObjectURL(blob);
+                    aLink.dispatchEvent(evt);
+                });
+            };
             return provider;
         }
     ]);

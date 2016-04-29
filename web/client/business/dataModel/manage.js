@@ -4,8 +4,8 @@ define(
         "use strict";
 
         module.controller("dataModelManageController", [
-            "$scope", "$uibModal", "$routeParams", "dataModelApi", "templateStrategyApi", "dynamicModelApi", "generatorInstanceApi", "$q","alert", "viewPage", "clipboard",
-            function($scope, $uibModal, $routeParams, dataModelApi, templateStrategyApi, dynamicModelApi, generatorInstanceApi, $q, alert, viewPage, clipboard){
+            "$scope", "$uibModal", "$routeParams", "dataModelApi", "templateStrategyApi", "dynamicModelApi", "generatorInstanceApi", "$q","alert", "viewPage", "clipboard","systemApi",
+            function($scope, $uibModal, $routeParams, dataModelApi, templateStrategyApi, dynamicModelApi, generatorInstanceApi, $q, alert, viewPage, clipboard, systemApi){
                 viewPage.setViewPageTitle("工作台");
 
                 var generatorInstanceId = $routeParams.generatorInstanceId;
@@ -187,15 +187,19 @@ define(
                         templateUrl: "dataModel/console.html",
                         controller: ["$scope","$uibModalInstance",function ($scope, $uibModalInstance){
                             $scope.runResult = $outScope.runResult;
-                            $scope.runResult.push({type:"message",content:"正在生成并压缩代码..."});
-                            generatorInstanceApi.run({id:generatorInstanceId,templateStrategyId:$outScope.templateStrategyControl.selectedItem.id}).success(function(result){
-                                if(angular.isArray(result)){
-                                    $scope.runResult.push({type:"error",content :result});
+                            $scope.runResult.push({type:"message",content:"正在生成并压缩文件..."});
+                            generatorInstanceApi.run({id:generatorInstanceId,templateStrategyId:$outScope.templateStrategyControl.selectedItem.id}).success(function(runResult){
+                                if(!runResult.url){
+                                    $scope.runResult.push({type:"error",content :runResult.messages});
                                 }
                                 else{
-                                    $scope.runResult.push({type:"url",content :result});
+                                    $scope.runResult.push({type:"url",content :runResult.url});
                                 }
                             });
+
+                            $scope.download = function(url){
+                                systemApi.download({url:url});
+                            };
 
                             $scope.confirm = function(){
                                 $uibModalInstance.close();

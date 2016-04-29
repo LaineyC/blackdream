@@ -14,7 +14,7 @@ public class TaskService {
 
     @Scheduled(cron = "0 0 4 * * ?")
     public void clearCode() {
-        FileUtil.deleteFile(new File(ConfigProperties.CODEBASE_PATH), false);
+        FileUtil.deleteFile(new File(ConfigProperties.TEMPORARY_PATH), false);
     }
 
 }
