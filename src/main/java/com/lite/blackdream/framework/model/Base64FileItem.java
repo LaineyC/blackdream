@@ -13,21 +13,12 @@ public class Base64FileItem {
     private String name;
 
     /**
-     * 后缀名
-     */
-    private String extension;
-
-    /**
      * 文件base64内容
      */
     private String content;
 
     public Base64FileItem() {
 
-    }
-
-    public String getExtension() {
-        return name.substring(name.lastIndexOf(".") + 1);
     }
 
     public String getName() {

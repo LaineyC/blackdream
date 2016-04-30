@@ -1,19 +1,28 @@
 package com.lite.blackdream.business.service;
 
-import com.lite.blackdream.business.domain.Generator;
-import com.lite.blackdream.business.domain.User;
+import com.lite.blackdream.business.converter.DynamicModelElementConverter;
+import com.lite.blackdream.business.converter.GeneratorElementConverter;
+import com.lite.blackdream.business.converter.TemplateElementConverter;
+import com.lite.blackdream.business.converter.TemplateStrategyElementConverter;
+import com.lite.blackdream.business.domain.*;
+import com.lite.blackdream.business.domain.tag.Tag;
 import com.lite.blackdream.business.parameter.generator.*;
-import com.lite.blackdream.business.repository.GeneratorRepository;
-import com.lite.blackdream.business.repository.UserRepository;
+import com.lite.blackdream.business.repository.*;
 import com.lite.blackdream.framework.exception.AppException;
 import com.lite.blackdream.framework.component.BaseService;
 import com.lite.blackdream.framework.model.Authentication;
+import com.lite.blackdream.framework.model.Base64FileItem;
 import com.lite.blackdream.framework.model.PagerResult;
+import com.lite.blackdream.framework.util.ConfigProperties;
+import com.lite.blackdream.framework.util.FileUtil;
+import com.lite.blackdream.framework.util.ZipUtil;
+import org.dom4j.Document;
+import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.util.*;
 
 /**
  * @author LaineyC
@@ -25,7 +34,28 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
     private GeneratorRepository generatorRepository;
 
     @Autowired
+    private DynamicModelRepository dynamicModelRepository;
+
+    @Autowired
+    private TemplateRepository templateRepository;
+
+    @Autowired
+    private TemplateStrategyRepository templateStrategyRepository;
+
+    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private GeneratorElementConverter generatorElementConverter;
+
+    @Autowired
+    private DynamicModelElementConverter dynamicModelElementConverter;
+
+    @Autowired
+    private TemplateElementConverter templateElementConverter;
+
+    @Autowired
+    private TemplateStrategyElementConverter templateStrategyElementConverter;
 
     @Override
     public Generator create(GeneratorCreateRequest request) {
@@ -138,6 +168,217 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
         generatorPersistence.setDescription(request.getDescription());
         generatorRepository.update(generatorPersistence);
         return generatorPersistence;
+    }
+
+    @Override
+    public Generator export(GeneratorExportRequest request) {
+        Long userId = request.getAuthentication().getUserId();
+        Long id = request.getId();
+        Generator generatorPersistence = generatorRepository.selectById(id);
+
+        String exportPath = ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + userId + ConfigProperties.fileSeparator + generatorPersistence.getName() + "(" + id + ")";
+
+        String generatorExportPath = exportPath + ConfigProperties.fileSeparator + "Database" + ConfigProperties.fileSeparator + "Generator";
+        FileUtil.mkdirs(generatorExportPath);
+        String dynamicModelExportPath = exportPath + ConfigProperties.fileSeparator + "Database" + ConfigProperties.fileSeparator + "DynamicModel";
+        FileUtil.mkdirs(dynamicModelExportPath);
+        String templateExportPath = exportPath + ConfigProperties.fileSeparator + "Database" + ConfigProperties.fileSeparator + "Template";
+        FileUtil.mkdirs(templateExportPath);
+        String templateStrategyExportPath = exportPath + ConfigProperties.fileSeparator + "Database" + ConfigProperties.fileSeparator + "TemplateStrategy";
+        FileUtil.mkdirs(templateStrategyExportPath);
+        String templateFileExportPath = exportPath + ConfigProperties.fileSeparator + "Filebase" + ConfigProperties.fileSeparator + "Template" + ConfigProperties.fileSeparator + id;
+        FileUtil.mkdirs(templateFileExportPath);
+
+        Generator generator = new Generator();
+        generator.setId(id);
+        generator.setName(generatorPersistence.getName());
+        String generatorPath = ConfigProperties.DATABASE_PATH + ConfigProperties.fileSeparator + "Generator";
+        FileUtil.copyFile(
+            new File(generatorPath + ConfigProperties.fileSeparator + id + ".xml"),
+            new File(generatorExportPath + ConfigProperties.fileSeparator + id + ".xml")
+        );
+
+        DynamicModel dynamicModelTemplate = new DynamicModel();
+        dynamicModelTemplate.setIsDelete(false);
+        dynamicModelTemplate.setGenerator(generator);
+        List<DynamicModel> dynamicModels = dynamicModelRepository.selectList(dynamicModelTemplate);
+        String dynamicModelPath = ConfigProperties.DATABASE_PATH + ConfigProperties.fileSeparator + "DynamicModel";
+        dynamicModels.forEach(dynamicModel ->
+            FileUtil.copyFile(
+                new File(dynamicModelPath + ConfigProperties.fileSeparator + dynamicModel.getId() + ".xml"),
+                new File(dynamicModelExportPath + ConfigProperties.fileSeparator + dynamicModel.getId() + ".xml")
+            )
+        );
+
+        Template templateTemplate = new Template();
+        templateTemplate.setIsDelete(false);
+        templateTemplate.setGenerator(generator);
+        List<Template> templates = templateRepository.selectList(templateTemplate);
+        String templatePath = ConfigProperties.DATABASE_PATH + ConfigProperties.fileSeparator + "Template";
+        templates.forEach(template -> {
+            FileUtil.copyFile(
+                new File(templatePath + ConfigProperties.fileSeparator + template.getId() + ".xml"),
+                new File(templateExportPath + ConfigProperties.fileSeparator + template.getId() + ".xml")
+            );
+            FileUtil.copyFile(
+                new File(ConfigProperties.FILEBASE_PATH + template.getUrl()),
+                new File(exportPath + ConfigProperties.fileSeparator + "Filebase" + template.getUrl())
+            );
+        });
+
+        TemplateStrategy templateStrategyTemplate = new TemplateStrategy();
+        templateStrategyTemplate.setIsDelete(false);
+        templateStrategyTemplate.setGenerator(generator);
+        List<TemplateStrategy> templateStrategies = templateStrategyRepository.selectList(templateStrategyTemplate);
+        String templateStrategyPath = ConfigProperties.DATABASE_PATH + ConfigProperties.fileSeparator + "TemplateStrategy";
+        templateStrategies.forEach(templateStrategy ->
+            FileUtil.copyFile(
+                new File(templateStrategyPath + ConfigProperties.fileSeparator + templateStrategy.getId() + ".xml"),
+                new File(templateStrategyExportPath + ConfigProperties.fileSeparator + templateStrategy.getId() + ".xml")
+            )
+        );
+        File exportFolder = new File(exportPath);
+        try {
+            ZipUtil.compress(exportFolder);
+        }
+        catch (Exception e){
+            throw new AppException(e,"压缩文件失败");
+        }
+        FileUtil.deleteFile(exportFolder);
+        return generator;
+    }
+
+    @Override
+    public Generator _import(GeneratorImportRequest request) {
+        Long userId = request.getAuthentication().getUserId();
+
+        Base64FileItem generatorFile = request.getGeneratorFile();
+        String type = generatorFile.getName().substring(generatorFile.getName().lastIndexOf(".") + 1);
+        if(!"zip".equals(type) && !"rar".equals(type)){
+            throw new AppException("格式不支持");
+        }
+        Long tempId = idWorker.nextId();
+        String fileAbsolutePath = ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + userId + ConfigProperties.fileSeparator + tempId + ConfigProperties.fileSeparator  + tempId + "." + type;
+        File zipFile = new File(fileAbsolutePath);
+        try {
+            FileUtil.writeBase64(generatorFile.getContent(), fileAbsolutePath);
+        }
+        catch (Exception e) {
+            throw new AppException("上传失败");
+        }
+        try {
+            ZipUtil.decompress(zipFile);
+        }
+        catch (Exception e) {
+            throw new AppException("解压失败");
+        }
+        FileUtil.deleteFile(zipFile);
+        File zipParentFolder = zipFile.getParentFile();
+        if(!zipParentFolder.exists() || zipParentFolder.listFiles().length == 0){
+            FileUtil.deleteFile(zipParentFolder);
+            throw new AppException("格式不兼容");
+        }
+
+        File importFolder = zipParentFolder.listFiles()[0];
+        String importPath = importFolder.getAbsolutePath();
+
+        String generatorImportPath = importPath + ConfigProperties.fileSeparator + "Database" + ConfigProperties.fileSeparator + "Generator";
+        File generatorImportFolder = new File(generatorImportPath);
+        if(!generatorImportFolder.exists() || generatorImportFolder.listFiles().length == 0){
+            FileUtil.deleteFile(zipParentFolder);
+            throw new AppException("格式不兼容");
+        }
+
+        File generatorImportFile = generatorImportFolder.listFiles()[0];
+        Generator generator;
+        try {
+            Document document = FileUtil.readXml(generatorImportFile.getAbsolutePath());
+            Element element = document.getRootElement();
+            generator = generatorElementConverter.fromElement(element);
+            generator.setId(idWorker.nextId());
+            generator.getDeveloper().setId(userId);
+            generatorRepository.insert(generator);
+        }
+        catch (Exception e){
+            throw new RuntimeException(e);
+        }
+
+        String dynamicModelImportPath = importPath + ConfigProperties.fileSeparator + "Database" + ConfigProperties.fileSeparator + "DynamicModel";
+        File dynamicModelImportFolder = new File(dynamicModelImportPath);
+        for(File dynamicModelImportFile : dynamicModelImportFolder.listFiles()){
+            try {
+                Document document = FileUtil.readXml(dynamicModelImportFile.getAbsolutePath());
+                Element element = document.getRootElement();
+                DynamicModel dynamicModel = dynamicModelElementConverter.fromElement(element);
+                dynamicModel.setId(idWorker.nextId());
+                dynamicModel.getGenerator().setId(generator.getId());
+                dynamicModelRepository.insert(dynamicModel);
+            }
+            catch (Exception e){
+                //throw new RuntimeException(e);
+            }
+        }
+
+        Map<Long, Long> vmIdMap = new HashMap<>();
+        String templateImportPath = importPath + ConfigProperties.fileSeparator + "Database" + ConfigProperties.fileSeparator + "Template";
+        File templateImportFolder = new File(templateImportPath);
+        for(File templateImportFile : templateImportFolder.listFiles()){
+            try {
+                Document document = FileUtil.readXml(templateImportFile.getAbsolutePath());
+                Element element = document.getRootElement();
+                Template template = templateElementConverter.fromElement(element);
+                Long oldId = template.getId();
+                Long newId = idWorker.nextId();
+                vmIdMap.put(oldId, newId);
+                template.setId(newId);
+                template.getGenerator().setId(generator.getId());
+
+                String url = "/Template/" + generator.getId() + "/" + idWorker.nextId() + ".vm";
+                FileUtil.mkdirs(ConfigProperties.FILEBASE_PATH + "/Template/" + generator.getId());
+                FileUtil.copyFile(
+                    new File(importPath + ConfigProperties.fileSeparator + "Filebase" + template.getUrl()),
+                    new File(ConfigProperties.FILEBASE_PATH + url)
+                );
+                template.setUrl(url);
+
+                templateRepository.insert(template);
+            }
+            catch (Exception e){
+                //throw new RuntimeException(e);
+            }
+        }
+
+        String templateStrategyImportPath = importPath + ConfigProperties.fileSeparator + "Database" + ConfigProperties.fileSeparator + "TemplateStrategy";
+        File templateStrategyImportFolder = new File(templateStrategyImportPath);
+        for(File templateStrategyImportFile : templateStrategyImportFolder.listFiles()){
+            try {
+                Document document = FileUtil.readXml(templateStrategyImportFile.getAbsolutePath());
+                Element element = document.getRootElement();
+                TemplateStrategy templateStrategy = templateStrategyElementConverter.fromElement(element);
+                templateStrategy.setId(idWorker.nextId());
+                templateStrategy.getGenerator().setId(generator.getId());
+
+                LinkedList<Tag> stack = new LinkedList<>();
+                stack.push(templateStrategy);
+                while (!stack.isEmpty()) {
+                    Tag tag = stack.pop();
+                    if(tag instanceof com.lite.blackdream.business.domain.tag.File){
+                        com.lite.blackdream.business.domain.tag.File fileTag = (com.lite.blackdream.business.domain.tag.File)tag;
+                        Long oldId = fileTag.getTemplate().getId();
+                        fileTag.getTemplate().setId(vmIdMap.get(oldId));
+                    }
+                    tag.getChildren().forEach(stack::push);
+                }
+
+                templateStrategyRepository.insert(templateStrategy);
+            }
+            catch (Exception e){
+                throw new RuntimeException(e);
+            }
+        }
+
+        FileUtil.deleteFile(zipParentFolder);
+        return generator;
     }
 
 }

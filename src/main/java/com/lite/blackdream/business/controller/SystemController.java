@@ -1,7 +1,6 @@
 package com.lite.blackdream.business.controller;
 
 import com.lite.blackdream.business.parameter.system.FileDownloadRequest;
-import com.lite.blackdream.business.parameter.system.FileDownloadResponse;
 import com.lite.blackdream.business.parameter.system.SessionHeartbeatRequest;
 import com.lite.blackdream.business.parameter.system.SessionHeartbeatResponse;
 import com.lite.blackdream.framework.component.BaseController;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
 /**

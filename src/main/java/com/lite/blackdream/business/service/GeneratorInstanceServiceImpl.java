@@ -13,7 +13,7 @@ import com.lite.blackdream.framework.model.Authentication;
 import com.lite.blackdream.framework.model.PagerResult;
 import com.lite.blackdream.framework.util.ConfigProperties;
 import com.lite.blackdream.framework.util.FileUtil;
-import com.lite.blackdream.framework.util.ZipUtils;
+import com.lite.blackdream.framework.util.ZipUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -401,10 +401,10 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         String generatePath = ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + authentication.getUserId() + ConfigProperties.fileSeparator + generator.getName() + "(" + generateId + ")";
         File generateFolder = new File(generatePath);
         try {
-            ZipUtils.compress(generateFolder);
+            ZipUtil.compress(generateFolder);
         }
         catch (Exception e){
-            throw new AppException(e,"压缩代码失败");
+            throw new AppException(e,"压缩文件失败");
         }
         FileUtil.deleteFile(generateFolder);
         runResult.setUrl(authentication.getUserId() + "/" + generator.getName() + "(" + generateId + ").zip");

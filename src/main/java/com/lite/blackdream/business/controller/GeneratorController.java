@@ -5,10 +5,18 @@ import com.lite.blackdream.business.parameter.generator.*;
 import com.lite.blackdream.business.service.GeneratorService;
 import com.lite.blackdream.framework.component.BaseController;
 import com.lite.blackdream.framework.model.PagerResult;
+import com.lite.blackdream.framework.util.ConfigProperties;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * @author LaineyC
@@ -52,6 +60,26 @@ public class GeneratorController extends BaseController {
     public GeneratorUpdateResponse update(GeneratorUpdateRequest request) {
         Generator generator = generatorService.update(request);
         return new GeneratorUpdateResponse(generator);
+    }
+
+    @RequestMapping(params="method=generator.export")
+    public ResponseEntity<byte[]> export(GeneratorExportRequest request) throws IOException{
+        Long userId = request.getAuthentication().getUserId();
+        Generator generator = generatorService.export(request);
+        File file = new File(ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + userId + ConfigProperties.fileSeparator + generator.getName() + "(" + generator.getId() + ").zip");
+        HttpHeaders headers = new HttpHeaders();
+        String fileName = file.getName();
+        headers.setContentDispositionFormData("attachment", fileName);
+        headers.add("filename", fileName);
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        return new ResponseEntity<>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
+    }
+
+    @ResponseBody
+    @RequestMapping(params="method=generator.import")
+    public GeneratorImportResponse _import(GeneratorImportRequest request) {
+        Generator generator = generatorService._import(request);
+        return new GeneratorImportResponse(generator);
     }
 
 }

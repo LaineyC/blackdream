@@ -45,7 +45,6 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         template.setGenerator(generatorPersistence);
 
         Base64FileItem templateFile = request.getTemplateFile();
-        //String extension = templateFile.getExtension();
         String fileName = idWorker.nextId() + ".vm";
         String uploadPath = "/Template/" + generatorId + "/" + fileName;
         String fileAbsolutePath = ConfigProperties.FILEBASE_PATH + uploadPath.replace("/", ConfigProperties.fileSeparator);
@@ -215,7 +214,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
             return new String(buffer, "UTF-8");
         }
         catch (Exception e){
-            throw new AppException("源码读取失败");
+            throw new AppException("源文件读取失败");
         }
     }
 }

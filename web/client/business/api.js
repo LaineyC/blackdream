@@ -51,8 +51,8 @@ define(["business/module"],function(module){
     ]);
 
     module.factory("generatorApi",[
-        "$http",
-        function($http){
+        "$http", "$window",
+        function($http, $window){
             var provider = {};
 
             provider.create = function(request) { return $http.post("/api?method=generator.create", request); };
@@ -64,6 +64,22 @@ define(["business/module"],function(module){
             provider.get = function(request) { return $http.post("/api?method=generator.get", request); };
 
             provider.search = function(request) { return $http.post("/api?method=generator.search", request); };
+
+            provider.export = function(request) {
+                return $http.post("/api?method=generator.export", request, {responseType :"blob"}).success(function(data, status, headers){
+                    headers = headers();
+                    var document = $window.document;
+                    var aLink = document.createElement("a");
+                    var blob = new Blob([data]);
+                    var evt = document.createEvent("HTMLEvents");
+                    evt.initEvent("click", false, false);
+                    aLink.download = headers["filename"];
+                    aLink.href = URL.createObjectURL(blob);
+                    aLink.dispatchEvent(evt);
+                });
+            };
+
+            provider.import = function(request) { return $http.post("/api?method=generator.import", request); };
 
             return provider;
         }

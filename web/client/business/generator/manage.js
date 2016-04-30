@@ -20,8 +20,27 @@ define(
                     });
                 };
 
-                $scope.search();
+                $scope.import = function($file){
+                    var fileReader = new FileReader();
+                    fileReader.onload = function(event) {
+                        var result = event.target.result;
+                        generatorApi.import({
+                            generatorFile:{
+                                name:$file.name,
+                                content:result.substring(result.indexOf(",") + 1)
+                            }
+                        }).success(function(){
+                            $scope.search();
+                        });
+                    };
+                    fileReader.readAsDataURL($file);
+                };
 
+                $scope.export = function(generator){
+                    generatorApi.export({id: generator.id});
+                };
+
+                $scope.search();
             }
         ]);
     }

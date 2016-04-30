@@ -1,6 +1,8 @@
 package com.lite.blackdream.framework.util;
 
 import java.io.*;
+import java.nio.channels.FileChannel;
+
 import org.dom4j.Document;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
@@ -99,6 +101,42 @@ public class FileUtil {
         }
         else{
             return true;
+        }
+    }
+
+    public static void copyFile(File s, File t) {
+        FileInputStream fi = null;
+        FileOutputStream fo = null;
+        FileChannel in = null;
+        FileChannel out = null;
+        try {
+            fi = new FileInputStream(s);
+            fo = new FileOutputStream(t);
+            in = fi.getChannel();
+            out = fo.getChannel();
+            in.transferTo(0, in.size(), out);
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            try {
+                if(fi != null){
+                    fi.close();
+                }
+                if(in != null){
+                    in.close();
+                }
+                if(fo != null){
+                    fo.close();
+                }
+                if(out != null){
+                    out.close();
+                }
+            }
+            catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

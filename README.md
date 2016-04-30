@@ -13,8 +13,8 @@
         <p>blackdream.password：系统root用户的密码及系统用户的默认密码。</p>
         <p>blackdream.datapath：系统文件存储的根路径。</p>
         <h4><b>使用手册</b></h4>
+        <p>支持Chrome，Firefox，Opera浏览器。</p>
         <p>系统分为三种角色：root用户（有且只有一个）、开发者、使用者。其余用户账号只能通过root账号添加。</p>
-        <p>前端插件使用jquery2，所以浏览器必须支持才能使用。</p>
         <p>部署成功后，其余详细文档在系统导航条-帮助-指南可翻阅。</p>
     </div>
 </div>

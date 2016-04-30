@@ -20,4 +20,8 @@ public interface GeneratorService extends Service {
 
     Generator update(GeneratorUpdateRequest request);
 
+    Generator export(GeneratorExportRequest request);
+
+    Generator _import(GeneratorImportRequest request);
+
 }

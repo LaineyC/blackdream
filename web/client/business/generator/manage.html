@@ -4,7 +4,8 @@
             <div class="col-sm-12">
                 <form class="form-inline">
                     <div class="form-group">
-                        <button type="button" class="btn btn-success btn-sm"location-go="/business/generator/create">新建生成器</button>
+                        <button type="button" class="btn btn-success btn-sm" location-go="/business/generator/create">新建生成器</button>
+                        <button type="button" class="btn btn-success btn-sm" ngf-accept="'image/*,audio/*,video/*'" ngf-select="import($file)">导入生成器</button>
                     </div>
                 </form>
                 <br/>
@@ -44,6 +45,7 @@
                             <div class="btn-group">
                                 <button type="button" class="btn btn-info btn-sm" location-go="/business/generator/detail/{{generator.id}}">详情</button>
                                 <button type="button" class="btn btn-warning btn-sm" location-go="/business/generator/update/{{generator.id}}">修改</button>
+                                <button type="button" class="btn btn-success btn-sm" ng-click="export(generator)">导出</button>
                             </div>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-info btn-sm" location-go="/business/dynamicModel/manage/{{generator.id}}">数据模型管理</button>
