@@ -176,7 +176,7 @@ define(
                     });
                 });
 
-                $scope.runResult = [];
+                $scope.runResults = [];
                 $scope.run = function(){
                     if(!$outScope.templateStrategyControl.selectedItem){
                         alert.open("未选择生成策略");
@@ -186,14 +186,15 @@ define(
                         size: "lg",
                         templateUrl: "dataModel/console.html",
                         controller: ["$scope","$uibModalInstance",function ($scope, $uibModalInstance){
-                            $scope.runResult = $outScope.runResult;
-                            $scope.runResult.push({type:"message",content:"正在生成并压缩文件..."});
+                            $scope.runResults = $outScope.runResults;
+                            $scope.runningText = "正在生成并压缩文件...";
                             generatorInstanceApi.run({id:generatorInstanceId,templateStrategyId:$outScope.templateStrategyControl.selectedItem.id}).success(function(runResult){
+                                $scope.runningText = "";
                                 if(!runResult.url){
-                                    $scope.runResult.push({type:"error",content :runResult.messages});
+                                    $scope.runResults.push({type:"error",messages :runResult.messages});
                                 }
                                 else{
-                                    $scope.runResult.push({type:"url",content :runResult.url});
+                                    $scope.runResults.push({type:"url",url :runResult.url, fileName:runResult.fileName});
                                 }
                             });
 
@@ -206,7 +207,7 @@ define(
                             };
 
                             $scope.clear = function(){
-                                $scope.runResult.length = 0;
+                                $scope.runResults.length = 0;
                             };
                         }]
                     });
@@ -217,13 +218,13 @@ define(
                         size: "lg",
                         templateUrl: "dataModel/console.html",
                         controller: ["$scope","$uibModalInstance",function ($scope, $uibModalInstance){
-                            $scope.runResult = $outScope.runResult;
+                            $scope.runResults = $outScope.runResults;
                             $scope.confirm = function(){
                                 $uibModalInstance.close();
                             };
 
                             $scope.clear = function(){
-                                $scope.runResult.length = 0;
+                                $scope.runResults.length = 0;
                             };
                         }]
                     });

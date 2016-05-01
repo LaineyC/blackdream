@@ -68,7 +68,7 @@ public class GeneratorController extends BaseController {
         Generator generator = generatorService.export(request);
         File file = new File(ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + userId + ConfigProperties.fileSeparator + generator.getName() + "(" + generator.getId() + ").zip");
         HttpHeaders headers = new HttpHeaders();
-        String fileName = file.getName();
+        String fileName = java.net.URLEncoder.encode(file.getName(),"UTF-8");
         headers.setContentDispositionFormData("attachment", fileName);
         headers.add("filename", fileName);
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);

@@ -13,6 +13,8 @@ public class RunResult extends Domain{
 
     private String url;
 
+    private String fileName;
+
     public RunResult(){
 
     }
@@ -32,4 +34,13 @@ public class RunResult extends Domain{
     public void setUrl(String url) {
         this.url = url;
     }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
 }

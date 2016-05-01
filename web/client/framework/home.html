@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-sm-8">
                 <div class="page-header">
-                    <h1 class="text-primary">Welcome to BlackDream!</h1>
+                    <h1 class="text-info">Welcome to BlackDream!</h1>
                 </div>
                 <div class="page-header">
                     <div class="jumbotron">
@@ -27,7 +27,7 @@
                     <div class="panel-body">
                         <div class="page-header" style="margin: 5px;" ng-repeat="generatorInstance in generatorInstances">
                             <a href="javascript:void(0);" location-go="/business/generatorInstance/detail/{{generatorInstance.id}}">
-                                <strong class="text-primary">{{generatorInstance.name}}</strong>
+                                <strong class="text-info">{{generatorInstance.name}}</strong>
                             </a>
                         </div>
                         <button type="button" class="btn btn-link btn-sm" location-go="/business/generatorInstance/manage"><strong>更多</strong></button>
@@ -40,7 +40,7 @@
                     <div class="panel-body">
                         <div class="page-header" style="margin: 5px;" ng-repeat="generator in generators">
                             <a href="javascript:void(0);" location-go="/business/generator/detail/{{generator.id}}">
-                                <strong class="text-primary">{{generator.name}}</strong>
+                                <strong class="text-info">{{generator.name}}</strong>
                             </a>
                         </div>
                         <button type="button" class="btn btn-link btn-sm" location-go="/business/generator/manage"><strong>更多</strong></button>

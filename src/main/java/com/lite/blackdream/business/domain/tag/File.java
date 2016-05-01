@@ -1,6 +1,6 @@
 package com.lite.blackdream.business.domain.tag;
 
-import com.lite.blackdream.business.domain.Generator;
+import com.lite.blackdream.business.domain.GeneratorInstance;
 import com.lite.blackdream.business.domain.Template;
 import com.lite.blackdream.framework.el.Context;
 import com.lite.blackdream.framework.el.Parser;
@@ -61,9 +61,9 @@ public class File extends Tag {
         Global global = (Global)context.getVariable("global");
         Long generateId = global.getGenerateId();
         Long userId = global.getUser().getId();
-        Generator generator = global.getGenerator();
+        GeneratorInstance generatorInstance = global.getGeneratorInstance();
         Map<Long, Template> templateCache = global.getTemplateCache();
-        String generatePath = ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + userId + ConfigProperties.fileSeparator + generator.getName() + "(" + generateId + ")";
+        String generatePath = ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + userId + ConfigProperties.fileSeparator + generatorInstance.getName() + "(" + generateId + ")";
         String outFile = generatePath + ConfigProperties.fileSeparator + this.getName();
         outFile = Parser.parseString(outFile.replace(ConfigProperties.fileSeparator, "/"), exeContext);
         String templateFile = templateCache.get(template.getId()).getUrl();

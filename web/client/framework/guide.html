@@ -29,7 +29,7 @@
                     </div>
                     <div class="panel-body">
                         <p>一个生成器由<span class="text-warning">数据模型</span>、<span class="text-warning">模板文件</span>、<span class="text-warning">生成策略</span>三部分构成。</p>
-                        <p>用户先是在工作台根据生成器预定义的<span class="text-warning">数据模型</span>输入相应源数据，然后选择<span class="text-warning">生成策略</span>，最后生成器根据<span class="text-warning">生成策略</span>及其对应的<span class="text-warning">模板文件</span>来生成相应的文件及文件夹。</p>
+                        <p>用户先是在工作台根据生成器预定义的<span class="text-warning">数据模型</span>输入相应生成数据，然后选择<span class="text-warning">生成策略</span>，最后生成器根据<span class="text-warning">生成策略</span>及其对应的<span class="text-warning">模板文件</span>来生成相应的文件及文件夹。</p>
                     </div>
                 </div>
                 <div class="panel panel-default" id="a2">
@@ -37,7 +37,7 @@
                         <h3 class="panel-title"><label>数据模型</label></h3>
                     </div>
                     <div class="panel-body">
-                        <p>数据模型（<span class="text-warning">DynamicModel</span>类型）定义了生成器所需源数据的数据类型结构，每个生成器可制定多个数据模型。</p>
+                        <p>数据模型（<span class="text-warning">DynamicModel</span>类型）定义了生成器所需生成数据的数据类型结构，每个生成器可制定多个数据模型。</p>
                         <div class="panel panel-default">
                             <div class="panel-heading"><label>名称</label></div>
                             <div class="panel-body">
@@ -433,7 +433,7 @@
                         <h3 class="panel-title"><label>数据结构</label></h3>
                     </div>
                     <div class="panel-body">
-                        <p><span class="text-warning">Java</span>编程语言的类型，相应的<span class="text-warning">JSON</span>结构相同。</p>
+                        <p><span class="text-warning">Java</span>编程语言类型，相应的<span class="text-warning">JSON</span>结构相同。</p>
                         <p>
                             <pre style="background-color:inherit;">
 <span class="text-success">//全局变量（生成器在生成运行时的一些信息）</span>
@@ -458,7 +458,7 @@
     <span class="text-primary">TemplateStrategy</span> <span class="text-info">templateStrategy</span>
 <span class="text-warning">}</span>
 
-<span class="text-success">//源数据（在工作台输入的用于生成器的源数据）</span>
+<span class="text-success">//生成数据（在工作台输入的用于生成器的源数据）</span>
 <strong class="text-warning">DataModel</strong> <span class="text-warning">{</span>
 
     <span class="text-success">//ID</span>

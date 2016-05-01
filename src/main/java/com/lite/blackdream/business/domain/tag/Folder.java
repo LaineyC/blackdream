@@ -1,5 +1,6 @@
 package com.lite.blackdream.business.domain.tag;
 
+import com.lite.blackdream.business.domain.GeneratorInstance;
 import com.lite.blackdream.framework.el.Context;
 import com.lite.blackdream.framework.el.Parser;
 import com.lite.blackdream.framework.util.ConfigProperties;
@@ -28,7 +29,8 @@ public class Folder extends Tag {
         Global global = (Global)context.getVariable("global");
         Long generateId = global.getGenerateId();
         Long userId = global.getUser().getId();
-        String generatePath = ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + userId + ConfigProperties.fileSeparator + generateId;
+        GeneratorInstance generatorInstance = global.getGeneratorInstance();
+        String generatePath = ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + userId + ConfigProperties.fileSeparator + generatorInstance.getName() + "(" + generateId + ")";
         String folder = generatePath + ConfigProperties.fileSeparator + this.getName();
         folder = Parser.parseString(folder.replace(ConfigProperties.fileSeparator, "/"), exeContext);
         FileUtil.mkdirs(folder);

@@ -32,7 +32,7 @@ public class SystemController extends BaseController {
         String url = request.getUrl();
         File file = new File(ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + url);
         HttpHeaders headers = new HttpHeaders();
-        String fileName = file.getName();
+        String fileName = java.net.URLEncoder.encode(file.getName(),"UTF-8");
         headers.setContentDispositionFormData("attachment", fileName);
         headers.add("filename", fileName);
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);

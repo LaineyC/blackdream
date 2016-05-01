@@ -398,7 +398,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             runResult.setMessages(messages);
             return runResult;
         }
-        String generatePath = ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + authentication.getUserId() + ConfigProperties.fileSeparator + generator.getName() + "(" + generateId + ")";
+        String generatePath = ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + authentication.getUserId() + ConfigProperties.fileSeparator + generatorInstance.getName() + "(" + generateId + ")";
         File generateFolder = new File(generatePath);
         try {
             ZipUtil.compress(generateFolder);
@@ -407,7 +407,8 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             throw new AppException(e,"压缩文件失败");
         }
         FileUtil.deleteFile(generateFolder);
-        runResult.setUrl(authentication.getUserId() + "/" + generator.getName() + "(" + generateId + ").zip");
+        runResult.setUrl(authentication.getUserId() + "/" + generatorInstance.getName() + "(" + generateId + ").zip");
+        runResult.setFileName(generatorInstance.getName() + "(" + generateId + ").zip");
         return runResult;
     }
 

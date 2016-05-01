@@ -84,7 +84,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
         Long id = request.getId();
         Generator generatorPersistence = generatorRepository.selectById(id);
         if(generatorPersistence == null){
-            throw new AppException("项目不存在");
+            throw new AppException("生成器不存在");
         }
 
         Generator generator = new Generator();
@@ -158,7 +158,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
         Long id = request.getId();
         Generator generatorPersistence = generatorRepository.selectById(id);
         if(generatorPersistence == null){
-            throw new AppException("项目不存在");
+            throw new AppException("生成器不存在");
         }
         if(!userId.equals(generatorPersistence.getDeveloper().getId())){
             throw new AppException("权限不足");
@@ -175,6 +175,9 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
         Long userId = request.getAuthentication().getUserId();
         Long id = request.getId();
         Generator generatorPersistence = generatorRepository.selectById(id);
+        if(generatorPersistence == null){
+            throw new AppException("生成器不存在");
+        }
 
         String exportPath = ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + userId + ConfigProperties.fileSeparator + generatorPersistence.getName() + "(" + id + ")";
 
@@ -254,9 +257,10 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
 
         Base64FileItem generatorFile = request.getGeneratorFile();
         String type = generatorFile.getName().substring(generatorFile.getName().lastIndexOf(".") + 1);
-        if(!"zip".equals(type) && !"rar".equals(type)){
+        if(!"zip".equals(type)){
             throw new AppException("格式不支持");
         }
+
         Long tempId = idWorker.nextId();
         String fileAbsolutePath = ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + userId + ConfigProperties.fileSeparator + tempId + ConfigProperties.fileSeparator  + tempId + "." + type;
         File zipFile = new File(fileAbsolutePath);
@@ -274,7 +278,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
         }
         FileUtil.deleteFile(zipFile);
         File zipParentFolder = zipFile.getParentFile();
-        if(!zipParentFolder.exists() || zipParentFolder.listFiles().length == 0){
+        if(!zipParentFolder.exists() || zipParentFolder.listFiles().length != 1){
             FileUtil.deleteFile(zipParentFolder);
             throw new AppException("格式不兼容");
         }
@@ -284,7 +288,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
 
         String generatorImportPath = importPath + ConfigProperties.fileSeparator + "Database" + ConfigProperties.fileSeparator + "Generator";
         File generatorImportFolder = new File(generatorImportPath);
-        if(!generatorImportFolder.exists() || generatorImportFolder.listFiles().length == 0){
+        if(!generatorImportFolder.exists() || generatorImportFolder.listFiles().length != 1){
             FileUtil.deleteFile(zipParentFolder);
             throw new AppException("格式不兼容");
         }

@@ -16,7 +16,7 @@ define(["business/module"],function(module){
                     var blob = new Blob([data]);
                     var evt = document.createEvent("HTMLEvents");
                     evt.initEvent("click", false, false);
-                    aLink.download = headers["filename"];
+                    aLink.download = decodeURI(headers["filename"]);
                     aLink.href = URL.createObjectURL(blob);
                     aLink.dispatchEvent(evt);
                 });
@@ -73,7 +73,7 @@ define(["business/module"],function(module){
                     var blob = new Blob([data]);
                     var evt = document.createEvent("HTMLEvents");
                     evt.initEvent("click", false, false);
-                    aLink.download = headers["filename"];
+                    aLink.download = decodeURI(headers["filename"]);
                     aLink.href = URL.createObjectURL(blob);
                     aLink.dispatchEvent(evt);
                 });
