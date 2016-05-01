@@ -6,7 +6,7 @@ define(
         module.controller("templateStrategyUpdateController", [
             "$scope", "$routeParams", "location", "templateStrategyApi", "templateApi", "viewPage",
             function($scope, $routeParams, location, templateStrategyApi, templateApi, viewPage){
-                viewPage.setViewPageTitle("策略文件修改");
+                viewPage.setViewPageTitle("生成策略修改");
                 $scope.updateRequest = {};
 
                 var id = $routeParams.id;

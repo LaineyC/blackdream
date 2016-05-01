@@ -11,6 +11,10 @@ define(
                 generatorApi.get({id: id}).success(function(generator){
                     $scope.generator = generator;
                 });
+
+                $scope.export = function(generator){
+                    generatorApi.export({id: generator.id});
+                };
             }
         ]);
     }

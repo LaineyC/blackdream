@@ -5,7 +5,7 @@ define(
         module.controller("templateStrategyManageController", [
             "$scope", "$routeParams", "templateStrategyApi", "viewPage",
             function($scope, $routeParams, templateStrategyApi, viewPage){
-                viewPage.setViewPageTitle("策略文件管理");
+                viewPage.setViewPageTitle("生成策略管理");
                 var generatorId = $routeParams.generatorId;
 
                 $scope.searchRequest = {page:1, pageSize:10,generatorId:generatorId};

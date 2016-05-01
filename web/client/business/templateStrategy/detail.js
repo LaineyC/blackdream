@@ -6,7 +6,7 @@ define(
         module.controller("templateStrategyDetailController", [
             "$scope", "$routeParams", "location", "templateStrategyApi", "templateApi", "viewPage",
             function($scope, $routeParams, location, templateStrategyApi, templateApi, viewPage){
-                viewPage.setViewPageTitle("策略文件详情");
+                viewPage.setViewPageTitle("生成策略详情");
                 $scope.templateStrategy = {};
 
                 var id = $routeParams.id;

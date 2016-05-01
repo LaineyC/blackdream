@@ -6,7 +6,7 @@ define(
         module.controller("templateStrategyCreateController", [
             "$scope", "$routeParams", "location", "templateStrategyApi", "templateApi","viewPage",
             function($scope, $routeParams, location, templateStrategyApi, templateApi, viewPage){
-                viewPage.setViewPageTitle("策略文件新建");
+                viewPage.setViewPageTitle("生成策略新建");
                 var generatorId = $routeParams.generatorId;
 
                 $scope.createRequest = {generatorId: generatorId};

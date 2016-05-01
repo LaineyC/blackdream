@@ -5,7 +5,11 @@
                 <ul class="list-group">
                     <li class="list-group-item">
                         <i class="glyphicon glyphicon-plus" ng-class="templateStrategy.$closed ? 'glyphicon-plus' : 'glyphicon-minus'" ng-click="templateStrategy.$closed =!templateStrategy.$closed;"></i>
-                        <label>策略名称</label>
+                        <label>生成策略</label>
+                        <div class="input-group">
+                            <span class="input-group-addon text-info">ID</span>
+                            <span class="input-group-addon">{{templateStrategy.id}}</span>
+                        </div>
                         <div class="input-group">
                             <span class="input-group-addon text-info">name</span>
                             <span class="input-group-addon">{{templateStrategy.name}}</span>

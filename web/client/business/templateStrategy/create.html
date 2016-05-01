@@ -5,7 +5,7 @@
                 <ul class="list-group">
                     <li class="list-group-item">
                         <i class="glyphicon glyphicon-plus" ng-class="createRequest.children.length ? (createRequest.$closed ? 'glyphicon-plus' : 'glyphicon-minus') : 'glyphicon-leaf'" ng-click="createRequest.$closed =!createRequest.$closed;"></i>
-                        <label>策略名称</label>
+                        <label>生成策略</label>
                         <div class="input-group">
                             <span class="input-group-addon" ng-class="{'text-danger': templateStrategyCreateForm.name.$error.required}">name</span>
                             <input name="name" uib-tooltip="{{getMessage('name',templateStrategyCreateForm.name.$error,tagRules.TemplateStrategy.attributes)}}"

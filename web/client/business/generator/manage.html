@@ -31,6 +31,7 @@
                     <thead>
                     <tr class="active">
                         <th width="25">#</th>
+                        <th width="150">ID</th>
                         <th width="200">名称</th>
                         <th width="100">状态</th>
                         <th>操作</th>
@@ -39,6 +40,7 @@
                     <tbody>
                     <tr ng-repeat="generator in pagerResult.records track by $index">
                         <td>{{$index + 1}}</td>
+                        <td>{{generator.id}}</td>
                         <td>{{generator.name}}</td>
                         <td>{{generator.isOpen ? "开放" : "私有";}}</td>
                         <td>
@@ -50,7 +52,7 @@
                             <div class="btn-group">
                                 <button type="button" class="btn btn-info btn-sm" location-go="/business/dynamicModel/manage/{{generator.id}}">数据模型管理</button>
                                 <button type="button" class="btn btn-info btn-sm" location-go="/business/template/manage/{{generator.id}}">模板文件管理</button>
-                                <button type="button" class="btn btn-info btn-sm" location-go="/business/templateStrategy/manage/{{generator.id}}">策略文件管理</button>
+                                <button type="button" class="btn btn-info btn-sm" location-go="/business/templateStrategy/manage/{{generator.id}}">生成策略管理</button>
                                 <button type="button" class="btn btn-success btn-sm" location-go="/business/generatorInstance/create/{{generator.id}}">新建实例</button>
                             </div>
                         </td>
