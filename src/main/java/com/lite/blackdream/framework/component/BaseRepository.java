@@ -55,7 +55,7 @@ public abstract class BaseRepository<E extends Domain, ID extends Serializable> 
             entityCollection.putFirst(entity);
         }
         catch (Exception e){
-            throw new RuntimeException("");
+            throw new RuntimeException(e);
         }
 
         DirtyData<E> dirtyData = new DirtyData<>();
@@ -66,14 +66,14 @@ public abstract class BaseRepository<E extends Domain, ID extends Serializable> 
             dirtyCollection.putFirst(dirtyData);
         }
         catch (Exception e){
-            throw new RuntimeException("");
+            throw new RuntimeException(e);
         }
     }
 
     @Override
     public void delete(E entity) {
         if(!entityCollection.contains(entity)){
-            throw new RuntimeException("");
+            throw new RuntimeException("实体不存在");
         }
         entityCollection.remove(entity);
 
@@ -85,14 +85,14 @@ public abstract class BaseRepository<E extends Domain, ID extends Serializable> 
             dirtyCollection.putFirst(dirtyData);
         }
         catch (Exception e){
-            throw new RuntimeException("");
+            throw new RuntimeException(e);
         }
     }
 
     @Override
     public void update(E entity) {
         if(!entityCollection.contains(entity)){
-            throw new RuntimeException("");
+            throw new RuntimeException("实体不存在");
         }
 
         DirtyData<E> dirtyData = new DirtyData<>();
@@ -102,7 +102,7 @@ public abstract class BaseRepository<E extends Domain, ID extends Serializable> 
             dirtyCollection.putFirst(dirtyData);
         }
         catch (Exception e){
-            throw new RuntimeException("");
+            throw new RuntimeException(e);
         }
     }
 

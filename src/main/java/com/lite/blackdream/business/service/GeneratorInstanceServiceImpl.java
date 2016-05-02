@@ -87,6 +87,14 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             throw new AppException("实例不存在");
         }
         generatorInstanceRepository.delete(generatorInstancePersistence);
+
+        Long rootDataModelId = generatorInstancePersistence.getDataModel().getId();
+        DataModel rootDataModePersistence = dataModelRepository.selectById(rootDataModelId);
+        if(rootDataModePersistence == null){
+            throw new AppException("rootDataMode不存在");
+        }
+        dataModelRepository.delete(rootDataModePersistence);
+
         FileUtil.deleteFile(new File(ConfigProperties.DATABASE_PATH  + ConfigProperties.fileSeparator + "DataModel" + ConfigProperties.fileSeparator + id.toString()));
 
         GeneratorInstance generatorInstance = new GeneratorInstance();
@@ -94,7 +102,10 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         generatorInstance.setName(generatorInstancePersistence.getName());
         generatorInstance.setIsDelete(generatorInstancePersistence.getIsDelete());
         generatorInstance.setTemplateStrategy(generatorInstancePersistence.getTemplateStrategy());
-        return generatorInstancePersistence;
+        generatorInstance.setGenerator(generatorInstancePersistence.getGenerator());
+        generatorInstance.setDataModel(generatorInstancePersistence.getDataModel());
+        generatorInstance.setUser(generatorInstancePersistence.getUser());
+        return generatorInstance;
     }
 
     @Override
