@@ -81,7 +81,20 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
 
     @Override
     public GeneratorInstance delete(GeneratorInstanceDeleteRequest request) {
-        throw new AppException("未开放");
+        Long id = request.getId();
+        GeneratorInstance generatorInstancePersistence = generatorInstanceRepository.selectById(id);
+        if(generatorInstancePersistence == null){
+            throw new AppException("实例不存在");
+        }
+        generatorInstanceRepository.delete(generatorInstancePersistence);
+        FileUtil.deleteFile(new File(ConfigProperties.DATABASE_PATH  + ConfigProperties.fileSeparator + "DataModel" + ConfigProperties.fileSeparator + id.toString()));
+
+        GeneratorInstance generatorInstance = new GeneratorInstance();
+        generatorInstance.setId(generatorInstancePersistence.getId());
+        generatorInstance.setName(generatorInstancePersistence.getName());
+        generatorInstance.setIsDelete(generatorInstancePersistence.getIsDelete());
+        generatorInstance.setTemplateStrategy(generatorInstancePersistence.getTemplateStrategy());
+        return generatorInstancePersistence;
     }
 
     @Override

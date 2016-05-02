@@ -2,7 +2,6 @@ package com.lite.blackdream.business.service;
 
 import com.lite.blackdream.business.repository.*;
 import com.lite.blackdream.framework.util.ConfigProperties;
-import com.lite.blackdream.framework.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -62,22 +61,18 @@ public class StartupListener implements ApplicationListener<ContextRefreshedEven
             if(!temporaryPath.exists()){
                 temporaryPath.mkdirs();
             }
-
             //项目web根路径
             ConfigProperties.ROOT_PATH = System.getProperty("blackdream.root");
-
             //尽量按照依赖的情况决定初始化数据
-            dynamicModelRepository.init();
+            userRepository.init();
             generatorRepository.init();
-            generatorInstanceRepository.init();
+            dynamicModelRepository.init();
             dataModelRepository.init();
             templateRepository.init();
             templateStrategyRepository.init();
-            userRepository.init();
-
-            //启动数据 管理员
-            userService.create();
-
+            generatorInstanceRepository.init();
+            //添加启动数据 root管理员
+            userService.createRoot();
             threadPoolService.submit(dataModelRepository);
             threadPoolService.submit(dynamicModelRepository);
             threadPoolService.submit(generatorInstanceRepository);

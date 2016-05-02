@@ -53,7 +53,7 @@ public class UserServiceImpl extends BaseService implements UserService {
     }
 
     //创建启动数据--管理员
-    public void create(){
+    public void createRoot(){
         long count = userRepository.count(new User());
         if(count == 0){
             User user = new User();

@@ -22,6 +22,6 @@ public interface UserService extends Service {
 
     PagerResult<User> search(UserSearchRequest request);
 
-    void create();
+    void createRoot();
 
 }
