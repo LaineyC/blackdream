@@ -21,6 +21,9 @@ define(
                 };
 
                 $scope.import = function($file){
+                    if(!$file){
+                        return;
+                    }
                     var fileReader = new FileReader();
                     fileReader.onload = function(event) {
                         var result = event.target.result;
