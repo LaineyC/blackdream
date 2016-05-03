@@ -8,9 +8,11 @@ import com.lite.blackdream.framework.el.Context;
  */
 public class TemplateStrategy extends Tag {
 
+    private String name;
+
     private Generator generator;
 
-    private String name;
+    private User developer;
 
     public TemplateStrategy(){
 
@@ -49,6 +51,14 @@ public class TemplateStrategy extends Tag {
 
     public void setGenerator(Generator generator) {
         this.generator = generator;
+    }
+
+    public User getDeveloper() {
+        return developer;
+    }
+
+    public void setDeveloper(User developer) {
+        this.developer = developer;
     }
 
 }

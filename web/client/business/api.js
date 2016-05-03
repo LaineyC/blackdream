@@ -38,6 +38,8 @@ define(["business/module"],function(module){
 
             provider.get = function(request) { return $http.post("/api?method=user.get", request); };
 
+            provider.authGet = function(request) { return $http.post("/api?method=user.authGet", request); };
+
             provider.search = function(request) { return $http.post("/api?method=user.search", request); };
 
             //provider.login = function(request) { return $http.post("/api?method=user.login", request); };
@@ -64,6 +66,8 @@ define(["business/module"],function(module){
             provider.get = function(request) { return $http.post("/api?method=generator.get", request); };
 
             provider.search = function(request) { return $http.post("/api?method=generator.search", request); };
+
+            provider.authSearch = function(request) { return $http.post("/api?method=generator.authSearch", request); };
 
             provider.export = function(request) {
                 return $http.post("/api?method=generator.export", request, {responseType :"blob"}).success(function(data, status, headers){
@@ -143,6 +147,8 @@ define(["business/module"],function(module){
             provider.get = function(request) { return $http.post("/api?method=generatorInstance.get", request); };
 
             provider.search = function(request) { return $http.post("/api?method=generatorInstance.search", request); };
+
+            provider.authSearch = function(request) { return $http.post("/api?method=generatorInstance.authSearch", request); };
 
             provider.run = function(request) { return $http.post("/api?method=generatorInstance.run", request); };
 

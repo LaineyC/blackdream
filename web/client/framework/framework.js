@@ -721,7 +721,7 @@ define(
                 //半小时会话心跳 防止session过期
                 $interval(function(){systemApi.heartbeat({});}, 30 * 60 * 1000);
 
-                userApi.get({}).success(function(user){
+                userApi.authGet({}).success(function(user){
                     security.setUser(user);
                     $scope.user = user;
                 });

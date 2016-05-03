@@ -13,6 +13,8 @@ public class Template extends Domain {
 
     private Generator generator;
 
+    private User developer;
+
     public Template(){
 
     }
@@ -39,6 +41,14 @@ public class Template extends Domain {
 
     public void setGenerator(Generator generator) {
         this.generator = generator;
+    }
+
+    public User getDeveloper() {
+        return developer;
+    }
+
+    public void setDeveloper(User developer) {
+        this.developer = developer;
     }
 
 }

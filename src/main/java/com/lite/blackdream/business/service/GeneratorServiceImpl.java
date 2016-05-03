@@ -100,8 +100,8 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
 
     @Override
     public PagerResult<Generator> search(GeneratorSearchRequest request) {
-        String keyword = StringUtils.hasText(request.getKeyword())  ? request.getKeyword() : null;
-        String name =  StringUtils.hasText(request.getName())  ? request.getName() : null;
+        String keyword = StringUtils.hasText(request.getKeyword()) ? request.getKeyword() : null;
+        String name = StringUtils.hasText(request.getName()) ? request.getName() : null;
         Boolean isOpen = request.getIsOpen();
         Long developerId = request.getDeveloperId();
         List<Generator> records = generatorRepository.filter(generator -> {

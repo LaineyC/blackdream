@@ -2,12 +2,13 @@ package com.lite.blackdream.business.service;
 
 import com.lite.blackdream.business.domain.DynamicModel;
 import com.lite.blackdream.business.domain.Generator;
+import com.lite.blackdream.business.domain.User;
 import com.lite.blackdream.business.parameter.dynamicmodel.*;
 import com.lite.blackdream.business.repository.DynamicModelRepository;
 import com.lite.blackdream.business.repository.GeneratorRepository;
+import com.lite.blackdream.business.repository.UserRepository;
 import com.lite.blackdream.framework.exception.AppException;
 import com.lite.blackdream.framework.component.BaseService;
-import com.lite.blackdream.framework.model.Authentication;
 import com.lite.blackdream.framework.model.PagerResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,9 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
     @Autowired
     private GeneratorRepository generatorRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public DynamicModel create(DynamicModelCreateRequest request) {
         DynamicModel dynamicModel = new DynamicModel();
@@ -33,6 +37,11 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
         dynamicModel.setName(request.getName());
         dynamicModel.setIcon(request.getIcon());
         dynamicModel.setIsDelete(false);
+
+        Long userId = request.getAuthentication().getUserId();
+        User developer = new User();
+        developer.setId(userId);
+        dynamicModel.setDeveloper(developer);
 
         Long generatorId = request.getGeneratorId();
         Generator generatorPersistence = generatorRepository.selectById(generatorId);
@@ -74,6 +83,8 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
         dynamicModel.setProperties(dynamicModelPersistence.getProperties());
         dynamicModel.setAssociation(dynamicModelPersistence.getAssociation());
         dynamicModel.setPredefinedAssociation(dynamicModelPersistence.getPredefinedAssociation());
+        User developerPersistence = userRepository.selectById(dynamicModelPersistence.getDeveloper().getId());
+        dynamicModel.setDeveloper(developerPersistence);
 
         Long generatorId = dynamicModelPersistence.getGenerator().getId();
         Generator generatorPersistence = generatorRepository.selectById(generatorId);
@@ -114,13 +125,13 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
             dynamicModel.setIcon(d.getIcon());
             //dynamicModel.setProperties(d.getProperties());
             //dynamicModel.setAssociation(d.getAssociation());
-
+            User developerPersistence = userRepository.selectById(d.getDeveloper().getId());
+            dynamicModel.setDeveloper(developerPersistence);
             Generator generatorPersistence = generatorRepository.selectById(generatorId);
             if(generatorPersistence == null){
                 throw new AppException("生成器不存在");
             }
             dynamicModel.setGenerator(generatorPersistence);
-
             d.getChildren().forEach(child -> {
                 DynamicModel c = dynamicModelRepository.selectById(child.getId());
                 if (c != null) {
@@ -180,8 +191,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
             throw new AppException("模型不存在");
         }
 
-        Authentication authentication = request.getAuthentication();
-        Long userId = authentication.getUserId();
+        Long userId = request.getAuthentication().getUserId();
         Generator generatorPersistence = generatorRepository.selectById(dynamicModelPersistence.getGenerator().getId());
         if(!userId.equals(generatorPersistence.getDeveloper().getId())){
             throw new AppException("权限不足");

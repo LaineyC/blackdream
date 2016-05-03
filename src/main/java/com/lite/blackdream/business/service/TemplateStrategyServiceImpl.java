@@ -2,11 +2,13 @@ package com.lite.blackdream.business.service;
 
 import com.lite.blackdream.business.domain.Generator;
 import com.lite.blackdream.business.domain.TemplateStrategy;
+import com.lite.blackdream.business.domain.User;
 import com.lite.blackdream.business.domain.tag.*;
 import com.lite.blackdream.business.domain.tag.Set;
 import com.lite.blackdream.business.parameter.templatestrategy.*;
 import com.lite.blackdream.business.repository.GeneratorRepository;
 import com.lite.blackdream.business.repository.TemplateStrategyRepository;
+import com.lite.blackdream.business.repository.UserRepository;
 import com.lite.blackdream.framework.exception.AppException;
 import com.lite.blackdream.framework.component.BaseService;
 import com.lite.blackdream.framework.model.Authentication;
@@ -197,6 +199,9 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
     @Autowired
     private GeneratorRepository generatorRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public TemplateStrategy create(TemplateStrategyCreateRequest request) {
         TemplateStrategy templateStrategy = new TemplateStrategy();
@@ -209,6 +214,11 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
             throw new AppException("生成器不存在");
         }
         templateStrategy.setGenerator(generatorPersistence);
+
+        Long userId = request.getAuthentication().getUserId();
+        User developer = new User();
+        developer.setId(userId);
+        templateStrategy.setDeveloper(developer);
 
         request.getChildren().forEach(childMap -> {
             String childName = (String) childMap.get("tagName");
@@ -242,6 +252,9 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
         if(generatorPersistence == null){
             throw new AppException("生成器不存在");
         }
+        User developerPersistence = userRepository.selectById(generatorPersistence.getDeveloper().getId());
+        templateStrategy.setDeveloper(developerPersistence);
+
         templateStrategy.setGenerator(generatorPersistence);
         templateStrategy.setChildren(templateStrategyPersistence.getChildren());
         return templateStrategy;
@@ -295,6 +308,8 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
             templateStrategy.setId(t.getId());
             templateStrategy.setName(t.getName());
             templateStrategy.setIsDelete(t.getIsDelete());
+            User userPersistence = userRepository.selectById(t.getDeveloper().getId());
+            templateStrategy.setDeveloper(userPersistence);
             Generator generatorPersistence = generatorRepository.selectById(generatorId);
             if(generatorPersistence == null){
                 throw new AppException("生成器不存在");
@@ -314,10 +329,8 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
             throw new AppException("策略文件不存在");
         }
 
-        Authentication authentication = request.getAuthentication();
-        Long userId = authentication.getUserId();
-        Generator generatorPersistence = generatorRepository.selectById(templateStrategyPersistence.getGenerator().getId());
-        if(!userId.equals(generatorPersistence.getDeveloper().getId())){
+        Long userId = request.getAuthentication().getUserId();
+        if(!userId.equals(templateStrategyPersistence.getDeveloper().getId())){
             throw new AppException("权限不足");
         }
 

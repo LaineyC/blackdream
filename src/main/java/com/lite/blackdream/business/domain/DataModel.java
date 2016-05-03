@@ -18,6 +18,8 @@ public class DataModel extends Domain{
 
     private DataModel parent;
 
+    private User user;
+
     private List<DataModel> children = new ArrayList<>();
 
     private Map<String, Object> properties = new LinkedHashMap<>();
@@ -74,6 +76,14 @@ public class DataModel extends Domain{
 
     public void setChildren(List<DataModel> children) {
         this.children = children;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Map<String, Object> getProperties() {

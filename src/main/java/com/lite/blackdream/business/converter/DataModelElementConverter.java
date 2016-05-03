@@ -1,9 +1,6 @@
 package com.lite.blackdream.business.converter;
 
-import com.lite.blackdream.business.domain.DataModel;
-import com.lite.blackdream.business.domain.DynamicModel;
-import com.lite.blackdream.business.domain.DynamicProperty;
-import com.lite.blackdream.business.domain.GeneratorInstance;
+import com.lite.blackdream.business.domain.*;
 import com.lite.blackdream.business.repository.DynamicModelRepository;
 import com.lite.blackdream.framework.component.BaseElementConverter;
 import org.dom4j.DocumentHelper;
@@ -67,6 +64,12 @@ public class DataModelElementConverter extends BaseElementConverter<DataModel> {
         if(parent != null){
             Element parentElement = element.addElement("parent");
             parentElement.setText(parent.getId().toString());
+        }
+
+        User user = entity.getUser();
+        if(user != null){
+            Element userElement = element.addElement("user");
+            userElement.setText(user.getId().toString());
         }
 /*
         List<DataModel> children = entity.getChildren();
@@ -202,6 +205,13 @@ public class DataModelElementConverter extends BaseElementConverter<DataModel> {
             DataModel parent = new DataModel();
             parent.setId(Long.valueOf(parentNode.getText()));
             entity.setParent(parent);
+        }
+
+        Node userNode = element.element("user");
+        if(userNode != null){
+            User user = new User();
+            user.setId(Long.valueOf(userNode.getText()));
+            entity.setUser(user);
         }
 /*
         Node childrenNode = element.selectSingleNode("./children");

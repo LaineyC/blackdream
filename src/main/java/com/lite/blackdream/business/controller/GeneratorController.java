@@ -56,6 +56,15 @@ public class GeneratorController extends BaseController {
     }
 
     @ResponseBody
+    @RequestMapping(params="method=generator.authSearch")
+    public GeneratorSearchResponse authSearch(GeneratorSearchRequest request) {
+        Long userId = request.getAuthentication().getUserId();
+        request.setDeveloperId(userId);
+        PagerResult<Generator> pagerResult = generatorService.search(request);
+        return new GeneratorSearchResponse(pagerResult);
+    }
+
+    @ResponseBody
     @RequestMapping(params="method=generator.update")
     public GeneratorUpdateResponse update(GeneratorUpdateRequest request) {
         Generator generator = generatorService.update(request);

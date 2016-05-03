@@ -15,7 +15,7 @@ define(
                 ];
 
                 $scope.search = function(){
-                    generatorApi.search($scope.searchRequest).success(function(pagerResult){
+                    generatorApi.authSearch($scope.searchRequest).success(function(pagerResult){
                         $scope.pagerResult = pagerResult;
                     });
                 };

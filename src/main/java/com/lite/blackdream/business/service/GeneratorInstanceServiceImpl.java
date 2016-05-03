@@ -49,8 +49,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
 
     @Override
     public GeneratorInstance create(GeneratorInstanceCreateRequest request) {
-        Authentication authentication = request.getAuthentication();
-        Long userId = authentication.getUserId();
+        Long userId = request.getAuthentication().getUserId();
         GeneratorInstance generatorInstance = new GeneratorInstance();
         generatorInstance.setId(idWorker.nextId());
         generatorInstance.setName(request.getName());
@@ -69,6 +68,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         dataModel.setId(idWorker.nextId());
         dataModel.setIsDelete(false);
         dataModel.setGeneratorInstance(generatorInstance);
+        dataModel.setUser(user);
         dataModelRepository.insert(dataModel);
 
         DataModel dm = new DataModel();
@@ -85,6 +85,10 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         GeneratorInstance generatorInstancePersistence = generatorInstanceRepository.selectById(id);
         if(generatorInstancePersistence == null){
             throw new AppException("实例不存在");
+        }
+        Long userId = request.getAuthentication().getUserId();
+        if(!userId.equals(generatorInstancePersistence.getUser().getId())){
+            throw new AppException("权限不足");
         }
         generatorInstanceRepository.delete(generatorInstancePersistence);
 
@@ -121,6 +125,9 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         generatorInstance.setIsDelete(generatorInstancePersistence.getIsDelete());
         generatorInstance.setTemplateStrategy(generatorInstancePersistence.getTemplateStrategy());
 
+        User userPersistence = userRepository.selectById(generatorInstancePersistence.getUser().getId());
+        generatorInstance.setUser(userPersistence);
+
         Long generatorId = generatorInstancePersistence.getGenerator().getId();
         Generator generatorPersistence = generatorRepository.selectById(generatorId);
         if(generatorPersistence == null){
@@ -134,8 +141,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
 
     @Override
     public PagerResult<GeneratorInstance> search(GeneratorInstanceSearchRequest request) {
-        Authentication authentication = request.getAuthentication();
-        Long userId = authentication.getUserId();
+        Long userId = request.getUserId();
         String name =  StringUtils.hasText(request.getName())  ? request.getName() : null;
         List<GeneratorInstance> records = generatorInstanceRepository.filter(generatorInstance -> {
             if(generatorInstance.getIsDelete()){
@@ -164,9 +170,9 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             generatorInstance.setId(g.getId());
             generatorInstance.setName(g.getName());
             generatorInstance.setIsDelete(g.getIsDelete());
-
-            Long generatorId = g.getGenerator().getId();
-            Generator generatorPersistence = generatorRepository.selectById(generatorId);
+            User userPersistence = userRepository.selectById(g.getUser().getId());
+            generatorInstance.setUser(userPersistence);
+            Generator generatorPersistence = generatorRepository.selectById(g.getGenerator().getId());
             if(generatorPersistence == null){
                 throw new AppException("生成器不存在");
             }
@@ -185,10 +191,8 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             throw new AppException("实例不存在");
         }
 
-        Authentication authentication = request.getAuthentication();
-        Long userId = authentication.getUserId();
-        Generator generatorPersistence = generatorRepository.selectById(generatorInstancePersistence.getGenerator().getId());
-        if(!userId.equals(generatorPersistence.getDeveloper().getId())){
+        Long userId = request.getAuthentication().getUserId();
+        if(!userId.equals(generatorInstancePersistence.getUser().getId())){
             throw new AppException("权限不足");
         }
 

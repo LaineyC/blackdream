@@ -3,6 +3,7 @@ package com.lite.blackdream.business.converter;
 import com.lite.blackdream.business.domain.DynamicModel;
 import com.lite.blackdream.business.domain.DynamicProperty;
 import com.lite.blackdream.business.domain.Generator;
+import com.lite.blackdream.business.domain.User;
 import com.lite.blackdream.framework.component.BaseElementConverter;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -53,6 +54,12 @@ public class DynamicModelElementConverter extends BaseElementConverter<DynamicMo
         if(generator != null){
             Element generatorElement = element.addElement("generator");
             generatorElement.setText(generator.getId().toString());
+        }
+
+        User developer = entity.getDeveloper();
+        if(developer != null){
+            Element developerElement = element.addElement("developer");
+            developerElement.setText(developer.getId().toString());
         }
 
         List<DynamicModel> children = entity.getChildren();
@@ -157,6 +164,13 @@ public class DynamicModelElementConverter extends BaseElementConverter<DynamicMo
             entity.setGenerator(generator);
         }
 
+        Node developerNode = element.element("developer");
+        if(developerNode != null){
+            User developer = new User();
+            developer.setId(Long.valueOf(developerNode.getText()));
+            entity.setDeveloper(developer);
+        }
+
         Node childrenNode = element.element("children");
         if(childrenNode != null){
             String nodeValue = childrenNode.getText();
@@ -197,17 +211,23 @@ public class DynamicModelElementConverter extends BaseElementConverter<DynamicMo
                     if (propertyNode != null) {
                         if ("Boolean".equals(propertyType)) {
                             property.put(propertyName, Boolean.valueOf(propertyNode.getText()));
-                        } else if ("Long".equals(propertyType)) {
+                        }
+                        else if ("Long".equals(propertyType)) {
                             property.put(propertyName, Long.valueOf(propertyNode.getText()));
-                        } else if ("Double".equals(propertyType)) {
+                        }
+                        else if ("Double".equals(propertyType)) {
                             property.put(propertyName, Double.valueOf(propertyNode.getText()));
-                        } else if ("String".equals(propertyType)) {
+                        }
+                        else if ("String".equals(propertyType)) {
                             property.put(propertyName, propertyNode.getText());
-                        } else if ("Date".equals(propertyType)) {
+                        }
+                        else if ("Date".equals(propertyType)) {
                             property.put(propertyName, Long.valueOf(propertyNode.getText()));
-                        } else if ("Enum".equals(propertyType)) {
+                        }
+                        else if ("Enum".equals(propertyType)) {
                             property.put(propertyName, propertyNode.getText());
-                        } else if ("Model".equals(propertyType)) {
+                        }
+                        else if ("Model".equals(propertyType)) {
                             property.put(propertyName, Long.valueOf(propertyNode.getText()));
                         }
                     }

@@ -36,6 +36,15 @@ public class UserController extends BaseController {
     }
 
     @ResponseBody
+    @RequestMapping(params="method=user.authGet")
+    public UserGetResponse authGet(UserGetRequest request) {
+        Long userId = request.getAuthentication().getUserId();
+        request.setId(userId);
+        User user = userService.get(request);
+        return new UserGetResponse(user);
+    }
+
+    @ResponseBody
     @RequestMapping(params="method=user.login")
     public UserLoginResponse login(UserLoginRequest request, HttpServletRequest servletRequest) {
         User user = userService.login(request);

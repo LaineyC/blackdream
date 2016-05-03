@@ -9,7 +9,7 @@ define(
                 $scope.searchRequest = {page:1, pageSize:10};
 
                 $scope.search = function(){
-                    generatorInstanceApi.search($scope.searchRequest).success(function(pagerResult){
+                    generatorInstanceApi.authSearch($scope.searchRequest).success(function(pagerResult){
                         $scope.pagerResult = pagerResult;
                     });
                 };

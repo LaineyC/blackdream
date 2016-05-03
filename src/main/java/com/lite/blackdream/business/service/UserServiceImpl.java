@@ -139,11 +139,6 @@ public class UserServiceImpl extends BaseService implements UserService {
 
     @Override
     public User get(UserGetRequest request) {
-        Authentication authentication = request.getAuthentication();
-        Long userId = authentication.getUserId();
-        if(request.getId() == null) {
-            request.setId(userId);
-        }
         User userPersistence = userRepository.selectById(request.getId());
         User user = new User();
         user.setId(userPersistence.getId());

@@ -2,9 +2,11 @@ package com.lite.blackdream.business.service;
 
 import com.lite.blackdream.business.domain.Generator;
 import com.lite.blackdream.business.domain.Template;
+import com.lite.blackdream.business.domain.User;
 import com.lite.blackdream.business.parameter.template.*;
 import com.lite.blackdream.business.repository.GeneratorRepository;
 import com.lite.blackdream.business.repository.TemplateRepository;
+import com.lite.blackdream.business.repository.UserRepository;
 import com.lite.blackdream.framework.exception.AppException;
 import com.lite.blackdream.framework.component.BaseService;
 import com.lite.blackdream.framework.model.Authentication;
@@ -31,6 +33,9 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
     @Autowired
     private GeneratorRepository generatorRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public Template create(TemplateCreateRequest request) {
         Template template = new Template();
@@ -43,6 +48,11 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
             throw new AppException("生成器不存在");
         }
         template.setGenerator(generatorPersistence);
+
+        Long userId = request.getAuthentication().getUserId();
+        User developer = new User();
+        developer.setId(userId);
+        template.setDeveloper(developer);
 
         Base64FileItem templateFile = request.getTemplateFile();
         String fileName = idWorker.nextId() + ".vm";
@@ -76,6 +86,9 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         if(generatorPersistence == null){
             throw new AppException("生成器不存在");
         }
+        User developerPersistence = userRepository.selectById(templatePersistence.getDeveloper().getId());
+        template.setDeveloper(developerPersistence);
+
         template.setGenerator(generatorPersistence);
         template.setUrl(templatePersistence.getUrl());
         return template;
@@ -89,10 +102,8 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
             throw new AppException("模板不存在");
         }
 
-        Authentication authentication = request.getAuthentication();
-        Long userId = authentication.getUserId();
-        Generator generatorPersistence = generatorRepository.selectById(templatePersistence.getGenerator().getId());
-        if(!userId.equals(generatorPersistence.getDeveloper().getId())){
+        Long userId = request.getAuthentication().getUserId();
+        if(!userId.equals(templatePersistence.getDeveloper().getId())){
             throw new AppException("权限不足");
         }
 
@@ -153,6 +164,8 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
             template.setId(t.getId());
             template.setName(t.getName());
             template.setIsDelete(t.getIsDelete());
+            User userPersistence = userRepository.selectById(t.getDeveloper().getId());
+            template.setDeveloper(userPersistence);
             Generator generatorPersistence = generatorRepository.selectById(generatorId);
             if(generatorPersistence == null){
                 throw new AppException("生成器不存在");
@@ -172,10 +185,8 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
             throw new AppException("模板不存在");
         }
 
-        Authentication authentication = request.getAuthentication();
-        Long userId = authentication.getUserId();
-        Generator generatorPersistence = generatorRepository.selectById(templatePersistence.getGenerator().getId());
-        if(!userId.equals(generatorPersistence.getDeveloper().getId())){
+        Long userId = request.getAuthentication().getUserId();
+        if(!userId.equals(templatePersistence.getDeveloper().getId())){
             throw new AppException("权限不足");
         }
 

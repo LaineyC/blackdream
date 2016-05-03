@@ -24,6 +24,8 @@ public class DynamicModel extends Domain{
 
     private Generator generator;
 
+    private User developer;
+
     public DynamicModel(){
 
     }
@@ -83,4 +85,13 @@ public class DynamicModel extends Domain{
     public void setPredefinedAssociation(List<Map<String, Object>> predefinedAssociation) {
         this.predefinedAssociation = predefinedAssociation;
     }
+
+    public User getDeveloper() {
+        return developer;
+    }
+
+    public void setDeveloper(User developer) {
+        this.developer = developer;
+    }
+
 }
