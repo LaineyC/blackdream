@@ -278,22 +278,24 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
         }
         FileUtil.deleteFile(zipFile);
         File zipParentFolder = zipFile.getParentFile();
-        if(!zipParentFolder.exists() || zipParentFolder.listFiles().length != 1){
+        File[]  zipParentFolderList = zipParentFolder.listFiles((dir, name) -> true);
+        if(zipParentFolderList.length != 1){
             FileUtil.deleteFile(zipParentFolder);
             throw new AppException("格式不兼容");
         }
 
-        File importFolder = zipParentFolder.listFiles()[0];
+        File importFolder = zipParentFolderList[0];
         String importPath = importFolder.getAbsolutePath();
 
         String generatorImportPath = importPath + ConfigProperties.fileSeparator + "Database" + ConfigProperties.fileSeparator + "Generator";
         File generatorImportFolder = new File(generatorImportPath);
-        if(!generatorImportFolder.exists() || generatorImportFolder.listFiles().length != 1){
+        File[] generatorImportFolderList = generatorImportFolder.listFiles((dir, name) -> name.endsWith(".xml"));
+        if(generatorImportFolderList.length != 1){
             FileUtil.deleteFile(zipParentFolder);
             throw new AppException("格式不兼容");
         }
 
-        File generatorImportFile = generatorImportFolder.listFiles()[0];
+        File generatorImportFile = generatorImportFolderList[0];
         Generator generator;
         try {
             Document document = FileUtil.readXml(generatorImportFile.getAbsolutePath());
@@ -309,75 +311,83 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
 
         String dynamicModelImportPath = importPath + ConfigProperties.fileSeparator + "Database" + ConfigProperties.fileSeparator + "DynamicModel";
         File dynamicModelImportFolder = new File(dynamicModelImportPath);
-        for(File dynamicModelImportFile : dynamicModelImportFolder.listFiles()){
-            try {
-                Document document = FileUtil.readXml(dynamicModelImportFile.getAbsolutePath());
-                Element element = document.getRootElement();
-                DynamicModel dynamicModel = dynamicModelElementConverter.fromElement(element);
-                dynamicModel.setId(idWorker.nextId());
-                dynamicModel.getGenerator().setId(generator.getId());
-                dynamicModelRepository.insert(dynamicModel);
-            }
-            catch (Exception e){
-                //throw new RuntimeException(e);
+        File[] dynamicModelImportFolderList = dynamicModelImportFolder.listFiles((dir, name) -> name.endsWith(".xml"));
+        if(dynamicModelImportFolderList != null) {
+            for (File dynamicModelImportFile : dynamicModelImportFolderList) {
+                try {
+                    Document document = FileUtil.readXml(dynamicModelImportFile.getAbsolutePath());
+                    Element element = document.getRootElement();
+                    DynamicModel dynamicModel = dynamicModelElementConverter.fromElement(element);
+                    dynamicModel.setId(idWorker.nextId());
+                    dynamicModel.getGenerator().setId(generator.getId());
+                    dynamicModelRepository.insert(dynamicModel);
+                }
+                catch (Exception e) {
+                    //throw new RuntimeException(e);
+                }
             }
         }
 
         Map<Long, Long> vmIdMap = new HashMap<>();
         String templateImportPath = importPath + ConfigProperties.fileSeparator + "Database" + ConfigProperties.fileSeparator + "Template";
         File templateImportFolder = new File(templateImportPath);
-        for(File templateImportFile : templateImportFolder.listFiles()){
-            try {
-                Document document = FileUtil.readXml(templateImportFile.getAbsolutePath());
-                Element element = document.getRootElement();
-                Template template = templateElementConverter.fromElement(element);
-                Long oldId = template.getId();
-                Long newId = idWorker.nextId();
-                vmIdMap.put(oldId, newId);
-                template.setId(newId);
-                template.getGenerator().setId(generator.getId());
+        File[] templateImportFolderList = templateImportFolder.listFiles((dir, name) -> name.endsWith(".xml"));
+        if(templateImportFolderList != null) {
+            for (File templateImportFile : templateImportFolderList) {
+                try {
+                    Document document = FileUtil.readXml(templateImportFile.getAbsolutePath());
+                    Element element = document.getRootElement();
+                    Template template = templateElementConverter.fromElement(element);
+                    Long oldId = template.getId();
+                    Long newId = idWorker.nextId();
+                    vmIdMap.put(oldId, newId);
+                    template.setId(newId);
+                    template.getGenerator().setId(generator.getId());
 
-                String url = "/Template/" + generator.getId() + "/" + idWorker.nextId() + ".vm";
-                FileUtil.mkdirs(ConfigProperties.FILEBASE_PATH + "/Template/" + generator.getId());
-                FileUtil.copyFile(
-                    new File(importPath + ConfigProperties.fileSeparator + "Filebase" + template.getUrl()),
-                    new File(ConfigProperties.FILEBASE_PATH + url)
-                );
-                template.setUrl(url);
+                    String url = "/Template/" + generator.getId() + "/" + idWorker.nextId() + ".vm";
+                    FileUtil.mkdirs(ConfigProperties.FILEBASE_PATH + "/Template/" + generator.getId());
+                    FileUtil.copyFile(
+                            new File(importPath + ConfigProperties.fileSeparator + "Filebase" + template.getUrl()),
+                            new File(ConfigProperties.FILEBASE_PATH + url)
+                    );
+                    template.setUrl(url);
 
-                templateRepository.insert(template);
-            }
-            catch (Exception e){
-                //throw new RuntimeException(e);
+                    templateRepository.insert(template);
+                }
+                catch (Exception e) {
+                    //throw new RuntimeException(e);
+                }
             }
         }
 
         String templateStrategyImportPath = importPath + ConfigProperties.fileSeparator + "Database" + ConfigProperties.fileSeparator + "TemplateStrategy";
         File templateStrategyImportFolder = new File(templateStrategyImportPath);
-        for(File templateStrategyImportFile : templateStrategyImportFolder.listFiles()){
-            try {
-                Document document = FileUtil.readXml(templateStrategyImportFile.getAbsolutePath());
-                Element element = document.getRootElement();
-                TemplateStrategy templateStrategy = templateStrategyElementConverter.fromElement(element);
-                templateStrategy.setId(idWorker.nextId());
-                templateStrategy.getGenerator().setId(generator.getId());
+        File[] templateStrategyImportFolderList = templateStrategyImportFolder.listFiles((dir, name) -> name.endsWith(".xml"));
+        if(templateStrategyImportFolderList != null) {
+            for (File templateStrategyImportFile : templateStrategyImportFolderList) {
+                try {
+                    Document document = FileUtil.readXml(templateStrategyImportFile.getAbsolutePath());
+                    Element element = document.getRootElement();
+                    TemplateStrategy templateStrategy = templateStrategyElementConverter.fromElement(element);
+                    templateStrategy.setId(idWorker.nextId());
+                    templateStrategy.getGenerator().setId(generator.getId());
 
-                LinkedList<Tag> stack = new LinkedList<>();
-                stack.push(templateStrategy);
-                while (!stack.isEmpty()) {
-                    Tag tag = stack.pop();
-                    if(tag instanceof com.lite.blackdream.business.domain.tag.File){
-                        com.lite.blackdream.business.domain.tag.File fileTag = (com.lite.blackdream.business.domain.tag.File)tag;
-                        Long oldId = fileTag.getTemplate().getId();
-                        fileTag.getTemplate().setId(vmIdMap.get(oldId));
+                    LinkedList<Tag> stack = new LinkedList<>();
+                    stack.push(templateStrategy);
+                    while (!stack.isEmpty()) {
+                        Tag tag = stack.pop();
+                        if (tag instanceof com.lite.blackdream.business.domain.tag.File) {
+                            com.lite.blackdream.business.domain.tag.File fileTag = (com.lite.blackdream.business.domain.tag.File) tag;
+                            Long oldId = fileTag.getTemplate().getId();
+                            fileTag.getTemplate().setId(vmIdMap.get(oldId));
+                        }
+                        tag.getChildren().forEach(stack::push);
                     }
-                    tag.getChildren().forEach(stack::push);
+                    templateStrategyRepository.insert(templateStrategy);
                 }
-
-                templateStrategyRepository.insert(templateStrategy);
-            }
-            catch (Exception e){
-                throw new RuntimeException(e);
+                catch (Exception e) {
+                    //throw new RuntimeException(e);
+                }
             }
         }
 
