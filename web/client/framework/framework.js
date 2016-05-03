@@ -57,14 +57,12 @@ define(
                 // templateUrl：模板物理真实路径
                 // dependencies：每当路由器通过逻辑路径映射真实路径并且加载模板的时候，每个模本需要相应的依赖，如：angularjs的控制器，一些相关的插件（有些插件仅在某些业务才学要 文件上传等）
                 // permission：加载这个模板时需要的权限
-                {path: "/", templateUrl: "framework/home.html", dependencies: ["framework/home"], permission: null},
                 {path: "/404", templateUrl: "framework/404.html", dependencies: null, permission: null},
-                {path: "/401", templateUrl: "framework/401.html", dependencies: null, permission: null},
-                {path: "/guide", templateUrl: "framework/guide.html", dependencies: ["framework/guide"], permission: null}
+                {path: "/401", templateUrl: "framework/401.html", dependencies: null, permission: null}
             ]
         };
         //设置框架默认路由
-        framework.config(["configProvider",function(configProvider){
+        framework.config(["configProvider", function(configProvider){
             configProvider.setRouteConfig(framework, routeConfig);
         }]);
         //http拦截器
@@ -72,7 +70,7 @@ define(
             "$provide", "$httpProvider",
             function($provide, $httpProvider){
                 //加载进度条拦截器
-                $provide.factory("loadingInterceptor",[
+                $provide.factory("loadingInterceptor", [
                     "$q", "loadStatus", "tooltip",
                     function($q, loadStatus, tooltip){
                         return {

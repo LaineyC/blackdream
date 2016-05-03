@@ -47,7 +47,9 @@ public class UserServiceImpl extends BaseService implements UserService {
         user.setIsDisable(request.getIsDisable());
         user.setIsDeveloper(request.getIsDeveloper());
         user.setLoginCount(0);
-        user.setCreator(currentUser);
+        User creator = new User();
+        creator.setId(currentUser.getId());
+        user.setCreator(creator);
         userRepository.insert(user);
         return user;
     }
@@ -109,6 +111,9 @@ public class UserServiceImpl extends BaseService implements UserService {
         User userPersistence = userRepository.selectOne(user);
         if(userPersistence == null){
             throw new AppException("用户不存在");
+        }
+        if(userPersistence.getCreator() == null){
+            throw new AppException("权限不足");
         }
         userPersistence.setIsDisable(request.getIsDisable());
         userPersistence.setIsDeveloper(request.getIsDeveloper());

@@ -11,7 +11,6 @@ import com.lite.blackdream.business.repository.TemplateStrategyRepository;
 import com.lite.blackdream.business.repository.UserRepository;
 import com.lite.blackdream.framework.exception.AppException;
 import com.lite.blackdream.framework.component.BaseService;
-import com.lite.blackdream.framework.model.Authentication;
 import com.lite.blackdream.framework.model.BeanDefinition;
 import com.lite.blackdream.framework.model.Domain;
 import com.lite.blackdream.framework.model.PagerResult;

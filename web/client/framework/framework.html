@@ -55,9 +55,11 @@
                     <li class="dropdown">
                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">开始<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li ng-if="!user.creator"><a href="javascript:void(0);" location-go="/business/user/manage">我的用户</a></li>
-                            <li ng-if="user.isDeveloper"><a href="javascript:void(0);" location-go="/business/generator/manage">我的生成器</a></li>
                             <li><a href="javascript:void(0);" location-go="/business/generatorInstance/manage">我的实例</a></li>
+                            <li ng-if="user.isDeveloper"><a href="javascript:void(0);" location-go="/business/generator/manage">我的生成器</a></li>
+                            <li ng-if="!user.creator" role="separator" class="divider"></li>
+                            <li ng-if="!user.creator"><a href="javascript:void(0);" location-go="/business/user/manage">我的用户</a></li>
+                            <li ng-if="!user.creator"><a href="javascript:void(0);" location-go="/statistic">数据统计</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">

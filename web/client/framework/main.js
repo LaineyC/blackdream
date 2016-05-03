@@ -93,7 +93,8 @@ require(
                 [
                     "framework",
                     "business"
-                ]);
+                ]
+            );
         });
     }
 );

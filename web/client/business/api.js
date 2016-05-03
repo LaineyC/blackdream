@@ -8,6 +8,8 @@ define(["business/module"],function(module){
 
             provider.heartbeat = function(request) { return $http.post("/api?method=session.heartbeat", request); };
 
+            provider.statistic = function(request) { return $http.post("/api?method=data.statistic", request); };
+
             provider.download = function(request) {
                 return $http.post("/api?method=file.download", request, {responseType :"blob"}).success(function(data, status, headers){
                     headers = headers();

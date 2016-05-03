@@ -7,6 +7,10 @@ define(
 
         var routeConfig = {
             routes: [
+                {path: "/", templateUrl: "business/system/home.html", dependencies: ["business/system/home"], permission: null},
+                {path: "/guide", templateUrl: "business/system/guide.html", dependencies: ["business/system/guide"], permission: null},
+                {path: "/statistic",templateUrl: "business/system/statistic.html",dependencies: ["business/system/statistic"], permission: null},
+
                 {path: "/business/user/manage",templateUrl: "business/user/manage.html",dependencies: ["business/user/manage"],permission: null},
                 {path: "/business/user/create",templateUrl: "business/user/create.html",dependencies: ["business/user/create"],permission: null},
                 {path: "/business/user/update/:id",templateUrl: "business/user/update.html",dependencies: ["business/user/update"],permission: null},
@@ -37,7 +41,6 @@ define(
                 {path: "/business/templateStrategy/detail/:id",templateUrl: "business/templateStrategy/detail.html",dependencies: ["business/templateStrategy/detail"],permission: null},
 
                 {path: "/business/dataModel/manage/:generatorInstanceId",templateUrl: "business/dataModel/manage.html",dependencies: ["business/dataModel/manage"],permission: null}
-
             ]
         };
 
