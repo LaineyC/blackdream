@@ -9,6 +9,8 @@ public class DynamicModelSearchRequest extends PagerRequest {
 
     private Long generatorId;
 
+    private String name;
+
     public DynamicModelSearchRequest(){
 
     }
@@ -21,4 +23,11 @@ public class DynamicModelSearchRequest extends PagerRequest {
         this.generatorId = generatorId;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

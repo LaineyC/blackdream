@@ -142,7 +142,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
     @Override
     public PagerResult<GeneratorInstance> search(GeneratorInstanceSearchRequest request) {
         Long userId = request.getUserId();
-        String name =  StringUtils.hasText(request.getName())  ? request.getName() : null;
+        String name = StringUtils.hasText(request.getName())  ? request.getName() : null;
         List<GeneratorInstance> records = generatorInstanceRepository.filter(generatorInstance -> {
             if(generatorInstance.getIsDelete()){
                 return false;

@@ -9,6 +9,8 @@ public class TemplateStrategySearchRequest extends PagerRequest {
 
     private Long generatorId;
 
+    private String name;
+
     public TemplateStrategySearchRequest(){
 
     }
@@ -19,6 +21,14 @@ public class TemplateStrategySearchRequest extends PagerRequest {
 
     public void setGeneratorId(Long generatorId) {
         this.generatorId = generatorId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

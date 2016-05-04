@@ -17,6 +17,8 @@ import com.lite.blackdream.framework.model.PagerResult;
 import com.lite.blackdream.framework.util.ReflectionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
 import java.util.*;
 
 /**
@@ -288,14 +290,24 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
 
     @Override
     public PagerResult<TemplateStrategy> search(TemplateStrategySearchRequest request) {
-        TemplateStrategy templateStrategyTemplate = new TemplateStrategy();
-        templateStrategyTemplate.setIsDelete(false);
         Long generatorId = request.getGeneratorId();
-        Generator generator = new Generator();
-        generator.setId(generatorId);
-        templateStrategyTemplate.setGenerator(generator);
-
-        List<TemplateStrategy> records = templateStrategyRepository.selectList(templateStrategyTemplate);
+        String name = StringUtils.hasText(request.getName())  ? request.getName() : null;
+        List<TemplateStrategy> records = templateStrategyRepository.filter(templateStrategy -> {
+            if (templateStrategy.getIsDelete()) {
+                return false;
+            }
+            if (name != null) {
+                if (!templateStrategy.getName().contains(name)) {
+                    return false;
+                }
+            }
+            if (generatorId != null) {
+                if (!generatorId.equals(templateStrategy.getGenerator().getId())) {
+                    return false;
+                }
+            }
+            return true;
+        });
         Integer page = request.getPage();
         Integer pageSize = request.getPageSize();
         Integer fromIndex = (page - 1) * pageSize;
@@ -309,7 +321,7 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
             templateStrategy.setIsDelete(t.getIsDelete());
             User userPersistence = userRepository.selectById(t.getDeveloper().getId());
             templateStrategy.setDeveloper(userPersistence);
-            Generator generatorPersistence = generatorRepository.selectById(generatorId);
+            Generator generatorPersistence = generatorRepository.selectById(t.getGenerator().getId());
             if(generatorPersistence == null){
                 throw new AppException("生成器不存在");
             }

@@ -3,11 +3,10 @@ define(
         "use strict";
 
         module.controller("generatorManageController", [
-            "$scope", "generatorApi", "security", "viewPage",
-            function($scope, generatorApi, security, viewPage){
+            "$scope", "generatorApi", "viewPage",
+            function($scope, generatorApi, viewPage){
                 viewPage.setViewPageTitle("生成器管理");
-                var user = security.getUser();
-                $scope.searchRequest = {page:1, pageSize:10, developerId: user.id};
+                $scope.searchRequest = {page:1, pageSize:10};
 
                 $scope.statuses = [
                     {isOpen:true,name:"公开"},

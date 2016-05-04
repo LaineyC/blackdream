@@ -789,8 +789,9 @@ define(
                                         return validateMessages[field].pattern;
                                     }
                                 }
-                                for(var k in $error)
+                                for(var k in $error) {
                                     return validateMessages[field][k];
+                                }
                             };
 
                             $scope.cancel = function(){

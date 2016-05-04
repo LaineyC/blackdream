@@ -12,6 +12,8 @@ import com.lite.blackdream.framework.component.BaseService;
 import com.lite.blackdream.framework.model.PagerResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,14 +106,24 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
 
     @Override
     public PagerResult<DynamicModel> search(DynamicModelSearchRequest request) {
-        DynamicModel dynamicModelTemplate = new DynamicModel();
-        dynamicModelTemplate.setIsDelete(false);
         Long generatorId = request.getGeneratorId();
-        Generator generator = new Generator();
-        generator.setId(generatorId);
-        dynamicModelTemplate.setGenerator(generator);
-
-        List<DynamicModel> records = dynamicModelRepository.selectList(dynamicModelTemplate);
+        String name = StringUtils.hasText(request.getName())  ? request.getName() : null;
+        List<DynamicModel> records = dynamicModelRepository.filter(dynamicModel -> {
+            if (dynamicModel.getIsDelete()) {
+                return false;
+            }
+            if (name != null) {
+                if (!dynamicModel.getName().contains(name)) {
+                    return false;
+                }
+            }
+            if (generatorId != null) {
+                if (!generatorId.equals(dynamicModel.getGenerator().getId())) {
+                    return false;
+                }
+            }
+            return true;
+        });
         Integer page = request.getPage();
         Integer pageSize = request.getPageSize();
         Integer fromIndex = (page - 1) * pageSize;
@@ -127,7 +139,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
             //dynamicModel.setAssociation(d.getAssociation());
             User developerPersistence = userRepository.selectById(d.getDeveloper().getId());
             dynamicModel.setDeveloper(developerPersistence);
-            Generator generatorPersistence = generatorRepository.selectById(generatorId);
+            Generator generatorPersistence = generatorRepository.selectById(d.getGenerator().getId());
             if(generatorPersistence == null){
                 throw new AppException("生成器不存在");
             }

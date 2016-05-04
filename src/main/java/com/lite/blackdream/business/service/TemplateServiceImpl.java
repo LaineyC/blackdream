@@ -9,13 +9,13 @@ import com.lite.blackdream.business.repository.TemplateRepository;
 import com.lite.blackdream.business.repository.UserRepository;
 import com.lite.blackdream.framework.exception.AppException;
 import com.lite.blackdream.framework.component.BaseService;
-import com.lite.blackdream.framework.model.Authentication;
 import com.lite.blackdream.framework.model.Base64FileItem;
 import com.lite.blackdream.framework.model.PagerResult;
 import com.lite.blackdream.framework.util.ConfigProperties;
 import com.lite.blackdream.framework.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -145,14 +145,24 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
 
     @Override
     public PagerResult<Template> search(TemplateSearchRequest request) {
-        Template templateTemplate = new Template();
-        templateTemplate.setIsDelete(false);
         Long generatorId = request.getGeneratorId();
-        Generator generator = new Generator();
-        generator.setId(generatorId);
-        templateTemplate.setGenerator(generator);
-
-        List<Template> records = templateRepository.selectList(templateTemplate);
+        String name = StringUtils.hasText(request.getName())  ? request.getName() : null;
+        List<Template> records = templateRepository.filter(template -> {
+            if (template.getIsDelete()) {
+                return false;
+            }
+            if (name != null) {
+                if (!template.getName().contains(name)) {
+                    return false;
+                }
+            }
+            if (generatorId != null) {
+                if (!generatorId.equals(template.getGenerator().getId())) {
+                    return false;
+                }
+            }
+            return true;
+        });
         Integer page = request.getPage();
         Integer pageSize = request.getPageSize();
         Integer fromIndex = (page - 1) * pageSize;
@@ -166,7 +176,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
             template.setIsDelete(t.getIsDelete());
             User userPersistence = userRepository.selectById(t.getDeveloper().getId());
             template.setDeveloper(userPersistence);
-            Generator generatorPersistence = generatorRepository.selectById(generatorId);
+            Generator generatorPersistence = generatorRepository.selectById(t.getGenerator().getId());
             if(generatorPersistence == null){
                 throw new AppException("生成器不存在");
             }

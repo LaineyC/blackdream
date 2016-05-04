@@ -1,15 +1,402 @@
 <div class="container">
     <div ng-controller="statisticController">
-        <div class="row">
-            <div class="col-sm-6">
-                <ul class="list-group">
-                    <li class="list-group-item"><label>注册用户</label><span class="badge">{{result.userCount}}</span></li>
-                    <li class="list-group-item"><label>生成实例</label><span class="badge">{{result.generatorInstanceCount}}</span></li>
-                    <li class="list-group-item"><label>生成器</label><span class="badge">{{result.generatorCount}}</span></li>
-                    <li class="list-group-item"><label>数据模型</label><span class="badge">{{result.dynamicModelCount}}</span></li>
-                    <li class="list-group-item"><label>模板文件</label><span class="badge">{{result.templateCount}}</span></li>
-                    <li class="list-group-item"><label>生成策略</label><span class="badge">{{result.templateStrategyCount}}</span></li>
-                </ul>
+        <div class="row" ng-controller="statisticUserController">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>注册用户</strong> <span class="badge">{{result.userCount}}</span></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <input name="userName" type="text" class="form-control input-sm" ng-model="searchRequest.userName" placeholder="用户名"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <select name="isDisable" ng-model="searchRequest.isDisable" ng-options="option.isDisable as option.name for option in isDisableOptions" class="form-control input-sm" required>
+                                            <option value="">--状态--</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <select name="isDeveloper" ng-model="searchRequest.isDeveloper" ng-options="option.isDeveloper as option.name for option in isDeveloperOptions" class="form-control input-sm" required>
+                                            <option value="">--角色--</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-info btn-sm" ng-click="searchRequest.page=1;search();">搜索</button>
+                                    </div>
+                                </form>
+                                <br/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-bordered table-condensed table-hover">
+                                    <thead>
+                                    <tr class="active">
+                                        <th width="25" align="center">#</th>
+                                        <th width="150">ID</th>
+                                        <th width="200">用户名</th>
+                                        <th width="100">状态</th>
+                                        <th width="100">角色</th>
+                                        <th width="100">登录次数</th>
+                                        <th width="200">创建者</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="user in pagerResult.records track by $index">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{user.id}}</td>
+                                        <td>{{user.userName}}</td>
+                                        <td>{{user.isDisable ? "冻结" : "激活"}}</td>
+                                        <td>{{user.isDeveloper ? "开发者" : "使用者";}}</td>
+                                        <td>{{user.loginCount}}</td>
+                                        <td>{{user.creator.userName}}</td>
+                                        <td><button disabled="disabled" type="button" class="btn btn-info btn-sm" location-go="/business/user/detail/{{user.id}}">详情</button></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="pull-left">
+                                    <ul class="pagination pagination-sm">
+                                        <li ng-class="{'active': searchRequest.pageSize==pageSize}" ng-repeat="pageSize in [10, 20, 50]" ><a href="javascript:void(0);" ng-click="(searchRequest.pageSize!=pageSize)&&(searchRequest.pageSize=pageSize)&&(searchRequest.page=1)&&search();">{{pageSize}}</a></li>
+                                    </ul>
+                                </div>
+                                <div class="pull-left">
+                                    &nbsp;<uib-pagination class="pagination-sm" boundary-links="true" rotate="false" max-size="10" total-items="pagerResult.total" ng-model="searchRequest.page" ng-change="search();" items-per-page="searchRequest.pageSize" first-text="首页" previous-text="上页" next-text="下页" last-text="尾页"></uib-pagination>
+                                </div>
+                                <div class="pull-left form-control-static clearfix">&nbsp;共&nbsp;{{pagerResult.total ? pagerResult.total : 0}}&nbsp;条</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-controller="statisticGeneratorInstanceController">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>生成实例</strong> <span class="badge">{{result.generatorInstanceCount}}</span></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <input name="name" type="text" class="form-control input-sm" ng-model="searchRequest.name" placeholder="名称"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-info btn-sm" ng-click="searchRequest.page=1;search();">搜索</button>
+                                    </div>
+                                </form>
+                                <br/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-bordered table-condensed table-hover">
+                                    <thead>
+                                    <tr class="active">
+                                        <th width="25">#</th>
+                                        <th width="150">ID</th>
+                                        <th width="200">名称</th>
+                                        <th width="200">生成器</th>
+                                        <th width="200">创建者</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="generatorInstance in pagerResult.records track by $index">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{generatorInstance.id}}</td>
+                                        <td>{{generatorInstance.name}}</td>
+                                        <td>{{generatorInstance.generator.name}}</td>
+                                        <td>{{generatorInstance.user.userName}}</td>
+                                        <td><button disabled="disabled" type="button" class="btn btn-info btn-sm" location-go="/business/generatorInstance/detail/{{generatorInstance.id}}">详情</button></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="pull-left">
+                                    <ul class="pagination pagination-sm">
+                                        <li ng-class="{'active': searchRequest.pageSize==pageSize}" ng-repeat="pageSize in [10, 20, 50]" ><a href="javascript:void(0);" ng-click="(searchRequest.pageSize!=pageSize)&&(searchRequest.pageSize=pageSize)&&(searchRequest.page=1)&&search();">{{pageSize}}</a></li>
+                                    </ul>
+                                </div>
+                                <div class="pull-left">
+                                    &nbsp;<uib-pagination class="pagination-sm" boundary-links="true" rotate="false" max-size="10" total-items="pagerResult.total" ng-model="searchRequest.page" ng-change="search();" items-per-page="searchRequest.pageSize" first-text="首页" previous-text="上页" next-text="下页" last-text="尾页"></uib-pagination>
+                                </div>
+                                <div class="pull-left form-control-static clearfix">&nbsp;共&nbsp;{{pagerResult.total ? pagerResult.total : 0}}&nbsp;条</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-controller="statisticGeneratorController">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>生成器</strong> <span class="badge">{{result.generatorCount}}</span></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <input name="name" type="text" class="form-control input-sm" ng-model="searchRequest.name" placeholder="名称"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <select name="status" ng-model="searchRequest.isOpen" ng-options="status.isOpen as status.name for status in statuses" class="form-control input-sm" required>
+                                            <option value="">--状态--</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-info btn-sm" ng-click="searchRequest.page=1;search();">搜索</button>
+                                    </div>
+                                </form>
+                                <br/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-bordered table-condensed table-hover">
+                                    <thead>
+                                    <tr class="active">
+                                        <th width="25">#</th>
+                                        <th width="150">ID</th>
+                                        <th width="200">名称</th>
+                                        <th width="100">状态</th>
+                                        <th width="200">创建者</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="generator in pagerResult.records track by $index">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{generator.id}}</td>
+                                        <td>{{generator.name}}</td>
+                                        <td>{{generator.isOpen ? "开放" : "私有";}}</td>
+                                        <td>{{generator.developer.userName}}</td>
+                                        <td><button disabled="disabled" type="button" class="btn btn-info btn-sm" location-go="/business/generator/detail/{{generator.id}}">详情</button></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="pull-left">
+                                    <ul class="pagination pagination-sm">
+                                        <li ng-class="{'active': searchRequest.pageSize==pageSize}" ng-repeat="pageSize in [10, 20, 50]" ><a href="javascript:void(0);" ng-click="(searchRequest.pageSize!=pageSize)&&(searchRequest.pageSize=pageSize)&&(searchRequest.page=1)&&search();">{{pageSize}}</a></li>
+                                    </ul>
+                                </div>
+                                <div class="pull-left">
+                                    &nbsp;<uib-pagination class="pagination-sm" boundary-links="true" rotate="false" max-size="10" total-items="pagerResult.total" ng-model="searchRequest.page" ng-change="search();" items-per-page="searchRequest.pageSize" first-text="首页" previous-text="上页" next-text="下页" last-text="尾页"></uib-pagination>
+                                </div>
+                                <div class="pull-left form-control-static clearfix">&nbsp;共&nbsp;{{pagerResult.total ? pagerResult.total : 0}}&nbsp;条</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-controller="statisticDynamicModelController">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>数据模型</strong> <span class="badge">{{result.dynamicModelCount}}</span></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <input name="name" type="text" class="form-control input-sm" ng-model="searchRequest.name" placeholder="名称"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-info btn-sm" ng-click="searchRequest.page=1;search();">搜索</button>
+                                    </div>
+                                </form>
+                                <br/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-bordered table-condensed table-hover">
+                                    <thead>
+                                    <tr class="active">
+                                        <th width="25">#</th>
+                                        <th width="150">ID</th>
+                                        <th width="200">名称</th>
+                                        <th width="100">图标</th>
+                                        <th width="200">生成器</th>
+                                        <th width="200">创建者</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="dynamicModel in pagerResult.records track by $index">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{dynamicModel.id}}</td>
+                                        <td>{{dynamicModel.name}}</td>
+                                        <td><span class="glyphicon glyphicon-{{dynamicModel.icon}}"></span></td>
+                                        <td>{{dynamicModel.generator.name}}</td>
+                                        <td>{{dynamicModel.developer.userName}}</td>
+                                        <td><button disabled="disabled" type="button" class="btn btn-info btn-sm" location-go="/business/dynamicModel/detail/{{dynamicModel.id}}">详情</button></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="pull-left">
+                                    <ul class="pagination pagination-sm">
+                                        <li ng-class="{'active': searchRequest.pageSize==pageSize}" ng-repeat="pageSize in [10, 20, 50]" ><a href="javascript:void(0);" ng-click="(searchRequest.pageSize!=pageSize)&&(searchRequest.pageSize=pageSize)&&(searchRequest.page=1)&&search();">{{pageSize}}</a></li>
+                                    </ul>
+                                </div>
+                                <div class="pull-left">
+                                    &nbsp;<uib-pagination class="pagination-sm" boundary-links="true" rotate="false" max-size="10" total-items="pagerResult.total" ng-model="searchRequest.page" ng-change="search();" items-per-page="searchRequest.pageSize" first-text="首页" previous-text="上页" next-text="下页" last-text="尾页"></uib-pagination>
+                                </div>
+                                <div class="pull-left form-control-static clearfix">&nbsp;共&nbsp;{{pagerResult.total ? pagerResult.total : 0}}&nbsp;条</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-controller="statisticTemplateController">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>模板文件</strong> <span class="badge">{{result.templateCount}}</span></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <input name="name" type="text" class="form-control input-sm" ng-model="searchRequest.name" placeholder="名称"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-info btn-sm" ng-click="searchRequest.page=1;search();">搜索</button>
+                                    </div>
+                                </form>
+                                <br/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-bordered table-condensed table-hover">
+                                    <thead>
+                                    <tr class="active">
+                                        <th width="25">#</th>
+                                        <th width="150">ID</th>
+                                        <th width="200">名称</th>
+                                        <th width="200">生成器</th>
+                                        <th width="200">创建者</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="template in pagerResult.records track by $index">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{template.id}}</td>
+                                        <td>{{template.name}}</td>
+                                        <td>{{template.generator.name}}</td>
+                                        <td>{{template.developer.userName}}</td>
+                                        <td><button disabled="disabled" type="button" class="btn btn-info btn-sm" location-go="/business/template/detail/{{template.id}}">详情</button></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="pull-left">
+                                    <ul class="pagination pagination-sm">
+                                        <li ng-class="{'active': searchRequest.pageSize==pageSize}" ng-repeat="pageSize in [10, 20, 50]" ><a href="javascript:void(0);" ng-click="(searchRequest.pageSize!=pageSize)&&(searchRequest.pageSize=pageSize)&&(searchRequest.page=1)&&search();">{{pageSize}}</a></li>
+                                    </ul>
+                                </div>
+                                <div class="pull-left">
+                                    &nbsp;<uib-pagination class="pagination-sm" boundary-links="true" rotate="false" max-size="10" total-items="pagerResult.total" ng-model="searchRequest.page" ng-change="search();" items-per-page="searchRequest.pageSize" first-text="首页" previous-text="上页" next-text="下页" last-text="尾页"></uib-pagination>
+                                </div>
+                                <div class="pull-left form-control-static clearfix">&nbsp;共&nbsp;{{pagerResult.total ? pagerResult.total : 0}}&nbsp;条</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-controller="statisticTemplateStrategyCountController">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>生成策略</strong> <span class="badge">{{result.templateStrategyCount}}</span></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <input name="name" type="text" class="form-control input-sm" ng-model="searchRequest.name" placeholder="名称"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-info btn-sm" ng-click="searchRequest.page=1;search();">搜索</button>
+                                    </div>
+                                </form>
+                                <br/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-bordered table-condensed table-hover">
+                                    <thead>
+                                    <tr class="active">
+                                        <th width="25">#</th>
+                                        <th width="150">ID</th>
+                                        <th width="200">名称</th>
+                                        <th width="200">生成器</th>
+                                        <th width="200">创建者</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="templateStrategy in pagerResult.records track by $index">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{templateStrategy.id}}</td>
+                                        <td>{{templateStrategy.name}}</td>
+                                        <td>{{templateStrategy.generator.name}}</td>
+                                        <td>{{templateStrategy.developer.userName}}</td>
+                                        <td><button disabled="disabled" type="button" class="btn btn-info btn-sm" location-go="/business/templateStrategy/detail/{{templateStrategy.id}}">详情</button></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="pull-left">
+                                    <ul class="pagination pagination-sm">
+                                        <li ng-class="{'active': searchRequest.pageSize==pageSize}" ng-repeat="pageSize in [10, 20, 50]" ><a href="javascript:void(0);" ng-click="(searchRequest.pageSize!=pageSize)&&(searchRequest.pageSize=pageSize)&&(searchRequest.page=1)&&search();">{{pageSize}}</a></li>
+                                    </ul>
+                                </div>
+                                <div class="pull-left">
+                                    &nbsp;<uib-pagination class="pagination-sm" boundary-links="true" rotate="false" max-size="10" total-items="pagerResult.total" ng-model="searchRequest.page" ng-change="search();" items-per-page="searchRequest.pageSize" first-text="首页" previous-text="上页" next-text="下页" last-text="尾页"></uib-pagination>
+                                </div>
+                                <div class="pull-left form-control-static clearfix">&nbsp;共&nbsp;{{pagerResult.total ? pagerResult.total : 0}}&nbsp;条</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
