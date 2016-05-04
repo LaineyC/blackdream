@@ -3,8 +3,8 @@ define(
         "use strict";
 
         module.controller("generatorManageController", [
-            "$scope", "generatorApi", "viewPage",
-            function($scope, generatorApi, viewPage){
+            "$scope", "generatorApi", "viewPage", "confirm",
+            function($scope, generatorApi, viewPage, confirm){
                 viewPage.setViewPageTitle("生成器管理");
                 $scope.searchRequest = {page:1, pageSize:10};
 
@@ -39,7 +39,13 @@ define(
                 };
 
                 $scope.export = function(generator){
-                    generatorApi.export({id: generator.id});
+                    confirm.open({
+                        title:"导出",
+                        message:"确定导出【" + generator.name + "】？",
+                        confirm:function(){
+                            generatorApi.export({id: generator.id});
+                        }
+                    });
                 };
 
                 $scope.search();
