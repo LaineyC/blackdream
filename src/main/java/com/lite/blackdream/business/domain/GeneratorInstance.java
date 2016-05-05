@@ -13,8 +13,6 @@ public class GeneratorInstance extends Domain{
 
     private User user;
 
-    private TemplateStrategy templateStrategy;
-
     private DataModel dataModel;
 
     public GeneratorInstance(){
@@ -43,14 +41,6 @@ public class GeneratorInstance extends Domain{
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public TemplateStrategy getTemplateStrategy() {
-        return templateStrategy;
-    }
-
-    public void setTemplateStrategy(TemplateStrategy templateStrategy) {
-        this.templateStrategy = templateStrategy;
     }
 
     public DataModel getDataModel() {

@@ -154,6 +154,8 @@ define(["business/module"],function(module){
 
             provider.run = function(request) { return $http.post("/api?method=generatorInstance.run", request); };
 
+            provider.dataDictionary = function(request) { return $http.post("/api?method=generatorInstance.dataDictionary", request); };
+
             return provider;
         }
     ]);

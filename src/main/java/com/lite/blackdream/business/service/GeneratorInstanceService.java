@@ -24,4 +24,6 @@ public interface GeneratorInstanceService extends Service {
 
     RunResult run(GeneratorInstanceRunRequest request);
 
+    RunResult dataDictionary(GeneratorInstanceDataDictionaryRequest request);
+
 }

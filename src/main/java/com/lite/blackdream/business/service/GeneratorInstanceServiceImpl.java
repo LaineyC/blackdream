@@ -105,7 +105,6 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         generatorInstance.setId(generatorInstancePersistence.getId());
         generatorInstance.setName(generatorInstancePersistence.getName());
         generatorInstance.setIsDelete(generatorInstancePersistence.getIsDelete());
-        generatorInstance.setTemplateStrategy(generatorInstancePersistence.getTemplateStrategy());
         generatorInstance.setGenerator(generatorInstancePersistence.getGenerator());
         generatorInstance.setDataModel(generatorInstancePersistence.getDataModel());
         generatorInstance.setUser(generatorInstancePersistence.getUser());
@@ -123,7 +122,6 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         generatorInstance.setId(generatorInstancePersistence.getId());
         generatorInstance.setName(generatorInstancePersistence.getName());
         generatorInstance.setIsDelete(generatorInstancePersistence.getIsDelete());
-        generatorInstance.setTemplateStrategy(generatorInstancePersistence.getTemplateStrategy());
 
         User userPersistence = userRepository.selectById(generatorInstancePersistence.getUser().getId());
         generatorInstance.setUser(userPersistence);
@@ -199,15 +197,6 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         String name = request.getName();
         if(name != null){
             generatorInstancePersistence.setName(request.getName());
-        }
-
-        Long templateStrategyId = request.getTemplateStrategyId();
-        if(templateStrategyId != null){
-            TemplateStrategy templateStrategyPersistence = templateStrategyRepository.selectById(templateStrategyId);
-            if(templateStrategyPersistence == null){
-                throw new AppException("策略文件不存在");
-            }
-            generatorInstancePersistence.setTemplateStrategy(templateStrategyPersistence);
         }
 
         generatorInstanceRepository.update(generatorInstancePersistence);
@@ -437,6 +426,15 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         FileUtil.deleteFile(generateFolder);
         runResult.setUrl(authentication.getUserId() + "/" + generatorInstance.getName() + "(" + generateId + ").zip");
         runResult.setFileName(generatorInstance.getName() + "(" + generateId + ").zip");
+        return runResult;
+    }
+
+    @Override
+    public RunResult dataDictionary(GeneratorInstanceDataDictionaryRequest request) {
+        RunResult runResult = new RunResult();
+        List<String> messages = new ArrayList<>();
+        messages.add("待实现");
+        runResult.setMessages(messages);
         return runResult;
     }
 

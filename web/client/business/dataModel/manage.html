@@ -5,21 +5,17 @@
                 <div class="col-sm-12">
                     <button type="button" class="btn btn-primary btn-sm" location-back>返回</button>
                     <div class="btn-group  pull-right" role="group" aria-label="...">
+                        <button type="button" ng-click="openConsoleModal();" class="btn btn-sm btn-info">
+                            <span class="glyphicon glyphicon-console" aria-hidden="true">控制台</span>
+                        </button>
                         <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                工具<span class="caret"></span>
+                            <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                生成<span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="javascript:void(0);" ng-click="openConsoleModal();">控制台</a></li>
-                                <li><a href="javascript:void(0);" ng-click="run();">运行生成</a></li>
-                            </ul>
-                        </div>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                生成策略<span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li ng-class="{'active': templateStrategy == templateStrategyControl.selectedItem}" ng-repeat="templateStrategy in templateStrategys"><a href="javascript:void(0);"  ng-click="templateStrategyControl.select(templateStrategy);">{{templateStrategy.name}}</a></li>
+                                <li ng-repeat="templateStrategy in templateStrategys"><a href="javascript:void(0);" ng-click="run(templateStrategy);">{{templateStrategy.name}}</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="javascript:void(0);"  ng-click="dataDictionary();">数据字典</a></li>
                             </ul>
                         </div>
                         <button type="button" ng-click="dataModelControl.saveDirty();" ng-disabled="!dataModelControl.dirtyData.hasDirtyData();" class="btn btn-sm btn-warning">

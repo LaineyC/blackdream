@@ -70,4 +70,11 @@ public class GeneratorInstanceController extends BaseController {
         return new GeneratorInstanceRunResponse(result);
     }
 
+    @ResponseBody
+    @RequestMapping(params="method=generatorInstance.dataDictionary")
+    public GeneratorInstanceDataDictionaryResponse run(GeneratorInstanceDataDictionaryRequest request) {
+        Object result = generatorInstanceService.dataDictionary(request);
+        return new GeneratorInstanceDataDictionaryResponse(result);
+    }
+
 }

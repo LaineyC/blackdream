@@ -4,8 +4,8 @@ define(
         "use strict";
 
         module.controller("dataModelManageController", [
-            "$scope", "$uibModal", "$routeParams", "dataModelApi", "templateStrategyApi", "dynamicModelApi", "generatorInstanceApi", "$q","alert", "viewPage", "clipboard","systemApi",
-            function($scope, $uibModal, $routeParams, dataModelApi, templateStrategyApi, dynamicModelApi, generatorInstanceApi, $q, alert, viewPage, clipboard, systemApi){
+            "$scope", "$uibModal", "$routeParams", "dataModelApi", "templateStrategyApi", "dynamicModelApi", "generatorInstanceApi", "$q", "viewPage", "clipboard","systemApi",
+            function($scope, $uibModal, $routeParams, dataModelApi, templateStrategyApi, dynamicModelApi, generatorInstanceApi, $q, viewPage, clipboard, systemApi){
                 viewPage.setViewPageTitle("工作台");
 
                 var generatorInstanceId = $routeParams.generatorInstanceId;
@@ -28,8 +28,9 @@ define(
                 };
 
                 $scope.getMessage = function(field, $error, validateMessages){
-                    for(var k in $error)
+                    for(var k in $error){
                         return validateMessages[field][k];
+                    }
                 };
 
                 generatorInstanceApi.get({id: generatorInstanceId}).success(function(generatorInstance){
@@ -176,19 +177,38 @@ define(
                     });
                 });
 
+                $scope.openConsoleModal = function(){
+                    $uibModal.open({
+                        size: "lg",
+                        templateUrl: "dataModel/console.html",
+                        controller: ["$scope","$uibModalInstance",function ($scope, $uibModalInstance){
+                            $scope.runResults = $outScope.runResults;
+
+                            $scope.download = function(url){
+                                systemApi.download({url:url});
+                            };
+
+                            $scope.confirm = function(){
+                                $uibModalInstance.close();
+                            };
+
+                            $scope.clear = function(){
+                                $scope.runResults.length = 0;
+                            };
+                        }]
+                    });
+                };
+
                 $scope.runResults = [];
-                $scope.run = function(){
-                    if(!$outScope.templateStrategyControl.selectedItem){
-                        alert.open("未选择生成策略");
-                        return;
-                    }
+
+                $scope.run = function(templateStrategy){
                     $uibModal.open({
                         size: "lg",
                         templateUrl: "dataModel/console.html",
                         controller: ["$scope","$uibModalInstance",function ($scope, $uibModalInstance){
                             $scope.runResults = $outScope.runResults;
                             $scope.runningText = "正在生成并压缩文件...";
-                            generatorInstanceApi.run({id:generatorInstanceId,templateStrategyId:$outScope.templateStrategyControl.selectedItem.id}).success(function(runResult){
+                            generatorInstanceApi.run({id:generatorInstanceId,templateStrategyId:templateStrategy.id}).success(function(runResult){
                                 $scope.runningText = "";
                                 if(!runResult.url){
                                     $scope.runResults.push({type:"error",messages :runResult.messages});
@@ -213,12 +233,27 @@ define(
                     });
                 };
 
-                $scope.openConsoleModal = function(){
+                $scope.dataDictionary =  function(){
                     $uibModal.open({
                         size: "lg",
                         templateUrl: "dataModel/console.html",
                         controller: ["$scope","$uibModalInstance",function ($scope, $uibModalInstance){
                             $scope.runResults = $outScope.runResults;
+                            $scope.runningText = "正在生成并压缩文件...";
+                            generatorInstanceApi.dataDictionary({id:generatorInstanceId}).success(function(runResult){
+                                $scope.runningText = "";
+                                if(!runResult.url){
+                                    $scope.runResults.push({type:"error",messages :runResult.messages});
+                                }
+                                else{
+                                    $scope.runResults.push({type:"url",url :runResult.url, fileName:runResult.fileName});
+                                }
+                            });
+
+                            $scope.download = function(url){
+                                systemApi.download({url:url});
+                            };
+
                             $scope.confirm = function(){
                                 $uibModalInstance.close();
                             };
@@ -228,15 +263,6 @@ define(
                             };
                         }]
                     });
-                };
-
-                $scope.templateStrategyControl = {
-                    selectedItem: null,
-                    select: function(templateStrategy){
-                        generatorInstanceApi.update({id:generatorInstanceId, templateStrategyId:templateStrategy.id}).success(function(){
-                            $scope.templateStrategyControl.selectedItem = templateStrategy;
-                        });
-                    }
                 };
 
                 $scope.dataModelControl = {
@@ -531,7 +557,7 @@ define(
                 $scope.dataModelPickerModalOpen = function(dataModel, valueModel, propertyName, title, $ctrl){
                     $uibModal.open({
                         templateUrl: "dataModel/dataModelPicker.html",
-                        controller: ["$scope","$uibModalInstance",function ($scope, $uibModalInstance){
+                        controller: ["$scope", "$uibModalInstance", function ($scope, $uibModalInstance){
                             $scope.dataModel = $outScope.dataModel;
                             $scope.title = "选择" + title;
 
