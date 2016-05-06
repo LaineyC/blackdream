@@ -216,7 +216,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         Long generatorId = generatorInstance.getGenerator().getId();
         Generator generator = generatorRepository.selectById(generatorId);
 
-        if(!authentication.getUserId().equals(generator.getDeveloper().getId())) {
+        if(!authentication.getUserId().equals(generatorInstance.getUser().getId())) {
             throw new AppException("权限不足");
         }
 
