@@ -158,6 +158,9 @@ public abstract class BaseRepository<E extends Domain, ID extends Serializable> 
                 if(templatePropertyValue == null){
                     continue;
                 }
+                if(domainPropertyValue instanceof Collection){
+                    continue;
+                }
                 if (!templatePropertyValue.equals(domainPropertyValue)) {
                     return false;
                 }
@@ -173,6 +176,9 @@ public abstract class BaseRepository<E extends Domain, ID extends Serializable> 
                 Object templatePropertyValue = propertyDefinition.invokeGetMethod(entity);
                 Object domainPropertyValue = propertyDefinition.invokeGetMethod(domain);
                 if(templatePropertyValue == null){
+                    continue;
+                }
+                if(domainPropertyValue instanceof Collection){
                     continue;
                 }
                 if (domain.getId().equals(id) || !templatePropertyValue.equals(domainPropertyValue)) {
