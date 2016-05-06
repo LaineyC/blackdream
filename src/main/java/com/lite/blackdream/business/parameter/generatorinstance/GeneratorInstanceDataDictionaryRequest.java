@@ -9,6 +9,7 @@ public class GeneratorInstanceDataDictionaryRequest extends Request {
 
     private Long id;
 
+    private String theme;
 
     public GeneratorInstanceDataDictionaryRequest(){
 
@@ -22,4 +23,11 @@ public class GeneratorInstanceDataDictionaryRequest extends Request {
         this.id = id;
     }
 
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
 }

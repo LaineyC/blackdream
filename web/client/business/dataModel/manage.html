@@ -169,7 +169,7 @@
     </div>
     <div class="modal-body">
         <ul class="list-group" ng-repeat="result in runResults track by $index" ng-switch="result.type">
-            <li class="list-group-item" ng-switch-when="url"><a ng-click="download(result.url)" href="javascript:void(0)"><i class="glyphicon glyphicon-cloud-download"></i> 点击下载文件 <span class="text-info">{{result.fileName}}</span></a></li>
+            <li class="list-group-item" ng-switch-when="url"><a ng-click="download(result.url)" href="javascript:void(0)"><i class="glyphicon glyphicon-cloud-download"></i> 点击下载 <span class="text-info">{{result.fileName}}</span></a></li>
             <li class="list-group-item list-group-item-danger" ng-switch-when="error">
                 <i class="glyphicon glyphicon-plus" ng-class="result.$closed ?'glyphicon-plus' : 'glyphicon-minus'" ng-click="result.$closed = !result.$closed;"></i>
                 <label>异常信息</label>

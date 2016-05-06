@@ -62,7 +62,8 @@ public class StartupListener implements ApplicationListener<ContextRefreshedEven
                 temporaryPath.mkdirs();
             }
             //项目web根路径
-            ConfigProperties.ROOT_PATH = System.getProperty("blackdream.root");
+            ConfigProperties.ROOT_PATH = new File(System.getProperty("blackdream.root")).getPath();
+
             //尽量按照依赖的情况决定初始化数据
             userRepository.init();
             generatorRepository.init();

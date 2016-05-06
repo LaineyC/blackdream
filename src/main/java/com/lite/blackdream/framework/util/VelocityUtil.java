@@ -14,11 +14,11 @@ import java.util.Properties;
  */
 public class VelocityUtil {
 
-    public static void mergeWrite(String templateFile, String outFile, Map<String,Object> varMap){
+    public static void mergeWrite(String loaderPath, String templateFile, String outFile, Map<String,Object> varMap){
         try {
             Properties properties = new Properties();
             properties.setProperty("resource.loader", "file");
-            properties.setProperty("file.resource.loader.path", ConfigProperties.FILEBASE_PATH.replace(ConfigProperties.fileSeparator, "/"));
+            properties.setProperty("file.resource.loader.path", loaderPath);
             properties.setProperty("input.encoding", "UTF-8");
             properties.put("output.encoding", "UTF-8");
             properties.setProperty("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.FileResourceLoader");
@@ -39,6 +39,10 @@ public class VelocityUtil {
         catch (Exception e){
             throw new RuntimeException(e);
         }
+    }
+
+    public static void mergeWrite(String templateFile, String outFile, Map<String,Object> varMap){
+        VelocityUtil.mergeWrite(ConfigProperties.FILEBASE_PATH.replace(ConfigProperties.fileSeparator, "/"), templateFile, outFile, varMap);
     }
 
 }

@@ -13,7 +13,9 @@ import com.lite.blackdream.framework.model.Authentication;
 import com.lite.blackdream.framework.model.PagerResult;
 import com.lite.blackdream.framework.util.ConfigProperties;
 import com.lite.blackdream.framework.util.FileUtil;
+import com.lite.blackdream.framework.util.VelocityUtil;
 import com.lite.blackdream.framework.util.ZipUtil;
+import org.apache.velocity.tools.generic.ComparisonDateTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -432,9 +434,213 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
     @Override
     public RunResult dataDictionary(GeneratorInstanceDataDictionaryRequest request) {
         RunResult runResult = new RunResult();
-        List<String> messages = new ArrayList<>();
-        messages.add("待实现");
-        runResult.setMessages(messages);
+        Authentication authentication = request.getAuthentication();
+        Long id = request.getId();
+        GeneratorInstance generatorInstance = generatorInstanceRepository.selectById(id);
+        if(!authentication.getUserId().equals(generatorInstance.getUser().getId())) {
+            throw new AppException("权限不足");
+        }
+
+        Long generatorId = generatorInstance.getGenerator().getId();
+        DynamicModelQueryRequest dynamicModelQueryRequest = new DynamicModelQueryRequest();
+        dynamicModelQueryRequest.setGeneratorId(generatorId);
+        dynamicModelQueryRequest.setAuthentication(authentication);
+
+        List<DynamicModel> dynamicModels = dynamicModelService.query(dynamicModelQueryRequest);
+        Map<Long, DynamicModel> dynamicModelCache = new HashMap<>();
+        Map<Long, Map<String,  Map<String, Set<String>>>> dynamicModelKeysCache = new HashMap<>();
+        dynamicModels.forEach(dynamicModel -> {
+            DynamicModel newDynamicModel = new DynamicModel();
+            newDynamicModel.setId(dynamicModel.getId());
+            newDynamicModel.setName(dynamicModel.getName());
+            newDynamicModel.setIcon(dynamicModel.getIcon());
+
+            Map<String, Map<String, Set<String>>> keysCache = new HashMap<>();
+            Map<String, Set<String>> propertiesKeys = new HashMap<>();
+            Set<String> propertiesKeys_dateTypeKeys = new HashSet<>();
+            Set<String> propertiesKeys_dataModelTypeKeys = new HashSet<>();
+            propertiesKeys.put("dateTypeKeys", propertiesKeys_dateTypeKeys);
+            propertiesKeys.put("dataModelTypeKeys", propertiesKeys_dataModelTypeKeys);
+            Map<String, Set<String>> associationKeys = new HashMap<>();
+            Set<String> associationKeys_dateTypeKeys = new HashSet<>();
+            Set<String> associationKeys_dataModelTypeKeys = new HashSet<>();
+            associationKeys.put("dateTypeKeys", associationKeys_dateTypeKeys);
+            associationKeys.put("dataModelTypeKeys", associationKeys_dataModelTypeKeys);
+            keysCache.put("propertiesKeys", propertiesKeys);
+            keysCache.put("associationKeys", associationKeys);
+            dynamicModelKeysCache.put(dynamicModel.getId(), keysCache);
+
+            List<DynamicProperty> properties = dynamicModel.getProperties();
+            properties.forEach(property -> {
+                if("Date".equals(property.getType())){
+                    propertiesKeys_dateTypeKeys.add(property.getName());
+                }
+                else if("Model".equals(property.getType())){
+                    propertiesKeys_dataModelTypeKeys.add(property.getName());
+                }
+
+                DynamicProperty newDynamicProperty = new DynamicProperty();
+                newDynamicProperty.setId(property.getId());
+                newDynamicProperty.setLabel(property.getLabel());
+                newDynamicProperty.setName(property.getName());
+                newDynamicProperty.setViewWidth(property.getViewWidth());
+                newDynamicProperty.setType(property.getType());
+                newDynamicProperty.setDefaultValue(property.getDefaultValue());
+                newDynamicModel.getProperties().add(newDynamicProperty);
+            });
+            List<DynamicProperty> association = dynamicModel.getAssociation();
+            association.forEach(property -> {
+                if("Date".equals(property.getType())){
+                    associationKeys_dateTypeKeys.add(property.getName());
+                }
+                else if("Model".equals(property.getType())){
+                    associationKeys_dataModelTypeKeys.add(property.getName());
+                }
+
+                DynamicProperty newDynamicProperty = new DynamicProperty();
+                newDynamicProperty.setId(property.getId());
+                newDynamicProperty.setLabel(property.getLabel());
+                newDynamicProperty.setName(property.getName());
+                newDynamicProperty.setViewWidth(property.getViewWidth());
+                newDynamicProperty.setType(property.getType());
+                newDynamicProperty.setDefaultValue(property.getDefaultValue());
+                newDynamicModel.getAssociation().add(newDynamicProperty);
+            });
+            dynamicModelCache.put(newDynamicModel.getId(), newDynamicModel);
+        });
+
+        Long dataModelId = generatorInstance.getDataModel().getId();
+        DataModel rootDataModel = dataModelRepository.selectById(dataModelId);
+        Map<Long, DataModel> dataModelSourceCache = new HashMap<>();
+        Map<Long, DataModel> dataModelTargetCache = new HashMap<>();
+        LinkedList<DataModel> stack = new LinkedList<>();
+        stack.push(rootDataModel);
+        while (!stack.isEmpty()) {
+            DataModel dataModel = stack.pop();
+            dataModelSourceCache.put(dataModel.getId(), dataModel);
+            dataModelTargetCache.put(dataModel.getId(), new DataModel());
+            dataModel.getChildren().forEach(stack :: push);
+        }
+        dataModelSourceCache.forEach((dataModelSourceId, dataModelSource) -> {
+            DataModel dataModelTarget = dataModelTargetCache.get(dataModelSourceId);
+            dataModelTarget.setId(dataModelSource.getId());
+            dataModelTarget.setName(dataModelSource.getName());
+            if (dataModelSource.getParent() != null) {
+                Long parentId = dataModelSource.getParent().getId();
+                DataModel parentSource = dataModelSourceCache.get(parentId);
+                if (parentSource != null) {
+                    DataModel parentTarget = dataModelTargetCache.get(parentId);
+                    dataModelTarget.setParent(parentTarget);
+                }
+            }
+            dataModelSource.getChildren().forEach(child -> dataModelTarget.getChildren().add(dataModelTargetCache.get(child.getId())));
+
+            if (!dataModelSource.equals(rootDataModel)) {
+                DynamicModel dynamicModel = dynamicModelCache.get(dataModelSource.getDynamicModel().getId());
+                dataModelTarget.setDynamicModel(dynamicModel);
+
+                Map<String, Map<String, Set<String>>> keysCache = dynamicModelKeysCache.get(dynamicModel.getId());
+                Map<String, Set<String>> propertiesKeys = keysCache.get("propertiesKeys");
+                Map<String, Set<String>> associationKeys = keysCache.get("associationKeys");
+                Set<String> propertiesKeys_dateTypeKeys = propertiesKeys.get("dateTypeKeys");
+                Set<String> propertiesKeys_dataModelTypeKeys = propertiesKeys.get("dataModelTypeKeys");
+                Set<String> associationKeys_dateTypeKeys = associationKeys.get("dateTypeKeys");
+                Set<String> associationKeys_dataModelTypeKeys = associationKeys.get("dataModelTypeKeys");
+                dataModelSource.getProperties().forEach((name, value) -> {
+                    if (propertiesKeys_dateTypeKeys.contains(name)) {
+                        dataModelTarget.getProperties().put(name, new Date((Long) value));
+                    } else if (propertiesKeys_dataModelTypeKeys.contains(name)) {
+                        dataModelTarget.getProperties().put(name, dataModelTargetCache.get(value));
+                    } else {
+                        dataModelTarget.getProperties().put(name, value);
+                    }
+                });
+                dataModelSource.getAssociation().forEach(property -> {
+                    Map<String, Object> newProperty = new LinkedHashMap<>();
+                    property.forEach((name, value) -> {
+                        if (associationKeys_dateTypeKeys.contains(name)) {
+                            newProperty.put(name, new Date((Long) value));
+                        } else if (associationKeys_dataModelTypeKeys.contains(name)) {
+                            newProperty.put(name, dataModelTargetCache.get(value));
+                        } else {
+                            newProperty.put(name, value);
+                        }
+                    });
+                    dataModelTarget.getAssociation().add(newProperty);
+                });
+            }
+        });
+        DataModel rootDataModelClone = dataModelTargetCache.get(rootDataModel.getId());
+        ComparisonDateTool comparisonDateTool = new ComparisonDateTool();
+        Long generateId = idWorker.nextId();
+        Long userId = authentication.getUserId();
+        String generatePath = ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + userId + ConfigProperties.fileSeparator + generatorInstance.getName() + "(" + generateId + ")";
+        String indexOutFile = generatePath + ConfigProperties.fileSeparator + "index.html";
+        Map<String,Object> varMap = new HashMap<>();
+        varMap.put("date", comparisonDateTool);
+        varMap.put("data", rootDataModelClone);
+        FileUtil.mkdirs(new File(indexOutFile).getParent());
+        VelocityUtil.mergeWrite(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/template" , "index.html.vm", indexOutFile, varMap);
+
+        FileUtil.mkdirs(generatePath + ConfigProperties.fileSeparator + "library");
+        FileUtil.copyFile(
+                new File(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/library/jquery/jquery.min.js"),
+                new File(generatePath + ConfigProperties.fileSeparator + "library/jquery.min.js")
+        );
+        FileUtil.copyFile(
+                new File(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/library/bootstrap/js/bootstrap.min.js"),
+                new File(generatePath + ConfigProperties.fileSeparator + "library/bootstrap.min.js")
+        );
+        Map<String, String> themeIndex = new HashMap<>();
+        themeIndex.put("cerulean", "cerulean");
+        themeIndex.put("cosmo", "cosmo");
+        themeIndex.put("cyborg", "cyborg");
+        themeIndex.put("darkly", "darkly");
+        themeIndex.put("default", "default");
+        themeIndex.put("flatly", "flatly");
+        themeIndex.put("journal", "journal");
+        themeIndex.put("lumen", "lumen");
+        themeIndex.put("paper", "paper");
+        themeIndex.put("readable", "readable");
+        themeIndex.put("sandstone", "sandstone");
+        themeIndex.put("simplex", "simplex");
+        themeIndex.put("slate", "slate");
+        themeIndex.put("spacelab","spacelab");
+        themeIndex.put("superhero", "superhero");
+        themeIndex.put("united", "united");
+        themeIndex.put("yeti", "yeti");
+        String theme = themeIndex.get(request.getTheme());
+        theme = theme == null ? "slate" : theme;
+        FileUtil.copyFile(
+                new File(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/library/bootstrap/theme/" + theme + ".min.css"),
+                new File(generatePath + ConfigProperties.fileSeparator + "library/" + theme + ".min.css")
+        );
+
+        LinkedList<DataModel> dataStack = new LinkedList<>();
+        dataStack.push(rootDataModelClone);
+        while (!dataStack.isEmpty()) {
+            DataModel dataModel = dataStack.pop();
+            if(dataModel != rootDataModelClone){
+                String dataModelOutFile = generatePath + ConfigProperties.fileSeparator + "data" + ConfigProperties.fileSeparator + dataModel.getId() + ".html";
+                Map<String,Object> varMap1 = new HashMap<>();
+                varMap.put("date", comparisonDateTool);
+                varMap.put("dataModel", dataModel);
+                FileUtil.mkdirs(new File(dataModelOutFile).getParent());
+                VelocityUtil.mergeWrite(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/template", "dataModel.html.vm", dataModelOutFile, varMap1);
+            }
+            dataModel.getChildren().forEach(dataStack :: push);
+        }
+
+        File generateFolder = new File(generatePath);
+        try {
+            ZipUtil.compress(generateFolder);
+        }
+        catch (Exception e){
+            throw new AppException(e,"压缩文件失败");
+        }
+        FileUtil.deleteFile(generateFolder);
+        runResult.setUrl(userId + "/" + generatorInstance.getName() + "(" + generateId + ").zip");
+        runResult.setFileName(generatorInstance.getName() + "(" + generateId + ").zip");
         return runResult;
     }
 

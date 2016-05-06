@@ -4,8 +4,8 @@ define(
         "use strict";
 
         module.controller("dataModelManageController", [
-            "$scope", "$uibModal", "$routeParams", "dataModelApi", "templateStrategyApi", "dynamicModelApi", "generatorInstanceApi", "$q", "viewPage", "clipboard","systemApi",
-            function($scope, $uibModal, $routeParams, dataModelApi, templateStrategyApi, dynamicModelApi, generatorInstanceApi, $q, viewPage, clipboard, systemApi){
+            "$scope", "$uibModal", "$routeParams", "dataModelApi", "templateStrategyApi", "dynamicModelApi", "generatorInstanceApi", "$q", "viewPage", "clipboard","systemApi", "$cookies",
+            function($scope, $uibModal, $routeParams, dataModelApi, templateStrategyApi, dynamicModelApi, generatorInstanceApi, $q, viewPage, clipboard, systemApi, $cookies){
                 viewPage.setViewPageTitle("工作台");
 
                 var generatorInstanceId = $routeParams.generatorInstanceId;
@@ -240,7 +240,8 @@ define(
                         controller: ["$scope","$uibModalInstance",function ($scope, $uibModalInstance){
                             $scope.runResults = $outScope.runResults;
                             $scope.runningText = "正在生成并压缩文件...";
-                            generatorInstanceApi.dataDictionary({id:generatorInstanceId}).success(function(runResult){
+                            var theme = $cookies.get("theme") || "slate";
+                            generatorInstanceApi.dataDictionary({id:generatorInstanceId, theme:theme}).success(function(runResult){
                                 $scope.runningText = "";
                                 if(!runResult.url){
                                     $scope.runResults.push({type:"error",messages :runResult.messages});
