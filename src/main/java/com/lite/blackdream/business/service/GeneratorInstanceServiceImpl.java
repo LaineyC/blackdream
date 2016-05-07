@@ -570,11 +570,13 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
                 });
             }
         });
+
         DataModel rootDataModelClone = dataModelTargetCache.get(rootDataModel.getId());
         ComparisonDateTool comparisonDateTool = new ComparisonDateTool();
         Long generateId = idWorker.nextId();
         Long userId = authentication.getUserId();
         String generatePath = ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + userId + ConfigProperties.fileSeparator + generatorInstance.getName() + "(" + generateId + ")";
+
         String indexOutFile = generatePath + ConfigProperties.fileSeparator + "index.html";
         Map<String,Object> varMap = new HashMap<>();
         varMap.put("date", comparisonDateTool);
@@ -591,6 +593,20 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
                 new File(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/library/bootstrap/js/bootstrap.min.js"),
                 new File(generatePath + ConfigProperties.fileSeparator + "library/bootstrap.min.js")
         );
+        FileUtil.copyFile(
+                new File(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/library/angular/angular.min.js"),
+                new File(generatePath + ConfigProperties.fileSeparator + "library/angular.min.js")
+        );
+
+        FileUtil.mkdirs(generatePath + ConfigProperties.fileSeparator + "fonts");
+        File[] fontFiles = new File(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/library/bootstrap/fonts").listFiles();
+        for(File fontFile : fontFiles){
+            FileUtil.copyFile(
+                    new File(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/library/bootstrap/fonts/" + fontFile.getName()),
+                    new File(generatePath + ConfigProperties.fileSeparator + "fonts/" + fontFile.getName())
+            );
+        }
+
         Map<String, String> themeIndex = new HashMap<>();
         themeIndex.put("cerulean", "cerulean");
         themeIndex.put("cosmo", "cosmo");

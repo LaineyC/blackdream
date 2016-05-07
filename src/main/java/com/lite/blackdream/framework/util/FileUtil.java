@@ -104,14 +104,14 @@ public class FileUtil {
         }
     }
 
-    public static void copyFile(File s, File t) {
+    public static void copyFile(File source, File target) {
         FileInputStream fi = null;
         FileOutputStream fo = null;
         FileChannel in = null;
         FileChannel out = null;
         try {
-            fi = new FileInputStream(s);
-            fo = new FileOutputStream(t);
+            fi = new FileInputStream(source);
+            fo = new FileOutputStream(target);
             in = fi.getChannel();
             out = fo.getChannel();
             in.transferTo(0, in.size(), out);
