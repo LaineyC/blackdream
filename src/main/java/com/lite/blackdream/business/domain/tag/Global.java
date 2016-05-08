@@ -14,6 +14,8 @@ public class Global {
 
     private Long generateId;
 
+    private String theme;
+
     private User user;
 
     private  User developer;
@@ -36,6 +38,14 @@ public class Global {
 
     public void setGenerateId(Long generateId) {
         this.generateId = generateId;
+    }
+
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
     }
 
     public User getUser() {

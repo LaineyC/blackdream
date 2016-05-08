@@ -1,1 +1,71 @@
-hello datamodel.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>${dataModel.name}</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" href="../library/${global.theme}.min.css">
+</head>
+<body>
+<div class="container-fluid">
+    <form class="form-horizontal" role="form" novalidate>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">名称</label>
+            <div class="col-sm-5 form-control-static">${dataModel.name}</div>
+        </div>
+#if($dataModel.properties)
+        <div class="form-group">
+#foreach($property in $dataModel.dynamicModel.properties)
+#set($value = $dataModel.properties.get($property.name))
+            <label style="height:40px;" class="col-sm-1 control-label">$property.label</label>
+            <div style="height:40px;" class="col-sm-$property.viewWidth.intValue() form-control-static">
+#if($!property.type == "Boolean")               <input onclick="return false;" type="checkbox" #if($value) checked #else#end/>
+#elseif($!property.type == "Date")
+$date.format('yyyy-MM-dd HH:mm:ss', $value)
+#elseif($!property.type == "Model")
+                <button type="button" class="btn btn-link btn-sm" onclick="window.parent.window.showTab({id: '$value.id',name: '$value.name',icon: '$value.dynamicModel.icon'});">$value.name</button>
+#else
+$!value
+#end
+            </div>
+#end
+        </div>
+#end
+#if($dataModel.association)
+        <div class="form-group">
+            <table class="table table-bordered table-condensed table-hover">
+                <thead>
+                <tr class="active">
+                    <th width="25">#</th>
+#foreach($property in $dataModel.dynamicModel.association)
+                    <th width="$!{property.viewWidth}">$property.label</th>
+#end
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+#foreach($property in $dataModel.association)
+                <tr>
+                    <td>$velocityCount</td>
+#foreach($association in $dataModel.dynamicModel.association)
+#set($value = $property.get($association.name))
+#if($!association.type == "Boolean")
+                    <td><input onclick="return false;" type="checkbox" #if($value) checked #else#end/></td>
+#elseif($!association.type == "Date")
+                    <td>#if($value)$date.format('yyyy-MM-dd HH:mm:ss', $value)#else#end</td>
+#elseif($!association.type == "Model")
+                    <td>#if($value)<button type="button" class="btn btn-link btn-sm" onclick="window.parent.window.showTab({id: $value.id,name: '$value.name',icon: '$value.dynamicModel.icon'});">$value.name</button>#else#end</td>
+#else
+                    <td>$!value</td>
+#end
+#end
+                    <td></td>
+                </tr>
+#end
+                </tbody>
+            </table>
+        </div>
+#end
+    </form>
+</div>
+</body>
+</html>

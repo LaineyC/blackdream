@@ -571,42 +571,9 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             }
         });
 
-        DataModel rootDataModelClone = dataModelTargetCache.get(rootDataModel.getId());
-        ComparisonDateTool comparisonDateTool = new ComparisonDateTool();
         Long generateId = idWorker.nextId();
         Long userId = authentication.getUserId();
-        String generatePath = ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + userId + ConfigProperties.fileSeparator + generatorInstance.getName() + "(" + generateId + ")";
-
-        String indexOutFile = generatePath + ConfigProperties.fileSeparator + "index.html";
-        Map<String,Object> varMap = new HashMap<>();
-        varMap.put("date", comparisonDateTool);
-        varMap.put("data", rootDataModelClone);
-        FileUtil.mkdirs(new File(indexOutFile).getParent());
-        VelocityUtil.mergeWrite(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/template" , "index.html.vm", indexOutFile, varMap);
-
-        FileUtil.mkdirs(generatePath + ConfigProperties.fileSeparator + "library");
-        FileUtil.copyFile(
-                new File(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/library/jquery/jquery.min.js"),
-                new File(generatePath + ConfigProperties.fileSeparator + "library/jquery.min.js")
-        );
-        FileUtil.copyFile(
-                new File(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/library/bootstrap/js/bootstrap.min.js"),
-                new File(generatePath + ConfigProperties.fileSeparator + "library/bootstrap.min.js")
-        );
-        FileUtil.copyFile(
-                new File(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/library/angular/angular.min.js"),
-                new File(generatePath + ConfigProperties.fileSeparator + "library/angular.min.js")
-        );
-
-        FileUtil.mkdirs(generatePath + ConfigProperties.fileSeparator + "fonts");
-        File[] fontFiles = new File(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/library/bootstrap/fonts").listFiles();
-        for(File fontFile : fontFiles){
-            FileUtil.copyFile(
-                    new File(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/library/bootstrap/fonts/" + fontFile.getName()),
-                    new File(generatePath + ConfigProperties.fileSeparator + "fonts/" + fontFile.getName())
-            );
-        }
-
+        ComparisonDateTool comparisonDateTool = new ComparisonDateTool();
         Map<String, String> themeIndex = new HashMap<>();
         themeIndex.put("cerulean", "cerulean");
         themeIndex.put("cosmo", "cosmo");
@@ -627,10 +594,59 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         themeIndex.put("yeti", "yeti");
         String theme = themeIndex.get(request.getTheme());
         theme = theme == null ? "slate" : theme;
+
+        Global global = new Global();
+        global.setGenerateId(generateId);
+        global.setTheme(theme);
+
+        User userClone = new User();
+        userClone.setId(authentication.getUserId());
+        userClone.setUserName(authentication.getUserName());
+        global.setUser(userClone);
+
+        GeneratorInstance generatorInstanceClone = new GeneratorInstance();
+        generatorInstanceClone.setId(generatorInstance.getId());
+        generatorInstanceClone.setName(generatorInstance.getName());
+        global.setGeneratorInstance(generatorInstanceClone);
+
+        DataModel rootDataModelClone = dataModelTargetCache.get(rootDataModel.getId());
+        String generatePath = ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + userId + ConfigProperties.fileSeparator + generatorInstance.getName() + "(" + generateId + ")";
+
+        String indexOutFile = generatePath + ConfigProperties.fileSeparator + "index.html";
+        Map<String,Object> indexVarMap = new HashMap<>();
+        indexVarMap.put("global", global);
+        indexVarMap.put("date", comparisonDateTool);
+        indexVarMap.put("data", rootDataModelClone);
+        FileUtil.mkdirs(new File(indexOutFile).getParent());
+        VelocityUtil.mergeWrite(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/template" , "index.html.vm", indexOutFile, indexVarMap);
+
+        FileUtil.mkdirs(generatePath + ConfigProperties.fileSeparator + "library");
+        FileUtil.copyFile(
+                new File(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/library/jquery/jquery.min.js"),
+                new File(generatePath + ConfigProperties.fileSeparator + "library/jquery.min.js")
+        );
+        FileUtil.copyFile(
+                new File(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/library/bootstrap/js/bootstrap.min.js"),
+                new File(generatePath + ConfigProperties.fileSeparator + "library/bootstrap.min.js")
+        );
+        FileUtil.copyFile(
+                new File(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/library/angular/angular.min.js"),
+                new File(generatePath + ConfigProperties.fileSeparator + "library/angular.min.js")
+        );
+
         FileUtil.copyFile(
                 new File(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/library/bootstrap/theme/" + theme + ".min.css"),
                 new File(generatePath + ConfigProperties.fileSeparator + "library/" + theme + ".min.css")
         );
+
+        FileUtil.mkdirs(generatePath + ConfigProperties.fileSeparator + "fonts");
+        File[] fontFiles = new File(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/library/bootstrap/fonts").listFiles();
+        for(File fontFile : fontFiles){
+            FileUtil.copyFile(
+                    new File(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/library/bootstrap/fonts/" + fontFile.getName()),
+                    new File(generatePath + ConfigProperties.fileSeparator + "fonts/" + fontFile.getName())
+            );
+        }
 
         LinkedList<DataModel> dataStack = new LinkedList<>();
         dataStack.push(rootDataModelClone);
@@ -638,11 +654,12 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             DataModel dataModel = dataStack.pop();
             if(dataModel != rootDataModelClone){
                 String dataModelOutFile = generatePath + ConfigProperties.fileSeparator + "data" + ConfigProperties.fileSeparator + dataModel.getId() + ".html";
-                Map<String,Object> varMap1 = new HashMap<>();
-                varMap.put("date", comparisonDateTool);
-                varMap.put("dataModel", dataModel);
+                Map<String,Object> dataModelVarMap = new HashMap<>();
+                dataModelVarMap.put("global", global);
+                dataModelVarMap.put("date", comparisonDateTool);
+                dataModelVarMap.put("dataModel", dataModel);
                 FileUtil.mkdirs(new File(dataModelOutFile).getParent());
-                VelocityUtil.mergeWrite(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/template", "dataModel.html.vm", dataModelOutFile, varMap1);
+                VelocityUtil.mergeWrite(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/template", "dataModel.html.vm", dataModelOutFile, dataModelVarMap);
             }
             dataModel.getChildren().forEach(dataStack :: push);
         }

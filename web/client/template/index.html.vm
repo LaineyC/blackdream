@@ -1,1 +1,134 @@
-hello index.html
+#set($json = '')
+#set($first = true)
+#set($level = 1)
+#macro(dataModelJson $dataModel, $lv)
+#if($level < $lv)
+#set($level = $lv)
+#end
+#if(!$first)
+#set($json = $json + ",")
+#end
+#set($json = $json +
+'{' +
+'id: "' + $!dataModel.id + '",' +
+'name: "' + $!dataModel.name + '",' +
+'icon: "' + $!dataModel.dynamicModel.icon + '",' +
+'children: ['
+)
+#set($lvl = $lv + 1)
+#foreach($child in $dataModel.children)
+#set($first = $velocityCount == 1)
+#dataModelJson($child, $lvl)
+#end
+#set($lvl = $lvl - 1)
+#set($json = $json +
+']' +
+'}'
+)
+#end
+#dataModelJson($data, $level)
+<!DOCTYPE html>
+<html>
+<head>
+    <title>$!{global.generatorInstance.name} - 数据字典</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" href="library/${global.theme}.min.css">
+    <script src="library/jquery.min.js"></script>
+    <script src="library/angular.min.js"></script>
+    <script src="library/bootstrap.min.js"></script>
+    <style type="text/css">
+        html, body {
+            padding-top: 5px;
+        }
+        .condensed-list .list-group {
+            margin-top: 1px;
+            margin-bottom: 1px;
+            padding-left: 15px;
+        }
+        .condensed-list .list-group-item{
+            padding: 2px;
+        }
+        .condensed-list .list-group-item label{
+            margin-bottom: 3px;
+        }
+    </style>
+    <script type="text/javascript">
+        (function($, angular, undefined){
+            $(function(){
+                var module = angular.module("module", []);
+                module.controller("controller", [
+                    "$scope",
+                    function($scope) {
+                        $scope.tabs = [];
+
+                        $scope.dataModel = $json;
+
+                        $scope.showTab = function(dataModel){
+                            var i = -1;
+                            angular.forEach($scope.tabs, function(tab, index){
+                                if(tab.id === dataModel.id) {
+                                    i = index;
+                                }
+                                tab.active = false;
+                            });
+                            if(i != -1){
+                                    $scope.tabs.splice(i, 1);
+                            }
+                            var tab = {
+                                id: dataModel.id,
+                                name: dataModel.name,
+                                icon: dataModel.icon,
+                                template: "data/" + dataModel.id + ".html"
+                            };
+                                $scope.tabs.splice(0, 0, tab);
+                            $scope.tabs[0].active = true;
+                            if($scope.tabs.length >= 10){
+                                $scope.tabs.length = 10;
+                            }
+                        };
+
+                        window.showTab = function(dataModel){
+                            $scope.$apply(function(){
+                                    $scope.showTab(dataModel);
+                            });
+                        };
+                    }
+                ]);
+                angular.bootstrap(document, ["module"]);
+            });
+        })(jQuery, angular);
+    </script>
+</head>
+<body ng-controller="controller">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 condensed-list" style="width: 20%;position: fixed;top: 10px; bottom: 0;overflow: auto;">
+            <ul style="padding-left: 0;" class="list-group" ng-init="parent=dataModel;" ng-include="'dataModelRecursion'" ng-show="dataModel.children.length"></ul>
+        </div>
+        <div class="col-sm-9" style="width: 80%;margin-left: 20%;">
+            <ul class="nav nav-tabs" role="tablist">
+                <li ng-repeat="tab in tabs" ng-class="{active:tab.active}" role="presentation">
+                    <a href="#{{tab.id}}" role="tab" data-toggle="tab"><i class="text-info glyphicon glyphicon-{{tab.icon}}"></i> <label>{{tab.name}}</label></a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="{{tab.id}}" ng-repeat="tab in tabs" ng-class="{active:tab.active}" class="tab-pane" role="tabpanel">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" ng-src="{{tab.template}}"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script id="dataModelRecursion" type="text/ng-template">
+    <li class="list-group-item" ng-repeat="child in parent.children" ng-init="p=parent;">
+        <i class="glyphicon glyphicon-plus" ng-class="child.children.length ? (child.$expend ? 'glyphicon-minus' : 'glyphicon-plus') : 'glyphicon-leaf'" ng-click="child.$expend =! child.$expend;"></i>
+        {{$index + 1}}
+        <span class="text-info glyphicon glyphicon-{{child.icon}}"></span>
+        <label ng-dblclick="showTab(child);">{{child.name}}</label>
+        <ul class="list-group" ng-include="'dataModelRecursion'" ng-show="child.$expend && child.children.length" ng-init="parent=child;"></ul>
+    </li>
+</script>
+</body>
+</html>
