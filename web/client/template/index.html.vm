@@ -10,7 +10,7 @@
 #end
 #set($json = $json +
 '{' +
-'id: "' + $!dataModel.id + '",' +
+'id: ' + $!dataModel.id + ',' +
 'name: "' + $!dataModel.name + '",' +
 'icon: "' + $!dataModel.dynamicModel.icon + '",' +
 'children: ['

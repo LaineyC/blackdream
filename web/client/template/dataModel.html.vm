@@ -12,32 +12,23 @@
             <label class="col-sm-1 control-label">名称</label>
             <div class="col-sm-5 form-control-static">${dataModel.name}</div>
         </div>
-#if($dataModel.properties)
+#if($dataModel.dynamicModel.properties.size() > 0)
         <div class="form-group">
 #foreach($property in $dataModel.dynamicModel.properties)
 #set($value = $dataModel.properties.get($property.name))
             <label style="height:40px;" class="col-sm-1 control-label">$property.label</label>
-            <div style="height:40px;" class="col-sm-$property.viewWidth.intValue() form-control-static">
-#if($!property.type == "Boolean")               <input onclick="return false;" type="checkbox" #if($value) checked #else#end/>
-#elseif($!property.type == "Date")
-$date.format('yyyy-MM-dd HH:mm:ss', $value)
-#elseif($!property.type == "Model")
-                <button type="button" class="btn btn-link btn-sm" onclick="window.parent.window.showTab({id: '$value.id',name: '$value.name',icon: '$value.dynamicModel.icon'});">$value.name</button>
-#else
-$!value
-#end
-            </div>
+            <div style="height:40px;" class="col-sm-$property.viewWidth.intValue() form-control-static">#if($property.type == "Boolean")<input onclick="return false;" type="checkbox" #if($value)checked="checked" #else#end/>#elseif($property.type == "Date")#if($value)$date.format("yyyy-MM-dd", $value)#else#end#elseif($property.type == "Model")#if($value)<button type="button" class="btn btn-link btn-xs" onclick="window.parent.window.showTab({id: $value.id,name: '$value.name',icon: '$value.dynamicModel.icon'});">$value.name</button>#else#end#else$!value#end</div>
 #end
         </div>
 #end
-#if($dataModel.association)
+#if($dataModel.dynamicModel.association.size() > 0)
         <div class="form-group">
             <table class="table table-bordered table-condensed table-hover">
                 <thead>
                 <tr class="active">
                     <th width="25">#</th>
-#foreach($property in $dataModel.dynamicModel.association)
-                    <th width="$!{property.viewWidth}">$property.label</th>
+#foreach($association in $dataModel.dynamicModel.association)
+                    <th width="$!{association.viewWidth}">$association.label</th>
 #end
                     <th></th>
                 </tr>
@@ -47,15 +38,14 @@ $!value
                 <tr>
                     <td>$velocityCount</td>
 #foreach($association in $dataModel.dynamicModel.association)
-#set($value = $property.get($association.name))
-#if($!association.type == "Boolean")
-                    <td><input onclick="return false;" type="checkbox" #if($value) checked #else#end/></td>
-#elseif($!association.type == "Date")
-                    <td>#if($value)$date.format('yyyy-MM-dd HH:mm:ss', $value)#else#end</td>
-#elseif($!association.type == "Model")
-                    <td>#if($value)<button type="button" class="btn btn-link btn-sm" onclick="window.parent.window.showTab({id: $value.id,name: '$value.name',icon: '$value.dynamicModel.icon'});">$value.name</button>#else#end</td>
+#if($association.type == "Boolean")
+                    <td class="text-center"><input onclick="return false;" type="checkbox" #if($property.get($association.name)) checked="checked"#else#end/></td>
+#elseif($association.type == "Date")
+                    <td>#if($property.get($association.name))$date.format("yyyy-MM-dd", $property.get($association.name))#else#end</td>
+#elseif($association.type == "Model")
+                    <td>#if($property.get($association.name))<button type="button" class="btn btn-link btn-xs" onclick="window.parent.window.showTab({id: $property.get($association.name).id,name: '$property.get($association.name).name',icon: '$property.get($association.name).dynamicModel.icon'});">$property.get($association.name).name</button>#else#end</td>
 #else
-                    <td>$!value</td>
+                    <td>#if($property.get($association.name))$property.get($association.name)#else#end</td>
 #end
 #end
                     <td></td>
