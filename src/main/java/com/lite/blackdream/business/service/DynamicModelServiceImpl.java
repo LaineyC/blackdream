@@ -58,7 +58,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
 
         for(Long childId : request.getChildren()){
             DynamicModel child = new DynamicModel();
-            child.setId(childId);
+            child.setId(childId == 0 ? dynamicModel.getId() : childId);
             dynamicModel.getChildren().add(child);
         }
 

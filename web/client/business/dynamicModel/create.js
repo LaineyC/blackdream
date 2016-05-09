@@ -11,7 +11,9 @@ define(
 
                 $scope.createRequest = {generatorId: generatorId, children:[],properties:[],association:[],predefinedAssociation:[]};
 
-                $scope.childrenControl = {};
+                $scope.childrenControl = {
+                    $checkedSelf:false
+                };
                 dynamicModelApi.query({generatorId:generatorId}).success(function(children){
                     $scope.childrenControl.children = children;
                 });
@@ -22,6 +24,9 @@ define(
                         if(child.$checked){
                             $scope.createRequest.children.push(child.id);
                         }
+                    }
+                    if($scope.childrenControl.$checkedSelf){
+                        $scope.createRequest.children.push(0);
                     }
                     dynamicModelApi.create({
                         generatorId:generatorId,

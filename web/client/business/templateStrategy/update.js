@@ -20,7 +20,7 @@ define(
 
                 $scope.formatTag = function(tag){
                     if(tag.tagName == "File"){
-                        tag.template = tag.template.id;
+                        tag.template && (tag.template = tag.template.id);
                     }
                     else if(tag.tagName == "Call" || tag.tagName == "Function"){
                         var argumentList = tag.arguments;
