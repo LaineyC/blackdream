@@ -51,14 +51,14 @@ public class UserController extends BaseController {
         Authentication authentication = new Authentication();
         authentication.setUserId(user.getId());
         authentication.setUserName(user.getUserName());
-        servletRequest.getSession().setAttribute("authentication", authentication);
+        servletRequest.getSession().setAttribute("$authentication", authentication);
         return new UserLoginResponse(user);
     }
 
     @ResponseBody
     @RequestMapping(params="method=user.logout")
     public UserLogoutResponse logout(UserLogoutRequest request, HttpServletRequest servletRequest) {
-        servletRequest.getSession().removeAttribute("authentication");
+        servletRequest.getSession().removeAttribute("$authentication");
         return new UserLogoutResponse(null);
     }
 

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import com.lite.blackdream.framework.util.WebUtil;
 import com.lite.blackdream.framework.web.RequestWrapper;
 import org.apache.commons.logging.Log;
@@ -34,6 +36,8 @@ public class ErrorResolver implements HandlerExceptionResolver {
 
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception exception) {
         RequestWrapper requestWrapper = (RequestWrapper)request;
+        HttpSession session = requestWrapper.getSession();
+        long ms = System.currentTimeMillis() - (Long)session.getAttribute("$startTime");
         String method = requestWrapper.getParameter("method");
         ErrorMessage errorMessage;
         if(exception instanceof AppException){
@@ -41,15 +45,15 @@ public class ErrorResolver implements HandlerExceptionResolver {
             errorMessage = appException.getErrorMessage();
             Throwable cause = appException.getCause();
             if(cause == null){
-                logger.error("IP=" + WebUtil.getIp(request) + ",方法=" + method  + ",参数=" + requestWrapper.getRequestLog() + ",消息=" + errorMessage.getMessage());
+                logger.error("用时=" + ms + "ms,IP=" + WebUtil.getIp(request) + ",接口=" + method  + ",参数=" + requestWrapper.getRequestLog() + ",消息=" + errorMessage.getMessage());
             }
             else{
-                logger.error("IP=" + WebUtil.getIp(request) + ",方法=" + method  + ",参数=" + requestWrapper.getRequestLog() + ",消息=" + errorMessage.getMessage(), exception);
+                logger.error("用时=" + ms + "ms,IP=" + WebUtil.getIp(request) + ",接口=" + method  + ",参数=" + requestWrapper.getRequestLog() + ",消息=" + errorMessage.getMessage(), exception);
             }
         }
         else{
             errorMessage = new ErrorMessage("[" + method + "]服务不可用");
-            logger.error("IP=" + WebUtil.getIp(request) + ",方法=" + method  + ",参数=" + requestWrapper.getRequestLog() + ",消息=" + errorMessage.getMessage(), exception);
+            logger.error("用时=" + ms + "ms,IP=" + WebUtil.getIp(request) + ",接口=" + method  + ",参数=" + requestWrapper.getRequestLog() + ",消息=" + errorMessage.getMessage(), exception);
         }
         HttpInputMessage inputMessage = new ServletServerHttpRequest(requestWrapper);
         List<MediaType> acceptedMediaTypes = inputMessage.getHeaders().getAccept();

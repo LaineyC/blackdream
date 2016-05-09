@@ -650,6 +650,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
 
         LinkedList<DataModel> dataStack = new LinkedList<>();
         dataStack.push(rootDataModelClone);
+        FileUtil.mkdirs(generatePath + ConfigProperties.fileSeparator + "data");
         while (!dataStack.isEmpty()) {
             DataModel dataModel = dataStack.pop();
             if(dataModel != rootDataModelClone){
@@ -658,7 +659,6 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
                 dataModelVarMap.put("global", global);
                 dataModelVarMap.put("date", comparisonDateTool);
                 dataModelVarMap.put("dataModel", dataModel);
-                FileUtil.mkdirs(new File(dataModelOutFile).getParent());
                 VelocityUtil.mergeWrite(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/template", "dataModel.html.vm", dataModelOutFile, dataModelVarMap);
             }
             dataModel.getChildren().forEach(dataStack :: push);

@@ -15,6 +15,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -40,6 +41,7 @@ public class RequestHandlerInterceptor extends HandlerInterceptorAdapter {
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         RequestWrapper requestWrapper = (RequestWrapper)request;
+        HttpSession session = requestWrapper.getSession();
         HandlerMethod handlerMethod = (HandlerMethod)handler;
         MethodParameter methodParameter = handlerMethod.getMethodParameters()[0];
         Class<?> clazz = methodParameter.getParameterType();
@@ -47,13 +49,15 @@ public class RequestHandlerInterceptor extends HandlerInterceptorAdapter {
         Request requestBody = (Request)requestInstanceObjectMapper.readValue(requestWrapper.getRequestData(), clazz);
         requestWrapper.setRequestBody(requestBody);
 
-        Authentication authentication = (Authentication)requestWrapper.getSession().getAttribute("authentication");
+        Authentication authentication = (Authentication)session.getAttribute("$authentication");
         if(authentication != null){
             requestBody.setAuthentication(authentication);
         }
 
         String requestLog = requestLogObjectMapper.writeValueAsString(requestBody);
         requestWrapper.setRequestLog(requestLog);
+
+        session.setAttribute("$startTime", System.currentTimeMillis());
         return true;
     }
 

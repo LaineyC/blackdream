@@ -133,7 +133,7 @@ public abstract class BaseRepository<E extends Domain, ID extends Serializable> 
                 if(templatePropertyValue == null){
                     continue;
                 }
-                if(domainPropertyValue instanceof Collection){
+                if(domainPropertyValue instanceof Collection || domainPropertyValue instanceof Map){
                     continue;
                 }
                 if (!templatePropertyValue.equals(domainPropertyValue)) {
@@ -158,7 +158,7 @@ public abstract class BaseRepository<E extends Domain, ID extends Serializable> 
                 if(templatePropertyValue == null){
                     continue;
                 }
-                if(domainPropertyValue instanceof Collection){
+                if(domainPropertyValue instanceof Collection || domainPropertyValue instanceof Map){
                     continue;
                 }
                 if (!templatePropertyValue.equals(domainPropertyValue)) {
@@ -178,7 +178,7 @@ public abstract class BaseRepository<E extends Domain, ID extends Serializable> 
                 if(templatePropertyValue == null){
                     continue;
                 }
-                if(domainPropertyValue instanceof Collection){
+                if(domainPropertyValue instanceof Collection || domainPropertyValue instanceof Map){
                     continue;
                 }
                 if (domain.getId().equals(id) || !templatePropertyValue.equals(domainPropertyValue)) {
