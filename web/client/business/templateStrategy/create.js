@@ -53,11 +53,11 @@ define(
                     Call:{
                         children:[],
                         attributes: {
-                            "function":{size:20,required:{rule:true,message:"必输项"}},
-                            argument1:{size:20},
-                            argument2:{size:20},
-                            argument3:{size:20},
-                            argument4:{size:20}
+                            "function":{size:20,required:{rule:true,message:"必输项"},placeholder:"函数名"},
+                            argument1:{size:20,placeholder:"实参1"},
+                            argument2:{size:20,placeholder:"实参2"},
+                            argument3:{size:20,placeholder:"实参3"},
+                            argument4:{size:20,placeholder:"实参4"}
                         }
                     },
                     Continue:{
@@ -67,38 +67,38 @@ define(
                     File:{
                         children:["TemplateContext"],
                         attributes:{
-                            name:{size:50,required:{rule:true,message:"必输项"}},
-                            template:{required:{rule:true,message:"必输项"}}
+                            name:{size:50,required:{rule:true,message:"必输项"},placeholder:"文件名（可含文件夹目录）"},
+                            template:{required:{rule:true,message:"必输项"},placeholder:"模板"}
                         }
                     },
                     Folder:{
                         children:["Call","File","Folder","Foreach","Function","If","Set","Var"],
                         attributes:{
-                            name:{size:50,required:{rule:true,message:"必输项"}}
+                            name:{size:50,required:{rule:true,message:"必输项"},placeholder:"文件夹目录"}
                         }
                     },
                     Foreach:{
                         children:["Break","Call","Continue","File","Folder","Foreach","Function","If","Return","Set","Var"],
                         attributes:{
-                            item:{required:{rule:true,message:"必输项"},size:20},
-                            items:{required:{rule:true,message:"必输项"},size:20},
+                            item:{required:{rule:true,message:"必输项"},size:20,placeholder:"迭代变量"},
+                            items:{required:{rule:true,message:"必输项"},size:20,placeholder:"迭代集合"},
                             status:{size:20}
                         }
                     },
                     Function:{
                         children:["Call","File","Folder","Foreach","Function","If","Return","Set","Var"],
                         attributes:{
-                            name:{required:{rule:true,message:"必输项"}},
-                            argument1:{size:20},
-                            argument2:{size:20},
-                            argument3:{size:20},
-                            argument4:{size:20}
+                            name:{required:{rule:true,message:"必输项"},placeholder:"函数名"},
+                            argument1:{size:20,placeholder:"形参1"},
+                            argument2:{size:20,placeholder:"形参2"},
+                            argument3:{size:20,placeholder:"形参3"},
+                            argument4:{size:20,placeholder:"形参4"}
                         }
                     },
                     If:{
                         children:["Break","Call","Continue","File","Folder","Foreach","Function","If","Return","Set","Var"],
                         attributes:{
-                            test:{required:{rule:true,message:"必输项"},size:20}
+                            test:{required:{rule:true,message:"必输项"},size:20,placeholder:"判断条件"}
                         }
                     },
                     Return:{
@@ -108,28 +108,28 @@ define(
                     Set:{
                         children:[],
                         attributes:{
-                            "var":{required:{rule:true,message:"必输项"},size:20},
-                            value:{required:{rule:true,message:"必输项"},size:20}
+                            "var":{required:{rule:true,message:"必输项"},size:20,placeholder:"变量名"},
+                            value:{required:{rule:true,message:"必输项"},size:20,placeholder:"变量值"}
                         }
                     },
                     TemplateContext:{
                         children:[],
                         attributes:{
-                            "var":{required:{rule:true,message:"必输项"},size:20},
-                            value:{required:{rule:true,message:"必输项"},size:20}
+                            "var":{required:{rule:true,message:"必输项"},size:20,placeholder:"变量名"},
+                            value:{required:{rule:true,message:"必输项"},size:20,placeholder:"变量值"}
                         }
                     },
                     TemplateStrategy:{
                         children:["Call","File","Folder","Foreach","Function","If","Set","Var"],
                         attributes:{
-                            name:{required:{rule:true,message:"必输项"},maxlength:{rule:20,message:"最长20位"}}
+                            name:{required:{rule:true,message:"必输项"},maxlength:{rule:20,message:"最长20位"},placeholder:"名称"}
                         }
                     },
                     Var:{
                         children:[],
                         attributes:{
-                            name:{required:{rule:true,message:"必输项"},size:20},
-                            value:{required:{rule:true,message:"必输项"},size:20}
+                            name:{required:{rule:true,message:"必输项"},size:20,placeholder:"变量名"},
+                            value:{required:{rule:true,message:"必输项"},size:20,placeholder:"变量值"}
                         }
                     }
                 };

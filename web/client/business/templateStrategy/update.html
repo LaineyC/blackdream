@@ -53,7 +53,7 @@
             </select>
             <input ng-switch-default uib-tooltip="{{getMessage(name,templateStrategyUpdateForm[name + child.__hashKey].$error,tagRules[child.tagName].attributes)}}"
                    tooltip-trigger="none" tooltip-is-open="templateStrategyUpdateForm[name + child.__hashKey].$invalid && templateStrategyUpdateForm[name + child.__hashKey].$dirty"
-                   name="{{name + child.__hashKey}}" type="text" ng-model="child[name]" size="{{attribute.size}}" class="form-control input-sm" ng-required="attribute.required.rule"/>
+                   name="{{name + child.__hashKey}}" type="text" ng-model="child[name]" size="{{attribute.size}}" placeholder="{{attribute.placeholder}}" class="form-control input-sm" ng-required="attribute.required.rule"/>
         </div>
         <div class="btn-group">
             <button type="button" class="btn btn-danger btn-sm" ng-click="delete(child,p);"><span class="glyphicon glyphicon-remove"></span></button>

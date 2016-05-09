@@ -416,6 +416,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             return runResult;
         }
         String generatePath = ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + authentication.getUserId() + ConfigProperties.fileSeparator + generatorInstance.getName() + "(" + generateId + ")";
+        FileUtil.mkdirs(generatePath);
         File generateFolder = new File(generatePath);
         try {
             ZipUtil.compress(generateFolder);
