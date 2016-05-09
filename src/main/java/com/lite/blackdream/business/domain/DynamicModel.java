@@ -14,6 +14,8 @@ public class DynamicModel extends Domain{
 
     private String icon;
 
+    private Boolean isRootChild;
+
     private List<DynamicProperty> properties = new ArrayList<>();
 
     private List<DynamicProperty> association = new ArrayList<>();
@@ -44,6 +46,14 @@ public class DynamicModel extends Domain{
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public Boolean getIsRootChild() {
+        return isRootChild;
+    }
+
+    public void setIsRootChild(Boolean isRootChild) {
+        this.isRootChild = isRootChild;
     }
 
     public List<DynamicProperty> getProperties() {

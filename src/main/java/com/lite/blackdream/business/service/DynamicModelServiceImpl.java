@@ -38,6 +38,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
         dynamicModel.setId(idWorker.nextId());
         dynamicModel.setName(request.getName());
         dynamicModel.setIcon(request.getIcon());
+        dynamicModel.setIsRootChild(request.getIsRootChild());
         dynamicModel.setIsDelete(false);
 
         Long userId = request.getAuthentication().getUserId();
@@ -82,6 +83,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
         dynamicModel.setId(dynamicModelPersistence.getId());
         dynamicModel.setName(dynamicModelPersistence.getName());
         dynamicModel.setIcon(dynamicModelPersistence.getIcon());
+        dynamicModel.setIsRootChild(dynamicModelPersistence.getIsRootChild());
         dynamicModel.setProperties(dynamicModelPersistence.getProperties());
         dynamicModel.setAssociation(dynamicModelPersistence.getAssociation());
         dynamicModel.setPredefinedAssociation(dynamicModelPersistence.getPredefinedAssociation());
@@ -135,6 +137,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
             dynamicModel.setId(d.getId());
             dynamicModel.setName(d.getName());
             dynamicModel.setIcon(d.getIcon());
+            dynamicModel.setIsRootChild(d.getIsRootChild());
             //dynamicModel.setProperties(d.getProperties());
             //dynamicModel.setAssociation(d.getAssociation());
             User developerPersistence = userRepository.selectById(d.getDeveloper().getId());
@@ -170,6 +173,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
             dynamicModel.setId(d.getId());
             dynamicModel.setName(d.getName());
             dynamicModel.setIcon(d.getIcon());
+            dynamicModel.setIsRootChild(d.getIsRootChild());
             dynamicModel.setProperties(d.getProperties());
             dynamicModel.setAssociation(d.getAssociation());
             dynamicModel.setPredefinedAssociation(d.getPredefinedAssociation());
@@ -187,6 +191,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
                     dynamicModelChild.setId(c.getId());
                     dynamicModelChild.setName(c.getName());
                     dynamicModelChild.setIcon(c.getIcon());
+                    dynamicModelChild.setIsRootChild(c.getIsRootChild());
                     dynamicModel.getChildren().add(dynamicModelChild);
                 }
             });
@@ -211,6 +216,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
 
         dynamicModelPersistence.setName(request.getName());
         dynamicModelPersistence.setIcon(request.getIcon());
+        dynamicModelPersistence.setIsRootChild(request.getIsRootChild());
         dynamicModelPersistence.getChildren().clear();
         for(Long childId : request.getChildren()){
             DynamicModel child = new DynamicModel();

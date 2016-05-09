@@ -22,6 +22,7 @@
                         <th width="150">ID</th>
                         <th width="200">名称</th>
                         <th width="100">图标</th>
+                        <th width="100">顶级模型</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -30,7 +31,8 @@
                         <td>{{$index + 1}}</td>
                         <td>{{dynamicModel.id}}</td>
                         <td>{{dynamicModel.name}}</td>
-                        <td><span class="glyphicon glyphicon-{{dynamicModel.icon}}"></span></td>
+                        <td class="text-center"><span class="glyphicon glyphicon-{{dynamicModel.icon}}"></span></td>
+                        <td class="text-center"><input onclick="return false;" type="checkbox" ng-checked="dynamicModel.isRootChild"/></td>
                         <td>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-info btn-sm" location-go="/business/dynamicModel/detail/{{dynamicModel.id}}">详情</button>

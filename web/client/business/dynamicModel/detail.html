@@ -16,6 +16,10 @@
                         <div class="col-sm-3 form-control-static"><span class="glyphicon glyphicon-{{dynamicModel.icon}}"></span></div>
                     </div>
                     <div class="form-group">
+                        <label class="col-sm-1 control-label">顶级模型</label>
+                        <div class="col-sm-3 form-control-static"><input onclick="return false;" type="checkbox" ng-checked="dynamicModel.isRootChild"/></div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-sm-1 control-label">子模型</label>
                         <div>
                             <div class="col-sm-1 form-control-static" ng-repeat="child in dynamicModel.children track by $index">{{child.name}}</div>

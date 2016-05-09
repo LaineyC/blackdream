@@ -229,6 +229,7 @@ define(
                         id:$scope.updateRequest.id,
                         name: $scope.updateRequest.name,
                         icon: $scope.updateRequest.icon,
+                        isRootChild: $scope.updateRequest.isRootChild,
                         children: $scope.updateRequest.children,
                         properties: $scope.updateRequest.properties,
                         association: $scope.updateRequest.association,

@@ -40,7 +40,13 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-1 control-label">子模型</label>
+                        <label class="col-sm-1 control-label">顶级模型</label>
+                        <div class="col-sm-3">
+                            <input name="isRootChild" ng-model="updateRequest.isRootChild" type="checkbox" class="input-sm" ng-true-value="true" ng-false-value="false"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">子级模型</label>
                         <div class="col-sm-11">
                             <label class="checkbox-inline" ng-repeat="child in childrenControl.children track by $index">
                                 <input type="checkbox" ng-model="child.$checked" ng-true-value="{{true}}" ng-false-value="{{false}}">{{child.name}}

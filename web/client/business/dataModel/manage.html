@@ -26,7 +26,7 @@
                                 <span class="glyphicon glyphicon-plus" aria-hidden="true">新建</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right">
-                                <li ng-repeat="dynamicModel in dynamicModels">
+                                <li ng-repeat="dynamicModel in dynamicModels | filter:{isRootChild:true}">
                                     <a href="javascript:void(0);" ng-click="dataModelControl.add(dynamicModel);"><span class="glyphicon glyphicon-{{dynamicModel.icon}}" ></span> {{dynamicModel.name}}</a>
                                 </li>
                             </ul>

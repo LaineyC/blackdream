@@ -50,6 +50,12 @@ public class DynamicModelElementConverter extends BaseElementConverter<DynamicMo
             iconElement.setText(icon);
         }
 
+        Boolean isRootChild = entity.getIsRootChild();
+        if(isRootChild != null){
+            Element isRootChildElement = element.addElement("isRootChild");
+            isRootChildElement.setText(isRootChild.toString());
+        }
+
         Generator generator = entity.getGenerator();
         if(generator != null){
             Element generatorElement = element.addElement("generator");
@@ -155,6 +161,11 @@ public class DynamicModelElementConverter extends BaseElementConverter<DynamicMo
         Node iconNode = element.element("icon");
         if(iconNode != null){
             entity.setIcon(iconNode.getText());
+        }
+
+        Node isRootChildNode = element.element("isRootChild");
+        if(isRootChildNode != null){
+            entity.setIsRootChild(Boolean.valueOf(isRootChildNode.getText()));
         }
 
         Node generatorNode = element.element("generator");

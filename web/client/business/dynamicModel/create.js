@@ -9,7 +9,7 @@ define(
                 viewPage.setViewPageTitle("数据模型新建");
                 var generatorId = $routeParams.generatorId;
 
-                $scope.createRequest = {generatorId: generatorId, children:[],properties:[],association:[],predefinedAssociation:[]};
+                $scope.createRequest = {generatorId: generatorId,isRootChild:true,children:[],properties:[],association:[],predefinedAssociation:[]};
 
                 $scope.childrenControl = {
                     $checkedSelf:false
@@ -32,6 +32,7 @@ define(
                         generatorId:generatorId,
                         name: $scope.createRequest.name,
                         icon: $scope.createRequest.icon,
+                        isRootChild: $scope.createRequest.isRootChild,
                         children: $scope.createRequest.children,
                         properties: $scope.createRequest.properties,
                         association: $scope.createRequest.association,
