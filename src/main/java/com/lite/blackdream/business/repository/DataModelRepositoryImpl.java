@@ -171,11 +171,16 @@ public class DataModelRepositoryImpl extends BaseRepository<DataModel, Long> imp
     @Override
     public void remove(DataModel entity){
         Long generatorInstanceId = entity.getGeneratorInstance().getId();
-        String filePath = ConfigProperties.DATABASE_PATH + ConfigProperties.fileSeparator + beanDefinition.getBeanName() + ConfigProperties.fileSeparator + generatorInstanceId.toString() + ConfigProperties.fileSeparator + entity.getId() + ".xml";
-        File file = new File(filePath);
-        if(!file.delete()){
-            logger.error("remove:" + filePath);
-            throw new RuntimeException("remove:" + filePath);
+        if(entity.getParent() != null){
+            String filePath = ConfigProperties.DATABASE_PATH + ConfigProperties.fileSeparator + beanDefinition.getBeanName() + ConfigProperties.fileSeparator + generatorInstanceId.toString() + ConfigProperties.fileSeparator + entity.getId() + ".xml";
+            File file = new File(filePath);
+            if(!file.delete()){
+                logger.error("remove:" + filePath);
+                throw new RuntimeException("remove:" + filePath);
+            }
+        }
+        else {
+            FileUtil.deleteFile(new File(ConfigProperties.DATABASE_PATH + ConfigProperties.fileSeparator + beanDefinition.getBeanName() + ConfigProperties.fileSeparator + generatorInstanceId.toString()));
         }
     }
 

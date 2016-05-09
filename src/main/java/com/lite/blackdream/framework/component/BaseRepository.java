@@ -253,7 +253,7 @@ public abstract class BaseRepository<E extends Domain, ID extends Serializable> 
             FileUtil.writeXml(document, filePath);
         }
         catch (Exception e){
-            logger.error("write:" + filePath);
+            logger.error("write:" + filePath, e);
             throw new RuntimeException("write:" + filePath, e);
         }
     }

@@ -72,7 +72,7 @@
                                 tab.active = false;
                             });
                             if(i != -1){
-                                    $scope.tabs.splice(i, 1);
+                                $scope.tabs.splice(i, 1);
                             }
                             var tab = {
                                 id: dataModel.id,
@@ -89,7 +89,7 @@
 
                         window.showTab = function(dataModel){
                             $scope.$apply(function(){
-                                    $scope.showTab(dataModel);
+                                $scope.showTab(dataModel);
                             });
                         };
                     }

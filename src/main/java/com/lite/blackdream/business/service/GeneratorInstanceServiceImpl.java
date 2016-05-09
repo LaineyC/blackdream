@@ -101,8 +101,6 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         }
         dataModelRepository.delete(rootDataModePersistence);
 
-        FileUtil.deleteFile(new File(ConfigProperties.DATABASE_PATH  + ConfigProperties.fileSeparator + "DataModel" + ConfigProperties.fileSeparator + id.toString()));
-
         GeneratorInstance generatorInstance = new GeneratorInstance();
         generatorInstance.setId(generatorInstancePersistence.getId());
         generatorInstance.setName(generatorInstancePersistence.getName());
