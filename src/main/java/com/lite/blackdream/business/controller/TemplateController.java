@@ -69,4 +69,11 @@ public class TemplateController extends BaseController {
         return new TemplateCodeGetResponse(code);
     }
 
+    @ResponseBody
+    @RequestMapping(params="method=template.sort")
+    public TemplateSortResponse sort(TemplateSortRequest request) {
+        templateService.sort(request);
+        return new TemplateSortResponse(null);
+    }
+
 }

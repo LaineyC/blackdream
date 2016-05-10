@@ -42,6 +42,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         template.setId(idWorker.nextId());
         template.setName(request.getName());
         template.setIsDelete(false);
+        template.setSequence(0);
         Long generatorId = request.getGeneratorId();
         Generator generatorPersistence = generatorRepository.selectById(generatorId);
         if(generatorPersistence == null){
@@ -132,6 +133,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
             template.setId(t.getId());
             template.setName(t.getName());
             template.setIsDelete(t.getIsDelete());
+            template.setSequence(t.getSequence());
             Generator generatorPersistence = generatorRepository.selectById(generatorId);
             if(generatorPersistence == null){
                 throw new AppException("生成器不存在");
@@ -140,6 +142,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
             template.setUrl(t.getUrl());
             result.add(template);
         }
+        result.sort((t1, t2) -> t1.getSequence() - t2.getSequence());
         return result;
     }
 
@@ -238,4 +241,36 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
             throw new AppException("源文件读取失败");
         }
     }
+
+    @Override
+    public void sort(TemplateSortRequest request) {
+        Template templateTemplate = new Template();
+        templateTemplate.setIsDelete(false);
+        Long generatorId = request.getGeneratorId();
+        Generator generator = new Generator();
+        generator.setId(generatorId);
+        templateTemplate.setGenerator(generator);
+        List<Template> records = templateRepository.selectList(templateTemplate);
+
+        Long id = request.getId();
+        Integer fromIndex = request.getFromIndex();
+        Integer toIndex = request.getToIndex();
+        int size = records.size();
+        if(size == 0 || toIndex > size - 1 || fromIndex > size - 1){
+            throw new AppException("请保存并刷新模板数据，重新操作！");
+        }
+        records.sort((t1, t2) -> t1.getSequence() - t2.getSequence());
+        Template template = records.remove((int)fromIndex);
+        if(!template.getId().equals(id)){
+            throw new AppException("请保存并刷新模板数据，重新操作！");
+        }
+        records.add(toIndex, template);
+
+        int index = 1;
+        for(Template t : records){
+            t.setSequence(index++);
+            templateRepository.update(t);
+        }
+    }
+
 }

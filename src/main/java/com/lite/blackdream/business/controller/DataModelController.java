@@ -53,4 +53,11 @@ public class DataModelController extends BaseController {
         return new DataModelUpdateResponse(dataModel);
     }
 
+    @ResponseBody
+    @RequestMapping(params="method=dataModel.sort")
+    public DataModelSortResponse sort(DataModelSortRequest request) {
+        dataModelService.sort(request);
+        return new DataModelSortResponse(null);
+    }
+
 }

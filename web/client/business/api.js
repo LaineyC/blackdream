@@ -110,6 +110,8 @@ define(["business/module"],function(module){
 
             provider.codeGet = function(request) { return $http.post("/api?method=template.code.get", request); };
 
+            provider.sort = function(request) { return $http.post("/api?method=template.sort", request); };
+
             return provider;
         }
     ]);
@@ -195,6 +197,8 @@ define(["business/module"],function(module){
             provider.get = function(request) { return $http.post("/api?method=dataModel.get", request); };
 
             provider.tree = function(request) { return $http.post("/api?method=dataModel.tree", request); };
+
+            provider.sort = function(request) { return $http.post("/api?method=dataModel.sort", request); };
 
             return provider;
         }
