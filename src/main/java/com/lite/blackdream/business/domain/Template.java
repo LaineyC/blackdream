@@ -15,6 +15,8 @@ public class Template extends Domain {
 
     private User developer;
 
+    private Long sequence;
+
     public Template(){
 
     }
@@ -51,4 +53,11 @@ public class Template extends Domain {
         this.developer = developer;
     }
 
+    public Long getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(Long sequence) {
+        this.sequence = sequence;
+    }
 }

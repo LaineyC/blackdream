@@ -40,7 +40,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-12 condensed-list" style="width: 20%;position: fixed;top: 100px; bottom: 0;overflow: auto;">
-                    <div class="list-group" style="padding-left: 0;">
+                    <div ui-sortable="templateControl.sortableOptions" ng-model="templates" class="list-group" style="padding-left: 0;">
                         <a ng-repeat="template in templates" ng-dblclick="templateControl.view(template)" href="javascript:void(0)" class="list-group-item">
                             {{$index + 1}}
                             <label>{{template.name}}</label>

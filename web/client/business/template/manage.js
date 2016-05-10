@@ -100,14 +100,14 @@ define(
                         templateApi.create({
                             generatorId:generatorId,
                             name:template.name,
-                            templateFile:{content:"aGVsbG8gYmxhY2tkcmVhbQ=="} //hello blackdream
+                            templateFile:{name:"blackdream.vm",content:"aGVsbG8gYmxhY2tkcmVhbQ=="} //hello blackdream
                         }).success(function(t){
                             template.id = t.id;
                             if(template.$scope && template.$scope.templateUpdateForm){
                                 template.$scope.templateUpdateForm.$setPristine();
                             }
                             $scope.tabsControl.add(template);
-                            $scope.templates.splice(0,0,template);
+                            $scope.templates.splice(0, 0, template);
                         });
                     },
                     view:function(template){
@@ -126,6 +126,15 @@ define(
                         $scope.templates.splice($index, 1);
                         $scope.dirtyData.addDeleteData(template);
                         $scope.tabsControl.remove(template);
+                    },
+                    sortableOptions : {
+                        update: function(e, ui) {
+                            ui.item.sortable.index;
+                            ui.item.sortable.dropindex;
+                        },
+                        stop: function(e, ui) {
+
+                        }
                     }
                 };
 
@@ -175,8 +184,9 @@ define(
                 };
 
                 $scope.getMessage = function(field, $error, validateMessages){
-                    for(var k in $error)
+                    for(var k in $error){
                         return validateMessages[field][k];
+                    }
                 };
             }
         ]);
