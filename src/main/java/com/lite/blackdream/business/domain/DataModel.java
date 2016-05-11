@@ -16,6 +16,8 @@ public class DataModel extends Domain{
 
     private Boolean isExpand;
 
+    private Integer sequence;
+
     private DataModel parent;
 
     private User user;
@@ -60,6 +62,14 @@ public class DataModel extends Domain{
 
     public void setIsExpand(Boolean isExpand) {
         this.isExpand = isExpand;
+    }
+
+    public Integer getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(Integer sequence) {
+        this.sequence = sequence;
     }
 
     public DataModel getParent() {

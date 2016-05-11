@@ -60,6 +60,12 @@ public class DataModelElementConverter extends BaseElementConverter<DataModel> {
             isExpandElement.setText(isExpand.toString());
         }
 
+        Integer sequence = entity.getSequence();
+        if(sequence != null){
+            Element sequenceElement = element.addElement("sequence");
+            sequenceElement.setText(sequence.toString());
+        }
+
         DataModel parent = entity.getParent();
         if(parent != null){
             Element parentElement = element.addElement("parent");
@@ -198,6 +204,11 @@ public class DataModelElementConverter extends BaseElementConverter<DataModel> {
         Node isExpandNode = element.element("isExpand");
         if(isExpandNode != null){
             entity.setIsExpand(Boolean.valueOf(isExpandNode.getText()));
+        }
+
+        Node sequenceNode = element.element("sequence");
+        if(sequenceNode != null){
+            entity.setSequence(Integer.valueOf(sequenceNode.getText()));
         }
 
         Node parentNode = element.element("parent");

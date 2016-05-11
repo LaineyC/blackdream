@@ -269,12 +269,13 @@ define(
                 $scope.dataModelControl = {
                     sortableOptions : {
                         update: function(e, ui) {
-                           /* templateApi.sort({
+                            dataModelApi.sort({
                                 id:ui.item.sortable.model.id,
-                                generatorId:generatorId,
+                                rootId:$scope.generatorInstance.dataModel.id,
+                                parentId:ui.item.sortable.model.parent.id,
                                 fromIndex:ui.item.sortable.index,
                                 toIndex:ui.item.sortable.dropindex
-                            });*/
+                            });
                         },
                         stop: function(e, ui) {
 

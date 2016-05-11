@@ -8,6 +8,7 @@ import com.lite.blackdream.framework.component.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author LaineyC
@@ -36,6 +37,7 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
         dataModel.setId(idWorker.nextId());
         dataModel.setName(request.getName());
         dataModel.setIsDelete(false);
+        dataModel.setSequence(Integer.MAX_VALUE);
         dataModel.setIsExpand(request.getIsExpand());
 
         Long userId = request.getAuthentication().getUserId();
@@ -199,18 +201,61 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
                 newDataModel.setId(dataModel.getId());
                 newDataModel.setName(dataModel.getName());
                 newDataModel.setIsExpand(dataModel.getIsExpand());
+                newDataModel.setSequence(dataModel.getSequence());
                 newDataModel.setDynamicModel(dataModel.getDynamicModel());
                 newDataModel.setUser(dataModel.getUser());
                 targetDataModel.getChildren().add(newDataModel);
                 targetStack.push(newDataModel);
             });
         }
+
+        targetStack.push(root);
+        while (!targetStack.isEmpty()) {
+            DataModel targetDataModel = targetStack.pop();
+            List<DataModel> children = targetDataModel.getChildren();
+            if(!children.isEmpty()){
+                children.sort((d1, d2) -> d1.getSequence() - d2.getSequence());
+            }
+            targetDataModel.getChildren().forEach(targetStack::push);
+        }
+
         return root;
     }
 
     @Override
     public void sort(DataModelSortRequest request) {
+        Long rootId = request.getRootId();
+        DataModel rootPersistence = dataModelRepository.selectById(rootId);
+        if(rootPersistence == null){
+            throw new AppException("root不存在");
+        }
 
+        Long parentId = request.getParentId();
+        DataModel parentPersistence = dataModelRepository.selectById(parentId, rootPersistence);
+        if(parentPersistence == null){
+            throw new AppException("parent不存在");
+        }
+        List<DataModel> children = parentPersistence.getChildren();
+
+        Long id = request.getId();
+        Integer fromIndex = request.getFromIndex();
+        Integer toIndex = request.getToIndex();
+        int size = children.size();
+        if(size == 0 || toIndex > size - 1 || fromIndex > size - 1){
+            throw new AppException("请保存并刷新生成数据，重新操作！");
+        }
+        children.sort((d1, d2) -> d1.getSequence() - d2.getSequence());
+        DataModel dataModel = children.remove((int)fromIndex);
+        if(!dataModel.getId().equals(id)){
+            throw new AppException("请保存并刷新生成数据，重新操作！");
+        }
+        children.add(toIndex, dataModel);
+
+        int index = 1;
+        for(DataModel d : children){
+            d.setSequence(index++);
+            dataModelRepository.update(d);
+        }
     }
 
 }

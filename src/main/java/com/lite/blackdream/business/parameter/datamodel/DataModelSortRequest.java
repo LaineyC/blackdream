@@ -11,6 +11,8 @@ public class DataModelSortRequest extends Request {
 
     private Long rootId;
 
+    private Long parentId;
+
     private Integer fromIndex;
 
     private Integer toIndex;
@@ -33,6 +35,14 @@ public class DataModelSortRequest extends Request {
 
     public void setRootId(Long rootId) {
         this.rootId = rootId;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 
     public Integer getFromIndex() {
