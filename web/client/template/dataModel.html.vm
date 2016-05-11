@@ -23,10 +23,10 @@
 #end
 #if($dataModel.dynamicModel.association.size() > 0)
         <div class="form-group">
-            <table class="table table-bordered table-condensed table-hover">
+            <table class="table table-condensed table-hover">
                 <thead>
                 <tr class="active">
-                    <th width="25">#</th>
+                    <th width="30">#</th>
 #foreach($association in $dataModel.dynamicModel.association)
                     <th width="$!{association.viewWidth}">$association.label</th>
 #end
@@ -36,10 +36,10 @@
                 <tbody>
 #foreach($property in $dataModel.association)
                 <tr>
-                    <td>$velocityCount</td>
+                    <th>$velocityCount</th>
 #foreach($association in $dataModel.dynamicModel.association)
 #if($association.type == "Boolean")
-                    <td class="text-center"><input onclick="return false;" type="checkbox" #if($property.get($association.name)) checked="checked"#else#end/></td>
+                    <td><input onclick="return false;" type="checkbox" #if($property.get($association.name)) checked="checked"#else#end/></td>
 #elseif($association.type == "Date")
                     <td>#if($property.get($association.name))$date.format("yyyy-MM-dd", $property.get($association.name))#else#end</td>
 #elseif($association.type == "Model")
