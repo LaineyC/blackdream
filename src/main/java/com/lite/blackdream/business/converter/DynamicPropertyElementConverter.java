@@ -168,6 +168,9 @@ public class DynamicPropertyElementConverter extends BaseElementConverter<Dynami
                     else if("pattern".equals(attributeName)){
                         entity.getValidator().put(attributeName,attributeValue);
                     }
+                    else if("patternTooltip".equals(attributeName)){
+                        entity.getValidator().put(attributeName,attributeValue);
+                    }
                 }
             });
         }

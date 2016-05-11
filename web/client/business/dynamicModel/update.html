@@ -49,7 +49,7 @@
                         <label class="col-sm-1 control-label">子级模型</label>
                         <div class="col-sm-11">
                             <label class="checkbox-inline" ng-repeat="child in childrenControl.children track by $index">
-                                <input type="checkbox" ng-model="child.$checked" ng-true-value="{{true}}" ng-false-value="{{false}}">{{child.name}}
+                                <input type="checkbox" ng-model="child.$checked" ng-true-value="{{true}}" ng-false-value="{{false}}">{{updateRequest.id == child.id ? (updateRequest.name ? updateRequest.name : '当前模型') : child.name}}
                             </label>
                         </div>
                     </div>
@@ -183,6 +183,14 @@
                                                         <div class="input-group">
                                                             <span class="input-group-addon">正则</span>
                                                             <input ng-model="property.validator.pattern" type="text" class="form-control input-sm"/>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li ng-if="propertyControl.validatorRules[property.type].pattern">
+                                                    <a href="javascript:void(0)">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">提示</span>
+                                                            <input ng-model="property.validator.patternTooltip" type="text" class="form-control input-sm"/>
                                                         </div>
                                                     </a>
                                                 </li>
@@ -329,6 +337,14 @@
                                                         <div class="input-group">
                                                             <span class="input-group-addon">正则</span>
                                                             <input ng-model="property.validator.pattern" type="text" class="form-control input-sm" ng-change="resetMessage()"/>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li ng-if="propertyControl.validatorRules[property.type].pattern">
+                                                    <a href="javascript:void(0)">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">提示</span>
+                                                            <input ng-model="property.validator.patternTooltip" type="text" class="form-control input-sm" ng-change="resetMessage()"/>
                                                         </div>
                                                     </a>
                                                 </li>

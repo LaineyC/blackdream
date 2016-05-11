@@ -110,7 +110,7 @@ define(
                                 fieldMessages.maxlength = "最长" + validator.maxlength + "位";
                             }
                             if(validator.pattern != null && validator.pattern != undefined){
-                                fieldMessages.pattern = "格式不匹配" + validator.pattern;
+                                fieldMessages.pattern = validator.patternTooltip || "格式不匹配" + validator.pattern;
                             }
                         }
                     }
