@@ -33,9 +33,11 @@
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <form class="navbar-form navbar-left" role="search" ng-submit="search();">
-                    <div class="form-group has-feedback">
-                        <input type="text" ng-model="keyword" class="form-control input-sm" placeholder="他们的生成器">
-                        <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <input type="text" ng-model="keyword" class="form-control" placeholder="他们的生成器">
+                            <span class="input-group-btn"><button ng-click="search();" class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button></span>
+                        </div>
                     </div>
                     <div class="input-group input-group-sm">
                         <span class="input-group-addon" ng-bind="viewPage.title"></span>

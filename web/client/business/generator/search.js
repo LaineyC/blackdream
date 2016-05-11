@@ -5,7 +5,7 @@ define(
         module.controller("generatorSearchController", [
             "$scope", "$routeParams", "generatorApi", "viewPage",
             function($scope, $routeParams, generatorApi, viewPage){
-                viewPage.setViewPageTitle("生成器查询");
+                viewPage.setViewPageTitle("生成器搜索");
                 var keyword = $routeParams.keyword;
                 $scope.searchRequest = {page:1, pageSize:10,keyword:keyword,isOpen:true};
 

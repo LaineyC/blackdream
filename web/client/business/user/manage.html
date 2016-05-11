@@ -52,11 +52,11 @@
                         <td>{{user.isDisable ? "冻结" : "激活"}}</td>
                         <td>{{user.isDeveloper ? "开发者" : "使用者";}}</td>
                         <td>{{user.loginCount}}</td>
-                        <td>{{user.creator.userName}}</td>
+                        <td>{{user.creator ? user.creator.userName : '系统'}}</td>
                         <td>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-info btn-sm" location-go="/business/user/detail/{{user.id}}">详情</button>
-                                <button type="button" ng-if="user.creator" class="btn btn-warning btn-sm" location-go="/business/user/update/{{user.id}}">修改</button>
+                                <button type="button" ng-disabled="!user.creator" class="btn btn-warning btn-sm" location-go="/business/user/update/{{user.id}}">修改</button>
                             </div>
                         </td>
                     </tr>

@@ -14,7 +14,7 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right">
                                 <li ng-repeat="templateStrategy in templateStrategys"><a href="javascript:void(0);" ng-click="run(templateStrategy);">{{templateStrategy.name}}</a></li>
-                                <li role="separator" class="divider"></li>
+                                <li ng-if="templateStrategys.length" role="separator" class="divider"></li>
                                 <li><a href="javascript:void(0);"  ng-click="dataDictionary();">数据字典</a></li>
                             </ul>
                         </div>

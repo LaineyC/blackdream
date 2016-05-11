@@ -102,7 +102,7 @@ define(
             }
         ]);
 
-        module.controller("statisticTemplateStrategyCountController", [
+        module.controller("statisticTemplateStrategyController", [
             "$scope", "templateStrategyApi",
             function($scope, templateStrategyApi){
                 $scope.searchRequest = {page:1, pageSize:10};

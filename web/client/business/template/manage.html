@@ -53,7 +53,7 @@
             </div>
         </div>
         <div class="col-sm-10" style="width: 80%;margin-left: 20%;">
-            <uib-tabset>
+            <uib-tabset ng-if="tabsControl.data.length">
                 <uib-tab ng-repeat="template in tabsControl.data" active="template.active" ng-init="tabsControl.initScope(template, this)">
                     <uib-tab-heading><label>{{template.name}}</label></uib-tab-heading>
                     <br/>

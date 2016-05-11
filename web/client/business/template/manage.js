@@ -6,7 +6,7 @@ define(
         module.controller("templateManageEditController", [
             "$scope", "$routeParams", "templateApi","base64", "$cookies", "viewPage",
             function($scope, $routeParams, templateApi, base64, $cookies, viewPage){
-                viewPage.setViewPageTitle("模板编辑");
+                viewPage.setViewPageTitle("模板文件管理");
                 var generatorId = $routeParams.generatorId;
                 $scope.generatorId = generatorId;
 
