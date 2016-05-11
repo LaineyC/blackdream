@@ -35,14 +35,14 @@
                 <form class="navbar-form navbar-left" role="search" ng-submit="search();">
                     <div class="form-group">
                         <div class="input-group input-group-sm">
-                            <input type="text" ng-model="keyword" class="form-control" placeholder="他们的生成器">
+                            <input type="text" ng-model="keyword" class="form-control" style="width:250px;" placeholder="他们的生成器">
                             <span class="input-group-btn"><button ng-click="search();" class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button></span>
                         </div>
                     </div>
-                    <div class="input-group input-group-sm">
-                        <span class="input-group-addon" ng-bind="viewPage.title"></span>
-                    </div>
                 </form>
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="javascript:void(0)"><strong ng-bind="viewPage.title"></strong></a></li>
+                </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -100,15 +100,15 @@
             <h3 class="modal-title">系统消息</h3>
         </div>
         <div class="modal-body">
-            <table class="table table-bordered table-condensed table-hover">
+            <table class="table table-condensed table-hover">
                 <thead>
                 <tr class="active">
-                    <th width="25">#</th><th width="100">级别</th><th width="200">时间</th><th>内容</th>
+                    <th width="30">#</th><th width="100">级别</th><th width="200">时间</th><th>内容</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr class="{{tooltip.level}}" ng-repeat="tooltip in result.records track by $index">
-                    <td>{{$index + 1}}</td><td>{{tooltip.level}}</td><td>{{tooltip.dateTime | date : 'yyyy-MM-dd HH:mm:ss'}}</td><td>{{tooltip.message}}</td>
+                    <th>{{$index + 1}}</th><td>{{tooltip.level}}</td><td>{{tooltip.dateTime | date : 'yyyy-MM-dd HH:mm:ss'}}</td><td>{{tooltip.message}}</td>
                 </tr>
                 </tbody>
             </table>

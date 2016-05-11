@@ -32,10 +32,10 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <table class="table table-bordered table-condensed table-hover">
+                                    <table class="table table-condensed table-hover">
                                         <thead>
                                         <tr class="active">
-                                            <th width="25" align="center">#</th>
+                                            <th width="30" align="center">#</th>
                                             <th width="150">ID</th>
                                             <th width="200">用户名</th>
                                             <th width="100">状态</th>
@@ -47,7 +47,7 @@
                                         </thead>
                                         <tbody>
                                         <tr ng-repeat="user in pagerResult.records track by $index">
-                                            <td>{{$index + 1}}</td>
+                                            <th>{{$index + 1}}</th>
                                             <td>{{user.id}}</td>
                                             <td>{{user.userName}}</td>
                                             <td>{{user.isDisable ? "冻结" : "激活"}}</td>
@@ -94,10 +94,10 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <table class="table table-bordered table-condensed table-hover">
+                                    <table class="table table-condensed table-hover">
                                         <thead>
                                         <tr class="active">
-                                            <th width="25">#</th>
+                                            <th width="30">#</th>
                                             <th width="150">ID</th>
                                             <th width="200">名称</th>
                                             <th width="200">生成器</th>
@@ -107,7 +107,7 @@
                                         </thead>
                                         <tbody>
                                         <tr ng-repeat="generatorInstance in pagerResult.records track by $index">
-                                            <td>{{$index + 1}}</td>
+                                            <th>{{$index + 1}}</th>
                                             <td>{{generatorInstance.id}}</td>
                                             <td>{{generatorInstance.name}}</td>
                                             <td>{{generatorInstance.generator.name}}</td>
@@ -157,10 +157,10 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <table class="table table-bordered table-condensed table-hover">
+                                    <table class="table table-condensed table-hover">
                                         <thead>
                                         <tr class="active">
-                                            <th width="25">#</th>
+                                            <th width="30">#</th>
                                             <th width="150">ID</th>
                                             <th width="200">名称</th>
                                             <th width="100">状态</th>
@@ -170,7 +170,7 @@
                                         </thead>
                                         <tbody>
                                         <tr ng-repeat="generator in pagerResult.records track by $index">
-                                            <td>{{$index + 1}}</td>
+                                            <th>{{$index + 1}}</th>
                                             <td>{{generator.id}}</td>
                                             <td>{{generator.name}}</td>
                                             <td>{{generator.isOpen ? "开放" : "私有";}}</td>
@@ -215,10 +215,10 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <table class="table table-bordered table-condensed table-hover">
+                                    <table class="table table-condensed table-hover">
                                         <thead>
                                         <tr class="active">
-                                            <th width="25">#</th>
+                                            <th width="30">#</th>
                                             <th width="150">ID</th>
                                             <th width="200">名称</th>
                                             <th width="100">图标</th>
@@ -230,7 +230,7 @@
                                         </thead>
                                         <tbody>
                                         <tr ng-repeat="dynamicModel in pagerResult.records track by $index">
-                                            <td>{{$index + 1}}</td>
+                                            <th>{{$index + 1}}</th>
                                             <td>{{dynamicModel.id}}</td>
                                             <td>{{dynamicModel.name}}</td>
                                             <td class="text-center"><span class="glyphicon glyphicon-{{dynamicModel.icon}}"></span></td>
@@ -277,10 +277,10 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <table class="table table-bordered table-condensed table-hover">
+                                    <table class="table table-condensed table-hover">
                                         <thead>
                                         <tr class="active">
-                                            <th width="25">#</th>
+                                            <th width="30">#</th>
                                             <th width="150">ID</th>
                                             <th width="200">名称</th>
                                             <th width="200">生成器</th>
@@ -290,7 +290,7 @@
                                         </thead>
                                         <tbody>
                                         <tr ng-repeat="template in pagerResult.records track by $index">
-                                            <td>{{$index + 1}}</td>
+                                            <th>{{$index + 1}}</th>
                                             <td>{{template.id}}</td>
                                             <td>{{template.name}}</td>
                                             <td>{{template.generator.name}}</td>
@@ -335,10 +335,10 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <table class="table table-bordered table-condensed table-hover">
+                                    <table class="table table-condensed table-hover">
                                         <thead>
                                         <tr class="active">
-                                            <th width="25">#</th>
+                                            <th width="30">#</th>
                                             <th width="150">ID</th>
                                             <th width="200">名称</th>
                                             <th width="200">生成器</th>
@@ -348,7 +348,7 @@
                                         </thead>
                                         <tbody>
                                         <tr ng-repeat="templateStrategy in pagerResult.records track by $index">
-                                            <td>{{$index + 1}}</td>
+                                            <th>{{$index + 1}}</th>
                                             <td>{{templateStrategy.id}}</td>
                                             <td>{{templateStrategy.name}}</td>
                                             <td>{{templateStrategy.generator.name}}</td>

@@ -91,7 +91,7 @@
                             </div>
                             <div class="form-group" ng-if="dataModel.dynamicModel.association.length">
                                 <div class="col-sm-12">
-                                    <table class="table table-bordered table-condensed table-hover">
+                                    <table class="table table-condensed table-hover">
                                         <caption>
                                             <div class="btn-group" role="group">
                                                 <button type="button" class="btn btn-success btn-sm" ng-click="tabsControl.addProperty(dataModel);">添加属性</button>
@@ -104,7 +104,7 @@
                                         </caption>
                                         <thead>
                                         <tr class="active">
-                                            <th width="25">#</th>
+                                            <th width="30">#</th>
                                             <th width="{{property.viewWidth}}" ng-repeat="property in dataModel.dynamicModel.association">
                                                 <span ng-class="{'text-danger': property.validator.required}">{{property.label}}</span>
                                             </th>
@@ -113,7 +113,7 @@
                                         </thead>
                                         <tbody ui-sortable="sortableOptions" ng-model="dataModel.association">
                                         <tr ng-repeat="propertyValue in dataModel.association" ng-class="{'warning':propertyValue.$copy}">
-                                            <td ng-click="dataModel.$copy && (propertyValue.$copy = !propertyValue.$copy)">{{$index + 1}}</td>
+                                            <th ng-click="dataModel.$copy && (propertyValue.$copy = !propertyValue.$copy)">{{$index + 1}}</th>
                                             <td align="center" ng-repeat="property in dataModel.dynamicModel.association" ng-switch="property.type" ng-init="propertyValue.__hashKey = hashKey(propertyValue)">
                                                 <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
                                                        tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"

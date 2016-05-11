@@ -51,11 +51,11 @@
                     <div class="form-group">
                         <label class="col-sm-1 control-label">普通属性</label>
                         <div class="col-sm-11">
-                            <table class="table table-bordered table-condensed table-hover">
+                            <table class="table table-condensed table-hover">
                                 <caption><button type="button" class="btn btn-success btn-sm" ng-click="propertiesControl.add();">添加</button></caption>
                                 <thead>
                                 <tr class="active">
-                                    <th width="25">#</th>
+                                    <th width="30">#</th>
                                     <th width="125"><span class="text-danger">标题</span></th>
                                     <th width="80"><span class="text-danger">宽比</span></th>
                                     <th width="150"><span class="text-danger">名称</span></th>
@@ -69,7 +69,7 @@
                                 </thead>
                                 <tbody ui-sortable="propertiesControl.sortableOptions" ng-model="createRequest.properties">
                                 <tr ng-repeat="property in createRequest.properties" ng-init="property.__hashKey = hashKey(property)">
-                                    <td>{{$index + 1}}</td>
+                                    <th>{{$index + 1}}</th>
                                     <td>
                                         <input name="label{{property.__hashKey}}" uib-tooltip="{{getMessage('label',dynamicModelCreateForm['label' + property.__hashKey].$error,propertyControl.validateMessages)}}"
                                                 tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.label{{property.__hashKey}}.$invalid && dynamicModelCreateForm.label{{property.__hashKey}}.$dirty"
@@ -197,11 +197,11 @@
                     <div class="form-group">
                         <label class="col-sm-1 control-label">级联属性</label>
                         <div class="col-sm-11">
-                            <table class="table table-bordered table-condensed table-hover">
+                            <table class="table table-condensed table-hover">
                                 <caption><button type="button" class="btn btn-success btn-sm" ng-click="associationControl.add();">添加</button></caption>
                                 <thead>
                                 <tr class="active">
-                                    <th width="25">#</th>
+                                    <th width="30">#</th>
                                     <th width="125"><span class="text-danger">标题</span></th>
                                     <th width="80"><span class="text-danger">宽度</span></th>
                                     <th width="150"><span class="text-danger">名称</span></th>
@@ -215,7 +215,7 @@
                                 </thead>
                                 <tbody ui-sortable="associationControl.sortableOptions" ng-model="createRequest.association">
                                 <tr ng-repeat="property in createRequest.association" ng-init="property.__hashKey = hashKey(property)">
-                                    <td>{{$index + 1}}</td>
+                                    <th>{{$index + 1}}</th>
                                     <td>
                                         <input name="label{{property.__hashKey}}" uib-tooltip="{{getMessage('label',dynamicModelCreateForm['label' + property.__hashKey].$error,propertyControl.validateMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.label{{property.__hashKey}}.$invalid && dynamicModelCreateForm.label{{property.__hashKey}}.$dirty"
@@ -342,11 +342,11 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <table class="table table-bordered table-condensed table-hover">
+                            <table class="table table-condensed table-hover">
                                 <caption><label class="col-sm-1">预设属性</label><button type="button" class="btn btn-success btn-sm" ng-click="predefinedAssociationControl.add();">添加</button></caption>
                                 <thead>
                                 <tr class="active">
-                                    <th width="25">#</th>
+                                    <th width="30">#</th>
                                     <th width="{{property.viewWidth}}" ng-repeat="property in createRequest.association">
                                         <span ng-class="{'text-danger': property.validator.required}">{{property.label}}</span>
                                     </th>
@@ -355,7 +355,7 @@
                                 </thead>
                                 <tbody ui-sortable="predefinedAssociationControl.sortableOptions" ng-model="createRequest.predefinedAssociation">
                                 <tr ng-repeat="propertyValue in createRequest.predefinedAssociation">
-                                    <td>{{$index + 1}}</td>
+                                    <th>{{$index + 1}}</th>
                                     <td align="center" ng-repeat="property in createRequest.association" ng-switch="property.type" ng-init="propertyValue.__hashKey = hashKey(propertyValue)">
                                         <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelCreateForm['$association$' + property.name + propertyValue.__hashKey].$error,associationMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dynamicModelCreateForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"

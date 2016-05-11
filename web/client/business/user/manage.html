@@ -31,10 +31,10 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <table class="table table-bordered table-condensed table-hover">
+                <table class="table table-condensed table-hover">
                     <thead>
                     <tr class="active">
-                        <th width="25" align="center">#</th>
+                        <th width="30" align="center">#</th>
                         <th width="150">ID</th>
                         <th width="200">用户名</th>
                         <th width="100">状态</th>
@@ -46,7 +46,7 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="user in pagerResult.records track by $index">
-                        <td>{{$index + 1}}</td>
+                        <th>{{$index + 1}}</td>
                         <td>{{user.id}}</td>
                         <td>{{user.userName}}</td>
                         <td>{{user.isDisable ? "冻结" : "激活"}}</td>

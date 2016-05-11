@@ -30,7 +30,7 @@ define(
                 {path: "/business/dynamicModel/update/:id",templateUrl: "business/dynamicModel/update.html",dependencies: ["business/dynamicModel/update"],permission: null},
                 {path: "/business/dynamicModel/detail/:id",templateUrl: "business/dynamicModel/detail.html",dependencies: ["business/dynamicModel/detail"],permission: null},
 
-                {path: "/business/generatorInstance/manage/",templateUrl: "business/generatorInstance/manage.html",dependencies: ["business/generatorInstance/manage"],permission: null},
+                {path: "/business/generatorInstance/manage",templateUrl: "business/generatorInstance/manage.html",dependencies: ["business/generatorInstance/manage"],permission: null},
                 {path: "/business/generatorInstance/create/:generatorId",templateUrl: "business/generatorInstance/create.html",dependencies: ["business/generatorInstance/create"],permission: null},
                 {path: "/business/generatorInstance/update/:id",templateUrl: "business/generatorInstance/update.html",dependencies: ["business/generatorInstance/update"],permission: null},
                 {path: "/business/generatorInstance/detail/:id",templateUrl: "business/generatorInstance/detail.html",dependencies: ["business/generatorInstance/detail"],permission: null},
