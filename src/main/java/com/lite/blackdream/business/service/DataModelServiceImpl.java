@@ -55,7 +55,7 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
 
         Generator generatorPersistence = generatorRepository.selectById(rootPersistence.getGenerator().getId());
         if(!generatorPersistence.getIsOpen() && !generatorPersistence.getDeveloper().getId().equals(userId)){
-            throw new AppException("当前生成器正在调试中，请等待发布后再编辑数据！");
+            throw new AppException("当前生成器正在开发维护中，请等待发布后再编辑数据！");
         }
 
         DataModel dataModel = new DataModel();
@@ -106,7 +106,7 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
 
         Generator generatorPersistence = generatorRepository.selectById(dataModelPersistence.getGenerator().getId());
         if(!generatorPersistence.getIsOpen() && !generatorPersistence.getDeveloper().getId().equals(userId)){
-            throw new AppException("当前生成器正在调试中，请等待发布后再编辑数据！");
+            throw new AppException("当前生成器正在开发维护中，请等待发布后再编辑数据！");
         }
 
         dataModelRepository.delete(dataModelPersistence, rootPersistence);
@@ -168,7 +168,7 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
 
         Generator generatorPersistence = generatorRepository.selectById(dataModelPersistence.getGenerator().getId());
         if(!generatorPersistence.getIsOpen() && !generatorPersistence.getDeveloper().getId().equals(userId)){
-            throw new AppException("当前生成器正在调试中，请等待发布后再编辑数据！");
+            throw new AppException("当前生成器正在开发维护中，请等待发布后再编辑数据！");
         }
 
         dataModelPersistence.setIsExpand(request.getIsExpand());

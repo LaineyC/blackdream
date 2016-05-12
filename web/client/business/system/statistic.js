@@ -60,7 +60,7 @@ define(
 
                 $scope.statuses = [
                     {isOpen:true,name:"发布"},
-                    {isOpen:false,name:"调试"}
+                    {isOpen:false,name:"维护"}
                 ];
 
                 $scope.search = function(){

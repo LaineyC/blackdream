@@ -38,7 +38,7 @@ define(
                     $scope.dataModelControl.editable = generatorInstance.generator.isOpen || generatorInstance.user.id == generatorInstance.generator.developer.id;
                     if(!$scope.dataModelControl.editable){
                         alert.open({
-                           message:"当前生成器正在调试中，请等待发布后再编辑数据！"
+                           message:"当前生成器正在开发维护中，请等待发布后再编辑数据！"
                         });
                     }
 
