@@ -25,7 +25,7 @@
                     <div class="panel-body">
                         <div class="page-header" style="margin: 5px;" ng-repeat="generatorInstance in generatorInstances">
                             <a href="javascript:void(0);" location-go="/business/generatorInstance/detail/{{generatorInstance.id}}">
-                                <strong class="text-info">{{generatorInstance.name}}</strong>
+                                <strong class="{{generatorInstance.generator.isOpen ? 'text-info' : 'text-danger'}}">{{generatorInstance.name}}</strong>
                             </a>
                         </div>
                         <button type="button" class="btn btn-link btn-sm" location-go="/business/generatorInstance/manage"><strong>更多</strong></button>
@@ -39,7 +39,7 @@
                         <div class="page-header" style="margin: 5px;" ng-repeat="generator in generators">
                             <div style="width:100%;">
                                 <a href="javascript:void(0);" location-go="/business/generator/detail/{{generator.id}}">
-                                    <strong class="text-info">{{generator.name}}</strong>
+                                    <strong class="{{generator.isOpen ? 'text-info' : 'text-danger'}}">{{generator.name}}</strong>
                                 </a>
                                 <label class="badge pull-right">{{generator.instanceCount}}</label>
                             </div>
