@@ -37,9 +37,12 @@
                     </div>
                     <div class="panel-body">
                         <div class="page-header" style="margin: 5px;" ng-repeat="generator in generators">
-                            <a href="javascript:void(0);" location-go="/business/generator/detail/{{generator.id}}">
-                                <strong class="text-info">{{generator.name}}</strong>
-                            </a>
+                            <div style="width:100%;">
+                                <a href="javascript:void(0);" location-go="/business/generator/detail/{{generator.id}}">
+                                    <strong class="text-info">{{generator.name}}</strong>
+                                </a>
+                                <label class="badge pull-right">{{generator.instanceCount}}</label>
+                            </div>
                         </div>
                         <button type="button" class="btn btn-link btn-sm" location-go="/business/generator/manage"><strong>更多</strong></button>
                     </div>

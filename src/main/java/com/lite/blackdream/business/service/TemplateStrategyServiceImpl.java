@@ -234,7 +234,23 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
 
     @Override
     public TemplateStrategy delete(TemplateStrategyDeleteRequest request) {
-        throw new AppException("未开放");
+        Long id = request.getId();
+        TemplateStrategy templateStrategyPersistence = templateStrategyRepository.selectById(id);
+        if(templateStrategyPersistence == null){
+            throw new AppException("生成策略不存在");
+        }
+
+        Long userId = request.getAuthentication().getUserId();
+        if(!userId.equals(templateStrategyPersistence.getDeveloper().getId())){
+            throw new AppException("权限不足");
+        }
+
+        templateStrategyRepository.delete(templateStrategyPersistence);
+
+        TemplateStrategy templateStrategy = new TemplateStrategy();
+        templateStrategy.setId(templateStrategyPersistence.getId());
+        templateStrategy.setName(templateStrategyPersistence.getName());
+        return templateStrategy;
     }
 
     @Override
@@ -242,7 +258,7 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
         Long id = request.getId();
         TemplateStrategy templateStrategyPersistence = templateStrategyRepository.selectById(id);
         if(templateStrategyPersistence == null){
-            throw new AppException("策略文件不存在");
+            throw new AppException("生成策略不存在");
         }
         TemplateStrategy templateStrategy = new TemplateStrategy();
         templateStrategy.setId(templateStrategyPersistence.getId());
@@ -337,7 +353,7 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
         Long id = request.getId();
         TemplateStrategy templateStrategyPersistence = templateStrategyRepository.selectById(id);
         if(templateStrategyPersistence == null){
-            throw new AppException("策略文件不存在");
+            throw new AppException("生成策略不存在");
         }
 
         Long userId = request.getAuthentication().getUserId();

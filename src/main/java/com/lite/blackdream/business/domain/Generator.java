@@ -13,6 +13,10 @@ public class Generator extends Domain {
 
     private Boolean isOpen;
 
+    private Integer instanceCount;
+
+    private Boolean isApplied;
+
     private String description;
 
     public Generator(){
@@ -31,6 +35,10 @@ public class Generator extends Domain {
         return developer;
     }
 
+    public void setDeveloper(User developer) {
+        this.developer = developer;
+    }
+
     public Boolean getIsOpen() {
         return isOpen;
     }
@@ -39,8 +47,20 @@ public class Generator extends Domain {
         this.isOpen = isOpen;
     }
 
-    public void setDeveloper(User developer) {
-        this.developer = developer;
+    public Integer getInstanceCount() {
+        return instanceCount;
+    }
+
+    public void setInstanceCount(Integer instanceCount) {
+        this.instanceCount = instanceCount;
+    }
+
+    public Boolean getIsApplied() {
+        return isApplied;
+    }
+
+    public void setIsApplied(Boolean isApplied) {
+        this.isApplied = isApplied;
     }
 
     public String getDescription() {

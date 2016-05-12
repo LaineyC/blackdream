@@ -164,6 +164,7 @@
                                             <th width="150">ID</th>
                                             <th width="200">名称</th>
                                             <th width="100">状态</th>
+                                            <th width="100">实例量</th>
                                             <th width="200">创建者</th>
                                             <th>操作</th>
                                         </tr>
@@ -174,6 +175,7 @@
                                             <td>{{generator.id}}</td>
                                             <td>{{generator.name}}</td>
                                             <td>{{generator.isOpen ? "开放" : "私有";}}</td>
+                                            <td>{{generator.instanceCount}}</td>
                                             <td>{{generator.developer.userName}}</td>
                                             <td><button disabled="disabled" type="button" class="btn btn-info btn-sm" location-go="/business/generator/detail/{{generator.id}}">详情</button></td>
                                         </tr>

@@ -4,11 +4,14 @@
             <div class="col-sm-12">
                 <div class="page-header" ng-repeat="generator in result.records">
                     <h4>
-                        <a href="javascript:void(0);" >
-                            <span ng-bind-html="generator.developer.userName"></span>/<span ng-bind-html="generator.name"></span>
-                        </a>
-                        &nbsp;
-                        <button type="button" class="btn btn-success btn-sm" location-go="/business/generatorInstance/create/{{generator.id}}">新建实例</button>
+                        <div style="width:100%;">
+                            <a href="javascript:void(0);" >
+                                <span ng-bind-html="generator.developer.userName"></span>/<span ng-bind-html="generator.name"></span>
+                            </a>
+                            &nbsp;
+                            <button type="button" class="btn btn-success btn-sm" location-go="/business/generatorInstance/create/{{generator.id}}">新建实例</button>
+                            <label class="badge pull-right">{{generator.instanceCount}}</label>
+                        </div>
                     </h4>
                     <div>{{generator.description}}</div>
                 </div>

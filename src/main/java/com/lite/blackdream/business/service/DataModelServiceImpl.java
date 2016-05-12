@@ -110,7 +110,11 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
         }
 
         dataModelRepository.delete(dataModelPersistence, rootPersistence);
-        return dataModelPersistence;
+
+        DataModel dataModel = new DataModel();
+        dataModel.setId(dataModelPersistence.getId());
+        dataModel.setName(dataModelPersistence.getName());
+        return dataModel;
     }
 
     @Override

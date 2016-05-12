@@ -48,6 +48,18 @@ define(
                     });
                 };
 
+                $scope.delete = function(generator){
+                    confirm.open({
+                        title:"删除",
+                        message:"确定删除【" + generator.name +"】？",
+                        confirm:function(){
+                            generatorApi.delete({id:generator.id}).success(function(){
+                                $scope.search();
+                            });
+                        }
+                    });
+                };
+
                 $scope.search();
             }
         ]);

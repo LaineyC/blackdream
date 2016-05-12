@@ -56,12 +56,19 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         generatorInstance.setId(idWorker.nextId());
         generatorInstance.setName(request.getName());
         generatorInstance.setIsDelete(false);
+
         Long generatorId = request.getGeneratorId();
         Generator generatorPersistence = generatorRepository.selectById(generatorId);
         if(generatorPersistence == null){
             throw new AppException("生成器不存在");
         }
+        if(!generatorPersistence.getIsApplied() && !generatorPersistence.getDeveloper().getId().equals(userId)){
+            generatorPersistence.setIsApplied(true);
+        }
+        generatorPersistence.setInstanceCount(generatorPersistence.getInstanceCount() + 1);
+        generatorRepository.update(generatorPersistence);
         generatorInstance.setGenerator(generatorPersistence);
+
         User user = new User();
         user.setId(userId);
         generatorInstance.setUser(user);
@@ -101,13 +108,13 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         }
         dataModelRepository.delete(rootDataModePersistence);
 
+        Generator generatorPersistence = generatorRepository.selectById(generatorInstancePersistence.getGenerator().getId());
+        generatorPersistence.setInstanceCount(generatorPersistence.getInstanceCount() - 1);
+        generatorRepository.update(generatorPersistence);
+
         GeneratorInstance generatorInstance = new GeneratorInstance();
         generatorInstance.setId(generatorInstancePersistence.getId());
         generatorInstance.setName(generatorInstancePersistence.getName());
-        generatorInstance.setIsDelete(generatorInstancePersistence.getIsDelete());
-        generatorInstance.setGenerator(generatorInstancePersistence.getGenerator());
-        generatorInstance.setDataModel(generatorInstancePersistence.getDataModel());
-        generatorInstance.setUser(generatorInstancePersistence.getUser());
         return generatorInstance;
     }
 

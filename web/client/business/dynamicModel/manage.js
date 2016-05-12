@@ -3,8 +3,8 @@ define(
         "use strict";
 
         module.controller("dynamicModelManageController", [
-            "$scope", "$routeParams", "dynamicModelApi", "viewPage",
-            function($scope, $routeParams, dynamicModelApi, viewPage){
+            "$scope", "$routeParams", "dynamicModelApi", "viewPage", "confirm",
+            function($scope, $routeParams, dynamicModelApi, viewPage, confirm){
                 viewPage.setViewPageTitle("数据模型管理");
                 var generatorId = $routeParams.generatorId;
 
@@ -13,6 +13,18 @@ define(
                 $scope.search = function(){
                     dynamicModelApi.search($scope.searchRequest).success(function(pagerResult){
                         $scope.pagerResult = pagerResult;
+                    });
+                };
+
+                $scope.delete = function(dynamicModel){
+                    confirm.open({
+                        title:"删除",
+                        message:"确定删除【" + dynamicModel.name +"】？",
+                        confirm:function(){
+                            dynamicModelApi.delete({id:dynamicModel.id}).success(function(){
+                                $scope.search();
+                            });
+                        }
                     });
                 };
 

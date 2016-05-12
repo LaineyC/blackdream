@@ -109,12 +109,11 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         }
 
         templateRepository.delete(templatePersistence);
-        String fileAbsolutePath = ConfigProperties.FILEBASE_PATH + templatePersistence.getUrl().replace("/", ConfigProperties.fileSeparator);
-        File templateFile = new File(fileAbsolutePath);
-        if(!templateFile.delete()){
-            throw new AppException("文件未删除");
-        }
-        return templatePersistence;
+
+        Template template = new Template();
+        template.setId(templatePersistence.getId());
+        template.setName(templatePersistence.getName());
+        return template;
     }
 
     @Override

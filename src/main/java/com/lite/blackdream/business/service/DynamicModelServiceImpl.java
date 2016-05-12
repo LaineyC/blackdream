@@ -69,7 +69,31 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
 
     @Override
     public DynamicModel delete(DynamicModelDeleteRequest request) {
-        throw new AppException("未开放");
+        Long id = request.getId();
+        DynamicModel dynamicModelPersistence = dynamicModelRepository.selectById(id);
+        if(dynamicModelPersistence == null){
+            throw new AppException("数据模型不存在");
+        }
+
+        Long userId = request.getAuthentication().getUserId();
+        if(!userId.equals(dynamicModelPersistence.getDeveloper().getId())){
+            throw new AppException("权限不足");
+        }
+
+        Generator generatorPersistence = generatorRepository.selectById(dynamicModelPersistence.getGenerator().getId());
+        if(generatorPersistence == null){
+            throw new AppException("生成器不存在");
+        }
+        if(generatorPersistence.getIsApplied()){
+            throw new AppException("生成器已被应用不能删除");
+        }
+
+        dynamicModelRepository.delete(dynamicModelPersistence);
+
+        DynamicModel dynamicModel = new DynamicModel();
+        dynamicModel.setId(dynamicModelPersistence.getId());
+        dynamicModel.setName(dynamicModelPersistence.getName());
+        return dynamicModel;
     }
 
     @Override
@@ -77,7 +101,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
         Long id = request.getId();
         DynamicModel dynamicModelPersistence = dynamicModelRepository.selectById(id);
         if(dynamicModelPersistence == null){
-            throw new AppException("模型不存在");
+            throw new AppException("数据模型不存在");
         }
         DynamicModel dynamicModel = new DynamicModel();
         dynamicModel.setId(dynamicModelPersistence.getId());
@@ -205,7 +229,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
         Long id = request.getId();
         DynamicModel dynamicModelPersistence = dynamicModelRepository.selectById(id);
         if(dynamicModelPersistence == null) {
-            throw new AppException("模型不存在");
+            throw new AppException("数据模型不存在");
         }
 
         Long userId = request.getAuthentication().getUserId();

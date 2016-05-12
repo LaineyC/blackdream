@@ -34,6 +34,12 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
     private GeneratorRepository generatorRepository;
 
     @Autowired
+    private GeneratorInstanceRepository generatorInstanceRepository;
+
+    @Autowired
+    private DataModelRepository dataModelRepository;
+
+    @Autowired
     private DynamicModelRepository dynamicModelRepository;
 
     @Autowired
@@ -66,6 +72,8 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
         generator.setName(request.getName());
         generator.setIsDelete(false);
         generator.setIsOpen(request.getIsOpen());
+        generator.setInstanceCount(0);
+        generator.setIsApplied(false);
         generator.setDescription(request.getDescription());
         User developer = new User();
         developer.setId(userId);
@@ -76,7 +84,50 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
 
     @Override
     public Generator delete(GeneratorDeleteRequest request) {
-        throw new AppException("未开放");
+        Long id = request.getId();
+        Generator generatorPersistence = generatorRepository.selectById(id);
+        if(generatorPersistence == null){
+            throw new AppException("生成器不存在");
+        }
+        Long userId = request.getAuthentication().getUserId();
+        if(!userId.equals(generatorPersistence.getDeveloper().getId())){
+            throw new AppException("权限不足");
+        }
+        if(generatorPersistence.getIsApplied()){
+            throw new AppException("生成器已被应用不能删除");
+        }
+
+        List<GeneratorInstance> generatorInstancePersistenceList = generatorInstanceRepository.filter(generatorInstance -> {
+            if(generatorInstance.getGenerator().getId().equals(id)){
+                if(!generatorInstance.getUser().getId().equals(userId)){
+                    throw new AppException("生成器已被应用不能删除");
+                }
+                return true;
+            }
+            return false;
+        });
+        for(GeneratorInstance generatorInstancePersistence : generatorInstancePersistenceList){
+            generatorInstanceRepository.delete(generatorInstancePersistence);
+            Long rootDataModelId = generatorInstancePersistence.getDataModel().getId();
+            DataModel rootDataModePersistence = dataModelRepository.selectById(rootDataModelId);
+            if(rootDataModePersistence == null){
+                throw new AppException("rootDataMode不存在");
+            }
+            dataModelRepository.delete(rootDataModePersistence);
+        }
+
+        dynamicModelRepository.filter(dynamicModel -> dynamicModel.getGenerator().getId().equals(id)).forEach(dynamicModelRepository::delete);
+
+        templateRepository.filter(template -> template.getGenerator().getId().equals(id)).forEach(templateRepository :: delete);
+
+        templateStrategyRepository.filter(templateStrategy -> templateStrategy.getGenerator().getId().equals(id)).forEach(templateStrategyRepository :: delete);
+
+        generatorRepository.delete(generatorPersistence);
+
+        Generator generator = new Generator();
+        generator.setId(generatorPersistence.getId());
+        generator.setName(generatorPersistence.getName());
+        return generator;
     }
 
     @Override
@@ -92,6 +143,8 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
         generator.setName(generatorPersistence.getName());
         generator.setIsDelete(generatorPersistence.getIsDelete());
         generator.setIsOpen(generatorPersistence.getIsOpen());
+        generator.setInstanceCount(generatorPersistence.getInstanceCount());
+        generator.setIsApplied(generatorPersistence.getIsApplied());
         generator.setDescription(generatorPersistence.getDescription());
         User developerPersistence = userRepository.selectById(generatorPersistence.getDeveloper().getId());
         generator.setDeveloper(developerPersistence);
@@ -143,6 +196,8 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
             generator.setName(g.getName());
             generator.setIsDelete(g.getIsDelete());
             generator.setIsOpen(g.getIsOpen());
+            generator.setInstanceCount(g.getInstanceCount());
+            generator.setIsApplied(g.getIsApplied());
             generator.setDescription(g.getDescription());
             User developerPersistence = userRepository.selectById(g.getDeveloper().getId());
             generator.setDeveloper(developerPersistence);
