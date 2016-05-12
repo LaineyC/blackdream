@@ -83,4 +83,11 @@ public class UserController extends BaseController {
         return new UserUpdateResponse(user);
     }
 
+    @ResponseBody
+    @RequestMapping(params="method=user.password.reset")
+    public UserPasswordResetResponse passwordReset(UserPasswordResetRequest request) {
+        userService.passwordReset(request);
+        return new UserPasswordResetResponse(null);
+    }
+
 }

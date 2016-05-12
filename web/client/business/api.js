@@ -50,6 +50,8 @@ define(["business/module"],function(module){
 
             provider.passwordUpdate = function(request) { return $http.post("/api?method=user.password.update", request); };
 
+            provider.passwordReset = function(request) { return $http.post("/api?method=user.password.reset", request); };
+
             return provider;
         }
     ]);

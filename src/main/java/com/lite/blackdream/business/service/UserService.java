@@ -22,6 +22,8 @@ public interface UserService extends Service {
 
     PagerResult<User> search(UserSearchRequest request);
 
+    void passwordReset(UserPasswordResetRequest request);
+
     void createRoot();
 
 }

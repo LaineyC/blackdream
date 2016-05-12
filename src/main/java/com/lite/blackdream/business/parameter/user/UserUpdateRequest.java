@@ -9,8 +9,6 @@ public class UserUpdateRequest extends Request {
 
     private Long id;
 
-    private Boolean isResetPassword;
-
     private Boolean isDisable;
 
     private Boolean isDeveloper;
@@ -25,14 +23,6 @@ public class UserUpdateRequest extends Request {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Boolean getIsResetPassword() {
-        return isResetPassword;
-    }
-
-    public void setIsResetPassword(Boolean isResetPassword) {
-        this.isResetPassword = isResetPassword;
     }
 
     public Boolean getIsDisable() {

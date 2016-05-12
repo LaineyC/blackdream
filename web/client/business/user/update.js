@@ -8,7 +8,7 @@ define(
             function($scope, $routeParams, location, userApi, viewPage){
                 viewPage.setViewPageTitle("用户修改");
 
-                $scope.updateRequest = {isResetPassword:false};
+                $scope.updateRequest = {};
 
                 var id = $routeParams.id;
                 userApi.get({id: id}).success(function(user){

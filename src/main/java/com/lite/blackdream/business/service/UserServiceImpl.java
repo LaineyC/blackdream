@@ -113,15 +113,15 @@ public class UserServiceImpl extends BaseService implements UserService {
         if(userPersistence == null){
             throw new AppException("用户不存在");
         }
+
         if(userPersistence.getCreator() == null){
             throw new AppException("权限不足");
         }
+
         userPersistence.setIsDisable(request.getIsDisable());
         userPersistence.setIsDeveloper(request.getIsDeveloper());
-        if(request.getIsResetPassword()){
-            userPersistence.setPassword(passwordEncoder.encode(ConfigProperties.PASSWORD));
-        }
         userRepository.update(userPersistence);
+
         return userPersistence;
     }
 
@@ -193,4 +193,26 @@ public class UserServiceImpl extends BaseService implements UserService {
         return new PagerResult<>(result, (long)records.size());
     }
 
+    @Override
+    public void passwordReset(UserPasswordResetRequest request) {
+        Authentication authentication = request.getAuthentication();
+        Long userId = authentication.getUserId();
+        User currentUser = userRepository.selectById(userId);
+        if(currentUser.getCreator() != null){
+            throw new AppException("权限不足");
+        }
+
+        Long id = request.getId();
+        User userPersistence = userRepository.selectById(id);
+        if(userPersistence == null){
+            throw new AppException("用户不存在");
+        }
+
+        if(userPersistence.getCreator() == null){
+            throw new AppException("权限不足");
+        }
+
+        userPersistence.setPassword(passwordEncoder.encode(ConfigProperties.PASSWORD));
+        userRepository.update(userPersistence);
+    }
 }
