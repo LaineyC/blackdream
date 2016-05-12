@@ -126,7 +126,7 @@ public class UserServiceImpl extends BaseService implements UserService {
     }
 
     @Override
-    public void passwordUpdate(UserPasswordUpdateRequest request) {
+    public User passwordUpdate(UserPasswordUpdateRequest request) {
         Authentication authentication = request.getAuthentication();
         Long userId = authentication.getUserId();
         User userPersistence = userRepository.selectById(userId);
@@ -141,6 +141,8 @@ public class UserServiceImpl extends BaseService implements UserService {
         }
         userPersistence.setPassword(passwordEncoder.encode(newPassword));
         userRepository.update(userPersistence);
+
+        return userPersistence;
     }
 
     @Override
@@ -194,7 +196,7 @@ public class UserServiceImpl extends BaseService implements UserService {
     }
 
     @Override
-    public void passwordReset(UserPasswordResetRequest request) {
+    public User passwordReset(UserPasswordResetRequest request) {
         Authentication authentication = request.getAuthentication();
         Long userId = authentication.getUserId();
         User currentUser = userRepository.selectById(userId);
@@ -214,5 +216,7 @@ public class UserServiceImpl extends BaseService implements UserService {
 
         userPersistence.setPassword(passwordEncoder.encode(ConfigProperties.PASSWORD));
         userRepository.update(userPersistence);
+
+        return userPersistence;
     }
 }

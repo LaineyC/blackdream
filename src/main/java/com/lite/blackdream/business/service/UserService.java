@@ -16,13 +16,13 @@ public interface UserService extends Service {
 
     User update(UserUpdateRequest request);
 
-    void passwordUpdate(UserPasswordUpdateRequest request);
+    User passwordUpdate(UserPasswordUpdateRequest request);
 
     User get(UserGetRequest request);
 
     PagerResult<User> search(UserSearchRequest request);
 
-    void passwordReset(UserPasswordResetRequest request);
+    User passwordReset(UserPasswordResetRequest request);
 
     void createRoot();
 

@@ -26,6 +26,9 @@ define(
                 };
 
                 $scope.passwordReset = function(user){
+                    if(!user.creator){
+                        return;
+                    }
                     confirm.open({
                         title:"密码重置",
                         message:"确定重置【" + user.userName + "】密码？",

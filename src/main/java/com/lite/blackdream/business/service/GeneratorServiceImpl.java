@@ -71,9 +71,10 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
         generator.setId(idWorker.nextId());
         generator.setName(request.getName());
         generator.setIsDelete(false);
-        generator.setIsOpen(request.getIsOpen());
+        generator.setIsOpen(false);
         generator.setInstanceCount(0);
         generator.setIsApplied(false);
+        generator.setVersion(0);
         generator.setDescription(request.getDescription());
         User developer = new User();
         developer.setId(userId);
@@ -142,6 +143,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
         generator.setIsOpen(generatorPersistence.getIsOpen());
         generator.setInstanceCount(generatorPersistence.getInstanceCount());
         generator.setIsApplied(generatorPersistence.getIsApplied());
+        generator.setVersion(generatorPersistence.getVersion());
         generator.setDescription(generatorPersistence.getDescription());
         User developerPersistence = userRepository.selectById(generatorPersistence.getDeveloper().getId());
         generator.setDeveloper(developerPersistence);
@@ -195,6 +197,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
             generator.setIsOpen(g.getIsOpen());
             generator.setInstanceCount(g.getInstanceCount());
             generator.setIsApplied(g.getIsApplied());
+            generator.setVersion(g.getVersion());
             generator.setDescription(g.getDescription());
             User developerPersistence = userRepository.selectById(g.getDeveloper().getId());
             generator.setDeveloper(developerPersistence);
@@ -216,7 +219,6 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
             throw new AppException("权限不足");
         }
         generatorPersistence.setName(request.getName());
-        generatorPersistence.setIsOpen(request.getIsOpen());
         generatorPersistence.setDescription(request.getDescription());
         generatorRepository.update(generatorPersistence);
         return generatorPersistence;
@@ -447,4 +449,24 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
         return generator;
     }
 
+    @Override
+    public Generator status(GeneratorStatusRequest request) {
+        Long id = request.getId();
+        Generator generatorPersistence = generatorRepository.selectById(id);
+        if(generatorPersistence == null){
+            throw new AppException("生成器不存在");
+        }
+        Long userId = request.getAuthentication().getUserId();
+        if(!userId.equals(generatorPersistence.getDeveloper().getId())){
+            throw new AppException("权限不足");
+        }
+
+        generatorPersistence.setIsOpen(request.getIsOpen());
+        if(request.getIsOpen()){
+            generatorPersistence.setVersion(generatorPersistence.getVersion() + 1);
+        }
+        generatorRepository.update(generatorPersistence);
+
+        return generatorPersistence;
+    }
 }

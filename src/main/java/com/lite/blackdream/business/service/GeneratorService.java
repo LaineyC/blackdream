@@ -24,4 +24,6 @@ public interface GeneratorService extends Service {
 
     Generator _import(GeneratorImportRequest request);
 
+    Generator status(GeneratorStatusRequest request);
+
 }

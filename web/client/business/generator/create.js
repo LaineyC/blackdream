@@ -8,7 +8,7 @@ define(
             function($scope, alert, location, generatorApi, viewPage){
                 viewPage.setViewPageTitle("生成器新建");
 
-                $scope.createRequest = {isOpen : false};
+                $scope.createRequest = {};
 
                 $scope.create = function(){
                     generatorApi.create($scope.createRequest).success(function(){

@@ -91,4 +91,11 @@ public class GeneratorController extends BaseController {
         return new GeneratorImportResponse(generator);
     }
 
+    @ResponseBody
+    @RequestMapping(params="method=generator.status")
+    public GeneratorStatusResponse status(GeneratorStatusRequest request) {
+        Generator generator = generatorService.status(request);
+        return new GeneratorStatusResponse(generator);
+    }
+
 }

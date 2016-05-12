@@ -49,12 +49,27 @@ define(
                 };
 
                 $scope.delete = function(generator){
+                    if(generator.isApplied){
+                        return;
+                    }
                     confirm.open({
                         title:"删除",
                         message:"确定删除【" + generator.name +"】？",
                         confirm:function(){
                             generatorApi.delete({id:generator.id}).success(function(){
                                 $scope.search();
+                            });
+                        }
+                    });
+                };
+
+                $scope.status = function(generator){
+                    confirm.open({
+                        title:!generator.isOpen ? "发布" : "维护",
+                        message:"确定" + (!generator.isOpen ? "发布" : "维护") + "【" + generator.name +"】？",
+                        confirm:function(){
+                            generatorApi.status({id:generator.id,isOpen:!generator.isOpen}).success(function(_generator){
+                                generator.isOpen = _generator.isOpen;
                             });
                         }
                     });

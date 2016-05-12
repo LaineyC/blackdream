@@ -56,8 +56,14 @@
                         <td>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-info btn-sm" location-go="/business/user/detail/{{user.id}}">详情</button>
-                                <button type="button" ng-disabled="!user.creator" class="btn btn-warning btn-sm" location-go="/business/user/update/{{user.id}}">修改</button>
-                                <button type="button" ng-disabled="!user.creator" class="btn btn-warning btn-sm" ng-click="passwordReset(user)">重置密码</button>
+                                <button type="button" ng-disabled="!user.creator" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li ng-class="{'disabled':!user.creator}"><a href="javascript:void(0);" location-go="/business/user/update/{{user.id}}">修改</a></li>
+                                    <li ng-class="{'disabled':!user.creator}"><a href="javascript:void(0);" ng-click="passwordReset(user)">重置密码</a></li>
+                                </ul>
                             </div>
                         </td>
                     </tr>

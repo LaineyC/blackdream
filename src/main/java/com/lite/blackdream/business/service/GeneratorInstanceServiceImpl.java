@@ -74,6 +74,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         User user = new User();
         user.setId(userId);
         generatorInstance.setUser(user);
+        generatorInstance.setVersion(generatorPersistence.getVersion());
 
         DataModel dataModel = new DataModel();
         dataModel.setId(idWorker.nextId());
@@ -144,6 +145,8 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         generatorInstance.setGenerator(generatorPersistence);
 
         generatorInstance.setDataModel(generatorInstancePersistence.getDataModel());
+        generatorInstance.setVersion(generatorInstancePersistence.getVersion());
+
         return generatorInstance;
     }
 
@@ -186,6 +189,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             }
             generatorInstance.setGenerator(generatorPersistence);
             generatorInstance.setDataModel(g.getDataModel());
+            generatorInstance.setVersion(g.getVersion());
             result.add(generatorInstance);
         }
         return new PagerResult<>(result, (long)records.size());

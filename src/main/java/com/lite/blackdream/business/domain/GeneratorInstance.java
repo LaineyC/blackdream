@@ -15,6 +15,8 @@ public class GeneratorInstance extends Domain{
 
     private DataModel dataModel;
 
+    private Integer version;
+
     public GeneratorInstance(){
 
     }
@@ -49,6 +51,14 @@ public class GeneratorInstance extends Domain{
 
     public void setDataModel(DataModel dataModel) {
         this.dataModel = dataModel;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
 }

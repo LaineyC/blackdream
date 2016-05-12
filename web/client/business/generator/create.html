@@ -12,23 +12,13 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-1 control-label">发布</label>
-                        <div class="col-sm-3">
-                            <input name="isOpen" ng-model="createRequest.isOpen" type="checkbox" class="input-sm" ng-true-value="true" ng-false-value="false"/>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="alert alert-danger" ng-show="generatorCreateForm.isOpen.$invalid && generatorCreateForm.isOpen.$dirty">
-                            </div>
-                        </div>
+                        <label class="col-sm-1 control-label">状态</label>
+                        <div class="col-sm-3 form-control-static">维护</div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-1 control-label">描述</label>
                         <div class="col-sm-3">
                             <textarea name="description" ng-model="createRequest.description" class="form-control" placeholder="描述" rows="5" ></textarea>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="alert alert-danger" ng-show="generatorCreateForm.description.$invalid && generatorCreateForm.description.$dirty">
-                            </div>
                         </div>
                     </div>
                     <div class="form-group">

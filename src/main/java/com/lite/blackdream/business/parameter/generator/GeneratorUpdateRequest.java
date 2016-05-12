@@ -11,8 +11,6 @@ public class GeneratorUpdateRequest extends Request {
 
     private String name;
 
-    private Boolean isOpen;
-
     private String description;
 
     public GeneratorUpdateRequest(){
@@ -33,14 +31,6 @@ public class GeneratorUpdateRequest extends Request {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Boolean getIsOpen() {
-        return isOpen;
-    }
-
-    public void setIsOpen(Boolean isOpen) {
-        this.isOpen = isOpen;
     }
 
     public String getDescription() {
