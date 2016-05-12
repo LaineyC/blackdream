@@ -205,30 +205,31 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
 
     @Override
     public TemplateStrategy create(TemplateStrategyCreateRequest request) {
-        TemplateStrategy templateStrategy = new TemplateStrategy();
-        templateStrategy.setId(idWorker.nextId());
-        templateStrategy.setName(request.getName());
-        templateStrategy.setIsDelete(false);
         Long generatorId = request.getGeneratorId();
         Generator generatorPersistence = generatorRepository.selectById(generatorId);
         if(generatorPersistence == null){
             throw new AppException("生成器不存在");
         }
-        templateStrategy.setGenerator(generatorPersistence);
 
+        TemplateStrategy templateStrategy = new TemplateStrategy();
+        templateStrategy.setId(idWorker.nextId());
+        templateStrategy.setName(request.getName());
+        templateStrategy.setIsDelete(false);
+        Generator generator = new Generator();
+        generator.setId(generatorPersistence.getId());
+        templateStrategy.setGenerator(generator);
         Long userId = request.getAuthentication().getUserId();
         User developer = new User();
         developer.setId(userId);
         templateStrategy.setDeveloper(developer);
-
         request.getChildren().forEach(childMap -> {
             String childName = (String) childMap.get("tagName");
             TagMapConverter childTagMapConverter = tagMapConverters.get(childName);
             Tag child = childTagMapConverter.fromMap(childMap);
             templateStrategy.getChildren().add(child);
         });
-
         templateStrategyRepository.insert(templateStrategy);
+
         return templateStrategy;
     }
 
@@ -247,10 +248,7 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
 
         templateStrategyRepository.delete(templateStrategyPersistence);
 
-        TemplateStrategy templateStrategy = new TemplateStrategy();
-        templateStrategy.setId(templateStrategyPersistence.getId());
-        templateStrategy.setName(templateStrategyPersistence.getName());
-        return templateStrategy;
+        return templateStrategyPersistence;
     }
 
     @Override

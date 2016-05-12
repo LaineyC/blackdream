@@ -59,8 +59,8 @@ define(
                 $scope.searchRequest = {page:1, pageSize:10};
 
                 $scope.statuses = [
-                    {isOpen:true,name:"公开"},
-                    {isOpen:false,name:"私有"}
+                    {isOpen:true,name:"发布"},
+                    {isOpen:false,name:"调试"}
                 ];
 
                 $scope.search = function(){

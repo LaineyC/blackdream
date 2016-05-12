@@ -33,31 +33,7 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
 
     @Override
     public DataModel create(DataModelCreateRequest request) {
-        DataModel dataModel = new DataModel();
-        dataModel.setId(idWorker.nextId());
-        dataModel.setName(request.getName());
-        dataModel.setIsDelete(false);
-        dataModel.setSequence(Integer.MAX_VALUE);
-        dataModel.setIsExpand(request.getIsExpand());
-
         Long userId = request.getAuthentication().getUserId();
-        User user = new User();
-        user.setId(userId);
-        dataModel.setUser(user);
-
-        Long dynamicModelId = request.getDynamicModelId();
-        DynamicModel dynamicModelPersistence = dynamicModelRepository.selectById(dynamicModelId);
-        if(dynamicModelPersistence == null){
-            throw new AppException("动态模型不存在");
-        }
-        dataModel.setDynamicModel(dynamicModelPersistence);
-
-        Long generatorInstanceId = request.getGeneratorInstanceId();
-        GeneratorInstance generatorInstancePersistence = generatorInstanceRepository.selectById(generatorInstanceId);
-        if(generatorInstancePersistence == null){
-            throw new AppException("生成器实例不存在");
-        }
-        dataModel.setGeneratorInstance(generatorInstancePersistence);
 
         Long rootId = request.getRootId();
         DataModel rootPersistence = dataModelRepository.selectById(rootId);
@@ -70,20 +46,44 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
         if(parentPersistence == null){
             throw new AppException("parent不存在");
         }
+
+        Long dynamicModelId = request.getDynamicModelId();
+        DynamicModel dynamicModelPersistence = dynamicModelRepository.selectById(dynamicModelId);
+        if(dynamicModelPersistence == null){
+            throw new AppException("动态模型不存在");
+        }
+
+        Generator generatorPersistence = generatorRepository.selectById(rootPersistence.getGenerator().getId());
+        if(!generatorPersistence.getIsOpen() && !generatorPersistence.getDeveloper().getId().equals(userId)){
+            throw new AppException("当前生成器正在调试中，请等待发布后再编辑数据！");
+        }
+
+        DataModel dataModel = new DataModel();
+        dataModel.setId(idWorker.nextId());
+        dataModel.setName(request.getName());
+        dataModel.setIsDelete(false);
+        dataModel.setSequence(Integer.MAX_VALUE);
+        dataModel.setIsExpand(request.getIsExpand());
+        User user = new User();
+        user.setId(userId);
+        dataModel.setUser(user);
+        dataModel.setDynamicModel(dynamicModelPersistence);
+        dataModel.setGeneratorInstance(rootPersistence.getGeneratorInstance());
+        dataModel.setGenerator(rootPersistence.getGenerator());
         DataModel parent = new DataModel();
         parent.setId(parentPersistence.getId());
         dataModel.setParent(parent);
-
         dataModel.setProperties(request.getProperties());
         dataModel.setAssociation(request.getAssociation());
-
         dataModelRepository.insert(dataModel, rootPersistence);
+
         return dataModel;
     }
 
     @Override
     public DataModel delete(DataModelDeleteRequest request) {
         Long id = request.getId();
+        Long userId = request.getAuthentication().getUserId();
 
         Long rootId = request.getRootId();
         DataModel rootPersistence = dataModelRepository.selectById(rootId);
@@ -91,22 +91,22 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
             throw new AppException("root不存在");
         }
 
-        Long userId = request.getAuthentication().getUserId();
         if(!userId.equals(rootPersistence.getUser().getId())){
             throw new AppException("权限不足");
-        }
-
-        GeneratorInstance generatorInstancePersistence = generatorInstanceRepository.selectById(rootPersistence.getGeneratorInstance().getId());
-        if(generatorInstancePersistence == null){
-            throw new AppException("生成器实例不存在");
         }
 
         DataModel dataModelPersistence = dataModelRepository.selectById(id, rootPersistence);
         if(dataModelPersistence == null) {
             throw new AppException("数据模型不存在");
         }
+
         if(!dataModelPersistence.getChildren().isEmpty()){
             throw new AppException("有子数据模型不能删除");
+        }
+
+        Generator generatorPersistence = generatorRepository.selectById(dataModelPersistence.getGenerator().getId());
+        if(!generatorPersistence.getIsOpen() && !generatorPersistence.getDeveloper().getId().equals(userId)){
+            throw new AppException("当前生成器正在调试中，请等待发布后再编辑数据！");
         }
 
         dataModelRepository.delete(dataModelPersistence, rootPersistence);
@@ -142,12 +142,14 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
         dataModel.setParent(dataModelPersistence.getParent());
         User userPersistence = userRepository.selectById(dataModelPersistence.getUser().getId());
         dataModel.setUser(userPersistence);
+
         return dataModel;
     }
 
     @Override
     public DataModel update(DataModelUpdateRequest request) {
         Long id = request.getId();
+        Long userId = request.getAuthentication().getUserId();
 
         Long rootId = request.getRootId();
         DataModel rootPersistence = dataModelRepository.selectById(rootId);
@@ -155,26 +157,26 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
             throw new AppException("root不存在");
         }
 
-        Long userId = request.getAuthentication().getUserId();
         if(!userId.equals(rootPersistence.getUser().getId())){
             throw new AppException("权限不足");
-        }
-
-        GeneratorInstance generatorInstancePersistence = generatorInstanceRepository.selectById(rootPersistence.getGeneratorInstance().getId());
-        if(generatorInstancePersistence == null){
-            throw new AppException("生成器实例不存在");
         }
 
         DataModel dataModelPersistence = dataModelRepository.selectById(id, rootPersistence);
         if(dataModelPersistence == null) {
             throw new AppException("数据模型不存在");
         }
+
+        Generator generatorPersistence = generatorRepository.selectById(dataModelPersistence.getGenerator().getId());
+        if(!generatorPersistence.getIsOpen() && !generatorPersistence.getDeveloper().getId().equals(userId)){
+            throw new AppException("当前生成器正在调试中，请等待发布后再编辑数据！");
+        }
+
         dataModelPersistence.setIsExpand(request.getIsExpand());
         dataModelPersistence.setName(request.getName());
-
         dataModelPersistence.setProperties(request.getProperties());
         dataModelPersistence.setAssociation(request.getAssociation());
         dataModelRepository.update(dataModelPersistence);
+
         return dataModelPersistence;
     }
 

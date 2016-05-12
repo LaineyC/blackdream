@@ -90,10 +90,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
 
         dynamicModelRepository.delete(dynamicModelPersistence);
 
-        DynamicModel dynamicModel = new DynamicModel();
-        dynamicModel.setId(dynamicModelPersistence.getId());
-        dynamicModel.setName(dynamicModelPersistence.getName());
-        return dynamicModel;
+        return dynamicModelPersistence;
     }
 
     @Override

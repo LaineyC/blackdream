@@ -14,6 +14,8 @@ public class DataModel extends Domain{
 
     private GeneratorInstance generatorInstance;
 
+    private Generator generator;
+
     private Boolean isExpand;
 
     private Integer sequence;
@@ -54,6 +56,14 @@ public class DataModel extends Domain{
 
     public void setGeneratorInstance(GeneratorInstance generatorInstance) {
         this.generatorInstance = generatorInstance;
+    }
+
+    public Generator getGenerator() {
+        return generator;
+    }
+
+    public void setGenerator(Generator generator) {
+        this.generator = generator;
     }
 
     public Boolean getIsExpand() {

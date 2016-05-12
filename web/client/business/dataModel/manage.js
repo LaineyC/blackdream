@@ -4,8 +4,8 @@ define(
         "use strict";
 
         module.controller("dataModelManageController", [
-            "$scope", "$uibModal", "$routeParams", "dataModelApi", "templateStrategyApi", "dynamicModelApi", "generatorInstanceApi", "$q", "viewPage", "clipboard","systemApi", "$cookies",
-            function($scope, $uibModal, $routeParams, dataModelApi, templateStrategyApi, dynamicModelApi, generatorInstanceApi, $q, viewPage, clipboard, systemApi, $cookies){
+            "$scope", "$uibModal", "$routeParams", "dataModelApi", "templateStrategyApi", "dynamicModelApi", "generatorInstanceApi", "$q", "viewPage", "clipboard","systemApi", "$cookies", "alert",
+            function($scope, $uibModal, $routeParams, dataModelApi, templateStrategyApi, dynamicModelApi, generatorInstanceApi, $q, viewPage, clipboard, systemApi, $cookies, alert){
                 viewPage.setViewPageTitle("工作台");
 
                 var generatorInstanceId = $routeParams.generatorInstanceId;
@@ -35,6 +35,12 @@ define(
 
                 generatorInstanceApi.get({id: generatorInstanceId}).success(function(generatorInstance){
                     $scope.generatorInstance = generatorInstance;
+                    $scope.dataModelControl.editable = generatorInstance.generator.isOpen || generatorInstance.user.id == generatorInstance.generator.developer.id;
+                    if(!$scope.dataModelControl.editable){
+                        alert.open({
+                           message:"当前生成器正在调试中，请等待发布后再编辑数据！"
+                        });
+                    }
 
                     templateStrategyApi.query({generatorId:generatorInstance.generator.id}).success(function(templateStrategys){
                         $scope.templateStrategys = templateStrategys;
@@ -267,6 +273,7 @@ define(
                 };
 
                 $scope.dataModelControl = {
+                    editable:true,
                     sortableOptions : {
                         update: function(e, ui) {
                             dataModelApi.sort({
@@ -399,7 +406,7 @@ define(
                             rootId:$scope.generatorInstance.dataModel.id,
                             name:dataModel.name,
                             dynamicModelId:dataModel.dynamicModel.id,
-                            generatorInstanceId:$scope.generatorInstance.id,
+                            //generatorInstanceId:$scope.generatorInstance.id,
                             parentId:dataModel.parent.id,
                             properties:dataModel.properties,
                             association:dataModel.association

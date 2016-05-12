@@ -42,6 +42,7 @@ public class UserServiceImpl extends BaseService implements UserService {
         if(userRepository.exists(user, null)){
             throw new AppException("用户名已注册");
         }
+
         user.setId(idWorker.nextId());
         user.setPassword(passwordEncoder.encode(ConfigProperties.PASSWORD));
         user.setIsDisable(request.getIsDisable());

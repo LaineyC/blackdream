@@ -54,6 +54,12 @@ public class DataModelElementConverter extends BaseElementConverter<DataModel> {
             generatorInstanceElement.setText(generatorInstance.getId().toString());
         }
 
+        Generator generator = entity.getGenerator();
+        if(generator != null){
+            Element generatorElement = element.addElement("generator");
+            generatorElement.setText(generator.getId().toString());
+        }
+
         Boolean isExpand = entity.getIsExpand();
         if(isExpand != null){
             Element isExpandElement = element.addElement("isExpand");
@@ -199,6 +205,13 @@ public class DataModelElementConverter extends BaseElementConverter<DataModel> {
             GeneratorInstance generatorInstance = new GeneratorInstance();
             generatorInstance.setId(Long.valueOf(generatorInstanceNode.getText()));
             entity.setGeneratorInstance(generatorInstance);
+        }
+
+        Node generatorNode = element.element("generator");
+        if(generatorNode != null){
+            Generator generator = new Generator();
+            generator.setId(Long.valueOf(generatorNode.getText()));
+            entity.setGenerator(generator);
         }
 
         Node isExpandNode = element.element("isExpand");

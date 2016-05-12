@@ -14,8 +14,6 @@ public class DataModelCreateRequest extends Request {
 
     private Long dynamicModelId;
 
-    private Long generatorInstanceId;
-
     private Boolean isExpand;
 
     private Long parentId;
@@ -50,14 +48,6 @@ public class DataModelCreateRequest extends Request {
 
     public void setDynamicModelId(Long dynamicModelId) {
         this.dynamicModelId = dynamicModelId;
-    }
-
-    public Long getGeneratorInstanceId() {
-        return generatorInstanceId;
-    }
-
-    public void setGeneratorInstanceId(Long generatorInstanceId) {
-        this.generatorInstanceId = generatorInstanceId;
     }
 
     public Boolean getIsExpand() {

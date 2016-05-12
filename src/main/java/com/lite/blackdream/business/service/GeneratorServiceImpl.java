@@ -124,10 +124,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
 
         generatorRepository.delete(generatorPersistence);
 
-        Generator generator = new Generator();
-        generator.setId(generatorPersistence.getId());
-        generator.setName(generatorPersistence.getName());
-        return generator;
+        return generatorPersistence;
     }
 
     @Override

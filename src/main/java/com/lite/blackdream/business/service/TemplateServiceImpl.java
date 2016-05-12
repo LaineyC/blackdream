@@ -38,23 +38,24 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
 
     @Override
     public Template create(TemplateCreateRequest request) {
-        Template template = new Template();
-        template.setId(idWorker.nextId());
-        template.setName(request.getName());
-        template.setIsDelete(false);
-        template.setSequence(0);
         Long generatorId = request.getGeneratorId();
         Generator generatorPersistence = generatorRepository.selectById(generatorId);
         if(generatorPersistence == null){
             throw new AppException("生成器不存在");
         }
-        template.setGenerator(generatorPersistence);
 
+        Template template = new Template();
+        template.setId(idWorker.nextId());
+        template.setName(request.getName());
+        template.setIsDelete(false);
+        template.setSequence(0);
+        Generator generator = new Generator();
+        generator.setId(generatorPersistence.getId());
+        template.setGenerator(generator);
         Long userId = request.getAuthentication().getUserId();
         User developer = new User();
         developer.setId(userId);
         template.setDeveloper(developer);
-
         Base64FileItem templateFile = request.getTemplateFile();
         String fileName = idWorker.nextId() + ".vm";
         String uploadPath = "/Template/" + generatorId + "/" + fileName;
@@ -66,8 +67,8 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
             throw new AppException("上传失败");
         }
         template.setUrl(uploadPath);
-
         templateRepository.insert(template);
+
         return template;
     }
 
@@ -110,10 +111,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
 
         templateRepository.delete(templatePersistence);
 
-        Template template = new Template();
-        template.setId(templatePersistence.getId());
-        template.setName(templatePersistence.getName());
-        return template;
+        return templatePersistence;
     }
 
     @Override

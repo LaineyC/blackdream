@@ -52,10 +52,6 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
     @Override
     public GeneratorInstance create(GeneratorInstanceCreateRequest request) {
         Long userId = request.getAuthentication().getUserId();
-        GeneratorInstance generatorInstance = new GeneratorInstance();
-        generatorInstance.setId(idWorker.nextId());
-        generatorInstance.setName(request.getName());
-        generatorInstance.setIsDelete(false);
 
         Long generatorId = request.getGeneratorId();
         Generator generatorPersistence = generatorRepository.selectById(generatorId);
@@ -67,8 +63,14 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         }
         generatorPersistence.setInstanceCount(generatorPersistence.getInstanceCount() + 1);
         generatorRepository.update(generatorPersistence);
-        generatorInstance.setGenerator(generatorPersistence);
 
+        GeneratorInstance generatorInstance = new GeneratorInstance();
+        generatorInstance.setId(idWorker.nextId());
+        generatorInstance.setName(request.getName());
+        generatorInstance.setIsDelete(false);
+        Generator generator = new Generator();
+        generator.setId(generatorPersistence.getId());
+        generatorInstance.setGenerator(generator);
         User user = new User();
         user.setId(userId);
         generatorInstance.setUser(user);
@@ -76,15 +78,19 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         DataModel dataModel = new DataModel();
         dataModel.setId(idWorker.nextId());
         dataModel.setIsDelete(false);
-        dataModel.setGeneratorInstance(generatorInstance);
+        GeneratorInstance g = new GeneratorInstance();
+        g.setId(generatorInstance.getId());
+        dataModel.setGeneratorInstance(g);
+        generator.setId(generatorPersistence.getId());
+        dataModel.setGenerator(generator);
         dataModel.setUser(user);
         dataModelRepository.insert(dataModel);
 
         DataModel dm = new DataModel();
         dm.setId(dataModel.getId());
         generatorInstance.setDataModel(dm);
-
         generatorInstanceRepository.insert(generatorInstance);
+
         return generatorInstance;
     }
 
@@ -112,10 +118,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         generatorPersistence.setInstanceCount(generatorPersistence.getInstanceCount() - 1);
         generatorRepository.update(generatorPersistence);
 
-        GeneratorInstance generatorInstance = new GeneratorInstance();
-        generatorInstance.setId(generatorInstancePersistence.getId());
-        generatorInstance.setName(generatorInstancePersistence.getName());
-        return generatorInstance;
+        return generatorInstancePersistence;
     }
 
     @Override
