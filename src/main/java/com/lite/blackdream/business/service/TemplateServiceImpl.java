@@ -19,6 +19,7 @@ import org.springframework.util.StringUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,6 +48,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         Template template = new Template();
         template.setId(idWorker.nextId());
         template.setName(request.getName());
+        template.setModifyDate(new Date());
         template.setIsDelete(false);
         template.setSequence(0);
         Generator generator = new Generator();
@@ -87,6 +89,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         Template template = new Template();
         template.setId(templatePersistence.getId());
         template.setName(templatePersistence.getName());
+        template.setModifyDate(templatePersistence.getModifyDate());
         template.setIsDelete(templatePersistence.getIsDelete());
         Long generatorId = templatePersistence.getGenerator().getId();
         Generator generatorPersistence = generatorRepository.selectById(generatorId);
@@ -188,6 +191,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
             Template template = new Template();
             template.setId(t.getId());
             template.setName(t.getName());
+            template.setModifyDate(t.getModifyDate());
             template.setIsDelete(t.getIsDelete());
             User userPersistence = userRepository.selectById(t.getDeveloper().getId());
             template.setDeveloper(userPersistence);
@@ -234,6 +238,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
             }
         }
 
+        templatePersistence.setModifyDate(new Date());
         templateRepository.update(templatePersistence);
 
         if(generatorPersistence.getIsOpen()){

@@ -1,5 +1,7 @@
 package com.lite.blackdream.framework.model;
 
+import java.util.Date;
+
 /**
  * @author LaineyC
  */
@@ -8,6 +10,8 @@ public abstract class Domain {
     private Long id;
 
     private Boolean isDelete;
+
+    private Date modifyDate;
 
     public Domain(){
 
@@ -27,6 +31,14 @@ public abstract class Domain {
 
     public void setIsDelete(Boolean isDelete) {
         this.isDelete = isDelete;
+    }
+
+    public Date getModifyDate() {
+        return modifyDate;
+    }
+
+    public void setModifyDate(Date modifyDate) {
+        this.modifyDate = modifyDate;
     }
 
     @Override

@@ -70,6 +70,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
         Generator generator = new Generator();
         generator.setId(idWorker.nextId());
         generator.setName(request.getName());
+        generator.setModifyDate(new Date());
         generator.setIsDelete(false);
         generator.setIsOpen(false);
         generator.setInstanceCount(0);
@@ -141,6 +142,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
         Generator generator = new Generator();
         generator.setId(generatorPersistence.getId());
         generator.setName(generatorPersistence.getName());
+        generator.setModifyDate(generatorPersistence.getModifyDate());
         generator.setIsDelete(generatorPersistence.getIsDelete());
         generator.setIsOpen(generatorPersistence.getIsOpen());
         generator.setInstanceCount(generatorPersistence.getInstanceCount());
@@ -196,6 +198,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
             Generator generator = new Generator();
             generator.setId(g.getId());
             generator.setName(g.getName());
+            generator.setModifyDate(g.getModifyDate());
             generator.setIsDelete(g.getIsDelete());
             generator.setIsOpen(g.getIsOpen());
             generator.setInstanceCount(g.getInstanceCount());
@@ -226,6 +229,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
         }
 
         generatorPersistence.setName(request.getName());
+        generatorPersistence.setModifyDate(new Date());
         generatorPersistence.setDescription(request.getDescription());
         generatorRepository.update(generatorPersistence);
 
@@ -364,6 +368,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
             Element element = document.getRootElement();
             generator = generatorElementConverter.fromElement(element);
             generator.setId(idWorker.nextId());
+            generator.setModifyDate(new Date());
             generator.getDeveloper().setId(userId);
             generatorRepository.insert(generator);
         }
@@ -381,6 +386,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
                     Element element = document.getRootElement();
                     DynamicModel dynamicModel = dynamicModelElementConverter.fromElement(element);
                     dynamicModel.setId(idWorker.nextId());
+                    dynamicModel.setModifyDate(new Date());
                     dynamicModel.getGenerator().setId(generator.getId());
                     dynamicModelRepository.insert(dynamicModel);
                 }
@@ -404,6 +410,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
                     Long newId = idWorker.nextId();
                     vmIdMap.put(oldId, newId);
                     template.setId(newId);
+                    template.setModifyDate(new Date());
                     template.getGenerator().setId(generator.getId());
 
                     String url = "/Template/" + generator.getId() + "/" + idWorker.nextId() + ".vm";
@@ -432,6 +439,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
                     Element element = document.getRootElement();
                     TemplateStrategy templateStrategy = templateStrategyElementConverter.fromElement(element);
                     templateStrategy.setId(idWorker.nextId());
+                    templateStrategy.setModifyDate(new Date());
                     templateStrategy.getGenerator().setId(generator.getId());
 
                     LinkedList<Tag> stack = new LinkedList<>();
@@ -473,6 +481,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
         if(!generatorPersistence.getIsOpen()){
             generatorPersistence.setIsOpen(true);
             generatorPersistence.setVersion(generatorPersistence.getVersion() + 1);
+            generatorPersistence.setModifyDate(new Date());
             generatorRepository.update(generatorPersistence);
         }
 

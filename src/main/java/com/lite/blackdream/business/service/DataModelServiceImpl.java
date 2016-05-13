@@ -7,6 +7,8 @@ import com.lite.blackdream.framework.exception.AppException;
 import com.lite.blackdream.framework.component.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -62,6 +64,7 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
         dataModel.setId(idWorker.nextId());
         dataModel.setName(request.getName());
         dataModel.setIsDelete(false);
+        dataModel.setModifyDate(new Date());
         dataModel.setSequence(Integer.MAX_VALUE);
         dataModel.setIsExpand(request.getIsExpand());
         User user = new User();
@@ -131,9 +134,11 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
         if(dataModelPersistence == null) {
             throw new AppException("数据模型不存在");
         }
+
         DataModel dataModel = new DataModel();
         dataModel.setId(dataModelPersistence.getId());
         dataModel.setName(dataModelPersistence.getName());
+        dataModel.setModifyDate(dataModelPersistence.getModifyDate());
         dataModel.setProperties(dataModelPersistence.getProperties());
         dataModel.setAssociation(dataModelPersistence.getAssociation());
         dataModel.setIsExpand(dataModelPersistence.getIsExpand());
@@ -173,6 +178,7 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
 
         dataModelPersistence.setIsExpand(request.getIsExpand());
         dataModelPersistence.setName(request.getName());
+        dataModelPersistence.setModifyDate(new Date());
         dataModelPersistence.setProperties(request.getProperties());
         dataModelPersistence.setAssociation(request.getAssociation());
         dataModelRepository.update(dataModelPersistence);

@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,6 +46,7 @@ public class UserServiceImpl extends BaseService implements UserService {
 
         user.setId(idWorker.nextId());
         user.setPassword(passwordEncoder.encode(ConfigProperties.PASSWORD));
+        user.setModifyDate(new Date());
         user.setIsDisable(request.getIsDisable());
         user.setIsDeveloper(request.getIsDeveloper());
         user.setLoginCount(0);
@@ -67,6 +69,7 @@ public class UserServiceImpl extends BaseService implements UserService {
             }
             user.setId(idWorker.nextId());
             user.setPassword(passwordEncoder.encode(ConfigProperties.PASSWORD));
+            user.setModifyDate(new Date());
             user.setIsDisable(false);
             user.setIsDeveloper(true);
             user.setLoginCount(0);
@@ -93,7 +96,9 @@ public class UserServiceImpl extends BaseService implements UserService {
             throw new AppException("用户名或密码错误");
         }
         userPersistence.setLoginCount(userPersistence.getLoginCount() + 1);
+        userPersistence.setModifyDate(new Date());
         userRepository.update(userPersistence);
+
         return userPersistence;
     }
 
@@ -120,6 +125,7 @@ public class UserServiceImpl extends BaseService implements UserService {
 
         userPersistence.setIsDisable(request.getIsDisable());
         userPersistence.setIsDeveloper(request.getIsDeveloper());
+        userPersistence.setModifyDate(new Date());
         userRepository.update(userPersistence);
 
         return userPersistence;
@@ -140,6 +146,7 @@ public class UserServiceImpl extends BaseService implements UserService {
             throw new AppException("旧密码不正确");
         }
         userPersistence.setPassword(passwordEncoder.encode(newPassword));
+        userPersistence.setModifyDate(new Date());
         userRepository.update(userPersistence);
 
         return userPersistence;
@@ -152,6 +159,7 @@ public class UserServiceImpl extends BaseService implements UserService {
         user.setId(userPersistence.getId());
         user.setLoginCount(userPersistence.getLoginCount());
         user.setUserName(userPersistence.getUserName());
+        user.setModifyDate(userPersistence.getModifyDate());
         user.setIsDisable(userPersistence.getIsDisable());
         user.setIsDeveloper(userPersistence.getIsDeveloper());
         User creator = userPersistence.getCreator();
@@ -183,6 +191,7 @@ public class UserServiceImpl extends BaseService implements UserService {
             user.setId(u.getId());
             user.setLoginCount(u.getLoginCount());
             user.setUserName(u.getUserName());
+            user.setModifyDate(u.getModifyDate());
             user.setIsDisable(u.getIsDisable());
             user.setIsDeveloper(u.getIsDeveloper());
             User creator = u.getCreator();
@@ -215,6 +224,7 @@ public class UserServiceImpl extends BaseService implements UserService {
         }
 
         userPersistence.setPassword(passwordEncoder.encode(ConfigProperties.PASSWORD));
+        userPersistence.setModifyDate(new Date());
         userRepository.update(userPersistence);
 
         return userPersistence;

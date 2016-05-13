@@ -45,6 +45,9 @@ public abstract class TagElementConverter<E extends Tag> implements ElementConve
                         element.add(childElement);
                     });
                 }
+                else if (Date.class.isAssignableFrom(propertyType)) {
+                    element.addAttribute(propertyName, String.valueOf(((Date)propertyValue).getTime()));
+                }
                 else if(!Collection.class.isAssignableFrom(propertyType)){
                     element.addAttribute(propertyName, propertyValue.toString());
                 }
@@ -91,6 +94,13 @@ public abstract class TagElementConverter<E extends Tag> implements ElementConve
                         Tag child = childElementConverter.fromElement(childElement);
                         entity.getChildren().add(child);
                     });
+                }
+                if (Date.class.isAssignableFrom(propertyType)) {
+                    String attributeValue = element.attributeValue(propertyName);
+                    if (attributeValue != null) {
+                        Date date = new Date(Long.valueOf(attributeValue));
+                        propertyDefinition.invokeSetMethod(entity, date);
+                    }
                 }
                 else if (!Collection.class.isAssignableFrom(propertyType)) {
                     String attributeValue = element.attributeValue(propertyName);

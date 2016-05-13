@@ -68,6 +68,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         GeneratorInstance generatorInstance = new GeneratorInstance();
         generatorInstance.setId(idWorker.nextId());
         generatorInstance.setName(request.getName());
+        generatorInstance.setModifyDate(new Date());
         generatorInstance.setIsDelete(false);
         Generator generator = new Generator();
         generator.setId(generatorPersistence.getId());
@@ -79,6 +80,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
 
         DataModel dataModel = new DataModel();
         dataModel.setId(idWorker.nextId());
+        dataModel.setModifyDate(new Date());
         dataModel.setIsDelete(false);
         GeneratorInstance g = new GeneratorInstance();
         g.setId(generatorInstance.getId());
@@ -133,6 +135,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         GeneratorInstance generatorInstance = new GeneratorInstance();
         generatorInstance.setId(generatorInstancePersistence.getId());
         generatorInstance.setName(generatorInstancePersistence.getName());
+        generatorInstance.setModifyDate(generatorInstancePersistence.getModifyDate());
         generatorInstance.setIsDelete(generatorInstancePersistence.getIsDelete());
 
         User userPersistence = userRepository.selectById(generatorInstancePersistence.getUser().getId());
@@ -181,6 +184,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             GeneratorInstance generatorInstance = new GeneratorInstance();
             generatorInstance.setId(g.getId());
             generatorInstance.setName(g.getName());
+            generatorInstance.setModifyDate(g.getModifyDate());
             generatorInstance.setIsDelete(g.getIsDelete());
             User userPersistence = userRepository.selectById(g.getUser().getId());
             generatorInstance.setUser(userPersistence);
@@ -214,7 +218,9 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             generatorInstancePersistence.setName(request.getName());
         }
 
+        generatorInstancePersistence.setModifyDate(new Date());
         generatorInstanceRepository.update(generatorInstancePersistence);
+
         return generatorInstancePersistence;
     }
 
@@ -741,6 +747,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
 
         if(generatorInstancePersistence.getVersion() < generatorPersistence.getVersion()){
             generatorInstancePersistence.setVersion(generatorPersistence.getVersion());
+            generatorInstancePersistence.setModifyDate(new Date());
             generatorInstanceRepository.update(generatorInstancePersistence);
         }
 

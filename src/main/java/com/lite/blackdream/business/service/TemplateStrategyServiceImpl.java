@@ -214,6 +214,7 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
         TemplateStrategy templateStrategy = new TemplateStrategy();
         templateStrategy.setId(idWorker.nextId());
         templateStrategy.setName(request.getName());
+        templateStrategy.setModifyDate(new Date());
         templateStrategy.setIsDelete(false);
         Generator generator = new Generator();
         generator.setId(generatorPersistence.getId());
@@ -276,6 +277,7 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
         TemplateStrategy templateStrategy = new TemplateStrategy();
         templateStrategy.setId(templateStrategyPersistence.getId());
         templateStrategy.setName(templateStrategyPersistence.getName());
+        templateStrategy.setModifyDate(templateStrategyPersistence.getModifyDate());
         templateStrategy.setIsDelete(templateStrategyPersistence.getIsDelete());
         Long generatorId = templateStrategyPersistence.getGenerator().getId();
         Generator generatorPersistence = generatorRepository.selectById(generatorId);
@@ -347,6 +349,7 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
             TemplateStrategy templateStrategy = new TemplateStrategy();
             templateStrategy.setId(t.getId());
             templateStrategy.setName(t.getName());
+            templateStrategy.setModifyDate(t.getModifyDate());
             templateStrategy.setIsDelete(t.getIsDelete());
             User userPersistence = userRepository.selectById(t.getDeveloper().getId());
             templateStrategy.setDeveloper(userPersistence);
@@ -388,6 +391,7 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
             templateStrategyPersistence.getChildren().add(child);
         });
 
+        templateStrategyPersistence.setModifyDate(new Date());
         templateStrategyRepository.update(templateStrategyPersistence);
 
         if(generatorPersistence.getIsOpen()){

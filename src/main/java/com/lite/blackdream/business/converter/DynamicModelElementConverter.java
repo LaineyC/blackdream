@@ -10,6 +10,8 @@ import org.dom4j.Element;
 import org.dom4j.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +38,12 @@ public class DynamicModelElementConverter extends BaseElementConverter<DynamicMo
         if(id != null) {
             Element idElement = element.addElement("id");
             idElement.setText(id.toString());
+        }
+
+        Date modifyDate = entity.getModifyDate();
+        if(modifyDate != null){
+            Element modifyDateElement = element.addElement("modifyDate");
+            modifyDateElement.setText(String.valueOf(modifyDate.getTime()));
         }
 
         String name = entity.getName();
@@ -151,6 +159,11 @@ public class DynamicModelElementConverter extends BaseElementConverter<DynamicMo
         Node idNode = element.element("id");
         if(idNode != null){
             entity.setId(Long.valueOf(idNode.getText()));
+        }
+
+        Node modifyDateNode = element.element("modifyDate");
+        if(modifyDateNode != null){
+            entity.setModifyDate(new Date(Long.valueOf(modifyDateNode.getText())));
         }
 
         Node nameNode = element.element("name");
