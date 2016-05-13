@@ -34,6 +34,12 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
 
     @Override
     public DynamicModel create(DynamicModelCreateRequest request) {
+        Long userId = request.getAuthentication().getUserId();
+        User userPersistence = userRepository.selectById(userId);
+        if(!userPersistence.getIsDeveloper()){
+            throw new AppException("权限不足");
+        }
+
         Long generatorId = request.getGeneratorId();
         Generator generatorPersistence = generatorRepository.selectById(generatorId);
         if(generatorPersistence == null){
@@ -47,7 +53,6 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
         dynamicModel.setIcon(request.getIcon());
         dynamicModel.setIsRootChild(request.getIsRootChild());
         dynamicModel.setIsDelete(false);
-        Long userId = request.getAuthentication().getUserId();
         User developer = new User();
         developer.setId(userId);
         dynamicModel.setDeveloper(developer);

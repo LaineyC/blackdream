@@ -39,6 +39,12 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
 
     @Override
     public Template create(TemplateCreateRequest request) {
+        Long userId = request.getAuthentication().getUserId();
+        User userPersistence = userRepository.selectById(userId);
+        if(!userPersistence.getIsDeveloper()){
+            throw new AppException("权限不足");
+        }
+
         Long generatorId = request.getGeneratorId();
         Generator generatorPersistence = generatorRepository.selectById(generatorId);
         if(generatorPersistence == null){
@@ -54,7 +60,6 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         Generator generator = new Generator();
         generator.setId(generatorPersistence.getId());
         template.setGenerator(generator);
-        Long userId = request.getAuthentication().getUserId();
         User developer = new User();
         developer.setId(userId);
         template.setDeveloper(developer);

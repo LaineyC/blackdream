@@ -65,8 +65,12 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
 
     @Override
     public Generator create(GeneratorCreateRequest request) {
-        Authentication authentication = request.getAuthentication();
-        Long userId = authentication.getUserId();
+        Long userId = request.getAuthentication().getUserId();
+        User userPersistence = userRepository.selectById(userId);
+        if(!userPersistence.getIsDeveloper()){
+            throw new AppException("权限不足");
+        }
+
         Generator generator = new Generator();
         generator.setId(idWorker.nextId());
         generator.setName(request.getName());
@@ -93,10 +97,12 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
         if(generatorPersistence == null){
             throw new AppException("生成器不存在");
         }
+
         Long userId = request.getAuthentication().getUserId();
         if(!userId.equals(generatorPersistence.getDeveloper().getId())){
             throw new AppException("权限不足");
         }
+
         if(generatorPersistence.getIsApplied()){
             throw new AppException("生成器已被应用不能删除");
         }
