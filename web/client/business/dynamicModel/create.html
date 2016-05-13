@@ -22,9 +22,9 @@
                                     <ul class="dropdown-menu" style="width:575px;">
                                         <li>
                                             <div class="clearfix">
-                                                <div ng-repeat="icon in iconControl.icons" style="float: left;font-size: 20px;margin: 5px;cursor: pointer;">
-                                                    <span ng-click="iconControl.select(icon);" class="glyphicon glyphicon-{{icon}}"></span>
-                                                </div>
+                                                <button type="button" ng-click="iconControl.select(icon);" ng-repeat="icon in iconControl.icons" class="btn btn-sm btn-default" style="margin: 2px;">
+                                                    <span class="glyphicon glyphicon-{{icon}}" aria-hidden="true"></span>
+                                                </button>
                                             </div>
                                         </li>
                                     </ul>

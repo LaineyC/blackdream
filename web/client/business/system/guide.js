@@ -6,6 +6,7 @@ define(
             "$scope", "$location","$anchorScroll", "viewPage",
             function($scope, $location, $anchorScroll, viewPage){
                 viewPage.setViewPageTitle("指南");
+
                 $scope.anchorScroll = function(anchor){
                     $location.hash(anchor);
                     $anchorScroll.yOffset = 65;

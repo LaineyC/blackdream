@@ -222,18 +222,30 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
     public RunResult run(GeneratorInstanceRunRequest request) {
         RunResult runResult = new RunResult();
         Authentication authentication = request.getAuthentication();
+        Long userId = authentication.getUserId();
+
         Long id = request.getId();
         GeneratorInstance generatorInstance = generatorInstanceRepository.selectById(id);
+        if(generatorInstance == null){
+            throw new AppException("实例不存在");
+        }
 
-        Long templateStrategyId = request.getTemplateStrategyId();
-        TemplateStrategy templateStrategy = templateStrategyRepository.selectById(templateStrategyId);
+        if(!userId.equals(generatorInstance.getUser().getId())) {
+            throw new AppException("权限不足");
+        }
 
         Long generatorId = generatorInstance.getGenerator().getId();
         Generator generator = generatorRepository.selectById(generatorId);
-
-        if(!authentication.getUserId().equals(generatorInstance.getUser().getId())) {
-            throw new AppException("权限不足");
+        if(generator == null){
+            throw new AppException("生成器不存在");
         }
+
+        if(!generator.getIsOpen() && !generator.getDeveloper().getId().equals(userId)){
+            throw new AppException("当前生成器正在维护，请暂停操作等待发布！");
+        }
+
+        Long templateStrategyId = request.getTemplateStrategyId();
+        TemplateStrategy templateStrategy = templateStrategyRepository.selectById(templateStrategyId);
 
         DynamicModelQueryRequest dynamicModelQueryRequest = new DynamicModelQueryRequest();
         dynamicModelQueryRequest.setGeneratorId(generatorId);
@@ -389,7 +401,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         global.setTemplateCache(templateCache);
 
         User userClone = new User();
-        userClone.setId(authentication.getUserId());
+        userClone.setId(userId);
         userClone.setUserName(authentication.getUserName());
         global.setUser(userClone);
 
@@ -430,7 +442,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             runResult.setMessages(messages);
             return runResult;
         }
-        String generatePath = ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + authentication.getUserId() + ConfigProperties.fileSeparator + generatorInstance.getName() + "(" + generateId + ")";
+        String generatePath = ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + userId + ConfigProperties.fileSeparator + generatorInstance.getName() + "(" + generateId + ")";
         FileUtil.mkdirs(generatePath);
         File generateFolder = new File(generatePath);
         try {
@@ -440,7 +452,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             throw new AppException(e,"压缩文件失败");
         }
         FileUtil.deleteFile(generateFolder);
-        runResult.setUrl(authentication.getUserId() + "/" + generatorInstance.getName() + "(" + generateId + ").zip");
+        runResult.setUrl(userId + "/" + generatorInstance.getName() + "(" + generateId + ").zip");
         runResult.setFileName(generatorInstance.getName() + "(" + generateId + ").zip");
         return runResult;
     }
@@ -449,13 +461,27 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
     public RunResult dataDictionary(GeneratorInstanceDataDictionaryRequest request) {
         RunResult runResult = new RunResult();
         Authentication authentication = request.getAuthentication();
+        Long userId = authentication.getUserId();
         Long id = request.getId();
         GeneratorInstance generatorInstance = generatorInstanceRepository.selectById(id);
-        if(!authentication.getUserId().equals(generatorInstance.getUser().getId())) {
+        if(generatorInstance == null){
+            throw new AppException("实例不存在");
+        }
+
+        if(!userId.equals(generatorInstance.getUser().getId())) {
             throw new AppException("权限不足");
         }
 
         Long generatorId = generatorInstance.getGenerator().getId();
+        Generator generator = generatorRepository.selectById(generatorId);
+        if(generator == null){
+            throw new AppException("生成器不存在");
+        }
+
+        if(!generator.getIsOpen() && !generator.getDeveloper().getId().equals(userId)){
+            throw new AppException("当前生成器正在维护，请暂停操作等待发布！");
+        }
+
         DynamicModelQueryRequest dynamicModelQueryRequest = new DynamicModelQueryRequest();
         dynamicModelQueryRequest.setGeneratorId(generatorId);
         dynamicModelQueryRequest.setAuthentication(authentication);
@@ -563,9 +589,11 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
                 dataModelSource.getProperties().forEach((name, value) -> {
                     if (propertiesKeys_dateTypeKeys.contains(name)) {
                         dataModelTarget.getProperties().put(name, new Date((Long) value));
-                    } else if (propertiesKeys_dataModelTypeKeys.contains(name)) {
+                    }
+                    else if (propertiesKeys_dataModelTypeKeys.contains(name)) {
                         dataModelTarget.getProperties().put(name, dataModelTargetCache.get(value));
-                    } else {
+                    }
+                    else {
                         dataModelTarget.getProperties().put(name, value);
                     }
                 });
@@ -574,9 +602,11 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
                     property.forEach((name, value) -> {
                         if (associationKeys_dateTypeKeys.contains(name)) {
                             newProperty.put(name, new Date((Long) value));
-                        } else if (associationKeys_dataModelTypeKeys.contains(name)) {
+                        }
+                        else if (associationKeys_dataModelTypeKeys.contains(name)) {
                             newProperty.put(name, dataModelTargetCache.get(value));
-                        } else {
+                        }
+                        else {
                             newProperty.put(name, value);
                         }
                     });
@@ -586,7 +616,6 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         });
 
         Long generateId = idWorker.nextId();
-        Long userId = authentication.getUserId();
         ComparisonDateTool comparisonDateTool = new ComparisonDateTool();
         Map<String, String> themeIndex = new HashMap<>();
         themeIndex.put("cerulean", "cerulean");
@@ -614,7 +643,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         global.setTheme(theme);
 
         User userClone = new User();
-        userClone.setId(authentication.getUserId());
+        userClone.setId(userId);
         userClone.setUserName(authentication.getUserName());
         global.setUser(userClone);
 

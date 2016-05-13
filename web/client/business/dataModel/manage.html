@@ -1,29 +1,24 @@
 <div ng-controller="dataModelManageController">
     <div class="row" style="position: relative;">
-        <div class="col-sm-2" style="width: 20%;position: fixed;top: 65px; bottom: 0;overflow: auto;">
+        <div class="col-sm-2" style="width: 20%;position: fixed;top: 65px; bottom: 0;">
             <div class="row">
                 <div class="col-sm-12">
                     <button type="button" class="btn btn-primary btn-sm" location-back>返回</button>
                     <div class="btn-group  pull-right" role="group" aria-label="...">
-                        <button type="button" ng-disabled="!dataModelControl.editable" ng-click="openConsoleModal();" class="btn btn-sm btn-info">
-                            <span class="glyphicon glyphicon-console" aria-hidden="true">控制台</span>
-                        </button>
                         <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" ng-disabled="!dataModelControl.editable" aria-haspopup="true" aria-expanded="false">
-                                生成<span class="caret"></span>
-                            </button>
+                            <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" ng-disabled="!dataModelControl.editable" aria-haspopup="true" aria-expanded="false">工具<span class="caret"></span></button>
                             <ul class="dropdown-menu dropdown-menu-right">
                                 <li ng-repeat="templateStrategy in templateStrategys"><a href="javascript:void(0);" ng-click="run(templateStrategy);">{{templateStrategy.name}}</a></li>
                                 <li ng-if="templateStrategys.length" role="separator" class="divider"></li>
-                                <li><a href="javascript:void(0);"  ng-click="dataDictionary();">数据字典</a></li>
+                                <li><a href="javascript:void(0);"  ng-click="dataDictionary();">导出数据</a></li>
+                                <li><a href="javascript:void(0);"  ng-click="openConsoleModal();">控制台</a></li>
                             </ul>
                         </div>
-                        <button type="button" ng-click="dataModelControl.saveDirty();" ng-disabled="!dataModelControl.editable || !dataModelControl.dirtyData.hasDirtyData()" class="btn btn-sm btn-warning">
-                            <span class="glyphicon glyphicon-save" aria-hidden="true">保存</span>
-                        </button>
+                        <button uib-tooltip="请及时保存数据" tooltip-placement="bottom" tooltip-trigger="none" tooltip-is-open="!(!dataModelControl.editable || !dataModelControl.dirtyData.hasDirtyData())"
+                                type="button" ng-click="dataModelControl.saveDirty();" ng-disabled="!dataModelControl.editable || !dataModelControl.dirtyData.hasDirtyData()" class="btn btn-sm btn-warning">保存</button>
                         <div class="btn-group" role="group">
                             <button type="button" class="btn btn-sm btn-success dropdown-toggle" ng-disabled="!dataModelControl.editable" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true">新建</span>
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right">
                                 <li ng-repeat="dynamicModel in dynamicModels | filter:{isRootChild:true}">
@@ -34,7 +29,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style="overflow: auto;">
                 <div class="col-sm-12 condensed-list" style="width: 20%;position: fixed;top: 100px; bottom: 0;overflow: auto;">
                     <ul ui-sortable="dataModelControl.sortableOptions" ng-model="dataModel.children" style="padding-left: 0;" ng-init="parent=dataModel;" ng-include="'dataModelRecursion'" class="list-group" ng-show="dataModel.children.length"></ul>
                 </div>
