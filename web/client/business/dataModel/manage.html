@@ -186,7 +186,7 @@
         <span class="text-info glyphicon glyphicon-{{child.dynamicModel.icon}}"></span>
         <label ng-dblclick="dataModelControl.view(child);">{{child.name}}</label>
         <div class="btn-group pull-right">
-            <button ng-if="!child.children.length" type="button" class="btn btn-danger btn-xs" ng-disabled="!dataModelControl.editable" ng-click="dataModelControl.delete(p, $index, child);">
+            <button type="button" class="btn btn-danger btn-xs" ng-disabled="child.children.length || !dataModelControl.editable" ng-click="dataModelControl.delete(p, $index, child);">
                 <span class="glyphicon glyphicon-remove"></span>
             </button>
             <button ng-if="child.dynamicModel.children.length" type="button" class="btn btn-success dropdown-toggle btn-xs" ng-disabled="!dataModelControl.editable" data-toggle="dropdown">

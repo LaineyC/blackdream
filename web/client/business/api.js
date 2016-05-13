@@ -162,6 +162,8 @@ define(["business/module"],function(module){
 
             provider.dataDictionary = function(request) { return $http.post("/api?method=generatorInstance.dataDictionary", request); };
 
+            provider.versionSync = function(request) { return $http.post("/api?method=generatorInstance.versionSync", request); };
+
             return provider;
         }
     ]);

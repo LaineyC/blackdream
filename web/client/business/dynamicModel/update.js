@@ -158,7 +158,7 @@ define(
                     validateMessages: {
                         name:{
                             required:"必输项",
-                            pattern:"非数字开头20位长度字母或数字"
+                            pattern:"非数字开头32位长度字母或数字"
                         },
                         label:{
                             required:"必输项",
@@ -174,7 +174,7 @@ define(
                         },
                         viewWidth:{
                             required:"必输项",
-                            min:"最小0",
+                            min:"最小10",
                             max:"最大1000",
                             number:"数字类型"
                         }

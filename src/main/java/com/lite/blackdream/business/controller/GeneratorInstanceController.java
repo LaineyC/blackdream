@@ -77,4 +77,11 @@ public class GeneratorInstanceController extends BaseController {
         return new GeneratorInstanceDataDictionaryResponse(result);
     }
 
+    @ResponseBody
+    @RequestMapping(params="method=generatorInstance.versionSync")
+    public GeneratorInstanceVersionSyncResponse versionSync(GeneratorInstanceVersionSyncRequest request) {
+        GeneratorInstance generatorInstance = generatorInstanceService.versionSync(request);
+        return new GeneratorInstanceVersionSyncResponse(generatorInstance);
+    }
+
 }

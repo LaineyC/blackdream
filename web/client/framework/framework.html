@@ -35,8 +35,14 @@
                 <form class="navbar-form navbar-left" role="search" ng-submit="search();">
                     <div class="form-group">
                         <div class="input-group input-group-sm">
+                            <span class="input-group-btn">
+                                <button location-back class="btn btn-default" type="button"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span></button>
+                            </span>
                             <input type="text" ng-model="keyword" class="form-control" style="width:250px;" placeholder="他们的生成器">
-                            <span class="input-group-btn"><button ng-click="search();" class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button></span>
+                            <span class="input-group-btn">
+                                <button ng-click="search();" class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                                <button location-go class="btn btn-default" type="button"><span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></button>
+                            </span>
                         </div>
                     </div>
                 </form>

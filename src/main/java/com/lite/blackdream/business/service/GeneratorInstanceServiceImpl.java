@@ -720,4 +720,31 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         return runResult;
     }
 
+    @Override
+    public GeneratorInstance versionSync(GeneratorInstanceVersionSyncRequest request) {
+        Long id = request.getId();
+        GeneratorInstance generatorInstancePersistence = generatorInstanceRepository.selectById(id);
+        if(generatorInstancePersistence == null){
+            throw new AppException("实例不存在");
+        }
+
+        Long userId = request.getAuthentication().getUserId();
+        if(!userId.equals(generatorInstancePersistence.getUser().getId())){
+            throw new AppException("权限不足");
+        }
+
+        Long generatorId = generatorInstancePersistence.getGenerator().getId();
+        Generator generatorPersistence = generatorRepository.selectById(generatorId);
+        if(generatorPersistence == null){
+            throw new AppException("生成器不存在");
+        }
+
+        if(generatorInstancePersistence.getVersion() < generatorPersistence.getVersion()){
+            generatorInstancePersistence.setVersion(generatorPersistence.getVersion());
+            generatorInstanceRepository.update(generatorInstancePersistence);
+        }
+
+        return generatorInstancePersistence;
+    }
+
 }

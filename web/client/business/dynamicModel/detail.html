@@ -28,10 +28,10 @@
                     <div class="form-group">
                         <label class="col-sm-1 control-label">普通属性</label>
                         <div class="col-sm-11">
-                            <table class="table table-bordered table-condensed table-hover">
+                            <table class="table table-condensed table-hover">
                                 <thead>
                                 <tr class="active">
-                                    <th width="25">#</th>
+                                    <th width="30">#</th>
                                     <th width="100">标题</th>
                                     <th width="50">宽比</th>
                                     <th width="100">名称</th>
@@ -44,7 +44,7 @@
                                 </thead>
                                 <tbody>
                                 <tr ng-repeat="property in dynamicModel.properties track by $index">
-                                    <td>{{$index + 1}}</td>
+                                    <th>{{$index + 1}}</th>
                                     <td>{{property.label}}</td>
                                     <td>{{property.viewWidth}}</td>
                                     <td>{{property.name}}</td>
@@ -61,10 +61,10 @@
                     <div class="form-group">
                         <label class="col-sm-1 control-label">级联属性</label>
                         <div class="col-sm-11">
-                            <table class="table table-bordered table-condensed table-hover">
+                            <table class="table table-condensed table-hover">
                                 <thead>
                                 <tr class="active">
-                                    <th width="25">#</th>
+                                    <th width="30">#</th>
                                     <th width="100">标题</th>
                                     <th width="50">宽度</th>
                                     <th width="100">名称</th>
@@ -77,7 +77,7 @@
                                 </thead>
                                 <tbody>
                                 <tr ng-repeat="property in dynamicModel.association track by $index">
-                                    <td>{{$index + 1}}</td>
+                                    <th>{{$index + 1}}</th>
                                     <td>{{property.label}}</td>
                                     <td>{{property.viewWidth}}</td>
                                     <td>{{property.name}}</td>
@@ -123,7 +123,7 @@
                     <div class="form-group">
                         <div class="col-sm-3 col-sm-offset-5">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-primary btn-sm" location-back="/business/dynamicModel/manage/{{dynamicModel.generator.id}}">返回</button>
+                                <button type="button" class="btn btn-primary btn-sm" location-back>返回</button>
                                 <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li><a href="javascript:void(0);" location-go="/business/dynamicModel/update/{{dynamicModel.id}}">修改</a></li>

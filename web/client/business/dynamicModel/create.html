@@ -19,7 +19,7 @@
                                         <span ng-if="!iconControl.selectedItem">选择图标</span>
                                         <span ng-if="iconControl.selectedItem" class="glyphicon glyphicon-{{iconControl.selectedItem}}"></span>
                                     </button>
-                                    <ul class="dropdown-menu" style="width:575px;">
+                                    <ul class="dropdown-menu" style="width:572px;">
                                         <li>
                                             <div class="clearfix">
                                                 <button type="button" ng-click="iconControl.select(icon);" ng-repeat="icon in iconControl.icons" class="btn btn-sm btn-default" style="margin: 2px;">
@@ -83,7 +83,7 @@
                                     <td>
                                         <input name="name{{property.__hashKey}}" uib-tooltip="{{getMessage('name',dynamicModelCreateForm['name' + property.__hashKey].$error,propertyControl.validateMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.name{{property.__hashKey}}.$invalid && dynamicModelCreateForm.name{{property.__hashKey}}.$dirty"
-                                               ng-model="property.name" type="text" class="form-control input-sm" ng-pattern="/^[a-zA-Z_]\w{0,19}$/" required/>
+                                               ng-model="property.name" type="text" class="form-control input-sm" ng-pattern="/^[a-zA-Z_]\w{0,31}$/" required/>
                                     </td>
                                     <td>
                                         <select name="type{{property.__hashKey}}" uib-tooltip="{{getMessage('type',dynamicModelCreateForm['type' + property.__hashKey].$error,propertyControl.validateMessages)}}"
@@ -232,12 +232,12 @@
                                     <td>
                                         <input name="viewWidth{{property.__hashKey}}" uib-tooltip="{{getMessage('viewWidth',dynamicModelCreateForm['viewWidth' + property.__hashKey].$error,propertyControl.validateMessages)}}"
                                                 tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.viewWidth{{property.__hashKey}}.$invalid && dynamicModelCreateForm.viewWidth{{property.__hashKey}}.$dirty"
-                                                ng-model="property.viewWidth" type="number" class="form-control input-sm" min="0" max="1000" required/>
+                                                ng-model="property.viewWidth" type="number" class="form-control input-sm" min="10" max="1000" required/>
                                     </td>
                                     <td>
                                         <input name="name{{property.__hashKey}}" uib-tooltip="{{getMessage('name',dynamicModelCreateForm['name' + property.__hashKey].$error,propertyControl.validateMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.name{{property.__hashKey}}.$invalid && dynamicModelCreateForm.name{{property.__hashKey}}.$dirty"
-                                               ng-model="property.name" type="text" class="form-control input-sm" ng-pattern="/^[a-zA-Z_]\w{0,19}$/" required/>
+                                               ng-model="property.name" type="text" class="form-control input-sm" ng-pattern="/^[a-zA-Z_]\w{0,31}$/" required/>
                                     </td>
                                     <td>
                                         <select name="type{{property.__hashKey}}" uib-tooltip="{{getMessage('type',dynamicModelCreateForm['type' + property.__hashKey].$error,propertyControl.validateMessages)}}"

@@ -1,5 +1,5 @@
 define(
-    ["angular", "angular-locale", "bootstrap", "angular-bootstrap", "angular-touch", "angular-sanitize", "angular-animate", "angular-cookies", "angular-route", "angular-file-upload","ui-sortable", "business/api"],
+    ["angular", "angular-locale", "bootstrap", "angular-bootstrap", "angular-touch", "angular-sanitize", "angular-animate", "angular-cookies", "angular-route", "angular-file-upload", "ui-sortable", "business/api"],
     function(angular){
         "use strict";
         //加载依赖方法
@@ -427,7 +427,12 @@ define(
                     status = {animate:"go"};
                 provider.go = function(path){
                     status.animate = "go";
-                    $location.path(path);
+                    if(path){
+                        $location.path(path);
+                    }
+                    else{
+                        $window.history.go(1);
+                    }
                     //$($window.document.body).scrollTop(0);
                 };
                 provider.back = function(path){

@@ -26,4 +26,6 @@ public interface GeneratorInstanceService extends Service {
 
     RunResult dataDictionary(GeneratorInstanceDataDictionaryRequest request);
 
+    GeneratorInstance versionSync(GeneratorInstanceVersionSyncRequest request);
+
 }

@@ -36,10 +36,21 @@ define(
                 generatorInstanceApi.get({id: generatorInstanceId}).success(function(generatorInstance){
                     $scope.generatorInstance = generatorInstance;
                     $scope.dataModelControl.editable = generatorInstance.generator.isOpen || generatorInstance.user.id == generatorInstance.generator.developer.id;
+
                     if(!$scope.dataModelControl.editable){
                         alert.open({
                             message:"当前生成器正在维护，请暂停操作等待发布！"
                         });
+                    }
+                    else{
+                        if(generatorInstance.version < generatorInstance.generator.version){
+                            alert.open({
+                                message:"当前生成器已升级发布，请确认！",
+                                confirm:function(){
+                                    generatorInstanceApi.versionSync({id:generatorInstance.id});
+                                }
+                            });
+                        }
                     }
 
                     templateStrategyApi.query({generatorId:generatorInstance.generator.id}).success(function(templateStrategys){
