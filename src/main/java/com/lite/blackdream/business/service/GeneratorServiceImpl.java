@@ -413,7 +413,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
                     template.setModifyDate(new Date());
                     template.getGenerator().setId(generator.getId());
 
-                    String url = "/Template/" + generator.getId() + "/" + idWorker.nextId() + ".vm";
+                    String url = "/Template/" + generator.getId() + "/" + newId + ".vm";
                     FileUtil.mkdirs(ConfigProperties.FILEBASE_PATH + "/Template/" + generator.getId());
                     FileUtil.copyFile(
                             new File(importPath + ConfigProperties.fileSeparator + "Filebase" + template.getUrl()),

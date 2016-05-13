@@ -107,7 +107,7 @@ define(
                                 template.$scope.templateUpdateForm.$setPristine();
                             }
                             $scope.tabsControl.add(template);
-                            $scope.templates.splice(0, 0, template);
+                            $scope.templates.push(template);
                         });
                     },
                     view:function(template){
@@ -148,8 +148,8 @@ define(
                         $scope.tabsControl.remove(template);
                         template.active = true;
                         $scope.tabsControl.data.splice(0, 0, template);
-                        if($scope.tabsControl.data.length > 20){
-                            $scope.tabsControl.data.length = 20;
+                        if($scope.tabsControl.data.length > 10){
+                            $scope.tabsControl.data.length = 10;
                         }
                     },
                     contains:function(template){

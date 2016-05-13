@@ -480,8 +480,8 @@ define(
                         $scope.tabsControl.remove(dataModel);
                         dataModel.active = true;
                         $scope.tabsControl.data.splice(0, 0, dataModel);
-                        if($scope.tabsControl.data.length > 20){
-                            $scope.tabsControl.data.length = 20;
+                        if($scope.tabsControl.data.length > 10){
+                            $scope.tabsControl.data.length = 10;
                         }
                     },
                     contains:function(dataModel){

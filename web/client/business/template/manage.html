@@ -29,11 +29,12 @@
                                 </li>
                             </ul>
                         </div>
-                        <button type="button" class="btn btn-sm btn-warning" ng-click="dirtyData.saveDirty()"  ng-disabled="!dirtyData.hasDirtyData();">
-                            <span class="glyphicon glyphicon-save" aria-hidden="true">保存</span>
+                        <button uib-tooltip="请及时保存数据" tooltip-placement="bottom" tooltip-trigger="none" tooltip-is-open="dirtyData.hasDirtyData()"
+                                type="button" class="btn btn-sm btn-warning" ng-click="dirtyData.saveDirty()"  ng-disabled="!dirtyData.hasDirtyData();">
+                            <span class="glyphicon glyphicon-save" aria-hidden="true"></span>保存
                         </button>
                         <button type="button" class="btn btn-sm btn-success" ng-click="templateControl.add();">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true">新建</span>
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新建
                         </button>
                     </div>
                 </div>

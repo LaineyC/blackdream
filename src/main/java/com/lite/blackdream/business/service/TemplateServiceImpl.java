@@ -50,7 +50,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         template.setName(request.getName());
         template.setModifyDate(new Date());
         template.setIsDelete(false);
-        template.setSequence(0);
+        template.setSequence(Integer.MAX_VALUE);
         Generator generator = new Generator();
         generator.setId(generatorPersistence.getId());
         template.setGenerator(generator);
@@ -59,7 +59,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         developer.setId(userId);
         template.setDeveloper(developer);
         Base64FileItem templateFile = request.getTemplateFile();
-        String fileName = idWorker.nextId() + ".vm";
+        String fileName = template.getId() + ".vm";
         String uploadPath = "/Template/" + generatorId + "/" + fileName;
         String fileAbsolutePath = ConfigProperties.FILEBASE_PATH + uploadPath.replace("/", ConfigProperties.fileSeparator);
         try {
@@ -101,6 +101,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
 
         template.setGenerator(generatorPersistence);
         template.setUrl(templatePersistence.getUrl());
+
         return template;
     }
 
@@ -157,7 +158,11 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
             template.setUrl(t.getUrl());
             result.add(template);
         }
-        result.sort((t1, t2) -> t1.getSequence() - t2.getSequence());
+        result.sort((t1, t2) -> {
+            int s1 = t1.getSequence();
+            int s2 = t2.getSequence();
+            return s1 == s2 ? (int)(t1.getId() - t2.getId()) : s1 - s2;
+        });
         return result;
     }
 
