@@ -230,6 +230,11 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
         });
         templateStrategyRepository.insert(templateStrategy);
 
+        if(generatorPersistence.getIsOpen()){
+            generatorPersistence.setIsOpen(false);
+            generatorRepository.update(generatorPersistence);
+        }
+
         return templateStrategy;
     }
 
@@ -246,7 +251,17 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
             throw new AppException("权限不足");
         }
 
+        Generator generatorPersistence = generatorRepository.selectById(templateStrategyPersistence.getGenerator().getId());
+        if(generatorPersistence == null){
+            throw new AppException("生成器不存在");
+        }
+
         templateStrategyRepository.delete(templateStrategyPersistence);
+
+        if(generatorPersistence.getIsOpen()){
+            generatorPersistence.setIsOpen(false);
+            generatorRepository.update(generatorPersistence);
+        }
 
         return templateStrategyPersistence;
     }
@@ -359,8 +374,12 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
             throw new AppException("权限不足");
         }
 
-        templateStrategyPersistence.setName(request.getName());
+        Generator generatorPersistence = generatorRepository.selectById(templateStrategyPersistence.getGenerator().getId());
+        if(generatorPersistence == null){
+            throw new AppException("生成器不存在");
+        }
 
+        templateStrategyPersistence.setName(request.getName());
         templateStrategyPersistence.getChildren().clear();
         request.getChildren().forEach(childMap -> {
             String childName = (String) childMap.get("tagName");
@@ -370,6 +389,12 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
         });
 
         templateStrategyRepository.update(templateStrategyPersistence);
+
+        if(generatorPersistence.getIsOpen()){
+            generatorPersistence.setIsOpen(false);
+            generatorRepository.update(generatorPersistence);
+        }
+
         return templateStrategyPersistence;
     }
 

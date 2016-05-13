@@ -257,6 +257,11 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
         }
         children.add(toIndex, dataModel);
 
+        Long userId = request.getAuthentication().getUserId();
+        if(!userId.equals(dataModel.getUser().getId())){
+            throw new AppException("权限不足");
+        }
+
         int index = 1;
         for(DataModel d : children){
             d.setSequence(index++);

@@ -58,6 +58,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         if(generatorPersistence == null){
             throw new AppException("生成器不存在");
         }
+
         if(!generatorPersistence.getIsApplied() && !generatorPersistence.getDeveloper().getId().equals(userId)){
             generatorPersistence.setIsApplied(true);
         }

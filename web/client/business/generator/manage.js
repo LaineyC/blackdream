@@ -71,7 +71,7 @@ define(
                         title: "发布",
                         message:"确定发布【" + generator.name +"】？",
                         confirm:function(){
-                            generatorApi.open({id:generator.id,isOpen:true}).success(function(){
+                            generatorApi.open({id:generator.id}).success(function(){
                                 generator.isOpen = true;
                             });
                         }

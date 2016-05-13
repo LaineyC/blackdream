@@ -93,8 +93,8 @@ public class GeneratorController extends BaseController {
 
     @ResponseBody
     @RequestMapping(params="method=generator.open")
-    public GeneratorOpenResponse status(GeneratorOpenRequest request) {
-        Generator generator = generatorService.status(request);
+    public GeneratorOpenResponse open(GeneratorOpenRequest request) {
+        Generator generator = generatorService.open(request);
         return new GeneratorOpenResponse(generator);
     }
 

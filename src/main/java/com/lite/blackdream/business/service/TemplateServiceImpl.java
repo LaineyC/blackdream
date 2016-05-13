@@ -69,6 +69,11 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         template.setUrl(uploadPath);
         templateRepository.insert(template);
 
+        if(generatorPersistence.getIsOpen()){
+            generatorPersistence.setIsOpen(false);
+            generatorRepository.update(generatorPersistence);
+        }
+
         return template;
     }
 
@@ -109,7 +114,17 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
             throw new AppException("权限不足");
         }
 
+        Generator generatorPersistence = generatorRepository.selectById(templatePersistence.getGenerator().getId());
+        if(generatorPersistence == null){
+            throw new AppException("生成器不存在");
+        }
+
         templateRepository.delete(templatePersistence);
+
+        if(generatorPersistence.getIsOpen()){
+            generatorPersistence.setIsOpen(false);
+            generatorRepository.update(generatorPersistence);
+        }
 
         return templatePersistence;
     }
@@ -200,6 +215,11 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
             throw new AppException("权限不足");
         }
 
+        Generator generatorPersistence = generatorRepository.selectById(templatePersistence.getGenerator().getId());
+        if(generatorPersistence == null){
+            throw new AppException("生成器不存在");
+        }
+
         templatePersistence.setName(request.getName());
 
         Base64FileItem templateFile = request.getTemplateFile();
@@ -215,6 +235,12 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         }
 
         templateRepository.update(templatePersistence);
+
+        if(generatorPersistence.getIsOpen()){
+            generatorPersistence.setIsOpen(false);
+            generatorRepository.update(generatorPersistence);
+        }
+
         return templatePersistence;
     }
 
@@ -257,11 +283,16 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
             throw new AppException("请保存并刷新模板数据，重新操作！");
         }
         records.sort((t1, t2) -> t1.getSequence() - t2.getSequence());
-        Template template = records.remove((int)fromIndex);
+        Template template = records.remove((int) fromIndex);
         if(!template.getId().equals(id)){
             throw new AppException("请保存并刷新模板数据，重新操作！");
         }
         records.add(toIndex, template);
+
+        Long userId = request.getAuthentication().getUserId();
+        if(!userId.equals(template.getDeveloper().getId())){
+            throw new AppException("权限不足");
+        }
 
         int index = 1;
         for(Template t : records){

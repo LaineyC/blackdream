@@ -79,7 +79,9 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
         User developer = new User();
         developer.setId(userId);
         generator.setDeveloper(developer);
+
         generatorRepository.insert(generator);
+
         return generator;
     }
 
@@ -147,6 +149,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
         generator.setDescription(generatorPersistence.getDescription());
         User developerPersistence = userRepository.selectById(generatorPersistence.getDeveloper().getId());
         generator.setDeveloper(developerPersistence);
+
         return generator;
     }
 
@@ -203,6 +206,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
             generator.setDeveloper(developerPersistence);
             result.add(generator);
         }
+
         return new PagerResult<>(result, (long)records.size());
     }
 
@@ -210,17 +214,21 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
     public Generator update(GeneratorUpdateRequest request) {
         Authentication authentication = request.getAuthentication();
         Long userId = authentication.getUserId();
+
         Long id = request.getId();
         Generator generatorPersistence = generatorRepository.selectById(id);
         if(generatorPersistence == null){
             throw new AppException("生成器不存在");
         }
+
         if(!userId.equals(generatorPersistence.getDeveloper().getId())){
             throw new AppException("权限不足");
         }
+
         generatorPersistence.setName(request.getName());
         generatorPersistence.setDescription(request.getDescription());
         generatorRepository.update(generatorPersistence);
+
         return generatorPersistence;
     }
 
@@ -450,22 +458,23 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
     }
 
     @Override
-    public Generator status(GeneratorOpenRequest request) {
+    public Generator open(GeneratorOpenRequest request) {
         Long id = request.getId();
         Generator generatorPersistence = generatorRepository.selectById(id);
         if(generatorPersistence == null){
             throw new AppException("生成器不存在");
         }
+
         Long userId = request.getAuthentication().getUserId();
         if(!userId.equals(generatorPersistence.getDeveloper().getId())){
             throw new AppException("权限不足");
         }
 
-        generatorPersistence.setIsOpen(request.getIsOpen());
-        if(request.getIsOpen()){
+        if(!generatorPersistence.getIsOpen()){
+            generatorPersistence.setIsOpen(true);
             generatorPersistence.setVersion(generatorPersistence.getVersion() + 1);
+            generatorRepository.update(generatorPersistence);
         }
-        generatorRepository.update(generatorPersistence);
 
         return generatorPersistence;
     }

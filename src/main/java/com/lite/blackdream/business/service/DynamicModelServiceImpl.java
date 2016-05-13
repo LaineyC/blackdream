@@ -33,36 +33,40 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
 
     @Override
     public DynamicModel create(DynamicModelCreateRequest request) {
+        Long generatorId = request.getGeneratorId();
+        Generator generatorPersistence = generatorRepository.selectById(generatorId);
+        if(generatorPersistence == null){
+            throw new AppException("生成器不存在");
+        }
+
         DynamicModel dynamicModel = new DynamicModel();
         dynamicModel.setId(idWorker.nextId());
         dynamicModel.setName(request.getName());
         dynamicModel.setIcon(request.getIcon());
         dynamicModel.setIsRootChild(request.getIsRootChild());
         dynamicModel.setIsDelete(false);
-
         Long userId = request.getAuthentication().getUserId();
         User developer = new User();
         developer.setId(userId);
         dynamicModel.setDeveloper(developer);
-
-        Long generatorId = request.getGeneratorId();
-        Generator generatorPersistence = generatorRepository.selectById(generatorId);
-        if(generatorPersistence == null){
-            throw new AppException("生成器不存在");
-        }
-        dynamicModel.setGenerator(generatorPersistence);
-
+        Generator generator = new Generator();
+        generator.setId(generatorPersistence.getId());
+        dynamicModel.setGenerator(generator);
         dynamicModel.setProperties(request.getProperties());
         dynamicModel.setAssociation(request.getAssociation());
         dynamicModel.setPredefinedAssociation(request.getPredefinedAssociation());
-
         for(Long childId : request.getChildren()){
             DynamicModel child = new DynamicModel();
             child.setId(childId == 0 ? dynamicModel.getId() : childId);
             dynamicModel.getChildren().add(child);
         }
-
         dynamicModelRepository.insert(dynamicModel);
+
+        if(generatorPersistence.getIsOpen()){
+            generatorPersistence.setIsOpen(false);
+            generatorRepository.update(generatorPersistence);
+        }
+
         return dynamicModel;
     }
 
@@ -83,11 +87,17 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
         if(generatorPersistence == null){
             throw new AppException("生成器不存在");
         }
+
         if(generatorPersistence.getIsApplied()){
             throw new AppException("生成器已被应用不能删除");
         }
 
         dynamicModelRepository.delete(dynamicModelPersistence);
+
+        if(generatorPersistence.getIsOpen()){
+            generatorPersistence.setIsOpen(false);
+            generatorRepository.update(generatorPersistence);
+        }
 
         return dynamicModelPersistence;
     }
@@ -222,14 +232,19 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
 
     @Override
     public DynamicModel update(DynamicModelUpdateRequest request) {
+        Long userId = request.getAuthentication().getUserId();
+
         Long id = request.getId();
         DynamicModel dynamicModelPersistence = dynamicModelRepository.selectById(id);
         if(dynamicModelPersistence == null) {
             throw new AppException("数据模型不存在");
         }
 
-        Long userId = request.getAuthentication().getUserId();
         Generator generatorPersistence = generatorRepository.selectById(dynamicModelPersistence.getGenerator().getId());
+        if(generatorPersistence == null){
+            throw new AppException("生成器不存在");
+        }
+
         if(!userId.equals(generatorPersistence.getDeveloper().getId())){
             throw new AppException("权限不足");
         }
@@ -243,11 +258,16 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
             child.setId(childId);
             dynamicModelPersistence.getChildren().add(child);
         }
-
         dynamicModelPersistence.setProperties(request.getProperties());
         dynamicModelPersistence.setAssociation(request.getAssociation());
         dynamicModelPersistence.setPredefinedAssociation(request.getPredefinedAssociation());
         dynamicModelRepository.update(dynamicModelPersistence);
+
+        if(generatorPersistence.getIsOpen()){
+            generatorPersistence.setIsOpen(false);
+            generatorRepository.update(generatorPersistence);
+        }
+
         return dynamicModelPersistence;
     }
 

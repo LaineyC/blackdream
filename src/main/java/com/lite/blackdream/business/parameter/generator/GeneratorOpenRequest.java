@@ -9,8 +9,6 @@ public class GeneratorOpenRequest extends Request {
 
     private Long id;
 
-    private Boolean isOpen;
-
     public GeneratorOpenRequest(){
 
     }
@@ -21,14 +19,6 @@ public class GeneratorOpenRequest extends Request {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Boolean getIsOpen() {
-        return isOpen;
-    }
-
-    public void setIsOpen(Boolean isOpen) {
-        this.isOpen = isOpen;
     }
 
 }
