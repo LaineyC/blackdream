@@ -36,9 +36,13 @@
                         <td>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-info btn-sm" location-go="/business/dynamicModel/detail/{{dynamicModel.id}}">详情</button>
-                                <button type="button" class="btn btn-warning btn-sm" location-go="/business/dynamicModel/update/{{dynamicModel.id}}">修改</button>
+                                <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="javascript:void(0);" location-go="/business/dynamicModel/update/{{dynamicModel.id}}">修改</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li ng-class="{'disabled':dynamicModel.generator.isApplied}"><a href="javascript:void(0);" ng-click="delete(dynamicModel)">删除</a></li>
+                                </ul>
                             </div>
-                            <button type="button" ng-disabled="dynamicModel.generator.isApplied" class="btn btn-danger btn-sm" ng-click="delete(dynamicModel)">删除</button>
                         </td>
                     </tr>
                     </tbody>

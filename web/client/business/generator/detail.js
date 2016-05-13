@@ -21,6 +21,36 @@ define(
                         }
                     });
                 };
+
+                $scope.open = function(generator){
+                    if(generator.isOpen){
+                        return;
+                    }
+                    confirm.open({
+                        title: "发布",
+                        message:"确定发布【" + generator.name +"】？",
+                        confirm:function(){
+                            generatorApi.open({id:generator.id,isOpen:true}).success(function(){
+                                generator.isOpen = true;
+                            });
+                        }
+                    });
+                };
+
+                $scope.delete = function(generator){
+                    if(generator.isApplied){
+                        return;
+                    }
+                    confirm.open({
+                        title:"删除",
+                        message:"确定删除【" + generator.name +"】？",
+                        confirm:function(){
+                            generatorApi.delete({id:generator.id}).success(function(){
+                                location.go("/business/generator/manage");
+                            });
+                        }
+                    });
+                };
             }
         ]);
     }

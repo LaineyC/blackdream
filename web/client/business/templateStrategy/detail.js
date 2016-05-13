@@ -4,8 +4,8 @@ define(
         "use strict";
 
         module.controller("templateStrategyDetailController", [
-            "$scope", "$routeParams", "location", "templateStrategyApi", "templateApi", "viewPage",
-            function($scope, $routeParams, location, templateStrategyApi, templateApi, viewPage){
+            "$scope", "$routeParams", "location", "templateStrategyApi", "templateApi", "viewPage", "confirm",
+            function($scope, $routeParams, location, templateStrategyApi, templateApi, viewPage, confirm){
                 viewPage.setViewPageTitle("生成策略详情");
                 $scope.templateStrategy = {};
 
@@ -90,6 +90,18 @@ define(
                         children:[],
                         attributes:[{name:"name",required:true},{name:"value",required:true}]
                     }
+                };
+
+                $scope.delete = function(templateStrategy){
+                    confirm.open({
+                        title:"删除",
+                        message:"确定删除【" + templateStrategy.name +"】？",
+                        confirm:function(){
+                            templateStrategyApi.delete({id:templateStrategy.id}).success(function(){
+                                location.go("/business/templateStrategy/manage/" + templateStrategy.generator.id)
+                            });
+                        }
+                    });
                 };
 
             }

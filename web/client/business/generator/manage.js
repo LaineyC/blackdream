@@ -63,13 +63,16 @@ define(
                     });
                 };
 
-                $scope.status = function(generator){
+                $scope.open = function(generator){
+                    if(generator.isOpen){
+                        return;
+                    }
                     confirm.open({
-                        title:!generator.isOpen ? "发布" : "维护",
-                        message:"确定" + (!generator.isOpen ? "发布" : "维护") + "【" + generator.name +"】？",
+                        title: "发布",
+                        message:"确定发布【" + generator.name +"】？",
                         confirm:function(){
-                            generatorApi.status({id:generator.id,isOpen:!generator.isOpen}).success(function(_generator){
-                                generator.isOpen = _generator.isOpen;
+                            generatorApi.open({id:generator.id,isOpen:true}).success(function(){
+                                generator.isOpen = true;
                             });
                         }
                     });

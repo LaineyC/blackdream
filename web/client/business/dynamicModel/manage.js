@@ -17,6 +17,9 @@ define(
                 };
 
                 $scope.delete = function(dynamicModel){
+                    if(dynamicModel.generator.isApplied){
+                        return;
+                    }
                     confirm.open({
                         title:"删除",
                         message:"确定删除【" + dynamicModel.name +"】？",

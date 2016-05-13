@@ -47,26 +47,22 @@
                         <td>{{generator.instanceCount}}</td>
                         <td>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-info btn-sm" location-go="/business/generator/detail/{{generator.id}}">详情</button>
-                                <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="caret"></span>
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="javascript:void(0);" location-go="/business/generator/update/{{generator.id}}">修改</a></li>
-                                    <li><a href="javascript:void(0);" ng-click="status(generator)">{{!generator.isOpen ? "发布" : "维护"}}</a></li>
-                                    <li><a href="javascript:void(0);" ng-click="export(generator)">导出</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li ng-class="{'disabled':generator.isApplied}"><a href="javascript:void(0);" ng-click="delete(generator)">删除</a></li>
-                                </ul>
-                            </div>
-                            <div class="btn-group">
                                 <button type="button" class="btn btn-info btn-sm" location-go="/business/dynamicModel/manage/{{generator.id}}">数据模型管理</button>
                                 <button type="button" class="btn btn-info btn-sm" location-go="/business/template/manage/{{generator.id}}">模板文件管理</button>
                                 <button type="button" class="btn btn-info btn-sm" location-go="/business/templateStrategy/manage/{{generator.id}}">生成策略管理</button>
                                 <button type="button" class="btn btn-success btn-sm" location-go="/business/generatorInstance/create/{{generator.id}}">新建实例</button>
                             </div>
-
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-info btn-sm" location-go="/business/generator/detail/{{generator.id}}">详情</button>
+                                <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="javascript:void(0);" location-go="/business/generator/update/{{generator.id}}">修改</a></li>
+                                    <li><a href="javascript:void(0);" ng-click="export(generator)">导出</a></li>
+                                    <li ng-class="{'disabled':generator.isOpen}"><a href="javascript:void(0);" ng-click="open(generator)">发布</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li ng-class="{'disabled':generator.isApplied}"><a href="javascript:void(0);" ng-click="delete(generator)">删除</a></li>
+                                </ul>
+                            </div>
                         </td>
                     </tr>
                     </tbody>

@@ -89,7 +89,7 @@ define(["business/module"],function(module){
 
             provider.import = function(request) { return $http.post("/api?method=generator.import", request); };
 
-            provider.status = function(request) { return $http.post("/api?method=generator.status", request); };
+            provider.open = function(request) { return $http.post("/api?method=generator.open", request); };
 
             return provider;
         }

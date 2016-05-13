@@ -450,7 +450,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
     }
 
     @Override
-    public Generator status(GeneratorStatusRequest request) {
+    public Generator status(GeneratorOpenRequest request) {
         Long id = request.getId();
         Generator generatorPersistence = generatorRepository.selectById(id);
         if(generatorPersistence == null){
