@@ -7,7 +7,7 @@
                         <button type="button" class="btn btn-primary btn-sm" location-back="/business/generator/manage">返回</button>
                     </div>
                     <div class="form-group">
-                        <button type="button" class="btn btn-success btn-sm" location-go="/business/dynamicModel/create/{{searchRequest.generatorId}}">新建数据模型</button>
+                        <button type="button" class="btn btn-success btn-sm" location-go="/business/dynamicModel/create/{{queryRequest.generatorId}}">新建数据模型</button>
                     </div>
                 </form>
                 <br/>
@@ -27,7 +27,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="dynamicModel in pagerResult.records track by $index">
+                    <tr ng-repeat="dynamicModel in dynamicModels track by $index">
                         <th>{{$index + 1}}</th>
                         <td>{{dynamicModel.id}}</td>
                         <td>{{dynamicModel.name}}</td>
@@ -48,18 +48,6 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div>
-            <div class="pull-left">
-                <ul class="pagination pagination-sm">
-                    <li ng-class="{'active': searchRequest.pageSize==pageSize}" ng-repeat="pageSize in [10, 20, 50]" ><a href="javascript:void(0);" ng-click="(searchRequest.pageSize!=pageSize)&&(searchRequest.pageSize=pageSize)&&(searchRequest.page=1)&&search();">{{pageSize}}</a></li>
-                </ul>
-            </div>
-            <div class="pull-left">
-                &nbsp;
-                <uib-pagination class="pagination-sm" boundary-links="true" rotate="false" max-size="10" total-items="pagerResult.total" ng-model="searchRequest.page" ng-change="search();" items-per-page="searchRequest.pageSize" first-text="首页" previous-text="上页" next-text="下页" last-text="尾页"></uib-pagination>
-            </div>
-            <div class="pull-left form-control-static clearfix">&nbsp;共&nbsp;{{pagerResult.total ? pagerResult.total : 0}}&nbsp;条</div>
         </div>
     </div>
 </div>

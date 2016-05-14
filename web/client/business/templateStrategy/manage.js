@@ -8,11 +8,11 @@ define(
                 viewPage.setViewPageTitle("生成策略管理");
                 var generatorId = $routeParams.generatorId;
 
-                $scope.searchRequest = {page:1, pageSize:10,generatorId:generatorId};
+                $scope.queryRequest = {generatorId:generatorId};
 
-                $scope.search = function(){
-                    templateStrategyApi.search($scope.searchRequest).success(function(pagerResult){
-                        $scope.pagerResult = pagerResult;
+                $scope.query = function(){
+                    templateStrategyApi.query($scope.queryRequest).success(function(templateStrategys){
+                        $scope.templateStrategys = templateStrategys;
                     });
                 };
 
@@ -28,7 +28,7 @@ define(
                     });
                 };
 
-                $scope.search();
+                $scope.query();
 
             }
         ]);

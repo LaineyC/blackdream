@@ -8,11 +8,11 @@ define(
                 viewPage.setViewPageTitle("数据模型管理");
                 var generatorId = $routeParams.generatorId;
 
-                $scope.searchRequest = {page:1, pageSize:10,generatorId:generatorId};
+                $scope.queryRequest = {generatorId:generatorId};
 
-                $scope.search = function(){
-                    dynamicModelApi.search($scope.searchRequest).success(function(pagerResult){
-                        $scope.pagerResult = pagerResult;
+                $scope.query = function(){
+                    dynamicModelApi.query($scope.queryRequest).success(function(dynamicModels){
+                        $scope.dynamicModels = dynamicModels;
                     });
                 };
 
@@ -31,7 +31,7 @@ define(
                     });
                 };
 
-                $scope.search();
+                $scope.query();
 
             }
         ]);
