@@ -1,6 +1,7 @@
 package com.lite.blackdream.business.controller;
 
 import com.lite.blackdream.business.domain.GeneratorInstance;
+import com.lite.blackdream.business.domain.RunResult;
 import com.lite.blackdream.business.parameter.generatorinstance.*;
 import com.lite.blackdream.business.service.GeneratorInstanceService;
 import com.lite.blackdream.framework.component.BaseController;
@@ -66,14 +67,14 @@ public class GeneratorInstanceController extends BaseController {
     @ResponseBody
     @RequestMapping(params="method=generatorInstance.run")
     public GeneratorInstanceRunResponse run(GeneratorInstanceRunRequest request) {
-        Object result = generatorInstanceService.run(request);
+        RunResult result = generatorInstanceService.run(request);
         return new GeneratorInstanceRunResponse(result);
     }
 
     @ResponseBody
     @RequestMapping(params="method=generatorInstance.dataDictionary")
-    public GeneratorInstanceDataDictionaryResponse run(GeneratorInstanceDataDictionaryRequest request) {
-        Object result = generatorInstanceService.dataDictionary(request);
+    public GeneratorInstanceDataDictionaryResponse dataDictionary(GeneratorInstanceDataDictionaryRequest request) {
+        RunResult result = generatorInstanceService.dataDictionary(request);
         return new GeneratorInstanceDataDictionaryResponse(result);
     }
 

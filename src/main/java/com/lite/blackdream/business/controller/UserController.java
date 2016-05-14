@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * @author LaineyC
@@ -51,6 +52,7 @@ public class UserController extends BaseController {
         Authentication authentication = new Authentication();
         authentication.setUserId(user.getId());
         authentication.setUserName(user.getUserName());
+        authentication.setIsDeveloper(user.getIsDeveloper());
         servletRequest.getSession().setAttribute("$authentication", authentication);
         return new UserLoginResponse(user);
     }
@@ -58,15 +60,23 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(params="method=user.logout")
     public UserLogoutResponse logout(UserLogoutRequest request, HttpServletRequest servletRequest) {
-        servletRequest.getSession().removeAttribute("$authentication");
-        return new UserLogoutResponse(null);
+        HttpSession session = servletRequest.getSession();
+        Authentication authentication = (Authentication)session.getAttribute("$authentication");
+        User user = new User();
+        if(authentication != null){
+            user.setId(authentication.getUserId());
+            user.setUserName(authentication.getUserName());
+            user.setIsDeveloper(authentication.getIsDeveloper());
+            session.removeAttribute("$authentication");
+        }
+        return new UserLogoutResponse(user);
     }
 
     @ResponseBody
     @RequestMapping(params="method=user.password.update")
     public UserPasswordUpdateResponse passwordUpdate(UserPasswordUpdateRequest request) {
-        userService.passwordUpdate(request);
-        return new UserPasswordUpdateResponse(null);
+        User user = userService.passwordUpdate(request);
+        return new UserPasswordUpdateResponse(user);
     }
 
     @ResponseBody
@@ -86,8 +96,8 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(params="method=user.password.reset")
     public UserPasswordResetResponse passwordReset(UserPasswordResetRequest request) {
-        userService.passwordReset(request);
-        return new UserPasswordResetResponse(null);
+        User user = userService.passwordReset(request);
+        return new UserPasswordResetResponse(user);
     }
 
 }

@@ -56,8 +56,8 @@ public class DataModelController extends BaseController {
     @ResponseBody
     @RequestMapping(params="method=dataModel.sort")
     public DataModelSortResponse sort(DataModelSortRequest request) {
-        dataModelService.sort(request);
-        return new DataModelSortResponse(null);
+        DataModel dataModel = dataModelService.sort(request);
+        return new DataModelSortResponse(dataModel);
     }
 
 }

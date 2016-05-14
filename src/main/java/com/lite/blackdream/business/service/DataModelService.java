@@ -19,6 +19,6 @@ public interface DataModelService extends Service {
 
     DataModel tree(DataModelTreeRequest request);
 
-    void sort(DataModelSortRequest request);
+    DataModel sort(DataModelSortRequest request);
 
 }

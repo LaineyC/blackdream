@@ -11,6 +11,8 @@ public class Authentication {
 
     private String userName;
 
+    private Boolean isDeveloper;
+
     public Authentication(){
 
     }
@@ -30,4 +32,13 @@ public class Authentication {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+    public Boolean getIsDeveloper() {
+        return isDeveloper;
+    }
+
+    public void setIsDeveloper(Boolean isDeveloper) {
+        this.isDeveloper = isDeveloper;
+    }
+
 }

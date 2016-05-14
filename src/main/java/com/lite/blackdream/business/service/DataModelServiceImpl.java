@@ -114,10 +114,7 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
 
         dataModelRepository.delete(dataModelPersistence, rootPersistence);
 
-        DataModel dataModel = new DataModel();
-        dataModel.setId(dataModelPersistence.getId());
-        dataModel.setName(dataModelPersistence.getName());
-        return dataModel;
+        return dataModelPersistence;
     }
 
     @Override
@@ -235,7 +232,7 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
     }
 
     @Override
-    public void sort(DataModelSortRequest request) {
+    public DataModel sort(DataModelSortRequest request) {
         Long rootId = request.getRootId();
         DataModel rootPersistence = dataModelRepository.selectById(rootId);
         if(rootPersistence == null){
@@ -273,6 +270,8 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
             d.setSequence(index++);
             dataModelRepository.update(d);
         }
+
+        return dataModel;
     }
 
 }
