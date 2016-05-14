@@ -4,7 +4,7 @@ import com.lite.blackdream.business.domain.tag.Foreach;
 import com.lite.blackdream.business.domain.tag.Function;
 import com.lite.blackdream.business.domain.TemplateStrategy;
 import com.lite.blackdream.business.service.TemplateStrategyService;
-import com.lite.blackdream.framework.util.ServiceTest;
+import com.lite.blackdream.framework.component.ServiceTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

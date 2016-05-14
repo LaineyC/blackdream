@@ -1,12 +1,8 @@
 package com.lite.blackdream.business.test;
 
 import com.lite.blackdream.business.domain.DataModel;
-import com.lite.blackdream.business.domain.DynamicModel;
-import com.lite.blackdream.business.domain.DynamicProperty;
-import com.lite.blackdream.business.domain.Generator;
 import com.lite.blackdream.business.repository.DataModelRepository;
-import com.lite.blackdream.business.service.DynamicModelService;
-import com.lite.blackdream.framework.util.ServiceTest;
+import com.lite.blackdream.framework.component.ServiceTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
