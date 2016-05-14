@@ -221,6 +221,7 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
         templateStrategy.setId(idWorker.nextId());
         templateStrategy.setName(request.getName());
         templateStrategy.setModifyDate(new Date());
+        templateStrategy.setSequence(Integer.MAX_VALUE);
         templateStrategy.setIsDelete(false);
         Generator generator = new Generator();
         generator.setId(generatorPersistence.getId());
@@ -311,6 +312,7 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
         for(TemplateStrategy t : records){
             TemplateStrategy templateStrategy = new TemplateStrategy();
             templateStrategy.setId(t.getId());
+            templateStrategy.setSequence(t.getSequence());
             templateStrategy.setName(t.getName());
             templateStrategy.setIsDelete(t.getIsDelete());
             Generator generatorPersistence = generatorRepository.selectById(generatorId);
@@ -321,6 +323,11 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
             templateStrategy.setChildren(t.getChildren());
             result.add(templateStrategy);
         }
+        result.sort((t1, t2) -> {
+            int s1 = t1.getSequence();
+            int s2 = t2.getSequence();
+            return s1 == s2 ? (int)(t1.getId() - t2.getId()) : s1 - s2;
+        });
         return result;
     }
 
@@ -407,4 +414,48 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
         return templateStrategyPersistence;
     }
 
+    @Override
+    public TemplateStrategy sort(TemplateStrategySortRequest request) {
+        Long id = request.getId();
+        TemplateStrategy templateStrategyPersistence = templateStrategyRepository.selectById(id);
+        if(templateStrategyPersistence == null){
+            throw new AppException("生成策略不存在");
+        }
+
+        Long userId = request.getAuthentication().getUserId();
+        if(!userId.equals(templateStrategyPersistence.getDeveloper().getId())){
+            throw new AppException("权限不足");
+        }
+
+        TemplateStrategy templateStrategyTemplate = new TemplateStrategy();
+        templateStrategyTemplate.setIsDelete(false);
+        templateStrategyTemplate.setGenerator(templateStrategyPersistence.getGenerator());
+        List<TemplateStrategy> records = templateStrategyRepository.selectList(templateStrategyTemplate);
+
+        int fromIndex = request.getFromIndex();
+        int toIndex = request.getToIndex();
+        int size = records.size();
+        if(size == 0 || toIndex > size - 1 || fromIndex > size - 1){
+            throw new AppException("请保存并刷新数据，重新操作！");
+        }
+
+        records.sort((t1, t2) -> {
+            int s1 = t1.getSequence();
+            int s2 = t2.getSequence();
+            return s1 == s2 ? (int)(t1.getId() - t2.getId()) : s1 - s2;
+        });
+
+        if(templateStrategyPersistence != records.remove(fromIndex)){
+            throw new AppException("请保存并刷新数据，重新操作！");
+        }
+        records.add(toIndex, templateStrategyPersistence);
+
+        int index = 1;
+        for(TemplateStrategy t : records){
+            t.setSequence(index++);
+            templateStrategyRepository.update(t);
+        }
+
+        return templateStrategyPersistence;
+    }
 }

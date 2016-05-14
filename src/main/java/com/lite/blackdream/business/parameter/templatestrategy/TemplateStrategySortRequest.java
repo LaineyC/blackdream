@@ -1,11 +1,11 @@
-package com.lite.blackdream.business.parameter.template;
+package com.lite.blackdream.business.parameter.templatestrategy;
 
 import com.lite.blackdream.framework.model.Request;
 
 /**
  * @author LaineyC
  */
-public class TemplateSortRequest extends Request {
+public class TemplateStrategySortRequest extends Request {
 
     private Long id;
 
@@ -13,7 +13,7 @@ public class TemplateSortRequest extends Request {
 
     private Integer toIndex;
 
-    public TemplateSortRequest(){
+    public TemplateStrategySortRequest(){
 
     }
 

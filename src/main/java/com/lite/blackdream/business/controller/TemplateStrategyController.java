@@ -62,4 +62,11 @@ public class TemplateStrategyController extends BaseController {
         return new TemplateStrategyUpdateResponse(templateStrategy);
     }
 
+    @ResponseBody
+    @RequestMapping(params="method=templateStrategy.sort")
+    public TemplateStrategySortResponse sort(TemplateStrategySortRequest request) {
+        TemplateStrategy dynamicModel = templateStrategyService.sort(request);
+        return new TemplateStrategySortResponse(dynamicModel);
+    }
+
 }

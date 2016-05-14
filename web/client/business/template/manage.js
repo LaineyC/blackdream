@@ -131,7 +131,6 @@ define(
                         update: function(e, ui) {
                             templateApi.sort({
                                 id:ui.item.sortable.model.id,
-                                generatorId:generatorId,
                                 fromIndex:ui.item.sortable.index,
                                 toIndex:ui.item.sortable.dropindex
                             });

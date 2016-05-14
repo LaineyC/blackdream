@@ -137,6 +137,8 @@ define(["business/module"],function(module){
 
             provider.search = function(request) { return $http.post("/api?method=dynamicModel.search", request); };
 
+            provider.sort = function(request) { return $http.post("/api?method=dynamicModel.sort", request); };
+
             return provider;
         }
     ]);
@@ -184,6 +186,8 @@ define(["business/module"],function(module){
             provider.query = function(request) { return $http.post("/api?method=templateStrategy.query", request); };
 
             provider.search = function(request) { return $http.post("/api?method=templateStrategy.search", request); };
+
+            provider.sort = function(request) { return $http.post("/api?method=templateStrategy.sort", request); };
 
             return provider;
         }

@@ -50,6 +50,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
         dynamicModel.setId(idWorker.nextId());
         dynamicModel.setName(request.getName());
         dynamicModel.setModifyDate(new Date());
+        dynamicModel.setSequence(Integer.MAX_VALUE);
         dynamicModel.setIcon(request.getIcon());
         dynamicModel.setIsRootChild(request.getIsRootChild());
         dynamicModel.setIsDelete(false);
@@ -210,6 +211,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
         for(DynamicModel d : records){
             DynamicModel dynamicModel = new DynamicModel();
             dynamicModel.setId(d.getId());
+            dynamicModel.setSequence(d.getSequence());
             dynamicModel.setName(d.getName());
             dynamicModel.setIcon(d.getIcon());
             dynamicModel.setIsRootChild(d.getIsRootChild());
@@ -236,6 +238,11 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
             });
             result.add(dynamicModel);
         }
+        result.sort((d1, d2) -> {
+            int s1 = d1.getSequence();
+            int s2 = d2.getSequence();
+            return s1 == s2 ? (int)(d1.getId() - d2.getId()) : s1 - s2;
+        });
         return result;
     }
 
@@ -276,6 +283,51 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
         if(generatorPersistence.getIsOpen()){
             generatorPersistence.setIsOpen(false);
             generatorRepository.update(generatorPersistence);
+        }
+
+        return dynamicModelPersistence;
+    }
+
+    @Override
+    public DynamicModel sort(DynamicModelSortRequest request) {
+        Long id = request.getId();
+        DynamicModel dynamicModelPersistence = dynamicModelRepository.selectById(id);
+        if(dynamicModelPersistence == null){
+            throw new AppException("数据模型不存在");
+        }
+
+        Long userId = request.getAuthentication().getUserId();
+        if(!userId.equals(dynamicModelPersistence.getDeveloper().getId())){
+            throw new AppException("权限不足");
+        }
+
+        DynamicModel dynamicModelTemplate = new DynamicModel();
+        dynamicModelTemplate.setIsDelete(false);
+        dynamicModelTemplate.setGenerator(dynamicModelPersistence.getGenerator());
+        List<DynamicModel> records = dynamicModelRepository.selectList(dynamicModelTemplate);
+
+        int fromIndex = request.getFromIndex();
+        int toIndex = request.getToIndex();
+        int size = records.size();
+        if(size == 0 || toIndex > size - 1 || fromIndex > size - 1){
+            throw new AppException("请保存并刷新数据，重新操作！");
+        }
+
+        records.sort((t1, t2) -> {
+            int s1 = t1.getSequence();
+            int s2 = t2.getSequence();
+            return s1 == s2 ? (int)(t1.getId() - t2.getId()) : s1 - s2;
+        });
+
+        if(dynamicModelPersistence != records.remove(fromIndex)){
+            throw new AppException("请保存并刷新数据，重新操作！");
+        }
+        records.add(toIndex, dynamicModelPersistence);
+
+        int index = 1;
+        for(DynamicModel d : records){
+            d.setSequence(index++);
+            dynamicModelRepository.update(d);
         }
 
         return dynamicModelPersistence;

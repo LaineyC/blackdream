@@ -23,4 +23,6 @@ public interface TemplateStrategyService extends Service {
 
     TemplateStrategy update(TemplateStrategyUpdateRequest request);
 
+    TemplateStrategy sort(TemplateStrategySortRequest request);
+
 }

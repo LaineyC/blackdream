@@ -23,4 +23,6 @@ public interface DynamicModelService extends Service {
 
     DynamicModel update(DynamicModelUpdateRequest request);
 
+    DynamicModel sort(DynamicModelSortRequest request);
+
 }

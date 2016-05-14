@@ -250,16 +250,16 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
         List<DataModel> children = parentPersistence.getChildren();
 
         Long id = request.getId();
-        Integer fromIndex = request.getFromIndex();
-        Integer toIndex = request.getToIndex();
+        int fromIndex = request.getFromIndex();
+        int toIndex = request.getToIndex();
         int size = children.size();
         if(size == 0 || toIndex > size - 1 || fromIndex > size - 1){
-            throw new AppException("请保存并刷新生成数据，重新操作！");
+            throw new AppException("请保存并刷新数据，重新操作！");
         }
         children.sort((d1, d2) -> d1.getSequence() - d2.getSequence());
-        DataModel dataModel = children.remove((int)fromIndex);
+        DataModel dataModel = children.remove(fromIndex);
         if(!dataModel.getId().equals(id)){
-            throw new AppException("请保存并刷新生成数据，重新操作！");
+            throw new AppException("请保存并刷新数据，重新操作！");
         }
         children.add(toIndex, dataModel);
 

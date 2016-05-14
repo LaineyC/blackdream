@@ -31,6 +31,19 @@ define(
                     });
                 };
 
+                $scope.sortableOptions = {
+                    update: function(e, ui) {
+                        dynamicModelApi.sort({
+                            id:ui.item.sortable.model.id,
+                            fromIndex:ui.item.sortable.index,
+                            toIndex:ui.item.sortable.dropindex
+                        });
+                    },
+                    stop: function(e, ui) {
+
+                    }
+                };
+
                 $scope.query();
 
             }

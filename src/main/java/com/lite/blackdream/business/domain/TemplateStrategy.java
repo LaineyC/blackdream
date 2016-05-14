@@ -8,6 +8,8 @@ import com.lite.blackdream.framework.el.Context;
  */
 public class TemplateStrategy extends Tag {
 
+    private Integer sequence;
+
     private String name;
 
     private Generator generator;
@@ -35,6 +37,14 @@ public class TemplateStrategy extends Tag {
             child.setParent(this);
             child.execute(exeContext);
         });
+    }
+
+    public Integer getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(Integer sequence) {
+        this.sequence = sequence;
     }
 
     public String getName() {

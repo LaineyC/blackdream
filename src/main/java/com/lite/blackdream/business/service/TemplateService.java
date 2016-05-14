@@ -25,6 +25,6 @@ public interface TemplateService extends Service {
 
     String codeGet(TemplateCodeGetRequest request);
 
-    void sort(TemplateSortRequest request);
+    Template sort(TemplateSortRequest request);
 
 }

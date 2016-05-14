@@ -89,7 +89,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         Long id = request.getId();
         Template templatePersistence = templateRepository.selectById(id);
         if(templatePersistence == null){
-            throw new AppException("模板不存在");
+            throw new AppException("模板文件不存在");
         }
         Template template = new Template();
         template.setId(templatePersistence.getId());
@@ -115,7 +115,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         Long id = request.getId();
         Template templatePersistence = templateRepository.selectById(id);
         if(templatePersistence == null){
-            throw new AppException("模板不存在");
+            throw new AppException("模板文件不存在");
         }
 
         Long userId = request.getAuthentication().getUserId();
@@ -221,7 +221,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         Long id = request.getId();
         Template templatePersistence = templateRepository.selectById(id);
         if(templatePersistence == null){
-            throw new AppException("模板不存在");
+            throw new AppException("模板文件不存在");
         }
 
         Long userId = request.getAuthentication().getUserId();
@@ -264,7 +264,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         Long id = request.getId();
         Template templatePersistence = templateRepository.selectById(id);
         if(templatePersistence == null){
-            throw new AppException("模板不存在");
+            throw new AppException("模板文件不存在");
         }
         String uploadPath = templatePersistence.getUrl();
         String fileAbsolutePath = ConfigProperties.FILEBASE_PATH + uploadPath.replace("/", ConfigProperties.fileSeparator);
@@ -281,39 +281,48 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
     }
 
     @Override
-    public void sort(TemplateSortRequest request) {
-        Template templateTemplate = new Template();
-        templateTemplate.setIsDelete(false);
-        Long generatorId = request.getGeneratorId();
-        Generator generator = new Generator();
-        generator.setId(generatorId);
-        templateTemplate.setGenerator(generator);
-        List<Template> records = templateRepository.selectList(templateTemplate);
-
+    public Template sort(TemplateSortRequest request) {
         Long id = request.getId();
-        Integer fromIndex = request.getFromIndex();
-        Integer toIndex = request.getToIndex();
-        int size = records.size();
-        if(size == 0 || toIndex > size - 1 || fromIndex > size - 1){
-            throw new AppException("请保存并刷新模板数据，重新操作！");
+        Template templatePersistence = templateRepository.selectById(id);
+        if(templatePersistence == null){
+            throw new AppException("模板文件不存在");
         }
-        records.sort((t1, t2) -> t1.getSequence() - t2.getSequence());
-        Template template = records.remove((int) fromIndex);
-        if(!template.getId().equals(id)){
-            throw new AppException("请保存并刷新模板数据，重新操作！");
-        }
-        records.add(toIndex, template);
 
         Long userId = request.getAuthentication().getUserId();
-        if(!userId.equals(template.getDeveloper().getId())){
+        if(!userId.equals(templatePersistence.getDeveloper().getId())){
             throw new AppException("权限不足");
         }
+
+        Template templateTemplate = new Template();
+        templateTemplate.setIsDelete(false);
+        templateTemplate.setGenerator(templatePersistence.getGenerator());
+        List<Template> records = templateRepository.selectList(templateTemplate);
+
+        int fromIndex = request.getFromIndex();
+        int toIndex = request.getToIndex();
+        int size = records.size();
+        if(size == 0 || toIndex > size - 1 || fromIndex > size - 1){
+            throw new AppException("请保存并刷新数据，重新操作！");
+        }
+
+        records.sort((t1, t2) -> {
+            int s1 = t1.getSequence();
+            int s2 = t2.getSequence();
+            return s1 == s2 ? (int)(t1.getId() - t2.getId()) : s1 - s2;
+        });
+
+        if(templatePersistence != records.remove(fromIndex)){
+            throw new AppException("请保存并刷新数据，重新操作！");
+        }
+        records.add(toIndex, templatePersistence);
 
         int index = 1;
         for(Template t : records){
             t.setSequence(index++);
             templateRepository.update(t);
         }
+
+        return templatePersistence;
     }
 
 }

@@ -72,8 +72,8 @@ public class TemplateController extends BaseController {
     @ResponseBody
     @RequestMapping(params="method=template.sort")
     public TemplateSortResponse sort(TemplateSortRequest request) {
-        templateService.sort(request);
-        return new TemplateSortResponse(null);
+        Template template = templateService.sort(request);
+        return new TemplateSortResponse(template);
     }
 
 }

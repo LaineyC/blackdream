@@ -10,6 +10,8 @@ import java.util.Map;
  */
 public class DynamicModel extends Domain{
 
+    private Integer sequence;
+
     private String name;
 
     private String icon;
@@ -30,6 +32,14 @@ public class DynamicModel extends Domain{
 
     public DynamicModel(){
 
+    }
+
+    public Integer getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(Integer sequence) {
+        this.sequence = sequence;
     }
 
     public String getName() {

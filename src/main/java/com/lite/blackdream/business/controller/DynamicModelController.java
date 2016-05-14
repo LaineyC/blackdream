@@ -62,4 +62,11 @@ public class DynamicModelController extends BaseController {
         return new DynamicModelUpdateResponse(dynamicModel);
     }
 
+    @ResponseBody
+    @RequestMapping(params="method=dynamicModel.sort")
+    public DynamicModelSortResponse sort(DynamicModelSortRequest request) {
+        DynamicModel dynamicModel = dynamicModelService.sort(request);
+        return new DynamicModelSortResponse(dynamicModel);
+    }
+
 }

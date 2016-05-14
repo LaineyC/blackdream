@@ -26,7 +26,7 @@
                         <th>操作</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody ui-sortable="sortableOptions" ng-model="dynamicModels">
                     <tr ng-repeat="dynamicModel in dynamicModels track by $index">
                         <th>{{$index + 1}}</th>
                         <td>{{dynamicModel.id}}</td>

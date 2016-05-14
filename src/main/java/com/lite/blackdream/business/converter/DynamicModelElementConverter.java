@@ -40,6 +40,12 @@ public class DynamicModelElementConverter extends BaseElementConverter<DynamicMo
             idElement.setText(id.toString());
         }
 
+        Integer sequence = entity.getSequence();
+        if(sequence != null){
+            Element sequenceElement = element.addElement("sequence");
+            sequenceElement.setText(sequence.toString());
+        }
+
         Date modifyDate = entity.getModifyDate();
         if(modifyDate != null){
             Element modifyDateElement = element.addElement("modifyDate");
@@ -159,6 +165,11 @@ public class DynamicModelElementConverter extends BaseElementConverter<DynamicMo
         Node idNode = element.element("id");
         if(idNode != null){
             entity.setId(Long.valueOf(idNode.getText()));
+        }
+
+        Node sequenceNode = element.element("sequence");
+        if(sequenceNode != null){
+            entity.setSequence(Integer.valueOf(sequenceNode.getText()));
         }
 
         Node modifyDateNode = element.element("modifyDate");
