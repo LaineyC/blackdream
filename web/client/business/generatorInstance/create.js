@@ -30,8 +30,9 @@ define(
                 };
 
                 $scope.getMessage = function(field, $error, validateMessages){
-                    for(var k in $error)
+                    for(var k in $error){
                         return validateMessages[field][k];
+                    }
                 };
 
             }

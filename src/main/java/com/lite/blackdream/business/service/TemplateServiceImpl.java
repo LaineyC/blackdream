@@ -304,13 +304,11 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         if(size == 0 || toIndex > size - 1 || fromIndex > size - 1){
             throw new AppException("请保存并刷新数据，重新操作！");
         }
-
         records.sort((t1, t2) -> {
             int s1 = t1.getSequence();
             int s2 = t2.getSequence();
             return s1 == s2 ? (int)(t1.getId() - t2.getId()) : s1 - s2;
         });
-
         if(templatePersistence != records.remove(fromIndex)){
             throw new AppException("请保存并刷新数据，重新操作！");
         }

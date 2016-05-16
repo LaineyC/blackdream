@@ -174,7 +174,7 @@ define(
                         },
                         viewWidth:{
                             required:"必输项",
-                            min:"最小10",
+                            min:"最小1",
                             max:"最大1000",
                             number:"数字类型"
                         }

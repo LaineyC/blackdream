@@ -290,7 +290,6 @@ define(
                             dataModelApi.sort({
                                 id:ui.item.sortable.model.id,
                                 rootId:$scope.generatorInstance.dataModel.id,
-                                parentId:ui.item.sortable.model.parent.id,
                                 fromIndex:ui.item.sortable.index,
                                 toIndex:ui.item.sortable.dropindex
                             });

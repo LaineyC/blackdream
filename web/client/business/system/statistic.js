@@ -49,6 +49,7 @@ define(
                         $scope.pagerResult = pagerResult;
                     });
                 };
+
                 $scope.search();
             }
         ]);

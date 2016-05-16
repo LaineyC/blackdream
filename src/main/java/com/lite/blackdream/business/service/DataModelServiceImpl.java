@@ -7,7 +7,6 @@ import com.lite.blackdream.framework.exception.AppException;
 import com.lite.blackdream.framework.component.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -104,7 +103,7 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
         }
 
         if(!dataModelPersistence.getChildren().isEmpty()){
-            throw new AppException("有子数据模型不能删除");
+            throw new AppException("有子级数据模型不能删除");
         }
 
         Generator generatorPersistence = generatorRepository.selectById(dataModelPersistence.getGenerator().getId());
@@ -239,14 +238,24 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
             throw new AppException("root不存在");
         }
 
-        Long parentId = request.getParentId();
+        Long id = request.getId();
+        DataModel dataModelPersistence = dataModelRepository.selectById(id, rootPersistence);
+        if(dataModelPersistence == null) {
+            throw new AppException("数据模型不存在");
+        }
+
+        Long userId = request.getAuthentication().getUserId();
+        if(!userId.equals(dataModelPersistence.getUser().getId())){
+            throw new AppException("权限不足");
+        }
+
+        Long parentId = dataModelPersistence.getParent().getId();
         DataModel parentPersistence = dataModelRepository.selectById(parentId, rootPersistence);
         if(parentPersistence == null){
             throw new AppException("parent不存在");
         }
-        List<DataModel> children = parentPersistence.getChildren();
 
-        Long id = request.getId();
+        List<DataModel> children = parentPersistence.getChildren();
         int fromIndex = request.getFromIndex();
         int toIndex = request.getToIndex();
         int size = children.size();
@@ -254,16 +263,10 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
             throw new AppException("请保存并刷新数据，重新操作！");
         }
         children.sort((d1, d2) -> d1.getSequence() - d2.getSequence());
-        DataModel dataModel = children.remove(fromIndex);
-        if(!dataModel.getId().equals(id)){
+        if(dataModelPersistence != children.remove(fromIndex)){
             throw new AppException("请保存并刷新数据，重新操作！");
         }
-        children.add(toIndex, dataModel);
-
-        Long userId = request.getAuthentication().getUserId();
-        if(!userId.equals(dataModel.getUser().getId())){
-            throw new AppException("权限不足");
-        }
+        children.add(toIndex, dataModelPersistence);
 
         int index = 1;
         for(DataModel d : children){
@@ -271,7 +274,7 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
             dataModelRepository.update(d);
         }
 
-        return dataModel;
+        return dataModelPersistence;
     }
 
 }
