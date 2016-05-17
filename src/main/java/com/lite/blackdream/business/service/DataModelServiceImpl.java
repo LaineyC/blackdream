@@ -42,6 +42,11 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
             throw new AppException("root不存在");
         }
 
+        GeneratorInstance generatorInstancePersistence = generatorInstanceRepository.selectById(rootPersistence.getGeneratorInstance().getId());
+        if(generatorInstancePersistence == null){
+            throw new AppException("实例不存在");
+        }
+
         Long parentId = request.getParentId();
         DataModel parentPersistence = dataModelRepository.selectById(parentId, rootPersistence);
         if(parentPersistence == null){
@@ -79,6 +84,9 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
         dataModel.setAssociation(request.getAssociation());
         dataModelRepository.insert(dataModel, rootPersistence);
 
+        generatorInstancePersistence.setModifyDate(new Date());
+        generatorInstanceRepository.update(generatorInstancePersistence);
+
         return dataModel;
     }
 
@@ -97,6 +105,11 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
             throw new AppException("权限不足");
         }
 
+        GeneratorInstance generatorInstancePersistence = generatorInstanceRepository.selectById(rootPersistence.getGeneratorInstance().getId());
+        if(generatorInstancePersistence == null){
+            throw new AppException("实例不存在");
+        }
+
         DataModel dataModelPersistence = dataModelRepository.selectById(id, rootPersistence);
         if(dataModelPersistence == null) {
             throw new AppException("数据模型不存在");
@@ -112,6 +125,9 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
         }
 
         dataModelRepository.delete(dataModelPersistence, rootPersistence);
+
+        generatorInstancePersistence.setModifyDate(new Date());
+        generatorInstanceRepository.update(generatorInstancePersistence);
 
         return dataModelPersistence;
     }
@@ -162,6 +178,11 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
             throw new AppException("权限不足");
         }
 
+        GeneratorInstance generatorInstancePersistence = generatorInstanceRepository.selectById(rootPersistence.getGeneratorInstance().getId());
+        if(generatorInstancePersistence == null){
+            throw new AppException("实例不存在");
+        }
+
         DataModel dataModelPersistence = dataModelRepository.selectById(id, rootPersistence);
         if(dataModelPersistence == null) {
             throw new AppException("数据模型不存在");
@@ -178,6 +199,9 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
         dataModelPersistence.setProperties(request.getProperties());
         dataModelPersistence.setAssociation(request.getAssociation());
         dataModelRepository.update(dataModelPersistence);
+
+        generatorInstancePersistence.setModifyDate(new Date());
+        generatorInstanceRepository.update(generatorInstancePersistence);
 
         return dataModelPersistence;
     }

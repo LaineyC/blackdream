@@ -42,6 +42,7 @@
                                             <th width="100">角色</th>
                                             <th width="100">登录次数</th>
                                             <th width="200">创建者</th>
+                                            <th width="150">修改日期</th>
                                             <th>操作</th>
                                         </tr>
                                         </thead>
@@ -54,6 +55,7 @@
                                             <td>{{user.isDeveloper ? "开发者" : "使用者";}}</td>
                                             <td>{{user.loginCount}}</td>
                                             <td>{{user.creator ? user.creator.userName : '系统'}}</td>
+                                            <td>{{user.modifyDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                                             <td><button disabled="disabled" type="button" class="btn btn-info btn-sm" location-go="/business/user/detail/{{user.id}}">详情</button></td>
                                         </tr>
                                         </tbody>
@@ -102,6 +104,7 @@
                                             <th width="200">名称</th>
                                             <th width="200">生成器</th>
                                             <th width="200">创建者</th>
+                                            <th width="150">修改日期</th>
                                             <th>操作</th>
                                         </tr>
                                         </thead>
@@ -112,6 +115,7 @@
                                             <td>{{generatorInstance.name}}</td>
                                             <td>{{generatorInstance.generator.name}}</td>
                                             <td>{{generatorInstance.user.userName}}</td>
+                                            <td>{{generatorInstance.modifyDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                                             <td><button disabled="disabled" type="button" class="btn btn-info btn-sm" location-go="/business/generatorInstance/detail/{{generatorInstance.id}}">详情</button></td>
                                         </tr>
                                         </tbody>
@@ -166,6 +170,7 @@
                                             <th width="100">状态</th>
                                             <th width="100">实例量</th>
                                             <th width="200">创建者</th>
+                                            <th width="150">修改日期</th>
                                             <th>操作</th>
                                         </tr>
                                         </thead>
@@ -177,6 +182,7 @@
                                             <td>{{generator.isOpen ? "发布" : "维护";}}</td>
                                             <td>{{generator.instanceCount}}</td>
                                             <td>{{generator.developer.userName}}</td>
+                                            <td>{{generator.modifyDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                                             <td><button disabled="disabled" type="button" class="btn btn-info btn-sm" location-go="/business/generator/detail/{{generator.id}}">详情</button></td>
                                         </tr>
                                         </tbody>
@@ -224,9 +230,9 @@
                                             <th width="150">ID</th>
                                             <th width="200">名称</th>
                                             <th width="100">图标</th>
-                                            <th width="100">顶级模型</th>
                                             <th width="200">生成器</th>
                                             <th width="200">创建者</th>
+                                            <th width="150">修改日期</th>
                                             <th>操作</th>
                                         </tr>
                                         </thead>
@@ -236,9 +242,9 @@
                                             <td>{{dynamicModel.id}}</td>
                                             <td>{{dynamicModel.name}}</td>
                                             <td><span class="glyphicon glyphicon-{{dynamicModel.icon}}"></span></td>
-                                            <td><input onclick="return false;" type="checkbox" ng-checked="dynamicModel.isRootChild"/></td>
                                             <td>{{dynamicModel.generator.name}}</td>
                                             <td>{{dynamicModel.developer.userName}}</td>
+                                            <td>{{dynamicModel.modifyDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                                             <td><button disabled="disabled" type="button" class="btn btn-info btn-sm" location-go="/business/dynamicModel/detail/{{dynamicModel.id}}">详情</button></td>
                                         </tr>
                                         </tbody>
@@ -287,6 +293,7 @@
                                             <th width="200">名称</th>
                                             <th width="200">生成器</th>
                                             <th width="200">创建者</th>
+                                            <th width="150">修改日期</th>
                                             <th>操作</th>
                                         </tr>
                                         </thead>
@@ -297,6 +304,7 @@
                                             <td>{{template.name}}</td>
                                             <td>{{template.generator.name}}</td>
                                             <td>{{template.developer.userName}}</td>
+                                            <td>{{template.modifyDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                                             <td><button disabled="disabled" type="button" class="btn btn-info btn-sm" location-go="/business/template/detail/{{template.id}}">详情</button></td>
                                         </tr>
                                         </tbody>
@@ -345,6 +353,7 @@
                                             <th width="200">名称</th>
                                             <th width="200">生成器</th>
                                             <th width="200">创建者</th>
+                                            <th width="150">修改日期</th>
                                             <th>操作</th>
                                         </tr>
                                         </thead>
@@ -355,6 +364,7 @@
                                             <td>{{templateStrategy.name}}</td>
                                             <td>{{templateStrategy.generator.name}}</td>
                                             <td>{{templateStrategy.developer.userName}}</td>
+                                            <td>{{templateStrategy.modifyDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                                             <td><button disabled="disabled" type="button" class="btn btn-info btn-sm" location-go="/business/templateStrategy/detail/{{templateStrategy.id}}">详情</button></td>
                                         </tr>
                                         </tbody>

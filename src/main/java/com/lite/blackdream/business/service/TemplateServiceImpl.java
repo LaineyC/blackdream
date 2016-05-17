@@ -76,10 +76,9 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         template.setUrl(uploadPath);
         templateRepository.insert(template);
 
-        if(generatorPersistence.getIsOpen()){
-            generatorPersistence.setIsOpen(false);
-            generatorRepository.update(generatorPersistence);
-        }
+        generatorPersistence.setIsOpen(false);
+        generatorPersistence.setModifyDate(new Date());
+        generatorRepository.update(generatorPersistence);
 
         return template;
     }
@@ -130,10 +129,9 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
 
         templateRepository.delete(templatePersistence);
 
-        if(generatorPersistence.getIsOpen()){
-            generatorPersistence.setIsOpen(false);
-            generatorRepository.update(generatorPersistence);
-        }
+        generatorPersistence.setIsOpen(false);
+        generatorPersistence.setModifyDate(new Date());
+        generatorRepository.update(generatorPersistence);
 
         return templatePersistence;
     }
@@ -153,6 +151,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
             Template template = new Template();
             template.setId(t.getId());
             template.setName(t.getName());
+            template.setModifyDate(t.getModifyDate());
             template.setIsDelete(t.getIsDelete());
             template.setSequence(t.getSequence());
             Generator generatorPersistence = generatorRepository.selectById(generatorId);
@@ -251,10 +250,9 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         templatePersistence.setModifyDate(new Date());
         templateRepository.update(templatePersistence);
 
-        if(generatorPersistence.getIsOpen()){
-            generatorPersistence.setIsOpen(false);
-            generatorRepository.update(generatorPersistence);
-        }
+        generatorPersistence.setIsOpen(false);
+        generatorPersistence.setModifyDate(new Date());
+        generatorRepository.update(generatorPersistence);
 
         return templatePersistence;
     }

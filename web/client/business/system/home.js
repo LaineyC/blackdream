@@ -7,7 +7,7 @@ define(
             function($scope, generatorApi, generatorInstanceApi, $uibModal, viewPage){
                 viewPage.setViewPageTitle("首页");
 
-                generatorInstanceApi.authSearch({page:1, pageSize:10}).success(function(pagerResult){
+                generatorInstanceApi.authSearch({page:1, pageSize:10, sortField:"modifyDate", sortDirection:"DESC"}).success(function(pagerResult){
                     $scope.generatorInstances = pagerResult.records;
                 });
 

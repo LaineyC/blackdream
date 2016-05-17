@@ -9,6 +9,10 @@ public class PagerRequest extends Request {
 
     private Integer pageSize;
 
+    private String sortField;
+
+    private String sortDirection;
+
     public PagerRequest(){
 
     }
@@ -29,4 +33,19 @@ public class PagerRequest extends Request {
         this.pageSize = pageSize;
     }
 
+    public String getSortField() {
+        return sortField;
+    }
+
+    public void setSortField(String sortField) {
+        this.sortField = sortField;
+    }
+
+    public String getSortDirection() {
+        return sortDirection;
+    }
+
+    public void setSortDirection(String sortDirection) {
+        this.sortDirection = sortDirection;
+    }
 }

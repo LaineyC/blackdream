@@ -237,10 +237,9 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
         });
         templateStrategyRepository.insert(templateStrategy);
 
-        if(generatorPersistence.getIsOpen()){
-            generatorPersistence.setIsOpen(false);
-            generatorRepository.update(generatorPersistence);
-        }
+        generatorPersistence.setIsOpen(false);
+        generatorPersistence.setModifyDate(new Date());
+        generatorRepository.update(generatorPersistence);
 
         return templateStrategy;
     }
@@ -265,10 +264,9 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
 
         templateStrategyRepository.delete(templateStrategyPersistence);
 
-        if(generatorPersistence.getIsOpen()){
-            generatorPersistence.setIsOpen(false);
-            generatorRepository.update(generatorPersistence);
-        }
+        generatorPersistence.setIsOpen(false);
+        generatorPersistence.setModifyDate(new Date());
+        generatorRepository.update(generatorPersistence);
 
         return templateStrategyPersistence;
     }
@@ -312,8 +310,9 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
         for(TemplateStrategy t : records){
             TemplateStrategy templateStrategy = new TemplateStrategy();
             templateStrategy.setId(t.getId());
-            templateStrategy.setSequence(t.getSequence());
             templateStrategy.setName(t.getName());
+            templateStrategy.setModifyDate(t.getModifyDate());
+            templateStrategy.setSequence(t.getSequence());
             templateStrategy.setIsDelete(t.getIsDelete());
             Generator generatorPersistence = generatorRepository.selectById(generatorId);
             if(generatorPersistence == null){
@@ -406,10 +405,9 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
         templateStrategyPersistence.setModifyDate(new Date());
         templateStrategyRepository.update(templateStrategyPersistence);
 
-        if(generatorPersistence.getIsOpen()){
-            generatorPersistence.setIsOpen(false);
-            generatorRepository.update(generatorPersistence);
-        }
+        generatorPersistence.setIsOpen(false);
+        generatorPersistence.setModifyDate(new Date());
+        generatorRepository.update(generatorPersistence);
 
         return templateStrategyPersistence;
     }

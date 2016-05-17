@@ -105,6 +105,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         if(generatorInstancePersistence == null){
             throw new AppException("实例不存在");
         }
+
         Long userId = request.getAuthentication().getUserId();
         if(!userId.equals(generatorInstancePersistence.getUser().getId())){
             throw new AppException("权限不足");
@@ -132,6 +133,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         if(generatorInstancePersistence == null){
             throw new AppException("实例不存在");
         }
+
         GeneratorInstance generatorInstance = new GeneratorInstance();
         generatorInstance.setId(generatorInstancePersistence.getId());
         generatorInstance.setName(generatorInstancePersistence.getName());
@@ -197,6 +199,15 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             generatorInstance.setVersion(g.getVersion());
             result.add(generatorInstance);
         }
+
+        String sortField = request.getSortField();
+        String sortDirection = request.getSortDirection();
+        if("modifyDate".equals(sortField)){
+            if("DESC".equalsIgnoreCase(sortDirection)){
+                result.sort((g1, g2) -> (int)(g2.getModifyDate().getTime() - g1.getModifyDate().getTime()));
+            }
+        }
+
         return new PagerResult<>(result, (long)records.size());
     }
 

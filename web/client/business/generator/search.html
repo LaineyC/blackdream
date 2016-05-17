@@ -1,31 +1,41 @@
 <div class="container">
     <div ng-controller="generatorSearchController">
         <div class="row">
-            <div class="col-sm-12">
-                <div class="page-header" ng-repeat="generator in result.records">
-                    <h4>
-                        <div style="width:100%;">
-                            <a href="javascript:void(0);" >
-                                <span ng-bind-html="generator.developer.userName"></span>/<span ng-bind-html="generator.name"></span>
-                            </a>
-                            &nbsp;
-                            <button type="button" class="btn btn-success btn-sm" location-go="/business/generatorInstance/create/{{generator.id}}">新建实例</button>
-                            <label class="badge pull-right">{{generator.instanceCount}}</label>
+            <div class="col-sm-8">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="page-header" ng-repeat="generator in result.records">
+                            <h4>
+                                <div style="width:100%;">
+                                    <a href="javascript:void(0);" location-go="/business/generatorInstance/create/{{generator.id}}" class="text-success">
+                                        <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>
+                                    </a>
+                                    <a href="javascript:void(0);" location-go="/business/generatorInstance/create/{{generator.id}}">
+                                        <strong class="text-info"><span  ng-bind-html="generator.developer.userName"></span>/<span ng-bind-html="generator.name"></span></strong>
+                                    </a>
+                                    <label class="badge pull-right">{{generator.instanceCount}}</label>
+                                </div>
+                            </h4>
+                            <p style="text-indent:2em;">{{generator.description}}</p>
+                            <p class="text-muted"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span><span>{{generator.modifyDate | date : "yyyy-MM-dd HH:mm:ss"}}</span></p>
                         </div>
-                    </h4>
-                    <div>{{generator.description}}</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <uib-pagination ng-if="result.total" class="pagination-sm" boundary-links="true" rotate="false" max-size="10" total-items="result.total"
+                                        ng-model="searchRequest.page" ng-change="search();" items-per-page="searchRequest.pageSize"
+                                        first-text="首页" previous-text="上页" next-text="下页" last-text="尾页">
+                        </uib-pagination>
+                        <div class="page-header" ng-if="!result.total">
+                            <h3>未搜索到生成器</h3>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <uib-pagination ng-if="result.total" class="pagination-sm" boundary-links="true" rotate="false" max-size="10" total-items="result.total"
-                    ng-model="searchRequest.page" ng-change="search();" items-per-page="searchRequest.pageSize"
-                    first-text="首页" previous-text="上页" next-text="下页" last-text="尾页">
-                </uib-pagination>
-                <div class="page-header" ng-if="!result.total">
-                    <h3>未搜索到生成器</h3>
-                </div>
+            <div class="col-sm-4">
+
+
             </div>
         </div>
     </div>

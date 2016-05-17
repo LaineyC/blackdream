@@ -70,10 +70,9 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
         }
         dynamicModelRepository.insert(dynamicModel);
 
-        if(generatorPersistence.getIsOpen()){
-            generatorPersistence.setIsOpen(false);
-            generatorRepository.update(generatorPersistence);
-        }
+        generatorPersistence.setIsOpen(false);
+        generatorPersistence.setModifyDate(new Date());
+        generatorRepository.update(generatorPersistence);
 
         return dynamicModel;
     }
@@ -102,10 +101,9 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
 
         dynamicModelRepository.delete(dynamicModelPersistence);
 
-        if(generatorPersistence.getIsOpen()){
-            generatorPersistence.setIsOpen(false);
-            generatorRepository.update(generatorPersistence);
-        }
+        generatorPersistence.setIsOpen(false);
+        generatorPersistence.setModifyDate(new Date());
+        generatorRepository.update(generatorPersistence);
 
         return dynamicModelPersistence;
     }
@@ -211,8 +209,9 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
         for(DynamicModel d : records){
             DynamicModel dynamicModel = new DynamicModel();
             dynamicModel.setId(d.getId());
-            dynamicModel.setSequence(d.getSequence());
             dynamicModel.setName(d.getName());
+            dynamicModel.setModifyDate(d.getModifyDate());
+            dynamicModel.setSequence(d.getSequence());
             dynamicModel.setIcon(d.getIcon());
             dynamicModel.setIsRootChild(d.getIsRootChild());
             dynamicModel.setProperties(d.getProperties());
@@ -231,6 +230,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
                     DynamicModel dynamicModelChild = new DynamicModel();
                     dynamicModelChild.setId(c.getId());
                     dynamicModelChild.setName(c.getName());
+                    dynamicModelChild.setModifyDate(c.getModifyDate());
                     dynamicModelChild.setIcon(c.getIcon());
                     dynamicModelChild.setIsRootChild(c.getIsRootChild());
                     dynamicModel.getChildren().add(dynamicModelChild);
@@ -280,10 +280,9 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
         dynamicModelPersistence.setPredefinedAssociation(request.getPredefinedAssociation());
         dynamicModelRepository.update(dynamicModelPersistence);
 
-        if(generatorPersistence.getIsOpen()){
-            generatorPersistence.setIsOpen(false);
-            generatorRepository.update(generatorPersistence);
-        }
+        generatorPersistence.setIsOpen(false);
+        generatorPersistence.setModifyDate(new Date());
+        generatorRepository.update(generatorPersistence);
 
         return dynamicModelPersistence;
     }
