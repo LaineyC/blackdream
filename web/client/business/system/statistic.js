@@ -3,6 +3,8 @@ define(
     function (module) {
     "use strict";
 
+        var api = {};
+
         module.controller("statisticController", [
             "$scope", "systemApi", "viewPage",
             function($scope, systemApi, viewPage){
@@ -11,6 +13,13 @@ define(
                 systemApi.statistic({}).success(function(result){
                     $scope.result = result;
                 });
+
+                $scope.select = function(domain){
+                    if(!api[domain + "IsRun"]){
+                        api[domain + "Fun"]();
+                        api[domain + "IsRun"] = true;
+                    }
+                }
             }
         ]);
 
@@ -50,7 +59,7 @@ define(
                     });
                 };
 
-                $scope.search();
+                api.generatorInstanceFun = $scope.search;
             }
         ]);
 
@@ -69,7 +78,8 @@ define(
                         $scope.pagerResult = pagerResult;
                     });
                 };
-                $scope.search();
+
+                api.generatorFun = $scope.search;
             }
         ]);
 
@@ -84,7 +94,7 @@ define(
                     });
                 };
 
-                $scope.search()
+                api.dynamicModelFun = $scope.search;
             }
         ]);
 
@@ -99,7 +109,7 @@ define(
                     });
                 };
 
-                $scope.search()
+                api.templateFun = $scope.search;
             }
         ]);
 
@@ -114,7 +124,7 @@ define(
                     });
                 };
 
-                $scope.search();
+                api.templateStrategyFun = $scope.search;
             }
         ]);
 

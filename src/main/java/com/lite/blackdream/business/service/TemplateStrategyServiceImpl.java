@@ -448,10 +448,13 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
         }
         records.add(toIndex, templateStrategyPersistence);
 
-        int index = 1;
+        int sequence = 1;
         for(TemplateStrategy t : records){
-            t.setSequence(index++);
-            templateStrategyRepository.update(t);
+            if(sequence != t.getSequence()) {
+                t.setSequence(sequence);
+                templateStrategyRepository.update(t);
+            }
+            sequence++;
         }
 
         return templateStrategyPersistence;

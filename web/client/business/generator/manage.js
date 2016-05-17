@@ -6,7 +6,7 @@ define(
             "$scope", "generatorApi", "viewPage", "confirm",
             function($scope, generatorApi, viewPage, confirm){
                 viewPage.setViewPageTitle("生成器管理");
-                $scope.searchRequest = {page:1, pageSize:10};
+                $scope.searchRequest = {page:1, pageSize:10, sortField:"instanceCount", sortDirection:"DESC"};
 
                 $scope.statuses = [
                     {isOpen:true,name:"发布"},

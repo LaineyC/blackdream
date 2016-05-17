@@ -6,7 +6,7 @@ define(
             "$scope", "generatorInstanceApi", "viewPage", "confirm",
             function($scope, generatorInstanceApi, viewPage, confirm){
                 viewPage.setViewPageTitle("实例管理");
-                $scope.searchRequest = {page:1, pageSize:10};
+                $scope.searchRequest = {page:1, pageSize:10, sortField:"modifyDate", sortDirection:"DESC"};
 
                 $scope.search = function(){
                     generatorInstanceApi.authSearch($scope.searchRequest).success(function(pagerResult){

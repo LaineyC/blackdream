@@ -323,10 +323,13 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
         }
         records.add(toIndex, dynamicModelPersistence);
 
-        int index = 1;
+        int sequence = 1;
         for(DynamicModel d : records){
-            d.setSequence(index++);
-            dynamicModelRepository.update(d);
+            if(sequence != d.getSequence()) {
+                d.setSequence(sequence);
+                dynamicModelRepository.update(d);
+            }
+            sequence++;
         }
 
         return dynamicModelPersistence;

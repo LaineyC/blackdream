@@ -223,6 +223,11 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
                 result.sort((g1, g2) -> (int)(g2.getModifyDate().getTime() - g1.getModifyDate().getTime()));
             }
         }
+        else if("instanceCount".equals(sortField)){
+            if("DESC".equalsIgnoreCase(sortDirection)){
+                result.sort((g1, g2) -> g2.getInstanceCount() - g1.getInstanceCount());
+            }
+        }
 
         return new PagerResult<>(result, (long)records.size());
     }

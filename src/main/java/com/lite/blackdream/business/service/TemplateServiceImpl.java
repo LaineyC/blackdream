@@ -312,10 +312,13 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         }
         records.add(toIndex, templatePersistence);
 
-        int index = 1;
+        int sequence = 1;
         for(Template t : records){
-            t.setSequence(index++);
-            templateRepository.update(t);
+            if(sequence != t.getSequence()){
+                t.setSequence(sequence);
+                templateRepository.update(t);
+            }
+            sequence++;
         }
 
         return templatePersistence;

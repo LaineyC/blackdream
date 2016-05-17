@@ -11,7 +11,7 @@ define(
                     $scope.generatorInstances = pagerResult.records;
                 });
 
-                generatorApi.authSearch({page:1, pageSize:10}).success(function(pagerResult){
+                generatorApi.authSearch({page:1, pageSize:10, sortField:"instanceCount", sortDirection:"DESC"}).success(function(pagerResult){
                     $scope.generators = pagerResult.records;
                 });
 

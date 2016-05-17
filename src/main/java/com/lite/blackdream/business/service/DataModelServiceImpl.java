@@ -292,10 +292,13 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
         }
         children.add(toIndex, dataModelPersistence);
 
-        int index = 1;
+        int sequence = 1;
         for(DataModel d : children){
-            d.setSequence(index++);
-            dataModelRepository.update(d);
+            if(sequence != d.getSequence()){
+                d.setSequence(sequence);
+                dataModelRepository.update(d);
+            }
+            sequence++;
         }
 
         return dataModelPersistence;
