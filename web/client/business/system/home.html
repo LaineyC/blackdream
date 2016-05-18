@@ -27,7 +27,7 @@
                             <a href="javascript:void(0);" location-go="/business/generatorInstance/detail/{{generatorInstance.id}}">
                                 <strong class="{{generatorInstance.generator.isOpen ? 'text-info' : 'text-danger'}}">{{generatorInstance.name}}</strong>
                             </a>
-                            <span class="pull-right">{{generatorInstance.modifyDate | date : "yyyy-MM-dd HH:mm:ss"}}</span>
+                            <span class="pull-right">{{generatorInstance.modifyDateTip}}</span>
                         </div>
                         <button type="button" class="btn btn-link btn-sm" location-go="/business/generatorInstance/manage"><strong>更多</strong></button>
                     </div>

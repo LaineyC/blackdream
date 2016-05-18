@@ -89,7 +89,7 @@ public class StartupListener implements ApplicationListener<ContextRefreshedEven
             threadPoolService.submit(templateStrategyRepository);
             threadPoolService.submit(userRepository);
 
-            logger.info("用户数据量：" + userRepository.count(new User()));
+            logger.info("系统用户数据量：" + userRepository.count(new User()));
             logger.info("生成实例数据量：" + generatorInstanceRepository.count(new GeneratorInstance()));
             logger.info("生成数据数据量：" + dataModelRepository.count(new DataModel()));
             logger.info("生成器数据量：" + generatorRepository.count(new Generator()));

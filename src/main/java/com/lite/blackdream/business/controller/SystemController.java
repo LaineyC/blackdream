@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import java.io.*;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -27,12 +28,12 @@ public class SystemController extends BaseController {
 
     @ResponseBody
     @RequestMapping(params="method=session.heartbeat")
-    public SessionHeartbeatResponse heartbeat(SessionHeartbeatRequest request) {
+    public SessionHeartbeatResponse sessionHeartbeat(SessionHeartbeatRequest request) {
         return new SessionHeartbeatResponse();
     }
 
     @RequestMapping(params="method=file.download")
-    public ResponseEntity<byte[]> download(FileDownloadRequest request) throws IOException {
+    public ResponseEntity<byte[]> fileDownload(FileDownloadRequest request) throws IOException {
         String url = request.getUrl();
         File file = new File(ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + url);
         HttpHeaders headers = new HttpHeaders();
@@ -45,9 +46,15 @@ public class SystemController extends BaseController {
 
     @ResponseBody
     @RequestMapping(params="method=data.statistic")
-    public DataStatisticResponse statistic(DataStatisticRequest request) {
+    public DataStatisticResponse dataStatistic(DataStatisticRequest request) {
         Map<String, Object> result = systemService.dataStatistic(request);
         return new DataStatisticResponse(result);
+    }
+
+    @ResponseBody
+    @RequestMapping(params="method=date.currentTime")
+    public DateCurrentTimeResponse dateCurrentTime(DateCurrentTimeRequest request) {
+        return new DateCurrentTimeResponse(new Date());
     }
 
 }

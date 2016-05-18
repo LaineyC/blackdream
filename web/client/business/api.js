@@ -23,6 +23,9 @@ define(["business/module"],function(module){
                     aLink.dispatchEvent(evt);
                 });
             };
+
+            provider.currentTime = function(request) { return $http.post("/api?method=date.currentTime", request); };
+
             return provider;
         }
     ]);
