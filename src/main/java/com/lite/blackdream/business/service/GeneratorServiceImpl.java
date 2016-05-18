@@ -264,6 +264,10 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
             throw new AppException("生成器不存在");
         }
 
+        if(!userId.equals(generatorPersistence.getDeveloper().getId())){
+            throw new AppException("权限不足");
+        }
+
         String exportPath = ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + userId + ConfigProperties.fileSeparator + generatorPersistence.getName() + "(" + id + ")";
 
         String generatorExportPath = exportPath + ConfigProperties.fileSeparator + "Database" + ConfigProperties.fileSeparator + "Generator";
@@ -339,6 +343,10 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
     @Override
     public Generator _import(GeneratorImportRequest request) {
         Long userId = request.getAuthentication().getUserId();
+        User userPersistence = userRepository.selectById(userId);
+        if(!userPersistence.getIsDeveloper()){
+            throw new AppException("权限不足");
+        }
 
         Base64FileItem generatorFile = request.getGeneratorFile();
         String type = generatorFile.getName().substring(generatorFile.getName().lastIndexOf(".") + 1);

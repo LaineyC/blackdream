@@ -8,7 +8,7 @@ define(
                 viewPage.setViewPageTitle("生成器搜索");
 
                 var keyword = $routeParams.keyword;
-                $scope.searchRequest = {page:1, pageSize:10, keyword:keyword, isOpen:true, sortField:"modifyDate", sortDirection:"DESC"};
+                $scope.searchRequest = {page:1, pageSize:10, keyword:keyword, isOpen:true, sortField:"instanceCount", sortDirection:"DESC"};
 
                 $scope.search = function(){
                     generatorApi.search($scope.searchRequest).success(function(pagerResult){
