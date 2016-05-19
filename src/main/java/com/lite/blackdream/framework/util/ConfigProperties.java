@@ -53,6 +53,16 @@ public class ConfigProperties {
      */
     public static String ROOT_PATH;
 
+    /**
+     * 用户认证信息
+     */
+    public static final String SESSION_KEY_AUTHENTICATION = "$authentication";
+
+    /**
+     * 开始时间
+     */
+    public static final String SESSION_KEY_START_TIME = "$startTime";
+
     static{
         InputStream is = ConfigProperties.class.getResourceAsStream("/blackdream.properties");
         Properties properties = new Properties();
@@ -62,9 +72,12 @@ public class ConfigProperties {
         catch (Exception e) {
             throw new RuntimeException(e);
         }
-        USERNAME = properties.getProperty("blackdream.username");
-        PASSWORD = properties.getProperty("blackdream.password");
-        DATA_PATH = properties.getProperty("blackdream.datapath");
+        String userName =  properties.getProperty("blackdream.username");
+        USERNAME = userName != null ? userName : "root";
+        String password = properties.getProperty("blackdream.password");
+        PASSWORD = password != null ?  password : "000000";
+        String dataPath = properties.getProperty("blackdream.datapath");
+        DATA_PATH = dataPath != null ? dataPath : "/BlackDream";
         DATABASE_PATH = DATA_PATH + fileSeparator + "Database";
         FILEBASE_PATH = DATA_PATH + fileSeparator + "Filebase";
         LOGBASE_PATH = DATA_PATH + fileSeparator + "Logbase";

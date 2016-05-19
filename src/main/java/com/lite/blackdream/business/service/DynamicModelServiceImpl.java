@@ -35,8 +35,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
     @Override
     public DynamicModel create(DynamicModelCreateRequest request) {
         Long userId = request.getAuthentication().getUserId();
-        User userPersistence = userRepository.selectById(userId);
-        if(!userPersistence.getIsDeveloper()){
+        if(!request.getAuthentication().getIsDeveloper()){
             throw new AppException("权限不足");
         }
 

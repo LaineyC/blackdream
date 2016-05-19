@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import com.lite.blackdream.framework.exception.AppException;
 import com.lite.blackdream.framework.exception.ErrorMessage;
+import com.lite.blackdream.framework.model.Authentication;
+import com.lite.blackdream.framework.util.ConfigProperties;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,10 +29,13 @@ public class SecurityInterceptor extends HandlerInterceptorAdapter{
         if(methods.contains(method)){
             return true;
         }
+
         HttpSession session = request.getSession();
-        if(session.getAttribute("$authentication") == null){
+        Authentication authentication = (Authentication)session.getAttribute(ConfigProperties.SESSION_KEY_AUTHENTICATION);
+        if(authentication == null || authentication.getIsDisable()){
             throw new AppException(new ErrorMessage("401", "权限不足"));
         }
+
         return true;
     }
 

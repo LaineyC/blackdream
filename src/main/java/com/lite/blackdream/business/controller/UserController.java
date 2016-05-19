@@ -6,6 +6,7 @@ import com.lite.blackdream.business.service.UserService;
 import com.lite.blackdream.framework.component.BaseController;
 import com.lite.blackdream.framework.model.Authentication;
 import com.lite.blackdream.framework.model.PagerResult;
+import com.lite.blackdream.framework.util.ConfigProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,7 +54,8 @@ public class UserController extends BaseController {
         authentication.setUserId(user.getId());
         authentication.setUserName(user.getUserName());
         authentication.setIsDeveloper(user.getIsDeveloper());
-        servletRequest.getSession().setAttribute("$authentication", authentication);
+        authentication.setIsDisable(user.getIsDisable());
+        servletRequest.getSession().setAttribute(ConfigProperties.SESSION_KEY_AUTHENTICATION, authentication);
         return new UserLoginResponse(user);
     }
 
@@ -61,13 +63,15 @@ public class UserController extends BaseController {
     @RequestMapping(params="method=user.logout")
     public UserLogoutResponse logout(UserLogoutRequest request, HttpServletRequest servletRequest) {
         HttpSession session = servletRequest.getSession();
-        Authentication authentication = (Authentication)session.getAttribute("$authentication");
-        User user = new User();
+        Authentication authentication = (Authentication)session.getAttribute(ConfigProperties.SESSION_KEY_AUTHENTICATION);
+        User user = null;
         if(authentication != null){
+            user = new User();
             user.setId(authentication.getUserId());
             user.setUserName(authentication.getUserName());
             user.setIsDeveloper(authentication.getIsDeveloper());
-            session.removeAttribute("$authentication");
+            user.setIsDisable(authentication.getIsDisable());
+            session.removeAttribute(ConfigProperties.SESSION_KEY_AUTHENTICATION);
         }
         return new UserLogoutResponse(user);
     }

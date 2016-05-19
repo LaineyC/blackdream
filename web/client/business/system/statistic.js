@@ -38,7 +38,12 @@ define(
                     {isDeveloper:true,name:"开发者"}
                 ];
 
-                $scope.search = function(){
+                $scope.search = function(searchRequest){
+                    if(searchRequest){
+                        for(var k in searchRequest){
+                            $scope.searchRequest[k] = searchRequest[k];
+                        }
+                    }
                     userApi.search($scope.searchRequest).success(function(pagerResult){
                         $scope.pagerResult = pagerResult;
                     });
@@ -53,7 +58,12 @@ define(
             function($scope, generatorInstanceApi){
                 $scope.searchRequest = {page:1, pageSize:10};
 
-                $scope.search = function(){
+                $scope.search = function(searchRequest){
+                    if(searchRequest){
+                        for(var k in searchRequest){
+                            $scope.searchRequest[k] = searchRequest[k];
+                        }
+                    }
                     generatorInstanceApi.search($scope.searchRequest).success(function(pagerResult){
                         $scope.pagerResult = pagerResult;
                     });
@@ -73,7 +83,12 @@ define(
                     {isOpen:false,name:"维护"}
                 ];
 
-                $scope.search = function(){
+                $scope.search = function(searchRequest){
+                    if(searchRequest){
+                        for(var k in searchRequest){
+                            $scope.searchRequest[k] = searchRequest[k];
+                        }
+                    }
                     generatorApi.search($scope.searchRequest).success(function(pagerResult){
                         $scope.pagerResult = pagerResult;
                     });
@@ -88,7 +103,12 @@ define(
             function($scope, dynamicModelApi){
                 $scope.searchRequest = {page:1, pageSize:10};
 
-                $scope.search = function(){
+                $scope.search = function(searchRequest){
+                    if(searchRequest){
+                        for(var k in searchRequest){
+                            $scope.searchRequest[k] = searchRequest[k];
+                        }
+                    }
                     dynamicModelApi.search($scope.searchRequest).success(function(pagerResult){
                         $scope.pagerResult = pagerResult;
                     });
@@ -103,7 +123,12 @@ define(
             function($scope, templateApi){
                 $scope.searchRequest = {page:1, pageSize:10};
 
-                $scope.search = function(){
+                $scope.search = function(searchRequest){
+                    if(searchRequest){
+                        for(var k in searchRequest){
+                            $scope.searchRequest[k] = searchRequest[k];
+                        }
+                    }
                     templateApi.search($scope.searchRequest).success(function(pagerResult){
                         $scope.pagerResult = pagerResult;
                     });
@@ -118,7 +143,12 @@ define(
             function($scope, templateStrategyApi){
                 $scope.searchRequest = {page:1, pageSize:10};
 
-                $scope.search = function(){
+                $scope.search = function(searchRequest){
+                    if(searchRequest){
+                        for(var k in searchRequest){
+                            $scope.searchRequest[k] = searchRequest[k];
+                        }
+                    }
                     templateStrategyApi.search($scope.searchRequest).success(function(pagerResult){
                         $scope.pagerResult = pagerResult;
                     });

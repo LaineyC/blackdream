@@ -6,9 +6,15 @@ define(
             "$scope", "generatorInstanceApi", "viewPage", "confirm",
             function($scope, generatorInstanceApi, viewPage, confirm){
                 viewPage.setViewPageTitle("实例管理");
+
                 $scope.searchRequest = {page:1, pageSize:10, sortField:"modifyDate", sortDirection:"DESC"};
 
-                $scope.search = function(){
+                $scope.search = function(searchRequest){
+                    if(searchRequest){
+                        for(var k in searchRequest){
+                            $scope.searchRequest[k] = searchRequest[k];
+                        }
+                    }
                     generatorInstanceApi.authSearch($scope.searchRequest).success(function(pagerResult){
                         $scope.pagerResult = pagerResult;
                     });

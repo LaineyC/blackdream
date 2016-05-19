@@ -66,8 +66,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
     @Override
     public Generator create(GeneratorCreateRequest request) {
         Long userId = request.getAuthentication().getUserId();
-        User userPersistence = userRepository.selectById(userId);
-        if(!userPersistence.getIsDeveloper()){
+        if(!request.getAuthentication().getIsDeveloper()){
             throw new AppException("权限不足");
         }
 
@@ -343,8 +342,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
     @Override
     public Generator _import(GeneratorImportRequest request) {
         Long userId = request.getAuthentication().getUserId();
-        User userPersistence = userRepository.selectById(userId);
-        if(!userPersistence.getIsDeveloper()){
+        if(!request.getAuthentication().getIsDeveloper()){
             throw new AppException("权限不足");
         }
 

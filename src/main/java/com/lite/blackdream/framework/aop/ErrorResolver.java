@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.lite.blackdream.framework.util.ConfigProperties;
 import com.lite.blackdream.framework.util.WebUtil;
 import com.lite.blackdream.framework.web.RequestWrapper;
 import org.apache.commons.logging.Log;
@@ -37,7 +38,7 @@ public class ErrorResolver implements HandlerExceptionResolver {
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception exception) {
         RequestWrapper requestWrapper = (RequestWrapper)request;
         HttpSession session = requestWrapper.getSession();
-        long ms = System.currentTimeMillis() - (Long)session.getAttribute("$startTime");
+        long ms = System.currentTimeMillis() - (Long)session.getAttribute(ConfigProperties.SESSION_KEY_START_TIME);
         String method = requestWrapper.getParameter("method");
         ErrorMessage errorMessage;
         if(exception instanceof AppException){

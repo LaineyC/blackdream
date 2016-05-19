@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.lite.blackdream.framework.model.Authentication;
 import com.lite.blackdream.framework.model.Base64FileItem;
 import com.lite.blackdream.framework.model.Request;
+import com.lite.blackdream.framework.util.ConfigProperties;
 import com.lite.blackdream.framework.util.JsonObjectMapper;
 import com.lite.blackdream.framework.web.RequestWrapper;
 import org.springframework.core.MethodParameter;
@@ -49,7 +50,7 @@ public class RequestHandlerInterceptor extends HandlerInterceptorAdapter {
         Request requestBody = (Request)requestInstanceObjectMapper.readValue(requestWrapper.getRequestData(), clazz);
         requestWrapper.setRequestBody(requestBody);
 
-        Authentication authentication = (Authentication)session.getAttribute("$authentication");
+        Authentication authentication = (Authentication)session.getAttribute(ConfigProperties.SESSION_KEY_AUTHENTICATION);
         if(authentication != null){
             requestBody.setAuthentication(authentication);
         }
@@ -57,7 +58,7 @@ public class RequestHandlerInterceptor extends HandlerInterceptorAdapter {
         String requestLog = requestLogObjectMapper.writeValueAsString(requestBody);
         requestWrapper.setRequestLog(requestLog);
 
-        session.setAttribute("$startTime", System.currentTimeMillis());
+        session.setAttribute(ConfigProperties.SESSION_KEY_START_TIME, System.currentTimeMillis());
         return true;
     }
 

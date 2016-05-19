@@ -19,7 +19,12 @@ define(
                     {isDeveloper:true,name:"开发者"}
                 ];
 
-                $scope.search = function(){
+                $scope.search = function(searchRequest){
+                    if(searchRequest){
+                        for(var k in searchRequest){
+                            $scope.searchRequest[k] = searchRequest[k];
+                        }
+                    }
                     userApi.search($scope.searchRequest).success(function(pagerResult){
                         $scope.pagerResult = pagerResult;
                     });

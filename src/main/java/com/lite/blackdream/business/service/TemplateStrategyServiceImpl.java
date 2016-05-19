@@ -206,8 +206,7 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
     @Override
     public TemplateStrategy create(TemplateStrategyCreateRequest request) {
         Long userId = request.getAuthentication().getUserId();
-        User userPersistence = userRepository.selectById(userId);
-        if(!userPersistence.getIsDeveloper()){
+        if(!request.getAuthentication().getIsDeveloper()){
             throw new AppException("权限不足");
         }
 

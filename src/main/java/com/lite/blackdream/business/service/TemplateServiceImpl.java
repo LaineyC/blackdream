@@ -40,8 +40,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
     @Override
     public Template create(TemplateCreateRequest request) {
         Long userId = request.getAuthentication().getUserId();
-        User userPersistence = userRepository.selectById(userId);
-        if(!userPersistence.getIsDeveloper()){
+        if(!request.getAuthentication().getIsDeveloper()){
             throw new AppException("权限不足");
         }
 

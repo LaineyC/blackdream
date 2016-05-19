@@ -13,6 +13,8 @@ public class Authentication {
 
     private Boolean isDeveloper;
 
+    private Boolean isDisable;
+
     public Authentication(){
 
     }
@@ -39,6 +41,14 @@ public class Authentication {
 
     public void setIsDeveloper(Boolean isDeveloper) {
         this.isDeveloper = isDeveloper;
+    }
+
+    public Boolean getIsDisable() {
+        return isDisable;
+    }
+
+    public void setIsDisable(Boolean isDisable) {
+        this.isDisable = isDisable;
     }
 
 }

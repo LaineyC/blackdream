@@ -13,7 +13,12 @@ define(
                     {isOpen:false,name:"维护"}
                 ];
 
-                $scope.search = function(){
+                $scope.search = function(searchRequest){
+                    if(searchRequest){
+                        for(var k in searchRequest){
+                            $scope.searchRequest[k] = searchRequest[k];
+                        }
+                    }
                     generatorApi.authSearch($scope.searchRequest).success(function(pagerResult){
                         $scope.pagerResult = pagerResult;
                     });
