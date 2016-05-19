@@ -2,8 +2,8 @@ define(["business/module"],function(module){
     "use strict";
 
     module.factory("systemApi",[
-        "$http","$window",
-        function($http, $window){
+        "$http","$window", "tooltip", "location",
+        function($http, $window, tooltip, location){
             var provider = {};
 
             provider.heartbeat = function(request) { return $http.post("/api?method=session.heartbeat", request); };
@@ -13,13 +13,26 @@ define(["business/module"],function(module){
             provider.download = function(request) {
                 return $http.post("/api?method=file.download", request, {responseType :"blob"}).success(function(data, status, headers){
                     headers = headers();
+                    if(!headers["filename"]){
+                        var fileReader = new FileReader();
+                        fileReader.onload = function(event){
+                            var response = eval("(" + event.target.result + ")");
+                            var error = response.error;
+                            if(error.code == "401"){
+                                location.go("/401");
+                                return;
+                            }
+                            tooltip.open({message:error.message,level:"danger"});
+                        };
+                        fileReader.readAsText(data);
+                        return;
+                    }
                     var document = $window.document;
                     var aLink = document.createElement("a");
-                    var blob = new Blob([data]);
                     var evt = document.createEvent("HTMLEvents");
                     evt.initEvent("click", false, false);
                     aLink.download = decodeURI(headers["filename"]);
-                    aLink.href = URL.createObjectURL(blob);
+                    aLink.href = URL.createObjectURL(data);
                     aLink.dispatchEvent(evt);
                 });
             };
@@ -60,8 +73,8 @@ define(["business/module"],function(module){
     ]);
 
     module.factory("generatorApi",[
-        "$http", "$window",
-        function($http, $window){
+        "$http", "$window", "tooltip", "location",
+        function($http, $window, tooltip, location){
             var provider = {};
 
             provider.create = function(request) { return $http.post("/api?method=generator.create", request); };
@@ -79,13 +92,26 @@ define(["business/module"],function(module){
             provider.export = function(request) {
                 return $http.post("/api?method=generator.export", request, {responseType :"blob"}).success(function(data, status, headers){
                     headers = headers();
+                    if(!headers["filename"]){
+                        var fileReader = new FileReader();
+                        fileReader.onload = function(event){
+                            var response = eval("(" + event.target.result + ")");
+                            var error = response.error;
+                            if(error.code == "401"){
+                                location.go("/401");
+                                return;
+                            }
+                            tooltip.open({message:error.message,level:"danger"});
+                        };
+                        fileReader.readAsText(data);
+                        return;
+                    }
                     var document = $window.document;
                     var aLink = document.createElement("a");
-                    var blob = new Blob([data]);
                     var evt = document.createEvent("HTMLEvents");
                     evt.initEvent("click", false, false);
                     aLink.download = decodeURI(headers["filename"]);
-                    aLink.href = URL.createObjectURL(blob);
+                    aLink.href = URL.createObjectURL(data);
                     aLink.dispatchEvent(evt);
                 });
             };

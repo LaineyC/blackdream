@@ -3,6 +3,7 @@ package com.lite.blackdream.business.controller;
 import com.lite.blackdream.business.parameter.system.*;
 import com.lite.blackdream.business.service.SystemService;
 import com.lite.blackdream.framework.component.BaseController;
+import com.lite.blackdream.framework.exception.AppException;
 import com.lite.blackdream.framework.util.ConfigProperties;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class SystemController extends BaseController {
     public ResponseEntity<byte[]> fileDownload(FileDownloadRequest request) throws IOException {
         String url = request.getUrl();
         File file = new File(ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + url);
+        if(!file.exists()){
+            throw new AppException("下载资源不存在");
+        }
         HttpHeaders headers = new HttpHeaders();
         String fileName = java.net.URLEncoder.encode(file.getName(),"UTF-8");
         headers.setContentDispositionFormData("attachment", fileName);
