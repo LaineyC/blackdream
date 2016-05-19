@@ -394,6 +394,10 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
             generator = generatorElementConverter.fromElement(element);
             generator.setId(idWorker.nextId());
             generator.setModifyDate(new Date());
+            generator.setIsOpen(false);
+            generator.setInstanceCount(0);
+            generator.setIsApplied(false);
+            generator.setVersion(0);
             generator.getDeveloper().setId(userId);
             generatorRepository.insert(generator);
         }
@@ -412,6 +416,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
                     DynamicModel dynamicModel = dynamicModelElementConverter.fromElement(element);
                     dynamicModel.setId(idWorker.nextId());
                     dynamicModel.setModifyDate(new Date());
+                    dynamicModel.getDeveloper().setId(userId);
                     dynamicModel.getGenerator().setId(generator.getId());
                     dynamicModelRepository.insert(dynamicModel);
                 }
@@ -436,6 +441,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
                     vmIdMap.put(oldId, newId);
                     template.setId(newId);
                     template.setModifyDate(new Date());
+                    template.getDeveloper().setId(userId);
                     template.getGenerator().setId(generator.getId());
 
                     String url = "/Template/" + generator.getId() + "/" + newId + ".vm";
@@ -466,6 +472,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
                     templateStrategy.setId(idWorker.nextId());
                     templateStrategy.setModifyDate(new Date());
                     templateStrategy.getGenerator().setId(generator.getId());
+                    templateStrategy.getDeveloper().setId(userId);
 
                     LinkedList<Tag> stack = new LinkedList<>();
                     stack.push(templateStrategy);

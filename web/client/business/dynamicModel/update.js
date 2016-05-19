@@ -79,6 +79,18 @@ define(
                     }
                 };
 
+                $scope.resetScript = function(property){
+                    property.hasScriptError = false;
+                    if(property.cascadeScript){
+                        try{
+                            property.cascadeFunction = new Function("property", property.cascadeScript);
+                        }
+                        catch (e){
+                            property.hasScriptError = true;
+                        }
+                    }
+                };
+
                 $scope.getMessage = function(field, $error, validateMessages){
                     if(!validateMessages)
                         return;
