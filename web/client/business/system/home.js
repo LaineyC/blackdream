@@ -1,7 +1,8 @@
 define(
     ["business/module", "business/api"],
     function (module) {
-    "use strict";
+        "use strict";
+
         module.controller("homeController", [
             "$scope", "$q", "generatorApi", "generatorInstanceApi", "$uibModal", "viewPage", "systemApi",
             function($scope, $q,  generatorApi, generatorInstanceApi, $uibModal, viewPage, systemApi){

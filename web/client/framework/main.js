@@ -82,11 +82,7 @@ require.config({
 });
 
 require(
-    [
-        "angular",
-        "framework/framework",
-        "business/module"
-    ],
+    ["angular", "framework/framework", "business/module"],
     function(angular){
         angular.element(document).ready(function() {
             angular.bootstrap(document,

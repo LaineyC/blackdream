@@ -1,7 +1,8 @@
 define(
     ["business/module", "business/api"],
     function (module) {
-    "use strict";
+        "use strict";
+
         module.controller("guideController", [
             "$scope", "$location","$anchorScroll", "viewPage",
             function($scope, $location, $anchorScroll, viewPage){

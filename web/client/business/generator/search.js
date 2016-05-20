@@ -1,5 +1,6 @@
 define(
-    ["business/module", "business/api"], function (module) {
+    ["business/module", "business/api"],
+    function (module) {
         "use strict";
 
         module.controller("generatorSearchController", [

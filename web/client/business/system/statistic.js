@@ -1,7 +1,7 @@
 define(
     ["business/module", "business/api"],
     function (module) {
-    "use strict";
+        "use strict";
 
         var api = {};
 

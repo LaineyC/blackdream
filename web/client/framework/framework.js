@@ -2,6 +2,7 @@ define(
     ["angular", "angular-locale", "bootstrap", "angular-bootstrap", "angular-touch", "angular-sanitize", "angular-animate", "angular-cookies", "angular-route", "angular-file-upload", "ui-sortable", "business/api"],
     function(angular){
         "use strict";
+
         //加载依赖方法
         function loadDependencies(dependencies){
             if(!dependencies){
