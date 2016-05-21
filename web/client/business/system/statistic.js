@@ -14,6 +14,12 @@ define(
                     $scope.result = result;
                 });
 
+                api.generatorInstanceIsRun = false;
+                api.generatorIsRun = false;
+                api.dynamicModelIsRun = false;
+                api.templateIsRun = false;
+                api.templateStrategyIsRun = false;
+
                 $scope.select = function(domain){
                     if(!api[domain + "IsRun"]){
                         api[domain + "Fun"]();
