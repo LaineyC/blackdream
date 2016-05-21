@@ -405,28 +405,40 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
             throw new RuntimeException(e);
         }
 
+        Map<Long, Long> dynamicModelIdMap = new HashMap<>();
         String dynamicModelImportPath = importPath + ConfigProperties.fileSeparator + "Database" + ConfigProperties.fileSeparator + "DynamicModel";
         File dynamicModelImportFolder = new File(dynamicModelImportPath);
         File[] dynamicModelImportFolderList = dynamicModelImportFolder.listFiles((dir, name) -> name.endsWith(".xml"));
+        List<DynamicModel> dynamicModelList = new ArrayList<>();
         if(dynamicModelImportFolderList != null) {
             for (File dynamicModelImportFile : dynamicModelImportFolderList) {
                 try {
                     Document document = FileUtil.readXml(dynamicModelImportFile.getAbsolutePath());
                     Element element = document.getRootElement();
                     DynamicModel dynamicModel = dynamicModelElementConverter.fromElement(element);
-                    dynamicModel.setId(idWorker.nextId());
+                    Long oldId = dynamicModel.getId();
+                    Long newId = idWorker.nextId();
+                    dynamicModelIdMap.put(oldId, newId);
+                    dynamicModel.setId(newId);
                     dynamicModel.setModifyDate(new Date());
                     dynamicModel.getDeveloper().setId(userId);
                     dynamicModel.getGenerator().setId(generator.getId());
-                    dynamicModelRepository.insert(dynamicModel);
+                    dynamicModelList.add(dynamicModel);
                 }
                 catch (Exception e) {
                     //throw new RuntimeException(e);
                 }
             }
+            dynamicModelList.forEach(dynamicModel -> {
+                dynamicModel.getChildren().forEach(child -> {
+                    Long oldId = child.getId();
+                    child.setId(dynamicModelIdMap.get(oldId));
+                });
+                dynamicModelRepository.insert(dynamicModel);
+            });
         }
 
-        Map<Long, Long> vmIdMap = new HashMap<>();
+        Map<Long, Long> templateIdMap = new HashMap<>();
         String templateImportPath = importPath + ConfigProperties.fileSeparator + "Database" + ConfigProperties.fileSeparator + "Template";
         File templateImportFolder = new File(templateImportPath);
         File[] templateImportFolderList = templateImportFolder.listFiles((dir, name) -> name.endsWith(".xml"));
@@ -438,7 +450,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
                     Template template = templateElementConverter.fromElement(element);
                     Long oldId = template.getId();
                     Long newId = idWorker.nextId();
-                    vmIdMap.put(oldId, newId);
+                    templateIdMap.put(oldId, newId);
                     template.setId(newId);
                     template.setModifyDate(new Date());
                     template.getDeveloper().setId(userId);
@@ -481,7 +493,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
                         if (tag instanceof com.lite.blackdream.business.domain.tag.File) {
                             com.lite.blackdream.business.domain.tag.File fileTag = (com.lite.blackdream.business.domain.tag.File) tag;
                             Long oldId = fileTag.getTemplate().getId();
-                            fileTag.getTemplate().setId(vmIdMap.get(oldId));
+                            fileTag.getTemplate().setId(templateIdMap.get(oldId));
                         }
                         tag.getChildren().forEach(stack::push);
                     }
