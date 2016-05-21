@@ -70,6 +70,8 @@ define(
 
                 provider.passwordReset = function(request) { return $http.post("/api?method=user.password.reset", request); };
 
+                provider.enableOrDisable = function(request) { return $http.post("/api?method=user.enableOrDisable", request); };
+
                 return provider;
             }
         ]);

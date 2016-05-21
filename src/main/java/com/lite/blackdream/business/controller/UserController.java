@@ -104,4 +104,11 @@ public class UserController extends BaseController {
         return new UserPasswordResetResponse(user);
     }
 
+    @ResponseBody
+    @RequestMapping(params="method=user.enableOrDisable")
+    public UserEnableOrDisableResponse enableOrDisable(UserEnableOrDisableRequest request) {
+        User user = userService.enableOrDisable(request);
+        return new UserEnableOrDisableResponse(user);
+    }
+
 }

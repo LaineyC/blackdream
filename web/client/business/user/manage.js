@@ -4,7 +4,7 @@ define(
         "use strict";
 
         module.controller("userManageController", [
-            "$scope", "userApi", "viewPage","confirm",
+            "$scope", "userApi", "viewPage", "confirm",
             function($scope, userApi, viewPage, confirm){
                 viewPage.setViewPageTitle("用户管理");
 
@@ -28,6 +28,21 @@ define(
                     }
                     userApi.search($scope.searchRequest).success(function(pagerResult){
                         $scope.pagerResult = pagerResult;
+                    });
+                };
+
+                $scope.enableOrDisable = function(user){
+                    if(!user.creator){
+                        return;
+                    }
+                    confirm.open({
+                        title: user.isDisable ? "激活" : "冻结",
+                        message:"确定" + (user.isDisable ? "激活" : "冻结") + "【" + user.userName +"】？",
+                        confirm:function(){
+                            userApi.enableOrDisable({id:user.id, isDisable:!user.isDisable}).success(function(_user){
+                                user.isDisable = _user.isDisable;
+                            });
+                        }
                     });
                 };
 

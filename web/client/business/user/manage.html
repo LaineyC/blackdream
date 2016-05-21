@@ -61,6 +61,7 @@
                                 <button type="button" ng-disabled="!user.creator" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li ng-class="{'disabled':!user.creator}"><a href="javascript:void(0);" location-go="/business/user/update/{{user.id}}">修改</a></li>
+                                    <li ng-class="{'disabled':!user.creator}"><a href="javascript:void(0);" ng-click="enableOrDisable(user)">{{user.isDisable ? "激活" : "冻结"}}</a></li>
                                     <li ng-class="{'disabled':!user.creator}"><a href="javascript:void(0);" ng-click="passwordReset(user)">重置密码</a></li>
                                 </ul>
                             </div>

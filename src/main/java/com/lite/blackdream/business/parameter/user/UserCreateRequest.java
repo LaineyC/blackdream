@@ -9,8 +9,6 @@ public class UserCreateRequest extends Request {
 
     private String userName;
 
-    private Boolean isDisable;
-
     private Boolean isDeveloper;
     
     public UserCreateRequest(){
@@ -23,14 +21,6 @@ public class UserCreateRequest extends Request {
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public Boolean getIsDisable() {
-        return isDisable;
-    }
-
-    public void setIsDisable(Boolean isDisable) {
-        this.isDisable = isDisable;
     }
 
     public Boolean getIsDeveloper() {

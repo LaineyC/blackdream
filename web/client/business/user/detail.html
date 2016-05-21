@@ -12,12 +12,12 @@
                         <div class="col-sm-3 form-control-static">{{user.userName}}</div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-1 control-label">冻结</label>
-                        <div class="col-sm-3 form-control-static"><input onclick="return false;" type="checkbox" ng-checked="user.isDisable"/></div>
+                        <label class="col-sm-1 control-label">状态</label>
+                        <div class="col-sm-3 form-control-static">{{user.isDisable ? "冻结" : "激活"}}</div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-1 control-label">开发者</label>
-                        <div class="col-sm-3 form-control-static"><input onclick="return false;" type="checkbox" ng-checked="user.isDeveloper"/></div>
+                        <label class="col-sm-1 control-label">角色</label>
+                        <div class="col-sm-3 form-control-static">{{user.isDeveloper ? "开发者" : "使用者"}}</div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-1 control-label">登陆次数</label>
@@ -38,6 +38,7 @@
                                 <button type="button" ng-disabled="!user.creator" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li ng-class="{'disabled':!user.creator}"><a href="javascript:void(0);" location-go="/business/user/update/{{user.id}}">修改</a></li>
+                                    <li ng-class="{'disabled':!user.creator}"><a href="javascript:void(0);" ng-click="enableOrDisable(user)">{{user.isDisable ? "激活" : "冻结"}}</a></li>
                                     <li ng-class="{'disabled':!user.creator}"><a href="javascript:void(0);" ng-click="passwordReset(user)">重置密码</a></li>
                                 </ul>
                             </div>

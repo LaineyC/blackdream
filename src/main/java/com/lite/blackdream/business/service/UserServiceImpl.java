@@ -47,7 +47,7 @@ public class UserServiceImpl extends BaseService implements UserService {
         user.setId(idWorker.nextId());
         user.setPassword(passwordEncoder.encode(ConfigProperties.PASSWORD));
         user.setModifyDate(new Date());
-        user.setIsDisable(request.getIsDisable());
+        user.setIsDisable(false);
         user.setIsDeveloper(request.getIsDeveloper());
         user.setLoginCount(0);
         User creator = new User();
@@ -123,7 +123,6 @@ public class UserServiceImpl extends BaseService implements UserService {
             throw new AppException("权限不足");
         }
 
-        userPersistence.setIsDisable(request.getIsDisable());
         userPersistence.setIsDeveloper(request.getIsDeveloper());
         userPersistence.setModifyDate(new Date());
         userRepository.update(userPersistence);
@@ -229,4 +228,43 @@ public class UserServiceImpl extends BaseService implements UserService {
 
         return userPersistence;
     }
+
+    @Override
+    public User enableOrDisable(UserEnableOrDisableRequest request) {
+        Authentication authentication = request.getAuthentication();
+        Long userId = authentication.getUserId();
+        User currentUser = userRepository.selectById(userId);
+        if(currentUser.getCreator() != null){
+            throw new AppException("权限不足");
+        }
+
+        Long id = request.getId();
+        User userPersistence = userRepository.selectById(id);
+        if(userPersistence == null){
+            throw new AppException("用户不存在");
+        }
+
+        if(userPersistence.getCreator() == null){
+            throw new AppException("权限不足");
+        }
+
+        Boolean isDisable = request.getIsDisable();
+        if(isDisable){
+            if(!userPersistence.getIsDisable()){
+                userPersistence.setIsDisable(true);
+                userPersistence.setModifyDate(new Date());
+                userRepository.update(userPersistence);
+            }
+        }
+        else{
+            if(userPersistence.getIsDisable()){
+                userPersistence.setIsDisable(false);
+                userPersistence.setModifyDate(new Date());
+                userRepository.update(userPersistence);
+            }
+        }
+
+        return userPersistence;
+    }
+
 }

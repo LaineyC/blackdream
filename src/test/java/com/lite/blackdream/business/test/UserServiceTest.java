@@ -19,7 +19,6 @@ public class UserServiceTest extends ServiceTest {
     public void create(){
         UserCreateRequest userCreateRequest = new UserCreateRequest();
         userCreateRequest.setUserName("cboss");
-        userCreateRequest.setIsDisable(false);
         User currentUser = new User();
         //userCreateRequest.setCurrentUser(currentUser);
         userService.create(userCreateRequest);

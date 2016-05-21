@@ -24,6 +24,8 @@ public interface UserService extends Service {
 
     User passwordReset(UserPasswordResetRequest request);
 
+    User enableOrDisable(UserEnableOrDisableRequest request);
+
     void createRoot();
 
 }

@@ -5,13 +5,13 @@ import com.lite.blackdream.framework.model.Request;
 /**
  * @author LaineyC
  */
-public class UserUpdateRequest extends Request {
+public class UserEnableOrDisableRequest extends Request {
 
     private Long id;
 
-    private Boolean isDeveloper;
+    private Boolean isDisable;
 
-    public UserUpdateRequest(){
+    public UserEnableOrDisableRequest(){
 
     }
 
@@ -23,12 +23,12 @@ public class UserUpdateRequest extends Request {
         this.id = id;
     }
 
-    public Boolean getIsDeveloper() {
-        return isDeveloper;
+    public Boolean getIsDisable() {
+        return isDisable;
     }
 
-    public void setIsDeveloper(Boolean isDeveloper) {
-        this.isDeveloper = isDeveloper;
+    public void setIsDisable(Boolean isDisable) {
+        this.isDisable = isDisable;
     }
 
 }

@@ -12,15 +12,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-1 control-label">冻结</label>
-                        <div class="col-sm-3">
-                            <input name="isDisable" ng-model="createRequest.isDisable" type="checkbox" class="input-sm" ng-true-value="true" ng-false-value="false"/>
-                        </div>
+                        <label class="col-sm-1 control-label">状态</label>
+                        <div class="col-sm-3 form-control-static">激活</div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-1 control-label">开发者</label>
+                        <label class="col-sm-1 control-label">角色</label>
                         <div class="col-sm-3">
-                            <input name="isDeveloper" ng-model="createRequest.isDeveloper" type="checkbox" class="input-sm" ng-true-value="true" ng-false-value="false"/>
+                            <label class="radio-inline"><input type="radio" name="isDeveloper" ng-value="{{true}}" ng-model="createRequest.isDeveloper">开发者</label>
+                            <label class="radio-inline"><input type="radio" name="isDeveloper" ng-value="{{false}}" ng-model="createRequest.isDeveloper">使用者</label>
                         </div>
                     </div>
                     <div class="form-group">

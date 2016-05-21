@@ -13,6 +13,21 @@ define(
                     $scope.user = user;
                 });
 
+                $scope.enableOrDisable = function(user){
+                    if(!user.creator){
+                        return;
+                    }
+                    confirm.open({
+                        title: user.isDisable ? "激活" : "冻结",
+                        message:"确定" + (user.isDisable ? "激活" : "冻结") + "【" + user.userName +"】？",
+                        confirm:function(){
+                            userApi.enableOrDisable({id:user.id, isDisable:!user.isDisable}).success(function(_user){
+                                user.isDisable = _user.isDisable;
+                            });
+                        }
+                    });
+                };
+
                 $scope.passwordReset = function(user){
                     if(!user.creator){
                         return;

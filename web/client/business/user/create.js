@@ -8,7 +8,7 @@ define(
             function($scope, alert, location, userApi, viewPage){
                 viewPage.setViewPageTitle("用户新建");
 
-                $scope.createRequest = {isDisable: false, isDeveloper:false};
+                $scope.createRequest = {isDeveloper:false};
 
                 $scope.create = function(){
                     userApi.create($scope.createRequest).success(function(){
@@ -24,8 +24,9 @@ define(
                 };
 
                 $scope.getMessage = function(field, $error, validateMessages){
-                    for(var k in $error)
+                    for(var k in $error) {
                         return validateMessages[field][k];
+                    }
                 };
 
             }
