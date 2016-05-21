@@ -92,10 +92,10 @@ public class GeneratorController extends BaseController {
     }
 
     @ResponseBody
-    @RequestMapping(params="method=generator.open")
-    public GeneratorOpenResponse open(GeneratorOpenRequest request) {
-        Generator generator = generatorService.open(request);
-        return new GeneratorOpenResponse(generator);
+    @RequestMapping(params="method=generator.openOrClose")
+    public GeneratorOpenOrCloseResponse openOrClose(GeneratorOpenOrCloseRequest request) {
+        Generator generator = generatorService.openOrClose(request);
+        return new GeneratorOpenOrCloseResponse(generator);
     }
 
 }

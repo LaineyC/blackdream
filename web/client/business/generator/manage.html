@@ -60,7 +60,7 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="javascript:void(0);" location-go="/business/generator/update/{{generator.id}}">修改</a></li>
                                     <li><a href="javascript:void(0);" ng-click="export(generator)">导出</a></li>
-                                    <li ng-class="{'disabled':generator.isOpen}"><a href="javascript:void(0);" ng-click="open(generator)">发布</a></li>
+                                    <li><a href="javascript:void(0);" ng-click="openOrClose(generator)">{{generator.isOpen ? "维护" : "发布"}}</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li ng-class="{'disabled':generator.isApplied}"><a href="javascript:void(0);" ng-click="delete(generator)">删除</a></li>
                                 </ul>

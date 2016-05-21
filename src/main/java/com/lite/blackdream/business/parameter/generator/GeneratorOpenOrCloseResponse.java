@@ -6,13 +6,13 @@ import com.lite.blackdream.framework.model.Response;
 /**
  * @author LaineyC
  */
-public class GeneratorOpenResponse extends Response<Generator> {
+public class GeneratorOpenOrCloseResponse extends Response<Generator> {
 
-    public GeneratorOpenResponse(){
+    public GeneratorOpenOrCloseResponse(){
 
     }
 
-    public GeneratorOpenResponse(Generator body){
+    public GeneratorOpenOrCloseResponse(Generator body){
         setBody(body);
     }
 

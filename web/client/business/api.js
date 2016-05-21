@@ -120,7 +120,7 @@ define(
 
                 provider.import = function(request) { return $http.post("/api?method=generator.import", request); };
 
-                provider.open = function(request) { return $http.post("/api?method=generator.open", request); };
+                provider.openOrClose = function(request) { return $http.post("/api?method=generator.openOrClose", request); };
 
                 return provider;
             }

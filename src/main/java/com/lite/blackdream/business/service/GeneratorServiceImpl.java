@@ -510,7 +510,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
     }
 
     @Override
-    public Generator open(GeneratorOpenRequest request) {
+    public Generator openOrClose(GeneratorOpenOrCloseRequest request) {
         Long id = request.getId();
         Generator generatorPersistence = generatorRepository.selectById(id);
         if(generatorPersistence == null){
@@ -522,11 +522,21 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
             throw new AppException("权限不足");
         }
 
-        if(!generatorPersistence.getIsOpen()){
-            generatorPersistence.setIsOpen(true);
-            generatorPersistence.setVersion(generatorPersistence.getVersion() + 1);
-            generatorPersistence.setModifyDate(new Date());
-            generatorRepository.update(generatorPersistence);
+        Boolean isOpen = request.getIsOpen();
+        if(isOpen){
+            if(!generatorPersistence.getIsOpen()){
+                generatorPersistence.setIsOpen(true);
+                generatorPersistence.setVersion(generatorPersistence.getVersion() + 1);
+                generatorPersistence.setModifyDate(new Date());
+                generatorRepository.update(generatorPersistence);
+            }
+        }
+        else{
+            if(generatorPersistence.getIsOpen()){
+                generatorPersistence.setIsOpen(false);
+                generatorPersistence.setModifyDate(new Date());
+                generatorRepository.update(generatorPersistence);
+            }
         }
 
         return generatorPersistence;

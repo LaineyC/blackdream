@@ -5,11 +5,13 @@ import com.lite.blackdream.framework.model.Request;
 /**
  * @author LaineyC
  */
-public class GeneratorOpenRequest extends Request {
+public class GeneratorOpenOrCloseRequest extends Request {
 
     private Long id;
 
-    public GeneratorOpenRequest(){
+    private Boolean isOpen;
+
+    public GeneratorOpenOrCloseRequest(){
 
     }
 
@@ -19,6 +21,14 @@ public class GeneratorOpenRequest extends Request {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Boolean getIsOpen() {
+        return isOpen;
+    }
+
+    public void setIsOpen(Boolean isOpen) {
+        this.isOpen = isOpen;
     }
 
 }
