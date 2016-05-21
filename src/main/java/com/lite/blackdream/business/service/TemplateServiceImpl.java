@@ -40,9 +40,6 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
     @Override
     public Template create(TemplateCreateRequest request) {
         Long userId = request.getAuthentication().getUserId();
-        if(!request.getAuthentication().getIsDeveloper()){
-            throw new AppException("权限不足");
-        }
 
         Long generatorId = request.getGeneratorId();
         Generator generatorPersistence = generatorRepository.selectById(generatorId);
@@ -89,6 +86,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         if(templatePersistence == null){
             throw new AppException("模板文件不存在");
         }
+
         Template template = new Template();
         template.setId(templatePersistence.getId());
         template.setName(templatePersistence.getName());
@@ -99,6 +97,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         if(generatorPersistence == null){
             throw new AppException("生成器不存在");
         }
+
         User developerPersistence = userRepository.selectById(templatePersistence.getDeveloper().getId());
         template.setDeveloper(developerPersistence);
 
@@ -263,6 +262,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         if(templatePersistence == null){
             throw new AppException("模板文件不存在");
         }
+
         String uploadPath = templatePersistence.getUrl();
         String fileAbsolutePath = ConfigProperties.FILEBASE_PATH + uploadPath.replace("/", ConfigProperties.fileSeparator);
         File file = new File(fileAbsolutePath);

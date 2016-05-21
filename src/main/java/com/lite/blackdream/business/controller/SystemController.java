@@ -2,8 +2,10 @@ package com.lite.blackdream.business.controller;
 
 import com.lite.blackdream.business.parameter.system.*;
 import com.lite.blackdream.business.service.SystemService;
+import com.lite.blackdream.framework.aop.Security;
 import com.lite.blackdream.framework.component.BaseController;
 import com.lite.blackdream.framework.exception.AppException;
+import com.lite.blackdream.framework.model.Role;
 import com.lite.blackdream.framework.util.ConfigProperties;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +30,14 @@ public class SystemController extends BaseController {
     private SystemService systemService;
 
     @ResponseBody
-    @RequestMapping(params="method=session.heartbeat")
+    @Security(open = false, role = Role.USER)
+    @RequestMapping(params = "method=session.heartbeat")
     public SessionHeartbeatResponse sessionHeartbeat(SessionHeartbeatRequest request) {
         return new SessionHeartbeatResponse();
     }
 
-    @RequestMapping(params="method=file.download")
+    @Security(open = false, role = Role.USER)
+    @RequestMapping(params = "method=file.download")
     public ResponseEntity<byte[]> fileDownload(FileDownloadRequest request) throws IOException {
         String url = request.getUrl();
         File file = new File(ConfigProperties.TEMPORARY_PATH + ConfigProperties.fileSeparator + url);
@@ -49,14 +53,16 @@ public class SystemController extends BaseController {
     }
 
     @ResponseBody
-    @RequestMapping(params="method=data.statistic")
+    @Security(open = false, role = Role.USER)
+    @RequestMapping(params = "method=data.statistic")
     public DataStatisticResponse dataStatistic(DataStatisticRequest request) {
         Map<String, Object> result = systemService.dataStatistic(request);
         return new DataStatisticResponse(result);
     }
 
     @ResponseBody
-    @RequestMapping(params="method=date.currentTime")
+    @Security(open = false, role = Role.USER)
+    @RequestMapping(params = "method=date.currentTime")
     public DateCurrentTimeResponse dateCurrentTime(DateCurrentTimeRequest request) {
         return new DateCurrentTimeResponse(new Date());
     }

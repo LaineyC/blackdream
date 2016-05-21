@@ -11,11 +11,7 @@ public class Authentication {
 
     private String userName;
 
-    private Boolean isDeveloper;
-
-    private Boolean isDisable;
-
-    private Boolean isRoot;
+    private Role role;
 
     public Authentication(){
 
@@ -37,28 +33,12 @@ public class Authentication {
         this.userName = userName;
     }
 
-    public Boolean getIsDeveloper() {
-        return isDeveloper;
+    public Role getRole() {
+        return role;
     }
 
-    public void setIsDeveloper(Boolean isDeveloper) {
-        this.isDeveloper = isDeveloper;
+    public void setRole(Role role) {
+        this.role = role;
     }
-
-    public Boolean getIsDisable() {
-        return isDisable;
-    }
-
-    public void setIsDisable(Boolean isDisable) {
-        this.isDisable = isDisable;
-    }
-
-    public Boolean getIsRoot() {
-        return isRoot;
-    }
-
-    public void setIsRoot(Boolean isRoot) {
-        this.isRoot = isRoot;
-    }
-
+    
 }

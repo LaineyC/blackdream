@@ -30,12 +30,7 @@ public class UserServiceImpl extends BaseService implements UserService {
 
     @Override
     public User create(UserCreateRequest request) {
-        Authentication authentication = request.getAuthentication();
-        Long userId = authentication.getUserId();
-        User currentUser = userRepository.selectById(userId);
-        if(currentUser.getCreator() != null){
-            throw new AppException("权限不足");
-        }
+        Long userId = request.getAuthentication().getUserId();
 
         User user = new User();
         user.setUserName(request.getUserName());
@@ -51,7 +46,7 @@ public class UserServiceImpl extends BaseService implements UserService {
         user.setIsDeveloper(request.getIsDeveloper());
         user.setLoginCount(0);
         User creator = new User();
-        creator.setId(currentUser.getId());
+        creator.setId(userId);
         user.setCreator(creator);
         userRepository.insert(user);
         return user;
@@ -89,12 +84,15 @@ public class UserServiceImpl extends BaseService implements UserService {
         if(userPersistence == null){
             throw new AppException("用户名或密码错误");
         }
+
         if(userPersistence.getIsDisable()){
             throw new AppException("用户名或密码错误");
         }
+
         if(!passwordEncoder.matches(password, userPersistence.getPassword())){
             throw new AppException("用户名或密码错误");
         }
+
         userPersistence.setLoginCount(userPersistence.getLoginCount() + 1);
         userPersistence.setModifyDate(new Date());
         userRepository.update(userPersistence);
@@ -104,13 +102,6 @@ public class UserServiceImpl extends BaseService implements UserService {
 
     @Override
     public User update(UserUpdateRequest request) {
-        Authentication authentication = request.getAuthentication();
-        Long userId = authentication.getUserId();
-        User currentUser = userRepository.selectById(userId);
-        if(currentUser.getCreator() != null){
-            throw new AppException("权限不足");
-        }
-
         User user = new User();
         user.setId(request.getId());
         user.setIsDelete(false);
@@ -132,18 +123,19 @@ public class UserServiceImpl extends BaseService implements UserService {
 
     @Override
     public User passwordUpdate(UserPasswordUpdateRequest request) {
-        Authentication authentication = request.getAuthentication();
-        Long userId = authentication.getUserId();
+        Long userId = request.getAuthentication().getUserId();
         User userPersistence = userRepository.selectById(userId);
         if(userPersistence == null){
             throw new AppException("用户不存在");
         }
+
         String oldPassword = request.getOldPassword();
         String newPassword = request.getNewPassword();
         //String repeatPassword = request.getRepeatPassword();
         if(!passwordEncoder.matches(oldPassword, userPersistence.getPassword())){
             throw new AppException("旧密码不正确");
         }
+
         userPersistence.setPassword(passwordEncoder.encode(newPassword));
         userPersistence.setModifyDate(new Date());
         userRepository.update(userPersistence);
@@ -205,13 +197,6 @@ public class UserServiceImpl extends BaseService implements UserService {
 
     @Override
     public User passwordReset(UserPasswordResetRequest request) {
-        Authentication authentication = request.getAuthentication();
-        Long userId = authentication.getUserId();
-        User currentUser = userRepository.selectById(userId);
-        if(currentUser.getCreator() != null){
-            throw new AppException("权限不足");
-        }
-
         Long id = request.getId();
         User userPersistence = userRepository.selectById(id);
         if(userPersistence == null){
@@ -231,13 +216,6 @@ public class UserServiceImpl extends BaseService implements UserService {
 
     @Override
     public User enableOrDisable(UserEnableOrDisableRequest request) {
-        Authentication authentication = request.getAuthentication();
-        Long userId = authentication.getUserId();
-        User currentUser = userRepository.selectById(userId);
-        if(currentUser.getCreator() != null){
-            throw new AppException("权限不足");
-        }
-
         Long id = request.getId();
         User userPersistence = userRepository.selectById(id);
         if(userPersistence == null){

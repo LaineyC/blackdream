@@ -206,9 +206,6 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
     @Override
     public TemplateStrategy create(TemplateStrategyCreateRequest request) {
         Long userId = request.getAuthentication().getUserId();
-        if(!request.getAuthentication().getIsDeveloper()){
-            throw new AppException("权限不足");
-        }
 
         Long generatorId = request.getGeneratorId();
         Generator generatorPersistence = generatorRepository.selectById(generatorId);
@@ -277,6 +274,7 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
         if(templateStrategyPersistence == null){
             throw new AppException("生成策略不存在");
         }
+
         TemplateStrategy templateStrategy = new TemplateStrategy();
         templateStrategy.setId(templateStrategyPersistence.getId());
         templateStrategy.setName(templateStrategyPersistence.getName());
@@ -287,6 +285,7 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
         if(generatorPersistence == null){
             throw new AppException("生成器不存在");
         }
+
         User developerPersistence = userRepository.selectById(generatorPersistence.getDeveloper().getId());
         templateStrategy.setDeveloper(developerPersistence);
 

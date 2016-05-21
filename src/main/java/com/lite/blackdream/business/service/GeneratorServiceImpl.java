@@ -66,9 +66,6 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
     @Override
     public Generator create(GeneratorCreateRequest request) {
         Long userId = request.getAuthentication().getUserId();
-        if(!request.getAuthentication().getIsDeveloper()){
-            throw new AppException("权限不足");
-        }
 
         Generator generator = new Generator();
         generator.setId(idWorker.nextId());
@@ -233,15 +230,13 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
 
     @Override
     public Generator update(GeneratorUpdateRequest request) {
-        Authentication authentication = request.getAuthentication();
-        Long userId = authentication.getUserId();
-
         Long id = request.getId();
         Generator generatorPersistence = generatorRepository.selectById(id);
         if(generatorPersistence == null){
             throw new AppException("生成器不存在");
         }
 
+        Long userId = request.getAuthentication().getUserId();
         if(!userId.equals(generatorPersistence.getDeveloper().getId())){
             throw new AppException("权限不足");
         }
@@ -256,13 +251,13 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
 
     @Override
     public Generator export(GeneratorExportRequest request) {
-        Long userId = request.getAuthentication().getUserId();
         Long id = request.getId();
         Generator generatorPersistence = generatorRepository.selectById(id);
         if(generatorPersistence == null){
             throw new AppException("生成器不存在");
         }
 
+        Long userId = request.getAuthentication().getUserId();
         if(!userId.equals(generatorPersistence.getDeveloper().getId())){
             throw new AppException("权限不足");
         }
@@ -342,9 +337,6 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
     @Override
     public Generator _import(GeneratorImportRequest request) {
         Long userId = request.getAuthentication().getUserId();
-        if(!request.getAuthentication().getIsDeveloper()){
-            throw new AppException("权限不足");
-        }
 
         Base64FileItem generatorFile = request.getGeneratorFile();
         String type = generatorFile.getName().substring(generatorFile.getName().lastIndexOf(".") + 1);

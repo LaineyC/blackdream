@@ -35,9 +35,6 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
     @Override
     public DynamicModel create(DynamicModelCreateRequest request) {
         Long userId = request.getAuthentication().getUserId();
-        if(!request.getAuthentication().getIsDeveloper()){
-            throw new AppException("权限不足");
-        }
 
         Long generatorId = request.getGeneratorId();
         Generator generatorPersistence = generatorRepository.selectById(generatorId);
@@ -247,8 +244,6 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
 
     @Override
     public DynamicModel update(DynamicModelUpdateRequest request) {
-        Long userId = request.getAuthentication().getUserId();
-
         Long id = request.getId();
         DynamicModel dynamicModelPersistence = dynamicModelRepository.selectById(id);
         if(dynamicModelPersistence == null) {
@@ -260,6 +255,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
             throw new AppException("生成器不存在");
         }
 
+        Long userId = request.getAuthentication().getUserId();
         if(!userId.equals(generatorPersistence.getDeveloper().getId())){
             throw new AppException("权限不足");
         }

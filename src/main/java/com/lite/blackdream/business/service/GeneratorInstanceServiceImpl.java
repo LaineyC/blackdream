@@ -479,6 +479,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         RunResult runResult = new RunResult();
         Authentication authentication = request.getAuthentication();
         Long userId = authentication.getUserId();
+
         Long id = request.getId();
         GeneratorInstance generatorInstance = generatorInstanceRepository.selectById(id);
         if(generatorInstance == null){
