@@ -19,7 +19,7 @@ define(
                 $scope.validateMessages = {
                     userName:{
                         required:"必输项",
-                        pattern:"4-20位数字或字母"
+                        pattern:"4-10位数字或字母"
                     }
                 };
 

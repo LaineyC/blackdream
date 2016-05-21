@@ -8,7 +8,7 @@
                         <div class="col-sm-3">
                             <input uib-tooltip="{{getMessage('userName',userCreateForm.userName.$error,validateMessages)}}"
                                     tooltip-trigger="none" tooltip-is-open="userCreateForm.userName.$invalid && userCreateForm.userName.$dirty"
-                                    name="userName" ng-model="createRequest.userName" type="text" class="form-control input-sm" placeholder="用户名" ng-pattern="/^\w{4,20}$/" required/>
+                                    name="userName" ng-model="createRequest.userName" type="text" class="form-control input-sm" placeholder="用户名" ng-pattern="/^\w{4,10}$/" required/>
                         </div>
                     </div>
                     <div class="form-group">
