@@ -15,6 +15,8 @@ public class Authentication {
 
     private Boolean isDisable;
 
+    private Boolean isRoot;
+
     public Authentication(){
 
     }
@@ -49,6 +51,14 @@ public class Authentication {
 
     public void setIsDisable(Boolean isDisable) {
         this.isDisable = isDisable;
+    }
+
+    public Boolean getIsRoot() {
+        return isRoot;
+    }
+
+    public void setIsRoot(Boolean isRoot) {
+        this.isRoot = isRoot;
     }
 
 }

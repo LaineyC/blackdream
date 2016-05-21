@@ -55,6 +55,7 @@ public class UserController extends BaseController {
         authentication.setUserName(user.getUserName());
         authentication.setIsDeveloper(user.getIsDeveloper());
         authentication.setIsDisable(user.getIsDisable());
+        authentication.setIsRoot(user.getCreator() == null);
         servletRequest.getSession().setAttribute(ConfigProperties.SESSION_KEY_AUTHENTICATION, authentication);
         return new UserLoginResponse(user);
     }
