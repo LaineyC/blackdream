@@ -20,7 +20,7 @@
             <div class="col-sm-4">
                 <div class="panel panel-default" ng-if="!!generatorInstances.length">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><label>我的实例</label></h3>
+                        <h3 class="panel-title"><a href="javascript:void(0);" location-go="/business/generatorInstance/manage"><strong>我的实例</strong></a></h3>
                     </div>
                     <div class="panel-body">
                         <div class="page-header" style="margin: 5px;" ng-repeat="generatorInstance in generatorInstances">
@@ -34,7 +34,7 @@
                 </div>
                 <div class="panel panel-default" ng-if="!!generators.length">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><label>我的生成器</label></h3>
+                        <h3 class="panel-title"><a href="javascript:void(0);" location-go="/business/generator/manage"><strong>我的生成器</strong></a></h3>
                     </div>
                     <div class="panel-body">
                         <div class="page-header" style="margin: 5px;" ng-repeat="generator in generators">

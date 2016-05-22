@@ -105,7 +105,7 @@ public class UserController extends BaseController {
     }
 
     @ResponseBody
-    @Security(open = false, role = Role.USER)
+    @Security(open = false, role = Role.ROOT)
     @RequestMapping(params = "method=user.password.reset")
     public UserPasswordResetResponse passwordReset(UserPasswordResetRequest request) {
         User user = userService.passwordReset(request);
