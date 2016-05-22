@@ -423,6 +423,11 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
             throw new AppException("权限不足");
         }
 
+        Generator generatorPersistence = generatorRepository.selectById(templateStrategyPersistence.getGenerator().getId());
+        if(generatorPersistence == null){
+            throw new AppException("生成器不存在");
+        }
+
         TemplateStrategy templateStrategyTemplate = new TemplateStrategy();
         templateStrategyTemplate.setIsDelete(false);
         templateStrategyTemplate.setGenerator(templateStrategyPersistence.getGenerator());
@@ -450,10 +455,14 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
         for(TemplateStrategy t : records){
             if(sequence != t.getSequence()) {
                 t.setSequence(sequence);
+                t.setModifyDate(new Date());
                 templateStrategyRepository.update(t);
             }
             sequence++;
         }
+
+        generatorPersistence.setModifyDate(new Date());
+        generatorRepository.update(generatorPersistence);
 
         return templateStrategyPersistence;
     }

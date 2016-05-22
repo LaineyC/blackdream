@@ -290,6 +290,11 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
             throw new AppException("权限不足");
         }
 
+        Generator generatorPersistence = generatorRepository.selectById(templatePersistence.getGenerator().getId());
+        if(generatorPersistence == null){
+            throw new AppException("生成器不存在");
+        }
+
         Template templateTemplate = new Template();
         templateTemplate.setIsDelete(false);
         templateTemplate.setGenerator(templatePersistence.getGenerator());
@@ -315,10 +320,14 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         for(Template t : records){
             if(sequence != t.getSequence()){
                 t.setSequence(sequence);
+                t.setModifyDate(new Date());
                 templateRepository.update(t);
             }
             sequence++;
         }
+
+        generatorPersistence.setModifyDate(new Date());
+        generatorRepository.update(generatorPersistence);
 
         return templatePersistence;
     }

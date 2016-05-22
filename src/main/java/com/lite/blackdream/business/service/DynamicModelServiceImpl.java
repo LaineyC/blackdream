@@ -295,6 +295,11 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
             throw new AppException("权限不足");
         }
 
+        Generator generatorPersistence = generatorRepository.selectById(dynamicModelPersistence.getGenerator().getId());
+        if(generatorPersistence == null){
+            throw new AppException("生成器不存在");
+        }
+
         DynamicModel dynamicModelTemplate = new DynamicModel();
         dynamicModelTemplate.setIsDelete(false);
         dynamicModelTemplate.setGenerator(dynamicModelPersistence.getGenerator());
@@ -322,10 +327,14 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
         for(DynamicModel d : records){
             if(sequence != d.getSequence()) {
                 d.setSequence(sequence);
+                d.setModifyDate(new Date());
                 dynamicModelRepository.update(d);
             }
             sequence++;
         }
+
+        generatorPersistence.setModifyDate(new Date());
+        generatorRepository.update(generatorPersistence);
 
         return dynamicModelPersistence;
     }

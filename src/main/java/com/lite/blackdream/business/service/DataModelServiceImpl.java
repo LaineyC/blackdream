@@ -279,6 +279,11 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
             throw new AppException("parent不存在");
         }
 
+        GeneratorInstance generatorInstancePersistence = generatorInstanceRepository.selectById(rootPersistence.getGeneratorInstance().getId());
+        if(generatorInstancePersistence == null){
+            throw new AppException("实例不存在");
+        }
+
         List<DataModel> children = parentPersistence.getChildren();
         int fromIndex = request.getFromIndex();
         int toIndex = request.getToIndex();
@@ -296,10 +301,14 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
         for(DataModel d : children){
             if(sequence != d.getSequence()){
                 d.setSequence(sequence);
+                d.setModifyDate(new Date());
                 dataModelRepository.update(d);
             }
             sequence++;
         }
+
+        generatorInstancePersistence.setModifyDate(new Date());
+        generatorInstanceRepository.update(generatorInstancePersistence);
 
         return dataModelPersistence;
     }

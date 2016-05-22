@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-sm-3" style="position: relative;min-height: 1px;">
                 <div style="position: fixed;top:65px;width: 225px;">
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" ng-if="user.isDeveloper || !user.creator">
                         <div class="panel-heading"><label>开发手册</label></div>
                         <div class="list-group" >
                             <a href="javascript:void(0)" ng-click="anchorScroll('a1')" class="list-group-item"><label>我的生成器</label></a>
@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="col-sm-9">
-                <div class="panel panel-default" id="a1">
+                <div class="panel panel-default" id="a1" ng-if="user.isDeveloper || !user.creator">
                     <div class="panel-heading">
                         <h3 class="panel-title"><label>我的生成器</label></h3>
                     </div>
@@ -38,7 +38,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="panel panel-default" id="a2">
+                <div class="panel panel-default" id="a2" ng-if="user.isDeveloper || !user.creator">
                     <div class="panel-heading">
                         <h3 class="panel-title"><label>数据模型</label></h3>
                     </div>
@@ -186,7 +186,7 @@
                         </div>
                    </div>
                 </div>
-                <div class="panel panel-default" id="a3">
+                <div class="panel panel-default" id="a3" ng-if="user.isDeveloper || !user.creator">
                     <div class="panel-heading">
                         <h3 class="panel-title"><label>模板文件</label></h3>
                     </div>
@@ -223,7 +223,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="panel panel-default" id="a4">
+                <div class="panel panel-default" id="a4" ng-if="user.isDeveloper || !user.creator">
                     <div class="panel-heading">
                         <h3 class="panel-title"><label>生成策略</label></h3>
                     </div>
@@ -440,7 +440,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="panel panel-default" id="a5">
+                <div class="panel panel-default" id="a5" ng-if="user.isDeveloper || !user.creator">
                     <div class="panel-heading">
                         <h3 class="panel-title"><label>数据结构</label></h3>
                     </div>
@@ -562,7 +562,7 @@
                     </div>
                     <div class="panel-body">
                         <p>每个生成器可以创建多个实例，一个实例一份数据。</p>
-                        <p>用户通过搜索出的生成器新建实例，然后进工作台进行生成器数据的输入。</p>
+                        <p>用户通过搜索出的生成器新建实例，然后进工作台进行生成器数据的输入，最后通过生成器工具生成目标文件。</p>
                     </div>
                 </div>
             </div>
