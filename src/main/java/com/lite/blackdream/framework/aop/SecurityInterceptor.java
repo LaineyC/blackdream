@@ -30,7 +30,7 @@ public class SecurityInterceptor extends HandlerInterceptorAdapter{
         }
 
         Role role = authentication.getRole();
-        if(role.getWeight() < security.role().getWeight()){
+        if(!role.hasRight(security.role())){
             throw new AppException("权限不足");
         }
 

@@ -1,7 +1,7 @@
 package com.lite.blackdream.framework.model;
 
 /**
- * RoleT
+ * Role
  *
  * @author LaineyC
  */
@@ -10,29 +10,33 @@ public enum Role{
     /**
      * 使用者
      */
-    USER(0),
+    USER(1),
 
     /**
      * 开发者
      */
-    DEVELOPER(1),
+    DEVELOPER(10),
 
     /**
      * 超管员
      */
-    ROOT(2);
+    ROOT(100);
 
     /**
      * 权重
      */
     private int weight;
 
-    private Role(int weight){
+    Role(int weight){
         this.weight = weight;
     }
 
     public int getWeight() {
         return weight;
+    }
+
+    public boolean hasRight(Role role){
+        return this.weight >= role.weight;
     }
 
 }
