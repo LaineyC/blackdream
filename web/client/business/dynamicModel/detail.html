@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
     <div ng-controller="dynamicModelDetailController">
         <div class="row">
             <div class="col-sm-12">
@@ -32,19 +32,22 @@
                                 <thead>
                                 <tr class="active">
                                     <th width="30">#</th>
+                                    <th width="100">分组</th>
                                     <th width="100">标题</th>
                                     <th width="50">宽比</th>
-                                    <th width="100">名称</th>
+                                    <th width="150">名称</th>
                                     <th width="100">类型</th>
-                                    <th width="100">默认值</th>
+                                    <th width="150">默认值</th>
                                     <th width="200">可选值</th>
-                                    <th width="200">级联脚本</th>
-                                    <th width="200">验证规则</th>
+                                    <th width="300">级联脚本</th>
+                                    <th width="300">验证规则</th>
+                                    <th>&nbsp;</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr ng-repeat="property in dynamicModel.properties track by $index">
                                     <th>{{$index + 1}}</th>
+                                    <td>{{property.group}}</td>
                                     <td>{{property.label}}</td>
                                     <td>{{property.viewWidth}}</td>
                                     <td>{{property.name}}</td>
@@ -53,6 +56,7 @@
                                     <td><span ng-repeat="optionalValue in property.optionalValues track by $index">{{optionalValue}}&nbsp;</span></td>
                                     <td>{{property.cascadeScript}}</td>
                                     <td><span ng-repeat="(k,v) in property.validator track by $index">{{k}}:{{v}}&nbsp;</span></td>
+                                    <td>&nbsp;</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -65,19 +69,22 @@
                                 <thead>
                                 <tr class="active">
                                     <th width="30">#</th>
+                                    <th width="100">分组</th>
                                     <th width="100">标题</th>
                                     <th width="50">宽度</th>
-                                    <th width="100">名称</th>
+                                    <th width="150">名称</th>
                                     <th width="100">类型</th>
-                                    <th width="100">默认值</th>
+                                    <th width="150">默认值</th>
                                     <th width="200">可选值</th>
-                                    <th width="200">级联脚本</th>
-                                    <th width="200">验证规则</th>
+                                    <th width="300">级联脚本</th>
+                                    <th width="300">验证规则</th>
+                                    <th>&nbsp;</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr ng-repeat="property in dynamicModel.association track by $index">
                                     <th>{{$index + 1}}</th>
+                                    <td>{{property.group}}</td>
                                     <td>{{property.label}}</td>
                                     <td>{{property.viewWidth}}</td>
                                     <td>{{property.name}}</td>
@@ -86,15 +93,16 @@
                                     <td><span ng-repeat="optionalValue in property.optionalValues track by $index">{{optionalValue}}&nbsp;</span></td>
                                     <td>{{property.cascadeScript}}</td>
                                     <td><span ng-repeat="(k,v) in property.validator track by $index">{{k}}:{{v}}&nbsp;</span></td>
+                                    <td>&nbsp;</td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-12">
+                        <label class="col-sm-1 control-label">预设属性</label>
+                        <div class="col-sm-11">
                             <table class="table table-bordered table-condensed table-hover">
-                                <caption><label class="col-sm-1">预设属性</label></caption>
                                 <thead>
                                 <tr class="active">
                                     <th width="25">#</th>

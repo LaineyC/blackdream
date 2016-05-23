@@ -176,6 +176,9 @@ define(
                         property.validator = {};
                     },
                     validateMessages: {
+                        group:{
+                            maxlength:"最长10位"
+                        },
                         name:{
                             required:"必输项",
                             pattern:"非数字开头32位长度字母或数字"

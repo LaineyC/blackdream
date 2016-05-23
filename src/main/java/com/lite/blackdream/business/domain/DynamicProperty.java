@@ -9,6 +9,8 @@ import java.util.Map;
  */
 public class DynamicProperty extends Domain{
 
+    private String group;
+
     private String name;
 
     private String label;
@@ -30,6 +32,14 @@ public class DynamicProperty extends Domain{
 
     public DynamicProperty(){
 
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 
     public String getName() {

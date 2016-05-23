@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
     <div ng-controller="dynamicModelCreateController">
         <div class="row">
             <div class="col-sm-12">
@@ -56,11 +56,12 @@
                                 <thead>
                                 <tr class="active">
                                     <th width="30">#</th>
-                                    <th width="125"><span class="text-danger">标题</span></th>
-                                    <th width="80"><span class="text-danger">宽比</span></th>
-                                    <th width="150"><span class="text-danger">名称</span></th>
-                                    <th width="100"><span class="text-danger">类型</span></th>
-                                    <th width="125">默认值</th>
+                                    <th width="150">分组</th>
+                                    <th width="150"><span class="text-danger">标题</span></th>
+                                    <th width="100"><span class="text-danger">宽比</span></th>
+                                    <th width="200"><span class="text-danger">名称</span></th>
+                                    <th width="125"><span class="text-danger">类型</span></th>
+                                    <th width="150">默认值</th>
                                     <th width="150">可选值</th>
                                     <th width="100">级联脚本</th>
                                     <th width="100">验证规则</th>
@@ -70,6 +71,11 @@
                                 <tbody ui-sortable="propertiesControl.sortableOptions" ng-model="createRequest.properties">
                                 <tr ng-repeat="property in createRequest.properties" ng-init="property.__hashKey = hashKey(property)">
                                     <th>{{$index + 1}}</th>
+                                    <td>
+                                        <input name="group{{property.__hashKey}}" uib-tooltip="{{getMessage('group',dynamicModelCreateForm['group' + property.__hashKey].$error,propertyControl.validateMessages)}}"
+                                               tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.group{{property.__hashKey}}.$invalid && dynamicModelCreateForm.group{{property.__hashKey}}.$dirty"
+                                               ng-model="property.group" type="text" class="form-control input-sm" ng-maxlength="10"/>
+                                    </td>
                                     <td>
                                         <input name="label{{property.__hashKey}}" uib-tooltip="{{getMessage('label',dynamicModelCreateForm['label' + property.__hashKey].$error,propertyControl.validateMessages)}}"
                                                 tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.label{{property.__hashKey}}.$invalid && dynamicModelCreateForm.label{{property.__hashKey}}.$dirty"
@@ -119,7 +125,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td align="center">
+                                    <td>
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">编写脚本 <span class="caret"></span></button>
                                             <ul class="dropdown-menu" style="width:250px;">
@@ -130,7 +136,7 @@
                                             </ul>
                                         </div>
                                     </td>
-                                    <td align="center">
+                                    <td>
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">设置规则 <span class="caret"></span></button>
                                             <ul class="dropdown-menu" style="width:250px;">
@@ -211,11 +217,12 @@
                                 <thead>
                                 <tr class="active">
                                     <th width="30">#</th>
-                                    <th width="125"><span class="text-danger">标题</span></th>
-                                    <th width="80"><span class="text-danger">宽度</span></th>
-                                    <th width="150"><span class="text-danger">名称</span></th>
-                                    <th width="100"><span class="text-danger">类型</span></th>
-                                    <th width="125">默认值</th>
+                                    <th width="150">分组</th>
+                                    <th width="150"><span class="text-danger">标题</span></th>
+                                    <th width="100"><span class="text-danger">宽度</span></th>
+                                    <th width="200"><span class="text-danger">名称</span></th>
+                                    <th width="125"><span class="text-danger">类型</span></th>
+                                    <th width="150">默认值</th>
                                     <th width="150">可选值</th>
                                     <th width="100">级联脚本</th>
                                     <th width="100">验证规则</th>
@@ -225,6 +232,11 @@
                                 <tbody ui-sortable="associationControl.sortableOptions" ng-model="createRequest.association">
                                 <tr ng-repeat="property in createRequest.association" ng-init="property.__hashKey = hashKey(property)">
                                     <th>{{$index + 1}}</th>
+                                    <td>
+                                        <input name="group{{property.__hashKey}}" uib-tooltip="{{getMessage('group',dynamicModelCreateForm['group' + property.__hashKey].$error,propertyControl.validateMessages)}}"
+                                               tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.group{{property.__hashKey}}.$invalid && dynamicModelCreateForm.group{{property.__hashKey}}.$dirty"
+                                               ng-model="property.group" type="text" class="form-control input-sm" ng-maxlength="10"/>
+                                    </td>
                                     <td>
                                         <input name="label{{property.__hashKey}}" uib-tooltip="{{getMessage('label',dynamicModelCreateForm['label' + property.__hashKey].$error,propertyControl.validateMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelCreateForm.label{{property.__hashKey}}.$invalid && dynamicModelCreateForm.label{{property.__hashKey}}.$dirty"
@@ -274,7 +286,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td align="center">
+                                    <td>
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">编写脚本 <span class="caret"></span></button>
                                             <ul class="dropdown-menu" style="width:250px;">
@@ -285,7 +297,7 @@
                                             </ul>
                                         </div>
                                     </td>
-                                    <td align="center">
+                                    <td>
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">设置规则 <span class="caret"></span></button>
                                             <ul class="dropdown-menu" style="width:250px;">
@@ -359,9 +371,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-12">
+                        <label class="col-sm-1 control-label">预设属性</label>
+                        <div class="col-sm-11">
                             <table class="table table-condensed table-hover">
-                                <caption><label class="col-sm-1">预设属性</label><button type="button" class="btn btn-success btn-sm" ng-click="predefinedAssociationControl.add();">添加</button></caption>
+                                <caption><button type="button" class="btn btn-success btn-sm" ng-click="predefinedAssociationControl.add();">添加</button></caption>
                                 <thead>
                                 <tr class="active">
                                     <th width="30">#</th>

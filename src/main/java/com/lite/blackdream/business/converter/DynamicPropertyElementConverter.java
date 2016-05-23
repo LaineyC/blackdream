@@ -19,6 +19,12 @@ public class DynamicPropertyElementConverter extends BaseElementConverter<Dynami
     public Element toElement(DynamicProperty entity){
         Element element = DocumentHelper.createElement(beanDefinition.getBeanName());
 
+        String group = entity.getGroup();
+        if(group != null){
+            Element groupElement = element.addElement("group");
+            groupElement.setText(group);
+        }
+
         String name = entity.getName();
         if(name != null){
             Element nameElement = element.addElement("name");
@@ -81,6 +87,11 @@ public class DynamicPropertyElementConverter extends BaseElementConverter<Dynami
 
     public DynamicProperty fromElement(Element element){
         DynamicProperty entity = new DynamicProperty();
+
+        Node groupNode = element.element("group");
+        if(groupNode != null){
+            entity.setGroup(groupNode.getText());
+        }
 
         Node nameNode = element.element("name");
         if(nameNode != null){
