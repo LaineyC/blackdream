@@ -63,7 +63,7 @@
                                     <th width="30">#</th>
                                     <th width="150">分组</th>
                                     <th width="150"><span class="text-danger">标题</span></th>
-                                    <th width="100"><span class="text-danger">宽比</span></th>
+                                    <th width="100"><span class="text-danger">宽度</span></th>
                                     <th width="200"><span class="text-danger">名称</span></th>
                                     <th width="125"><span class="text-danger">类型</span></th>
                                     <th width="150">默认值</th>
@@ -87,9 +87,9 @@
                                                ng-model="property.label" type="text" class="form-control input-sm" ng-maxlength="10" required/>
                                     </td>
                                     <td>
-                                        <input name="viewWidth{{property.__hashKey}}" uib-tooltip="{{getMessage('viewWidth1',dynamicModelUpdateForm['viewWidth' + property.__hashKey].$error,propertyControl.validateMessages)}}"
+                                        <input name="viewWidth{{property.__hashKey}}" uib-tooltip="{{getMessage('viewWidth',dynamicModelUpdateForm['viewWidth' + property.__hashKey].$error,propertyControl.validateMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.viewWidth{{property.__hashKey}}.$invalid && dynamicModelUpdateForm.viewWidth{{property.__hashKey}}.$dirty"
-                                               ng-model="property.viewWidth" type="number" class="form-control input-sm" ng-pattern="/^(1|2|3|4|5|6|7|8|9|10|11)$/" required/>
+                                               ng-model="property.viewWidth" type="number" class="form-control input-sm" min="1" max="1000" required/>
                                     </td>
                                     <td>
                                         <input name="name{{property.__hashKey}}" uib-tooltip="{{getMessage('name',dynamicModelUpdateForm['name' + property.__hashKey].$error,propertyControl.validateMessages)}}"

@@ -188,11 +188,6 @@ define(
                         type:{
                             required:"必输项"
                         },
-                        viewWidth1:{
-                            required:"必输项",
-                            pattern:"1-11整数",
-                            number:"整数类型"
-                        },
                         viewWidth:{
                             required:"必输项",
                             min:"最小1",
@@ -210,7 +205,7 @@ define(
                         }
                     },
                     add:function() {
-                        $scope.createRequest.properties.push({viewWidth:2});
+                        $scope.createRequest.properties.push({});
                     },
                     delete:function(entity, index) {
                         $scope.createRequest.properties.splice(index, 1);

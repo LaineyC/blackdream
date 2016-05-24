@@ -230,7 +230,7 @@ define(
                         }
                     },
                     add:function() {
-                        $scope.updateRequest.properties.push({viewWidth:2});
+                        $scope.updateRequest.properties.push({});
                         $scope.dynamicModelUpdateForm.$setDirty();
                     },
                     delete:function(entity, index) {
