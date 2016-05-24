@@ -61,7 +61,7 @@
                     <form name="templateUpdateForm" class="form-horizontal" role="form" novalidate>
                         <div class="form-group">
                             <label class="col-sm-1 control-label"><span class="text-danger">名称</span></label>
-                            <div class="col-sm-5">
+                            <div class="col-sm-3">
                                 <input name="name" uib-tooltip="{{getMessage('name',templateUpdateForm.name.$error,validateMessages)}}"
                                        tooltip-trigger="none" tooltip-is-open="templateUpdateForm.name.$invalid && templateUpdateForm.name.$dirty"
                                        ng-model="template.name" type="text" class="form-control input-sm" ng-maxlength="20" required/>

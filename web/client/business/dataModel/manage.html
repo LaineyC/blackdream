@@ -40,124 +40,174 @@
             </div>
         </div>
         <div class="col-sm-10" style="width: 80%;margin-left: 20%;">
-                <uib-tabset ng-if="tabsControl.data.length">
-                    <uib-tab ng-repeat="dataModel in tabsControl.data" active="dataModel.active" ng-init="tabsControl.initScope(dataModel,this)">
-                        <uib-tab-heading><i class="text-info glyphicon glyphicon-{{dataModel.dynamicModel.icon}}"></i> <label>{{dataModel.name}}</label></uib-tab-heading>
-                        <br/>
-                        <form name="dataModelEditForm" class="form-horizontal" role="form" novalidate>
-                            <div class="form-group">
-                                <label class="col-sm-1 control-label"><span class="text-danger">名称</span></label>
-                                <div class="col-sm-5">
-                                    <input name="name" uib-tooltip="{{getMessage('name',dataModelEditForm.name.$error,validateMessages)}}"
-                                           tooltip-trigger="none" tooltip-is-open="dataModelEditForm.name.$invalid && dataModelEditForm.name.$dirty"
-                                           ng-model="dataModel.name" type="text" class="form-control input-sm" placeholder="名称" ng-maxlength="50" required/>
+            <uib-tabset ng-if="tabsControl.data.length">
+                <uib-tab ng-repeat="dataModel in tabsControl.data" active="dataModel.active" ng-init="tabsControl.initScope(dataModel,this)">
+                    <uib-tab-heading><i class="text-info glyphicon glyphicon-{{dataModel.dynamicModel.icon}}"></i> <label>{{dataModel.name}}</label></uib-tab-heading>
+                    <br/>
+                    <form name="dataModelEditForm" class="form-horizontal" role="form" novalidate>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label"><span class="text-danger">名称</span></label>
+                            <div class="col-sm-5">
+                                <input name="name" uib-tooltip="{{getMessage('name',dataModelEditForm.name.$error,validateMessages)}}"
+                                       tooltip-trigger="none" tooltip-is-open="dataModelEditForm.name.$invalid && dataModelEditForm.name.$dirty"
+                                       ng-model="dataModel.name" type="text" class="form-control input-sm" placeholder="名称" ng-maxlength="50" required/>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-repeat="property in dataModel.dynamicModel.fromGroup">
+                            <label class="col-sm-1 control-label"><span ng-class="{'text-danger': property.validator.required}">{{property.children.length ? property.group : property.label}}</span></label>
+                            <div ng-if="property.children" class="col-sm-11">
+                                <div class="form-inline">
+                                    <div class="form-group" ng-repeat="property in property.children" style="margin-left: 0;margin-right: 0;" ng-switch="property.type">
+                                        <label><span ng-class="{'text-danger': property.validator.required}">{{property.label}}</span></label>
+                                        <input name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
+                                               tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
+                                               ng-switch-when="Boolean" ng-model="dataModel.properties[property.name]" type="checkbox" ng-true-value="true" ng-false-value="false" ng-change="property.cascadeFunction(dataModel.properties)"/>
+                                        <input name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
+                                               tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
+                                               ng-switch-when="Long" ng-model="dataModel.properties[property.name]" type="number" class="form-control input-sm" ng-change="property.cascadeFunction(dataModel.properties)"
+                                               min="{{property.validator.min}}" max="{{property.validator.max}}" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
+                                        <input name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
+                                               tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
+                                               ng-switch-when="Double" ng-model="dataModel.properties[property.name]" type="number" class="form-control input-sm" ng-change="property.cascadeFunction(dataModel.properties)"
+                                               min="{{property.validator.min}}" max="{{property.validator.max}}" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
+                                        <input name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
+                                               tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
+                                               ng-switch-when="String" ng-model="dataModel.properties[property.name]" type="text" class="form-control input-sm" ng-change="property.cascadeFunction(dataModel.properties)"
+                                               ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
+                                        <input name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
+                                               tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
+                                               ng-switch-when="Date" ng-model="dataModel.properties[property.name]" type="text" readonly="readonly" class="form-control input-sm" ng-change="property.cascadeFunction(dataModel.properties)"
+                                               uib-datepicker-popup="yyyy-MM-dd" is-open="opened" ng-click="opened = !opened" close-text="关闭" current-text="今天"  clear-text="清除"
+                                               ng-required="property.validator.required"/>
+                                        <select name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
+                                                tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
+                                                ng-switch-when="Enum" ng-model="dataModel.properties[property.name]" ng-options="option for option in property.optionalValues" class="form-control input-sm" ng-change="property.cascadeFunction(dataModel.properties)"
+                                                ng-required="property.validator.required">
+                                            <option value="">--选择--</option>
+                                        </select>
+                                        <input name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
+                                               tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
+                                               ng-switch-when="Model" ng-model="dataModel.properties[property.name].name" readonly="readonly" type="text" class="form-control input-sm" ng-change="property.cascadeFunction(dataModel.properties)" ng-click="dataModelPickerModalOpen(dataModel,dataModel.properties,property.name,property.label,dataModelEditForm['$properties$' + property.name]);"
+                                               ng-required="property.validator.required"/>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label style="height:40px;" ng-repeat-start="property in dataModel.dynamicModel.properties" class="col-sm-1 control-label"><span ng-class="{'text-danger': property.validator.required}">{{property.label}}</span></label>
-                                <div style="height:40px;" ng-repeat-end class="col-sm-{{property.viewWidth}}" ng-switch="property.type">
-                                    <input name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
+                            <div ng-if="!property.children" class="col-sm-11" ng-switch="property.type">
+                                <input name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
+                                       tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
+                                       ng-switch-when="Boolean" ng-model="dataModel.properties[property.name]" type="checkbox" ng-true-value="true" ng-false-value="false" ng-change="property.cascadeFunction(dataModel.properties)"/>
+                                <input name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
+                                       tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
+                                       ng-switch-when="Long" ng-model="dataModel.properties[property.name]" type="number" class="form-control input-sm" ng-change="property.cascadeFunction(dataModel.properties)"
+                                       min="{{property.validator.min}}" max="{{property.validator.max}}" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
+                                <input name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
+                                       tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
+                                       ng-switch-when="Double" ng-model="dataModel.properties[property.name]" type="number" class="form-control input-sm" ng-change="property.cascadeFunction(dataModel.properties)"
+                                       min="{{property.validator.min}}" max="{{property.validator.max}}" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
+                                <input name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
+                                       tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
+                                       ng-switch-when="String" ng-model="dataModel.properties[property.name]" type="text" class="form-control input-sm" ng-change="property.cascadeFunction(dataModel.properties)"
+                                       ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
+                                <input name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
+                                       tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
+                                       ng-switch-when="Date" ng-model="dataModel.properties[property.name]" type="text" readonly="readonly" class="form-control input-sm" ng-change="property.cascadeFunction(dataModel.properties)"
+                                       uib-datepicker-popup="yyyy-MM-dd" is-open="opened" ng-click="opened = !opened" close-text="关闭" current-text="今天"  clear-text="清除"
+                                       ng-required="property.validator.required"/>
+                                <select name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
                                         tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
-                                        ng-switch-when="Boolean" ng-model="dataModel.properties[property.name]" type="checkbox" ng-true-value="true" ng-false-value="false" ng-change="property.cascadeFunction(dataModel.properties)"/>
-                                    <input name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
-                                           tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
-                                           ng-switch-when="Long" ng-model="dataModel.properties[property.name]" type="number" class="form-control input-sm" ng-change="property.cascadeFunction(dataModel.properties)"
-                                           min="{{property.validator.min}}" max="{{property.validator.max}}" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
-                                    <input name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
-                                           tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
-                                           ng-switch-when="Double" ng-model="dataModel.properties[property.name]" type="number" class="form-control input-sm" ng-change="property.cascadeFunction(dataModel.properties)"
-                                           min="{{property.validator.min}}" max="{{property.validator.max}}" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
-                                    <input name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
-                                           tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
-                                           ng-switch-when="String" ng-model="dataModel.properties[property.name]" type="text" class="form-control input-sm" ng-change="property.cascadeFunction(dataModel.properties)"
-                                           ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
-                                    <input name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
-                                           tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
-                                           ng-switch-when="Date" ng-model="dataModel.properties[property.name]" type="text" readonly="readonly" class="form-control input-sm" ng-change="property.cascadeFunction(dataModel.properties)"
-                                           uib-datepicker-popup="yyyy-MM-dd" is-open="opened" ng-click="opened = !opened" close-text="关闭" current-text="今天"  clear-text="清除"
-                                           ng-required="property.validator.required"/>
-                                    <select name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
-                                            tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
-                                            ng-switch-when="Enum" ng-model="dataModel.properties[property.name]" ng-options="option for option in property.optionalValues" class="form-control input-sm" ng-change="property.cascadeFunction(dataModel.properties)"
-                                            ng-required="property.validator.required">
-                                        <option value="">--选择--</option>
-                                    </select>
-                                    <input name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
-                                           tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
-                                           ng-switch-when="Model" ng-model="dataModel.properties[property.name].name" readonly="readonly" type="text" class="form-control input-sm" ng-change="property.cascadeFunction(dataModel.properties)" ng-click="dataModelPickerModalOpen(dataModel,dataModel.properties,property.name,property.label,dataModelEditForm['$properties$' + property.name]);"
-                                           ng-required="property.validator.required"/>
-                                </div>
+                                        ng-switch-when="Enum" ng-model="dataModel.properties[property.name]" ng-options="option for option in property.optionalValues" class="form-control input-sm" ng-change="property.cascadeFunction(dataModel.properties)"
+                                        ng-required="property.validator.required">
+                                    <option value="">--选择--</option>
+                                </select>
+                                <input name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
+                                       tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
+                                       ng-switch-when="Model" ng-model="dataModel.properties[property.name].name" readonly="readonly" type="text" class="form-control input-sm" ng-change="property.cascadeFunction(dataModel.properties)" ng-click="dataModelPickerModalOpen(dataModel,dataModel.properties,property.name,property.label,dataModelEditForm['$properties$' + property.name]);"
+                                       ng-required="property.validator.required"/>
                             </div>
-                            <div class="form-group" ng-if="dataModel.dynamicModel.association.length">
-                                <div class="col-sm-12">
-                                    <table class="table table-condensed table-hover">
-                                        <caption>
-                                            <div class="btn-group" role="group">
-                                                <button type="button" class="btn btn-success btn-sm" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.addProperty(dataModel);">添加属性</button>
-                                                <button type="button" class="btn btn-success btn-sm" ng-disabled="!dataModelControl.editable || !dataModel.dynamicModel.predefinedAssociation.length" ng-click="tabsControl.addPredefinedProperty(dataModel);">预设属性</button>
+                        </div>
+                        <div class="form-group" ng-if="dataModel.dynamicModel.association.length">
+                            <div class="col-sm-12">
+                                <table class="table table-condensed table-hover">
+                                    <caption>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-success btn-sm" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.addProperty(dataModel);">添加属性</button>
+                                            <button type="button" class="btn btn-success btn-sm" ng-disabled="!dataModelControl.editable || !dataModel.dynamicModel.predefinedAssociation.length" ng-click="tabsControl.addPredefinedProperty(dataModel);">预设属性</button>
+                                        </div>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-sm" ng-class="{'btn-default':!dataModel.$copy,'btn-warning':dataModel.$copy}" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.copyProperty(dataModel);">复制属性</button>
+                                            <button type="button" class="btn btn-default btn-sm" ng-disabled="!dataModelControl.editable || !tabsControl.hasClipboard(dataModel)" ng-click="tabsControl.pasteProperty(dataModel);">粘贴属性</button>
+                                        </div>
+                                    </caption>
+                                    <thead>
+                                    <tr class="active" ng-if="dataModel.dynamicModel.tableHead.groupHeads.length">
+                                        <th width="30" rowspan="2">#</th>
+                                        <th width="{{property.span ? '' : property.viewWidth}}" ng-repeat="property in dataModel.dynamicModel.tableHead.groupHeads"
+                                            rowspan="{{property.span ? '' : 2}}" colspan="{{!property.span ? '' : property.span}}">
+                                            <span ng-class="{'text-danger': property.validator.required}">{{property.span ? property.group : property.label}}</span>
+                                        </th>
+                                        <th rowspan="2">操作</th>
+                                    </tr>
+                                    <tr class="active" ng-if="dataModel.dynamicModel.tableHead.groupHeads.length">
+                                        <th width="{{property.viewWidth}}" ng-repeat="property in dataModel.dynamicModel.tableHead.heads" >
+                                            <span ng-class="{'text-danger': property.validator.required}">{{property.label}}</span>
+                                        </th>
+                                    </tr>
+                                    <tr class="active" ng-if="!dataModel.dynamicModel.tableHead.groupHeads.length">
+                                        <th width="30">#</th>
+                                        <th width="{{property.viewWidth}}" ng-repeat="property in dataModel.dynamicModel.association">
+                                            <span ng-class="{'text-danger': property.validator.required}">{{property.label}}</span>
+                                        </th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody ui-sortable="sortableOptions" ng-model="dataModel.association">
+                                    <tr ng-repeat="propertyValue in dataModel.association" ng-class="{'warning':propertyValue.$copy}">
+                                        <th ng-click="dataModel.$copy && (propertyValue.$copy = !propertyValue.$copy)">{{$index + 1}}</th>
+                                        <td align="center" ng-repeat="property in dataModel.dynamicModel.association" ng-switch="property.type" ng-init="propertyValue.__hashKey = hashKey(propertyValue)">
+                                            <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
+                                                   tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
+                                                   ng-switch-when="Boolean" ng-model="propertyValue[property.name]" type="checkbox" ng-true-value="true" ng-false-value="false" ng-change="property.cascadeFunction(propertyValue)"/>
+                                            <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
+                                                   tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
+                                                   ng-switch-when="Long" ng-model="propertyValue[property.name]" type="number" class="form-control input-sm" ng-change="property.cascadeFunction(propertyValue)"
+                                                   min="{{property.validator.min}}" max="{{property.validator.max}}" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
+                                            <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
+                                                   tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
+                                                   ng-switch-when="Double" ng-model="propertyValue[property.name]" type="number" class="form-control input-sm" ng-change="property.cascadeFunction(propertyValue)"
+                                                   min="{{property.validator.min}}" max="{{property.validator.max}}" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
+                                            <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
+                                                   tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
+                                                   ng-switch-when="String" ng-model="propertyValue[property.name]" type="text" class="form-control input-sm" ng-change="property.cascadeFunction(propertyValue)"
+                                                   ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
+                                            <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
+                                                   tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
+                                                   ng-switch-when="Date" ng-model="propertyValue[property.name]" type="text" readonly="readonly" class="form-control input-sm" ng-change="property.cascadeFunction(propertyValue)"
+                                                   uib-datepicker-popup="yyyy-MM-dd" is-open="opened" ng-click="opened = !opened" close-text="关闭" current-text="今天"  clear-text="清除"
+                                                   ng-required="property.validator.required"/>
+                                            <select name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
+                                                    tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
+                                                    ng-switch-when="Enum" ng-model="propertyValue[property.name]" ng-options="option for option in property.optionalValues" class="form-control input-sm" ng-change="property.cascadeFunction(propertyValue)"
+                                                    ng-required="property.validator.required">
+                                                <option value="">--选择--</option>
+                                            </select>
+                                            <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
+                                                   tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
+                                                   ng-switch-when="Model" ng-model="propertyValue[property.name].name" readonly="readonly" type="text" class="form-control input-sm" ng-change="property.cascadeFunction(propertyValue)" ng-click="dataModelPickerModalOpen(dataModel,propertyValue,property.name,property.label,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey]);"
+                                                   ng-required="property.validator.required"/>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-danger btn-sm" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.removeProperty(dataModel, $index)">删除</button>
                                             </div>
-                                            <div class="btn-group" role="group">
-                                                <button type="button" class="btn btn-sm" ng-class="{'btn-default':!dataModel.$copy,'btn-warning':dataModel.$copy}" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.copyProperty(dataModel);">复制属性</button>
-                                                <button type="button" class="btn btn-default btn-sm" ng-disabled="!dataModelControl.editable || !tabsControl.hasClipboard(dataModel)" ng-click="tabsControl.pasteProperty(dataModel);">粘贴属性</button>
-                                            </div>
-                                        </caption>
-                                        <thead>
-                                        <tr class="active">
-                                            <th width="30">#</th>
-                                            <th width="{{property.viewWidth}}" ng-repeat="property in dataModel.dynamicModel.association">
-                                                <span ng-class="{'text-danger': property.validator.required}">{{property.label}}</span>
-                                            </th>
-                                            <th>操作</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody ui-sortable="sortableOptions" ng-model="dataModel.association">
-                                        <tr ng-repeat="propertyValue in dataModel.association" ng-class="{'warning':propertyValue.$copy}">
-                                            <th ng-click="dataModel.$copy && (propertyValue.$copy = !propertyValue.$copy)">{{$index + 1}}</th>
-                                            <td align="center" ng-repeat="property in dataModel.dynamicModel.association" ng-switch="property.type" ng-init="propertyValue.__hashKey = hashKey(propertyValue)">
-                                                <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
-                                                       tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
-                                                       ng-switch-when="Boolean" ng-model="propertyValue[property.name]" type="checkbox" ng-true-value="true" ng-false-value="false" ng-change="property.cascadeFunction(propertyValue)"/>
-                                                <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
-                                                       tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
-                                                       ng-switch-when="Long" ng-model="propertyValue[property.name]" type="number" class="form-control input-sm" ng-change="property.cascadeFunction(propertyValue)"
-                                                       min="{{property.validator.min}}" max="{{property.validator.max}}" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
-                                                <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
-                                                       tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
-                                                       ng-switch-when="Double" ng-model="propertyValue[property.name]" type="number" class="form-control input-sm" ng-change="property.cascadeFunction(propertyValue)"
-                                                       min="{{property.validator.min}}" max="{{property.validator.max}}" ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
-                                                <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
-                                                       tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
-                                                       ng-switch-when="String" ng-model="propertyValue[property.name]" type="text" class="form-control input-sm" ng-change="property.cascadeFunction(propertyValue)"
-                                                       ng-minlength="property.validator.minlength" ng-maxlength="property.validator.maxlength" ng-pattern="property.validator.pattern" ng-required="property.validator.required"/>
-                                                <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
-                                                       tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
-                                                       ng-switch-when="Date" ng-model="propertyValue[property.name]" type="text" readonly="readonly" class="form-control input-sm" ng-change="property.cascadeFunction(propertyValue)"
-                                                       uib-datepicker-popup="yyyy-MM-dd" is-open="opened" ng-click="opened = !opened" close-text="关闭" current-text="今天"  clear-text="清除"
-                                                       ng-required="property.validator.required"/>
-                                                <select name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
-                                                        tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
-                                                        ng-switch-when="Enum" ng-model="propertyValue[property.name]" ng-options="option for option in property.optionalValues" class="form-control input-sm" ng-change="property.cascadeFunction(propertyValue)"
-                                                        ng-required="property.validator.required">
-                                                    <option value="">--选择--</option>
-                                                </select>
-                                                <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
-                                                       tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
-                                                       ng-switch-when="Model" ng-model="propertyValue[property.name].name" readonly="readonly" type="text" class="form-control input-sm" ng-change="property.cascadeFunction(propertyValue)" ng-click="dataModelPickerModalOpen(dataModel,propertyValue,property.name,property.label,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey]);"
-                                                       ng-required="property.validator.required"/>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-danger btn-sm" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.removeProperty(dataModel, $index)">删除</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                        </form>
-                    </uib-tab>
-                </uib-tabset>
+                        </div>
+                    </form>
+                </uib-tab>
+            </uib-tabset>
         </div>
     </div>
 </div>
@@ -183,6 +233,7 @@
         <button class="btn btn-sm btn-primary" type="button" ng-click="confirm()">关闭</button>
     </div>
 </script>
+<!-- 生成数据导航使用的递归模板 -->
 <script id="dataModelRecursion" type="text/ng-template">
     <li class="list-group-item" ng-repeat="child in parent.children" ng-init="p=parent;">
         <i class="glyphicon glyphicon-plus" ng-class="child.children.length ? (child.$expend ? 'glyphicon-minus' : 'glyphicon-plus') : 'glyphicon-leaf'" ng-click="child.$expend =! child.$expend;"></i>
@@ -220,6 +271,7 @@
         <button class="btn btn-sm btn-primary" type="button" ng-click="confirm()">关闭</button>
     </div>
 </script>
+<!-- 关联模型对话框使用的递归模板 -->
 <script id="dataModelPickerRecursion" type="text/ng-template">
     <a href="javascript:void(0)" class="list-group-item" ng-repeat="child in parent.children" ng-init="p=parent;">
         <i class="glyphicon glyphicon-plus" ng-class="child.children.length ? (child.$$expend ? 'glyphicon-minus' : 'glyphicon-plus') : 'glyphicon-ban-circle'" ng-click="child.$$expend =! child.$$expend;"></i>

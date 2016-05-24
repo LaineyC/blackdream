@@ -81,13 +81,6 @@ define(
                     return entity.$$hashKey.split(":")[1];
                 };
 
-                $scope.validateMessages = {
-                    name:{
-                        required:"必输项",
-                        maxlength:"最长20位"
-                    }
-                };
-
                 $scope.resetScript = function(property){
                     property.hasScriptError = false;
                     if(property.cascadeScript){
@@ -100,6 +93,13 @@ define(
                     }
                 };
 
+                $scope.validateMessages = {
+                    name:{
+                        required:"必输项",
+                        maxlength:"最长20位"
+                    }
+                };
+
                 $scope.getMessage = function(field, $error, validateMessages){
                     if(!validateMessages)
                         return;
@@ -108,31 +108,29 @@ define(
                     }
                 };
 
-                $scope.resetMessage = function(){
-                    $scope.associationMessages = {};
-                    for(var j = 0 ; j < $scope.createRequest.association.length ; j++){
-                        var property = $scope.createRequest.association[j];
-                        var validator = property.validator;
-                        if(validator){
-                            var fieldMessages = $scope.associationMessages[property.name] = {};
-                            if(validator.required){
-                                fieldMessages.required = "必输项";
-                            }
-                            if(validator.min != null && validator.min != undefined){
-                                fieldMessages.min = "最小" + validator.min;
-                            }
-                            if(validator.max != null && validator.max != undefined){
-                                fieldMessages.max = "最大" + validator.max;
-                            }
-                            if(validator.minlength != null && validator.minlength != undefined){
-                                fieldMessages.minlength = "最短" + validator.minlength + "位";
-                            }
-                            if(validator.maxlength != null && validator.maxlength != undefined){
-                                fieldMessages.maxlength = "最长" + validator.maxlength + "位";
-                            }
-                            if(validator.pattern != null && validator.pattern != undefined){
-                                fieldMessages.pattern = validator.patternTooltip || "格式不匹配" + validator.pattern;
-                            }
+                $scope.associationMessages = {};
+
+                $scope.resetMessage = function(property){
+                    var validator = property.validator;
+                    if(validator){
+                        var fieldMessages = $scope.associationMessages[property.name] = {};
+                        if(validator.required){
+                            fieldMessages.required = "必输项";
+                        }
+                        if(validator.min != null && validator.min != undefined){
+                            fieldMessages.min = "最小" + validator.min;
+                        }
+                        if(validator.max != null && validator.max != undefined){
+                            fieldMessages.max = "最大" + validator.max;
+                        }
+                        if(validator.minlength != null && validator.minlength != undefined){
+                            fieldMessages.minlength = "最短" + validator.minlength + "位";
+                        }
+                        if(validator.maxlength != null && validator.maxlength != undefined){
+                            fieldMessages.maxlength = "最长" + validator.maxlength + "位";
+                        }
+                        if(validator.pattern != null && validator.pattern != undefined){
+                            fieldMessages.pattern = validator.patternTooltip || "格式不匹配" + validator.pattern;
                         }
                     }
                 };
@@ -222,23 +220,56 @@ define(
                 $scope.associationControl = {
                     sortableOptions:{
                         update: function(e, ui) {
+
                         },
                         stop: function(e, ui) {
+                            $scope.resetHead();
                         }
                     },
                     add:function() {
                         $scope.createRequest.association.push({});
+                        $scope.resetHead();
                     },
                     delete:function(entity, index) {
                         $scope.createRequest.association.splice(index, 1);
+                        $scope.resetHead();
+                    }
+                };
+
+                $scope.resetHead = function(){
+                    var tableHead = $scope.predefinedAssociationControl.tableHead;
+                    tableHead.groupHeads.length = 0;
+                    tableHead.heads.length = 0;
+                    for(var j = 0 ; j < $scope.createRequest.association.length ; j++){
+                        var property = $scope.createRequest.association[j];
+                        var group = property.group;
+                        if(!group){
+                            tableHead.groupHeads.push(property);
+                        }
+                        else{
+                            var prevHead = tableHead.groupHeads[tableHead.groupHeads.length - 1];
+                            if(!prevHead || group != prevHead.group){
+                                tableHead.groupHeads.push({group:group, span:1});
+                            }
+                            if(prevHead && group == prevHead.group){
+                                prevHead.span++;
+                            }
+                            tableHead.heads.push(property);
+                        }
                     }
                 };
 
                 $scope.predefinedAssociationControl = {
+                    tableHead:{
+                        groupHeads:[],
+                        heads:[]
+                    },
                     sortableOptions:{
                         update: function(e, ui) {
+
                         },
                         stop: function(e, ui) {
+
                         }
                     },
                     add:function() {

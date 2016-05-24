@@ -26,7 +26,7 @@ define(
                         message:"确定删除【" + dynamicModel.name +"】？",
                         confirm:function(){
                             dynamicModelApi.delete({id:dynamicModel.id}).success(function(){
-                                $scope.search();
+                                $scope.query();
                             });
                         }
                     });

@@ -23,7 +23,7 @@ define(
                         message:"确定删除【" + templateStrategy.name +"】？",
                         confirm:function(){
                             templateStrategyApi.delete({id:templateStrategy.id}).success(function(){
-                                $scope.search();
+                                $scope.query();
                             });
                         }
                     });

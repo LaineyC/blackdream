@@ -74,6 +74,7 @@ define(
                         for(i = 0 ; i < dynamicModels.length ; i++){
                             var j;
                             dynamicModel = dynamicModels[i];
+
                             var children = dynamicModel.children;
                             dynamicModel.children = [];
                             for(j = 0 ; j < children.length ; j++){
@@ -91,6 +92,7 @@ define(
                             var propertiesKeys = {dateTypeKeys:{},dataModelTypeKeys:{}};
                             var associationKeys = {dateTypeKeys:{},dataModelTypeKeys:{}};
                             dynamicModelKeysCache[dynamicModel.id] = {propertiesKeys: propertiesKeys, associationKeys:associationKeys};
+                            var fromGroup = dynamicModel.fromGroup = [];
                             for(j = 0 ; j < dynamicModel.properties.length ; j++){
                                 var property = dynamicModel.properties[j];
                                 if(property.type == "Date"){
@@ -126,7 +128,24 @@ define(
                                         fieldMessages.pattern = validator.patternTooltip || "格式不匹配" + validator.pattern;
                                     }
                                 }
+
+                                var group = property.group;
+                                if(!group){
+                                    fromGroup.push(property);
+                                }
+                                else{
+                                    var prevFromGroup = fromGroup[fromGroup.length - 1];
+                                    if(!prevFromGroup || group != prevFromGroup.group){
+                                        fromGroup.push({group:group, children:[property]});
+                                    }
+                                    if(prevFromGroup && group == prevFromGroup.group){
+                                        prevFromGroup.children.push(property);
+                                    }
+                                }
+
                             }
+
+                            var tableHead = dynamicModel.tableHead = {groupHeads:[], heads:[]};
                             for(j = 0 ; j < dynamicModel.association.length ; j++){
                                 var property = dynamicModel.association[j];
                                 if(property.type == "Date"){
@@ -162,6 +181,22 @@ define(
                                         fieldMessages.pattern = validator.patternTooltip || "格式不匹配" + validator.pattern;
                                     }
                                 }
+
+                                var group = property.group;
+                                if(!group){
+                                    tableHead.groupHeads.push(property);
+                                }
+                                else{
+                                    var prevHead = tableHead.groupHeads[tableHead.groupHeads.length - 1];
+                                    if(!prevHead || group != prevHead.group){
+                                        tableHead.groupHeads.push({group:group, span:1});
+                                    }
+                                    if(prevHead && group == prevHead.group){
+                                        prevHead.span++;
+                                    }
+                                    tableHead.heads.push(property);
+                                }
+
                             }
                         }
                     });
