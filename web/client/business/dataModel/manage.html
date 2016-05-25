@@ -47,7 +47,7 @@
                     <form name="dataModelEditForm" class="form-horizontal" role="form" novalidate>
                         <div class="form-group">
                             <label class="col-sm-1 control-label" for="name"><span class="text-danger">名称</span></label>
-                            <div class="col-sm-5">
+                            <div class="col-sm-3">
                                 <input id="name" name="name" uib-tooltip="{{getMessage('name',dataModelEditForm.name.$error,validateMessages)}}"
                                        tooltip-trigger="none" tooltip-is-open="dataModelEditForm.name.$invalid && dataModelEditForm.name.$dirty"
                                        ng-model="dataModel.name" type="text" class="form-control input-sm" placeholder="名称" ng-maxlength="50" required/>
@@ -142,19 +142,19 @@
                                         </div>
                                     </caption>
                                     <thead>
-                                    <tr class="active" ng-if="dataModel.dynamicModel.tableHead.groupHeads.length">
+                                    <tr class="active" ng-if="dataModel.dynamicModel.tableHead.heads.length">
                                         <th width="30" rowspan="2">#</th>
                                         <th width="{{property.span ? '' : property.viewWidth}}" ng-repeat="property in dataModel.dynamicModel.tableHead.groupHeads" rowspan="{{property.span ? '' : 2}}" colspan="{{!property.span ? '' : property.span}}">
                                             <span ng-class="{'text-danger': property.validator.required}">{{property.span ? property.group : property.label}}</span>
                                         </th>
                                         <th rowspan="2">操作</th>
                                     </tr>
-                                    <tr class="active" ng-if="dataModel.dynamicModel.tableHead.groupHeads.length">
-                                        <th width="{{property.viewWidth}}" ng-repeat="property in dataModel.dynamicModel.tableHead.heads" >
+                                    <tr class="active" ng-if="dataModel.dynamicModel.tableHead.heads.length">
+                                        <th width="{{property.viewWidth}}" ng-repeat="property in dataModel.dynamicModel.tableHead.heads">
                                             <span ng-class="{'text-danger': property.validator.required}">{{property.label}}</span>
                                         </th>
                                     </tr>
-                                    <tr class="active" ng-if="!dataModel.dynamicModel.tableHead.groupHeads.length">
+                                    <tr class="active" ng-if="!dataModel.dynamicModel.tableHead.heads.length">
                                         <th width="30">#</th>
                                         <th width="{{property.viewWidth}}" ng-repeat="property in dataModel.dynamicModel.association">
                                             <span ng-class="{'text-danger': property.validator.required}">{{property.label}}</span>
@@ -243,19 +243,21 @@
         <span class="text-info glyphicon glyphicon-{{child.dynamicModel.icon}}"></span>
         <label ng-dblclick="dataModelControl.view(child);">{{child.name}}</label>
         <div class="btn-group pull-right">
+            <div class="btn-group">
+                <button ng-if="child.dynamicModel.children.length" type="button" class="btn btn-success dropdown-toggle btn-xs" ng-disabled="!dataModelControl.editable" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+                <ul ng-if="child.dynamicModel.children.length" class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li ng-repeat="dynamicModel in child.dynamicModel.children">
+                        <a href="javascript:void(0);" ng-click="dataModelControl.add(dynamicModel, child);">
+                            <span class="glyphicon glyphicon-{{dynamicModel.icon}}"></span> {{dynamicModel.name}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
             <button type="button" class="btn btn-danger btn-xs" ng-disabled="!dataModelControl.editable" ng-click="dataModelControl.delete(p, $index, child);">
                 <span class="glyphicon glyphicon-remove"></span>
             </button>
-            <button ng-if="child.dynamicModel.children.length" type="button" class="btn btn-success dropdown-toggle btn-xs" ng-disabled="!dataModelControl.editable" data-toggle="dropdown">
-                <span class="glyphicon glyphicon-plus"></span>
-            </button>
-            <ul ng-if="child.dynamicModel.children.length" class="dropdown-menu dropdown-menu-right" role="menu">
-                <li ng-repeat="dynamicModel in child.dynamicModel.children">
-                    <a href="javascript:void(0);" ng-click="dataModelControl.add(dynamicModel, child);">
-                        <span class="glyphicon glyphicon-{{dynamicModel.icon}}"></span> {{dynamicModel.name}}
-                    </a>
-                </li>
-            </ul>
         </div>
         <ul ui-sortable="dataModelControl.sortableOptions" ng-model="child.children" class="list-group" ng-include="'dataModelRecursion'" ng-show="child.$expend && child.children.length" ng-init="parent=child;"></ul>
     </li>

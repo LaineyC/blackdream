@@ -14,10 +14,36 @@
         </div>
 #if($dataModel.dynamicModel.properties.size() > 0)
         <div class="form-group">
-#foreach($property in $dataModel.dynamicModel.properties)
-#set($value = $dataModel.properties.get($property.name))
-            <label style="height:40px;" class="col-sm-1 control-label">$property.label</label>
-            <div style="height:40px;" class="col-sm-$property.viewWidth.intValue() form-control-static">#if($property.type == "Boolean")<input onclick="return false;" type="checkbox" #if($value)checked="checked" #else#end/>#elseif($property.type == "Date")#if($value)$date.format("yyyy-MM-dd", $value)#else#end#elseif($property.type == "Model")#if($value)<button type="button" class="btn btn-link btn-xs" onclick="window.parent.window.showTab({id: $value.id,name: '$value.name',icon: '$value.dynamicModel.icon'});">$value.name</button>#else#end#else$!value#end</div>
+#set($groupData = $dynamicModelGroupData.get($dataModel.dynamicModel.id))
+#foreach($fromGroup in $groupData.fromGroups)
+            <label class="col-sm-1 control-label">#if($fromGroup.children)$fromGroup.group#else$fromGroup.property.label#end</label>
+#if($fromGroup.children)
+            <div class="col-sm-11">
+                <div class="form-inline">
+                #foreach($property in $fromGroup.children)
+                    #set($value = $dataModel.properties.get($property.name))
+                    <div class="form-group" style="margin-left: 0;margin-right: 0;">
+                        <label>$property.label</label>
+                        <span class="form-control-static">
+                            #if($property.type == "Boolean")<input onclick="return false;" type="checkbox" #if($value)checked="checked" #else#end/>
+                            #elseif($property.type == "Date")#if($value)$date.format("yyyy-MM-dd", $value)#else#end
+                            #elseif($property.type == "Model")#if($value)<button type="button" class="btn btn-link btn-xs" onclick="window.parent.window.showTab({id: $value.id,name: '$value.name',icon: '$value.dynamicModel.icon'});">$value.name</button>#else#end
+                            #else$!value#end
+                        </span>
+                    </div>
+                #end
+                </div>
+            </div>
+#end
+    #if(!$fromGroup.children)
+        #set($property = $fromGroup.property)
+        #set($value = $dataModel.properties.get($property.name))
+            <div class="col-sm-11 form-control-static">
+                #if($property.type == "Boolean")<input onclick="return false;" type="checkbox" #if($value)checked="checked" #else#end/>
+                #elseif($property.type == "Date")#if($value)$date.format("yyyy-MM-dd", $value)#else#end
+                #elseif($property.type == "Model")#if($value)<button type="button" class="btn btn-link btn-xs" onclick="window.parent.window.showTab({id: $value.id,name: '$value.name',icon: '$value.dynamicModel.icon'});">$value.name</button>#else#end
+                #else$!value#end</div>
+    #end
 #end
         </div>
 #end
@@ -25,6 +51,20 @@
         <div class="form-group">
             <table class="table table-condensed table-hover">
                 <thead>
+#if(!$groupData.heads.isEmpty())
+                <tr class="active">
+                    <th width="30" rowspan="2">#</th>
+#foreach($headGroup in $groupData.headGroups)
+                <th width="#if($headGroup.span)#else$headGroup.property.viewWidth#end" rowspan="{{property.span ? '' : 2}}" colspan="{{!property.span ? '' : property.span}}">{{property.span ? property.group : property.label}}</th>
+#end
+                </tr>
+                <tr class="active">
+#foreach($association in $groupData.heads)
+                    <th width="$!{association.viewWidth}">$association.label</th>
+#end
+                </tr>
+#end
+#if($groupData.heads.isEmpty())
                 <tr class="active">
                     <th width="30">#</th>
 #foreach($association in $dataModel.dynamicModel.association)
@@ -32,6 +72,7 @@
 #end
                     <th></th>
                 </tr>
+#end
                 </thead>
                 <tbody>
 #foreach($property in $dataModel.association)

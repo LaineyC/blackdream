@@ -1,7 +1,6 @@
 package com.lite.blackdream.business.domain.tag;
 
 import com.lite.blackdream.business.domain.*;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +17,7 @@ public class Global {
 
     private User user;
 
-    private  User developer;
+    private User developer;
 
     private Generator generator;
 

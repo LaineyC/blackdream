@@ -505,9 +505,18 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         dynamicModelQueryRequest.setAuthentication(authentication);
 
         List<DynamicModel> dynamicModels = dynamicModelService.query(dynamicModelQueryRequest);
+        Map<Long, Map<String, Object>> dynamicModelGroupData = new HashMap<>();
         Map<Long, DynamicModel> dynamicModelCache = new HashMap<>();
         Map<Long, Map<String,  Map<String, Set<String>>>> dynamicModelKeysCache = new HashMap<>();
         dynamicModels.forEach(dynamicModel -> {
+            Map<String, Object> groupData = new HashMap<>();
+            List<Map<String, Object>> fromGroups = new ArrayList<>();
+            groupData.put("fromGroups", fromGroups);
+            List<Map<String, Object>> headGroups = new ArrayList<>();
+            groupData.put("headGroups", headGroups);
+            List<DynamicProperty> heads = new ArrayList<>();
+            groupData.put("heads", heads);
+
             DynamicModel newDynamicModel = new DynamicModel();
             newDynamicModel.setId(dynamicModel.getId());
             newDynamicModel.setName(dynamicModel.getName());
@@ -545,13 +554,36 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
                 newDynamicProperty.setType(property.getType());
                 newDynamicProperty.setDefaultValue(property.getDefaultValue());
                 newDynamicModel.getProperties().add(newDynamicProperty);
+
+
+                String group = property.getGroup();
+                Map<String, Object> groupMap = new HashMap<>();
+                if(!StringUtils.hasText(group)){
+                    groupMap.put("property", property);
+                    fromGroups.add(groupMap);
+                }
+                else{
+                    Map<String, Object> prevFromGroup = fromGroups.isEmpty() ? null : fromGroups.get(fromGroups.size() - 1);
+                    String prevGroup = prevFromGroup == null ? null : (prevFromGroup.get("group") == null ? null : prevFromGroup.get("group").toString());
+                    if(prevFromGroup == null || !group.equals(prevGroup)){
+                        groupMap.put("group", group);
+                        List<DynamicProperty> children = new ArrayList<>();
+                        children.add(property);
+                        groupMap.put("children", children);
+                        fromGroups.add(groupMap);
+                    }
+                    if(prevFromGroup != null && group.equals(prevGroup)){
+                        List<DynamicProperty> children = (List<DynamicProperty>)prevFromGroup.get("children");
+                        children.add(property);
+                    }
+                }
             });
+
             List<DynamicProperty> association = dynamicModel.getAssociation();
             association.forEach(property -> {
-                if("Date".equals(property.getType())){
+                if ("Date".equals(property.getType())) {
                     associationKeys_dateTypeKeys.add(property.getName());
-                }
-                else if("Model".equals(property.getType())){
+                } else if ("Model".equals(property.getType())) {
                     associationKeys_dataModelTypeKeys.add(property.getName());
                 }
 
@@ -563,8 +595,30 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
                 newDynamicProperty.setType(property.getType());
                 newDynamicProperty.setDefaultValue(property.getDefaultValue());
                 newDynamicModel.getAssociation().add(newDynamicProperty);
+
+                String group = property.getGroup();
+                Map<String, Object> groupMap = new HashMap<>();
+                if(!StringUtils.hasText(group)){
+                    groupMap.put("property", property);
+                    headGroups.add(groupMap);
+                }
+                else{
+                    Map<String, Object> prevHeadGroup = headGroups.isEmpty() ? null : headGroups.get(headGroups.size() - 1);
+                    String prevGroup = prevHeadGroup == null ? null : (prevHeadGroup.get("group") == null ? null : prevHeadGroup.get("group").toString());
+                    if(prevHeadGroup == null || !group.equals(prevGroup)){
+                        groupMap.put("group", group);
+                        groupMap.put("span", 1);
+                        headGroups.add(groupMap);
+                    }
+                    if(prevHeadGroup != null && group.equals(prevGroup)){
+                        Integer span = (Integer)prevHeadGroup.get("span");
+                        prevHeadGroup.put("span", span + 1);
+                    }
+                    heads.add(property);
+                }
             });
             dynamicModelCache.put(newDynamicModel.getId(), newDynamicModel);
+            dynamicModelGroupData.put(newDynamicModel.getId(), groupData);
         });
 
         Long dataModelId = generatorInstance.getDataModel().getId();
@@ -720,6 +774,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
                 dataModelVarMap.put("global", global);
                 dataModelVarMap.put("date", comparisonDateTool);
                 dataModelVarMap.put("dataModel", dataModel);
+                dataModelVarMap.put("dynamicModelGroupData", dynamicModelGroupData);
                 VelocityUtil.mergeWrite(ConfigProperties.ROOT_PATH + ConfigProperties.fileSeparator + "client/template", "dataModel.html.vm", dataModelOutFile, dataModelVarMap);
             }
             dataModel.getChildren().forEach(dataStack :: push);

@@ -376,7 +376,7 @@
                             <table class="table table-condensed table-hover">
                                 <caption><button type="button" class="btn btn-success btn-sm" ng-click="predefinedAssociationControl.add();">添加</button></caption>
                                 <thead>
-                                <tr class="active" ng-if="predefinedAssociationControl.tableHead.groupHeads.length">
+                                <tr class="active" ng-if="predefinedAssociationControl.tableHead.heads.length">
                                     <th width="30" rowspan="2">#</th>
                                     <th width="{{property.span ? '' : property.viewWidth}}" ng-repeat="property in predefinedAssociationControl.tableHead.groupHeads"
                                         rowspan="{{property.span ? '' : 2}}" colspan="{{!property.span ? '' : property.span}}">
@@ -384,12 +384,12 @@
                                     </th>
                                     <th rowspan="2">操作</th>
                                 </tr>
-                                <tr class="active" ng-if="predefinedAssociationControl.tableHead.groupHeads.length">
+                                <tr class="active" ng-if="predefinedAssociationControl.tableHead.heads.length">
                                     <th width="{{property.viewWidth}}" ng-repeat="property in predefinedAssociationControl.tableHead.heads" >
                                         <span ng-class="{'text-danger': property.validator.required}">{{property.label}}</span>
                                     </th>
                                 </tr>
-                                <tr class="active" ng-if="!predefinedAssociationControl.tableHead.groupHeads.length">
+                                <tr class="active" ng-if="!predefinedAssociationControl.tableHead.heads.length">
                                     <th width="30">#</th>
                                     <th width="{{property.viewWidth}}" ng-repeat="property in createRequest.association">
                                         <span ng-class="{'text-danger': property.validator.required}">{{property.label}}</span>
