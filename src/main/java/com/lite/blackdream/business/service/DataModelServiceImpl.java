@@ -56,7 +56,7 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
         Long dynamicModelId = request.getDynamicModelId();
         DynamicModel dynamicModelPersistence = dynamicModelRepository.selectById(dynamicModelId);
         if(dynamicModelPersistence == null){
-            throw new AppException("动态模型不存在");
+            throw new AppException("数据模型不存在");
         }
 
         Generator generatorPersistence = generatorRepository.selectById(rootPersistence.getGenerator().getId());
@@ -112,11 +112,7 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
 
         DataModel dataModelPersistence = dataModelRepository.selectById(id, rootPersistence);
         if(dataModelPersistence == null) {
-            throw new AppException("数据模型不存在");
-        }
-
-        if(!dataModelPersistence.getChildren().isEmpty()){
-            throw new AppException("有子级数据模型不能删除");
+            throw new AppException("数据不存在");
         }
 
         Generator generatorPersistence = generatorRepository.selectById(dataModelPersistence.getGenerator().getId());
@@ -144,7 +140,7 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
 
         DataModel dataModelPersistence = dataModelRepository.selectById(id, rootPersistence);
         if(dataModelPersistence == null) {
-            throw new AppException("数据模型不存在");
+            throw new AppException("数据不存在");
         }
 
         DataModel dataModel = new DataModel();
@@ -185,7 +181,7 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
 
         DataModel dataModelPersistence = dataModelRepository.selectById(id, rootPersistence);
         if(dataModelPersistence == null) {
-            throw new AppException("数据模型不存在");
+            throw new AppException("数据不存在");
         }
 
         Generator generatorPersistence = generatorRepository.selectById(dataModelPersistence.getGenerator().getId());
@@ -265,7 +261,7 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
         Long id = request.getId();
         DataModel dataModelPersistence = dataModelRepository.selectById(id, rootPersistence);
         if(dataModelPersistence == null) {
-            throw new AppException("数据模型不存在");
+            throw new AppException("数据不存在");
         }
 
         Long userId = request.getAuthentication().getUserId();

@@ -236,7 +236,7 @@ public abstract class BaseRepository<E extends Domain, ID extends Serializable> 
         File file = new File(filePath);
         if(!file.delete()){
             logger.error("remove:" + filePath);
-            throw new RuntimeException("remove:" + file);
+            //throw new RuntimeException("remove:" + file);
         }
     }
 
@@ -254,7 +254,7 @@ public abstract class BaseRepository<E extends Domain, ID extends Serializable> 
         }
         catch (Exception e){
             logger.error("write:" + filePath, e);
-            throw new RuntimeException("write:" + filePath, e);
+            //throw new RuntimeException("write:" + filePath, e);
         }
     }
 

@@ -45,7 +45,7 @@ public class DataModelRepositoryImpl extends BaseRepository<DataModel, Long> imp
             dirtyCollection.putFirst(dirtyData);
         }
         catch (Exception e){
-            throw new RuntimeException("");
+            throw new RuntimeException(e);
         }
     }
 
@@ -64,15 +64,20 @@ public class DataModelRepositoryImpl extends BaseRepository<DataModel, Long> imp
             parent.getChildren().forEach(stack :: push);
         }
 
-        DirtyData<DataModel> dirtyData = new DirtyData<>();
-        dirtyData.setDirtyType(DirtyData.DirtyType.DELETE);
-        dirtyData.setEntity(entity);
-
-        try {
-            dirtyCollection.putFirst(dirtyData);
-        }
-        catch (Exception e){
-            throw new RuntimeException("");
+        LinkedList<DataModel> dataModelStack = new LinkedList<>();
+        dataModelStack.push(entity);
+        while (!dataModelStack.isEmpty()) {
+            DataModel parent = dataModelStack.pop();
+            DirtyData<DataModel> dirtyData = new DirtyData<>();
+            dirtyData.setDirtyType(DirtyData.DirtyType.DELETE);
+            dirtyData.setEntity(parent);
+            try {
+                dirtyCollection.putFirst(dirtyData);
+            }
+            catch (Exception e){
+                throw new RuntimeException(e);
+            }
+            parent.getChildren().forEach(dataModelStack :: push);
         }
     }
 
@@ -80,7 +85,7 @@ public class DataModelRepositoryImpl extends BaseRepository<DataModel, Long> imp
     public void update(DataModel entity) {
 /*
         if(!entityCollection.contains(entity)){
-            throw new RuntimeException("");
+            throw new RuntimeException(e);
         }
 */
         DirtyData<DataModel> dirtyData = new DirtyData<>();
@@ -90,7 +95,7 @@ public class DataModelRepositoryImpl extends BaseRepository<DataModel, Long> imp
             dirtyCollection.putFirst(dirtyData);
         }
         catch (Exception e){
-            throw new RuntimeException("");
+            throw new RuntimeException(e);
         }
     }
 
@@ -176,7 +181,7 @@ public class DataModelRepositoryImpl extends BaseRepository<DataModel, Long> imp
             File file = new File(filePath);
             if(!file.delete()){
                 logger.error("remove:" + filePath);
-                throw new RuntimeException("remove:" + filePath);
+                //throw new RuntimeException("remove:" + filePath);
             }
         }
         else {
