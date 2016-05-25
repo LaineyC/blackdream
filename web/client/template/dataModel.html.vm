@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>${dataModel.name}</title>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <link rel="stylesheet" href="../library/${global.theme}.min.css">
 </head>
 <body>
@@ -12,42 +12,31 @@
             <label class="col-sm-1 control-label">名称</label>
             <div class="col-sm-5 form-control-static">${dataModel.name}</div>
         </div>
-#if($dataModel.dynamicModel.properties.size() > 0)
-        <div class="form-group">
+#if(!$dataModel.dynamicModel.properties.isEmpty())
 #set($groupData = $dynamicModelGroupData.get($dataModel.dynamicModel.id))
 #foreach($fromGroup in $groupData.fromGroups)
+        <div class="form-group">
             <label class="col-sm-1 control-label">#if($fromGroup.children)$fromGroup.group#else$fromGroup.property.label#end</label>
 #if($fromGroup.children)
             <div class="col-sm-11">
                 <div class="form-inline">
-                #foreach($property in $fromGroup.children)
-                    #set($value = $dataModel.properties.get($property.name))
+#foreach($property in $fromGroup.children)
                     <div class="form-group" style="margin-left: 0;margin-right: 0;">
                         <label>$property.label</label>
-                        <span class="form-control-static">
-                            #if($property.type == "Boolean")<input onclick="return false;" type="checkbox" #if($value)checked="checked" #else#end/>
-                            #elseif($property.type == "Date")#if($value)$date.format("yyyy-MM-dd", $value)#else#end
-                            #elseif($property.type == "Model")#if($value)<button type="button" class="btn btn-link btn-xs" onclick="window.parent.window.showTab({id: $value.id,name: '$value.name',icon: '$value.dynamicModel.icon'});">$value.name</button>#else#end
-                            #else$!value#end
-                        </span>
+                        <span class="form-control-static">#if($property.type == "Boolean")<input onclick="return false;" type="checkbox" #if($dataModel.properties.get($property.name))checked="checked" #else#end/>#elseif($property.type == "Date")#if($dataModel.properties.get($property.name))$date.format("yyyy-MM-dd", $dataModel.properties.get($property.name))#else&nbsp;#end#elseif($property.type == "Model")#if($dataModel.properties.get($property.name))<button type="button" class="btn btn-link btn-xs" onclick="window.parent.window.showTab({id: $dataModel.properties.get($property.name).id,name: '$dataModel.properties.get($property.name).name',icon: '$dataModel.properties.get($property.name).dynamicModel.icon'});">$dataModel.properties.get($property.name).name</button>#else&nbsp;#end#else#if($dataModel.properties.get($property.name))$dataModel.properties.get($property.name)#else&nbsp;#end#end</span>
                     </div>
-                #end
+#end
                 </div>
             </div>
 #end
-    #if(!$fromGroup.children)
-        #set($property = $fromGroup.property)
-        #set($value = $dataModel.properties.get($property.name))
-            <div class="col-sm-11 form-control-static">
-                #if($property.type == "Boolean")<input onclick="return false;" type="checkbox" #if($value)checked="checked" #else#end/>
-                #elseif($property.type == "Date")#if($value)$date.format("yyyy-MM-dd", $value)#else#end
-                #elseif($property.type == "Model")#if($value)<button type="button" class="btn btn-link btn-xs" onclick="window.parent.window.showTab({id: $value.id,name: '$value.name',icon: '$value.dynamicModel.icon'});">$value.name</button>#else#end
-                #else$!value#end</div>
-    #end
+#if(!$fromGroup.children)
+#set($property = $fromGroup.property)
+            <div class="col-sm-11 form-control-static">#if($property.type == "Boolean")<input onclick="return false;" type="checkbox" #if($dataModel.properties.get($property.name))checked="checked" #else#end/>#elseif($property.type == "Date")#if($dataModel.properties.get($property.name))$date.format("yyyy-MM-dd", $dataModel.properties.get($property.name))#else&nbsp;#end#elseif($property.type == "Model")#if($dataModel.properties.get($property.name))<button type="button" class="btn btn-link btn-xs" onclick="window.parent.window.showTab({id: $dataModel.properties.get($property.name).id,name: '$dataModel.properties.get($property.name).name',icon: '$dataModel.properties.get($property.name).dynamicModel.icon'});">$dataModel.properties.get($property.name).name</button>#else&nbsp;#end#else#if($dataModel.properties.get($property.name))$dataModel.properties.get($property.name)#else&nbsp;#end#end</div>
 #end
         </div>
 #end
-#if($dataModel.dynamicModel.association.size() > 0)
+#end
+#if(!$dataModel.dynamicModel.association.isEmpty())
         <div class="form-group">
             <table class="table table-condensed table-hover">
                 <thead>
@@ -55,8 +44,9 @@
                 <tr class="active">
                     <th width="30" rowspan="2">#</th>
 #foreach($headGroup in $groupData.headGroups)
-                <th width="#if($headGroup.span)#else$headGroup.property.viewWidth#end" rowspan="{{property.span ? '' : 2}}" colspan="{{!property.span ? '' : property.span}}">{{property.span ? property.group : property.label}}</th>
+                    <th#if($headGroup.containsKey("span"))#else width="$headGroup.property.viewWidth"#end#if($headGroup.containsKey("span")) colspan="$headGroup.span"#else rowspan="2"#end>#if($headGroup.containsKey("span"))$headGroup.group#else$headGroup.property.label#end</th>
 #end
+                    <th rowspan="2">&nbsp;</th>
                 </tr>
                 <tr class="active">
 #foreach($association in $groupData.heads)
@@ -70,7 +60,7 @@
 #foreach($association in $dataModel.dynamicModel.association)
                     <th width="$!{association.viewWidth}">$association.label</th>
 #end
-                    <th></th>
+                    <th>&nbsp;</th>
                 </tr>
 #end
                 </thead>
@@ -82,14 +72,14 @@
 #if($association.type == "Boolean")
                     <td><input onclick="return false;" type="checkbox" #if($property.get($association.name)) checked="checked"#else#end/></td>
 #elseif($association.type == "Date")
-                    <td>#if($property.get($association.name))$date.format("yyyy-MM-dd", $property.get($association.name))#else#end</td>
+                    <td>#if($property.get($association.name))$date.format("yyyy-MM-dd", $property.get($association.name))#else&nbsp;#end</td>
 #elseif($association.type == "Model")
-                    <td>#if($property.get($association.name))<button type="button" class="btn btn-link btn-xs" onclick="window.parent.window.showTab({id: $property.get($association.name).id,name: '$property.get($association.name).name',icon: '$property.get($association.name).dynamicModel.icon'});">$property.get($association.name).name</button>#else#end</td>
+                    <td>#if($property.get($association.name))<button type="button" class="btn btn-link btn-xs" onclick="window.parent.window.showTab({id: $property.get($association.name).id,name: '$property.get($association.name).name',icon: '$property.get($association.name).dynamicModel.icon'});">$property.get($association.name).name</button>#else&nbsp;#end</td>
 #else
-                    <td>#if($property.get($association.name))$property.get($association.name)#else#end</td>
+                    <td>#if($property.get($association.name))$property.get($association.name)#else&nbsp;#end</td>
 #end
 #end
-                    <td></td>
+                    <td>&nbsp;</td>
                 </tr>
 #end
                 </tbody>
