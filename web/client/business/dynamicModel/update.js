@@ -155,13 +155,13 @@ define(
 
                 $scope.propertyControl = {
                     typeOptions:[
-                        { type: "Boolean" },
-                        { type: "Long" },
-                        { type: "Double" },
-                        { type: "String" },
-                        { type: "Date" },
-                        { type: "Enum" },
-                        { type: "Model" }
+                        { type: "Boolean" , name:"布尔型"},
+                        { type: "Long" , name:"整数型"},
+                        { type: "Double" , name:"浮点型"},
+                        { type: "String" , name:"字符串型"},
+                        { type: "Date", name:"日期型" },
+                        { type: "Enum" , name:"枚举型"},
+                        { type: "Model", name:"数据模型" }
                     ],
                     validatorRules:{
                         Boolean:{required:true},
@@ -206,11 +206,6 @@ define(
                         },
                         type:{
                             required:"必输项"
-                        },
-                        viewWidth1:{
-                            required:"必输项",
-                            pattern:"1-11整数",
-                            number:"整数类型"
                         },
                         viewWidth:{
                             required:"必输项",

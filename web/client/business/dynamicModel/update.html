@@ -103,7 +103,7 @@
                                     <td>
                                         <select name="type{{property.__hashKey}}" uib-tooltip="{{getMessage('type',dynamicModelUpdateForm['type' + property.__hashKey].$error,propertyControl.validateMessages)}}"
                                                 tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.type{{property.__hashKey}}.$invalid && dynamicModelUpdateForm.type{{property.__hashKey}}.$dirty"
-                                                ng-change="propertyControl.changeType(property)" ng-model="property.type" ng-options="option.type as option.type for option in propertyControl.typeOptions"
+                                                ng-change="propertyControl.changeType(property)" ng-model="property.type" ng-options="option.type as option.name for option in propertyControl.typeOptions"
                                                 class="form-control input-sm" required>
                                             <option value="">--选择--</option>
                                         </select>
@@ -268,7 +268,7 @@
                                     <td>
                                         <select name="type{{property.__hashKey}}" uib-tooltip="{{getMessage('type',dynamicModelUpdateForm['type' + property.__hashKey].$error,propertyControl.validateMessages)}}"
                                                 tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.type{{property.__hashKey}}.$invalid && dynamicModelUpdateForm.type{{property.__hashKey}}.$dirty"
-                                                ng-change="propertyControl.changeType(property)" ng-model="property.type" ng-options="option.type as option.type for option in propertyControl.typeOptions"
+                                                ng-change="propertyControl.changeType(property)" ng-model="property.type" ng-options="option.type as option.name for option in propertyControl.typeOptions"
                                                 class="form-control input-sm" required>
                                             <option value="">--选择--</option>
                                         </select>

@@ -243,6 +243,9 @@
         <span class="text-info glyphicon glyphicon-{{child.dynamicModel.icon}}"></span>
         <label ng-dblclick="dataModelControl.view(child);">{{child.name}}</label>
         <div class="btn-group pull-right">
+            <button type="button" class="btn btn-danger btn-xs" ng-disabled="!dataModelControl.editable" ng-click="dataModelControl.delete(p, $index, child);">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
             <div class="btn-group">
                 <button ng-if="child.dynamicModel.children.length" type="button" class="btn btn-success dropdown-toggle btn-xs" ng-disabled="!dataModelControl.editable" data-toggle="dropdown">
                     <span class="glyphicon glyphicon-plus"></span>
@@ -255,14 +258,11 @@
                     </li>
                 </ul>
             </div>
-            <button type="button" class="btn btn-danger btn-xs" ng-disabled="!dataModelControl.editable" ng-click="dataModelControl.delete(p, $index, child);">
-                <span class="glyphicon glyphicon-remove"></span>
-            </button>
         </div>
         <ul ui-sortable="dataModelControl.sortableOptions" ng-model="child.children" class="list-group" ng-include="'dataModelRecursion'" ng-show="child.$expend && child.children.length" ng-init="parent=child;"></ul>
     </li>
 </script>
-<!-- 关联模型对话框 -->
+<!-- 数据模型选择对话框 -->
 <script id="dataModel/dataModelPicker.html" type="text/ng-template" >
     <div class="modal-header">
         <h3 class="modal-title">{{title}}</h3>
@@ -275,7 +275,7 @@
         <button class="btn btn-sm btn-primary" type="button" ng-click="confirm()">关闭</button>
     </div>
 </script>
-<!-- 关联模型对话框使用的递归模板 -->
+<!-- 数据模型选择对话框使用的递归模板 -->
 <script id="dataModelPickerRecursion" type="text/ng-template">
     <a href="javascript:void(0)" class="list-group-item" ng-repeat="child in parent.children" ng-init="p=parent;">
         <i class="glyphicon glyphicon-plus" ng-class="child.children.length ? (child.$$expend ? 'glyphicon-minus' : 'glyphicon-plus') : 'glyphicon-ban-circle'" ng-click="child.$$expend =! child.$$expend;"></i>
