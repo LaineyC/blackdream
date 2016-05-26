@@ -12,8 +12,8 @@
             <label class="col-sm-1 control-label">名称</label>
             <div class="col-sm-5 form-control-static">${dataModel.name}</div>
         </div>
-#if(!$dataModel.dynamicModel.properties.isEmpty())
 #set($groupData = $dynamicModelGroupData.get($dataModel.dynamicModel.id))
+#if(!$dataModel.dynamicModel.properties.isEmpty())
 #foreach($fromGroup in $groupData.fromGroups)
         <div class="form-group">
             <label class="col-sm-1 control-label">#if($fromGroup.children)$fromGroup.group#else$fromGroup.property.label#end</label>

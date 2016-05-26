@@ -82,7 +82,7 @@
                             };
                                 $scope.tabs.splice(0, 0, tab);
                             $scope.tabs[0].active = true;
-                            if($scope.tabs.length >= 10){
+                            if($scope.tabs.length > 10){
                                 $scope.tabs.length = 10;
                             }
                         };

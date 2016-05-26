@@ -12,7 +12,7 @@
                             <ul class="dropdown-menu dropdown-menu-right">
                                 <li ng-repeat="templateStrategy in templateStrategys"><a href="javascript:void(0);" ng-click="run(templateStrategy);">{{templateStrategy.name}}</a></li>
                                 <li ng-if="templateStrategys.length" role="separator" class="divider"></li>
-                                <li><a href="javascript:void(0);"  ng-click="dataDictionary();">导出数据</a></li>
+                                <li><a href="javascript:void(0);"  ng-click="dataDictionary();">数据字典</a></li>
                                 <li><a href="javascript:void(0);"  ng-click="openConsoleModal();">控制台</a></li>
                             </ul>
                         </div>
@@ -26,7 +26,7 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right">
                                 <li ng-repeat="dynamicModel in dynamicModels | filter:{isRootChild:true}">
-                                    <a href="javascript:void(0);" ng-click="dataModelControl.add(dynamicModel);"><span class="glyphicon glyphicon-{{dynamicModel.icon}}" ></span> {{dynamicModel.name}}</a>
+                                    <a href="javascript:void(0);" ng-click="dataModelControl.add(dynamicModel);"><span class="glyphicon glyphicon-{{dynamicModel.icon}}"></span> {{dynamicModel.name}}</a>
                                 </li>
                             </ul>
                         </div>
