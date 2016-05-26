@@ -31,7 +31,12 @@
                             <table class="table table-condensed table-hover">
                                 <thead>
                                 <tr class="active">
-                                    <th width="30">#</th>
+                                    <th width="30" rowspan="2">#</th>
+                                    <th colspan="3">布局设置</th>
+                                    <th colspan="6">数据设置</th>
+                                    <th rowspan="2">&nbsp;</th>
+                                </tr>
+                                <tr class="active">
                                     <th width="100">分组</th>
                                     <th width="100">标题</th>
                                     <th width="50">宽比</th>
@@ -41,7 +46,6 @@
                                     <th width="200">可选值</th>
                                     <th width="300">级联脚本</th>
                                     <th width="300">验证规则</th>
-                                    <th>&nbsp;</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -68,7 +72,12 @@
                             <table class="table table-condensed table-hover">
                                 <thead>
                                 <tr class="active">
-                                    <th width="30">#</th>
+                                    <th width="30" rowspan="2">#</th>
+                                    <th colspan="3">布局设置</th>
+                                    <th colspan="6">数据设置</th>
+                                    <th rowspan="2">&nbsp;</th>
+                                </tr>
+                                <tr class="active">
                                     <th width="100">分组</th>
                                     <th width="100">标题</th>
                                     <th width="50">宽度</th>
@@ -78,7 +87,6 @@
                                     <th width="200">可选值</th>
                                     <th width="300">级联脚本</th>
                                     <th width="300">验证规则</th>
-                                    <th>&nbsp;</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -102,10 +110,21 @@
                     <div class="form-group">
                         <label class="col-sm-1 control-label">快捷预设</label>
                         <div class="col-sm-11">
-                            <table class="table table-bordered table-condensed table-hover">
+                            <table class="table table-condensed table-hover">
                                 <thead>
-                                <tr class="active">
-                                    <th width="25">#</th>
+                                <tr class="active" ng-if="tableHead.heads.length">
+                                    <th width="30" rowspan="2">#</th>
+                                    <th width="{{property.span ? '' : property.viewWidth}}" ng-repeat="property in tableHead.groupHeads"
+                                        rowspan="{{property.span ? '' : 2}}" colspan="{{!property.span ? '' : property.span}}">
+                                        {{property.span ? property.group : property.label}}
+                                    </th>
+                                    <th rowspan="2">&nbsp;</th>
+                                </tr>
+                                <tr class="active" ng-if="tableHead.heads.length">
+                                    <th width="{{property.viewWidth}}" ng-repeat="property in tableHead.heads" >{{property.label}}</th>
+                                </tr>
+                                <tr class="active" ng-if="!tableHead.heads.length">
+                                    <th width="30">#</th>
                                     <th width="{{property.viewWidth}}" ng-repeat="property in dynamicModel.association">{{property.label}}</th>
                                     <th>&nbsp;</th>
                                 </tr>

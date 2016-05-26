@@ -60,7 +60,12 @@
                                 <caption><button type="button" class="btn btn-success btn-sm" ng-click="propertiesControl.add();">添加</button></caption>
                                 <thead>
                                 <tr class="active">
-                                    <th width="30">#</th>
+                                    <th width="30" rowspan="2">#</th>
+                                    <th colspan="3">布局设置</th>
+                                    <th colspan="6">数据设置</th>
+                                    <th rowspan="2">操作</th>
+                                </tr>
+                                <tr class="active">
                                     <th width="150">分组</th>
                                     <th width="150"><span class="text-danger">标题</span></th>
                                     <th width="100"><span class="text-danger">宽度</span></th>
@@ -70,7 +75,6 @@
                                     <th width="150">可选值</th>
                                     <th width="100">级联脚本</th>
                                     <th width="100">验证规则</th>
-                                    <th>操作</th>
                                 </tr>
                                 </thead>
                                 <tbody ui-sortable="propertiesControl.sortableOptions" ng-model="updateRequest.properties">
@@ -206,7 +210,7 @@
                                     </td>
                                     <td>
                                         <div class="btn-group">
-                                            <button type="button" class="btn btn-danger btn-sm" ng-click="propertiesControl.delete(property, $index)">删除</button>
+                                            <button type="button" class="btn btn-danger btn-sm" ng-click="propertiesControl.delete(property, $index)"><span class="glyphicon glyphicon-remove"></span></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -221,7 +225,12 @@
                                 <caption><button type="button" class="btn btn-success btn-sm" ng-click="associationControl.add();">添加</button></caption>
                                 <thead>
                                 <tr class="active">
-                                    <th width="30">#</th>
+                                    <th width="30" rowspan="2">#</th>
+                                    <th colspan="3">布局设置</th>
+                                    <th colspan="6">数据设置</th>
+                                    <th rowspan="2">操作</th>
+                                </tr>
+                                <tr class="active">
                                     <th width="150">分组</th>
                                     <th width="150"><span class="text-danger">标题</span></th>
                                     <th width="100"><span class="text-danger">宽度</span></th>
@@ -231,7 +240,6 @@
                                     <th width="150">可选值</th>
                                     <th width="100">级联脚本</th>
                                     <th width="100">验证规则</th>
-                                    <th>操作</th>
                                 </tr>
                                 </thead>
                                 <tbody ui-sortable="associationControl.sortableOptions" ng-model="updateRequest.association">
@@ -367,7 +375,7 @@
                                     </td>
                                     <td>
                                         <div class="btn-group">
-                                            <button type="button" class="btn btn-danger btn-sm" ng-click="associationControl.delete(property, $index)">删除</button>
+                                            <button type="button" class="btn btn-danger btn-sm" ng-click="associationControl.delete(property, $index)"><span class="glyphicon glyphicon-remove"></span></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -440,7 +448,7 @@
                                     </td>
                                     <td>
                                         <div class="btn-group">
-                                            <button type="button" class="btn btn-danger btn-sm" ng-click="predefinedAssociationControl.delete(propertyValue, $index)">删除</button>
+                                            <button type="button" class="btn btn-danger btn-sm" ng-click="predefinedAssociationControl.delete(propertyValue, $index)"><span class="glyphicon glyphicon-remove"></span></button>
                                         </div>
                                     </td>
                                 </tr>

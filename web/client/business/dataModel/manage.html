@@ -164,7 +164,7 @@
                                     </thead>
                                     <tbody ui-sortable="sortableOptions" ng-model="dataModel.association">
                                     <tr ng-repeat="propertyValue in dataModel.association" ng-class="{'warning':propertyValue.$copy}">
-                                        <th ng-click="dataModel.$copy && (propertyValue.$copy = !propertyValue.$copy)">{{$index + 1}}</th>
+                                        <th ng-click="dataModel.$copy && (propertyValue.$copy = !propertyValue.$copy)"><input ng-if="dataModel.$copy" type="checkbox" ng-checked="propertyValue.$copy"/><span ng-if="!dataModel.$copy">{{$index + 1}}</span></th>
                                         <td align="center" ng-repeat="property in dataModel.dynamicModel.association" ng-switch="property.type" ng-init="propertyValue.__hashKey = hashKey(propertyValue)">
                                             <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
                                                    tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
@@ -199,7 +199,7 @@
                                         </td>
                                         <td>
                                             <div class="btn-group">
-                                                <button type="button" class="btn btn-danger btn-sm" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.removeProperty(dataModel, $index)">删除</button>
+                                                <button type="button" class="btn btn-danger btn-sm" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.removeProperty(dataModel, $index)"><span class="glyphicon glyphicon-remove"></span></button>
                                             </div>
                                         </td>
                                     </tr>

@@ -11,6 +11,26 @@ define(
 
                 dynamicModelApi.get({id: id}).success(function(dynamicModel){
                     $scope.dynamicModel = dynamicModel;
+
+                    var tableHead = $scope.tableHead = {groupHeads:[],heads:[]};
+                    for(var j = 0 ; j < $scope.dynamicModel.association.length ; j++){
+                        var property = $scope.dynamicModel.association[j];
+                        var group = property.group;
+                        if(!group){
+                            tableHead.groupHeads.push(property);
+                        }
+                        else{
+                            var prevHead = tableHead.groupHeads[tableHead.groupHeads.length - 1];
+                            if(!prevHead || group != prevHead.group){
+                                tableHead.groupHeads.push({group:group, span:1});
+                            }
+                            if(prevHead && group == prevHead.group){
+                                prevHead.span++;
+                            }
+                            tableHead.heads.push(property);
+                        }
+                    }
+
                 });
 
                 $scope.delete = function(dynamicModel){
