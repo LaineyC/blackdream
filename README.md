@@ -7,14 +7,14 @@
     </div>
     <div>
         <h4><b>部署手册</b></h4>
-        <p>依赖Java8，Tomcat7以上。</p>
-        <p>blackdream.properties文件是<b>BlackDream</b>的配置文件。</p>
+        <p>服务端：依赖Java8，Tomcat8。</p>
+        <p>配置文件：blackdream.properties。</p>
         <p>blackdream.username：系统root用户的用户名。</p>
-        <p>blackdream.password：系统root用户的密码及系统用户的默认密码。</p>
-        <p>blackdream.datapath：系统文件存储的根路径。</p>
+        <p>blackdream.password：系统root用户的密码及新建系统用户时的默认密码。</p>
+        <p>blackdream.datapath：系统数据存储的根路径。</p>
         <h4><b>使用手册</b></h4>
-        <p>支持Chrome、Firefox、Opera浏览器，推荐Chrome。</p>
-        <p>系统分为三种角色：root用户（有且只有一个）、开发者、使用者。其余用户账号只能通过root账号添加。</p>
+        <p>客户端：支持Chrome、Firefox、Opera浏览器，推荐Chrome。</p>
+        <p>系统角色：root用户（有且只有一个）、开发者、使用者。开发者账号和使用者账号只能通过root账号新建。</p>
         <p>部署成功后，其余详细文档在系统导航条-帮助-用户指南可翻阅。</p>
     </div>
 </div>

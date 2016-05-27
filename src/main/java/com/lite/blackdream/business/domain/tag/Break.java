@@ -9,6 +9,10 @@ public class Break extends Tag {
 
     public static class Exception extends RuntimeException{
 
+        public Exception(String message) {
+            super(message);
+        }
+
     }
 
     public Break(){
@@ -22,7 +26,7 @@ public class Break extends Tag {
 
     @Override
     public void execute(Context context) {
-        throw new Exception();
+        throw new Exception("Break标签在Foreach标签之外");
     }
 
 }

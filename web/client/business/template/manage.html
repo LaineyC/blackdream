@@ -43,7 +43,7 @@
                 <div class="col-sm-12 condensed-list" style="width: 20%;position: fixed;top: 100px; bottom: 0;overflow: auto;">
                     <div ui-sortable="templateControl.sortableOptions" ng-model="templates" class="list-group" style="padding-left: 0;">
                         <a ng-repeat="template in templates" ng-dblclick="templateControl.view(template)" href="javascript:void(0)" class="list-group-item">
-                            {{$index + 1}}
+                            <label style="margin-right: 5px;">{{$index + 1}}</label>
                             <label>{{template.name}}</label>
                             <button ng-if="!child.children.length" type="button" class="btn btn-danger btn-xs pull-right" ng-click="templateControl.delete(template,$index);">
                                 <span class="glyphicon glyphicon-remove"></span>

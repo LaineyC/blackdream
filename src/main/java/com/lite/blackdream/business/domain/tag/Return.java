@@ -9,6 +9,10 @@ public class Return extends Tag {
 
     public static class Exception extends RuntimeException{
 
+        public Exception(String message) {
+            super(message);
+        }
+
     }
 
     public Return(){
@@ -22,7 +26,7 @@ public class Return extends Tag {
 
     @Override
     public void execute(Context context) {
-        throw new Exception();
+        throw new Exception("Return标签在Function标签之外");
     }
 
 }

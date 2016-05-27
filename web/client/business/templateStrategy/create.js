@@ -72,7 +72,7 @@ define(
                         }
                     },
                     Folder:{
-                        children:["Call","File","Folder","Foreach","Function","If","Set","Var"],
+                        children:[],
                         attributes:{
                             name:{size:50,required:{rule:true,message:"必输项"},placeholder:"文件夹目录"}
                         }

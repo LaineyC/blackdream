@@ -83,12 +83,12 @@
                                     <td>
                                         <input name="group{{property.__hashKey}}" uib-tooltip="{{getMessage('group',dynamicModelUpdateForm['group' + property.__hashKey].$error,propertyControl.validateMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.group{{property.__hashKey}}.$invalid && dynamicModelUpdateForm.group{{property.__hashKey}}.$dirty"
-                                               ng-model="property.group" type="text" class="form-control input-sm" ng-maxlength="10"/>
+                                               ng-model="property.group" type="text" class="form-control input-sm" ng-maxlength="20"/>
                                     </td>
                                     <td>
                                         <input name="label{{property.__hashKey}}" uib-tooltip="{{getMessage('label',dynamicModelUpdateForm['label' + property.__hashKey].$error,propertyControl.validateMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.label{{property.__hashKey}}.$invalid && dynamicModelUpdateForm.label{{property.__hashKey}}.$dirty"
-                                               ng-model="property.label" type="text" class="form-control input-sm" ng-maxlength="10" required/>
+                                               ng-model="property.label" type="text" class="form-control input-sm" ng-maxlength="20" required/>
                                     </td>
                                     <td>
                                         <input name="viewWidth{{property.__hashKey}}" uib-tooltip="{{getMessage('viewWidth',dynamicModelUpdateForm['viewWidth' + property.__hashKey].$error,propertyControl.validateMessages)}}"
@@ -248,12 +248,12 @@
                                     <td>
                                         <input name="group{{property.__hashKey}}" uib-tooltip="{{getMessage('group',dynamicModelUpdateForm['group' + property.__hashKey].$error,propertyControl.validateMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.group{{property.__hashKey}}.$invalid && dynamicModelUpdateForm.group{{property.__hashKey}}.$dirty"
-                                               ng-model="property.group" type="text" class="form-control input-sm" ng-maxlength="10" ng-change="resetHead()"/>
+                                               ng-model="property.group" type="text" class="form-control input-sm" ng-maxlength="20" ng-change="resetHead()"/>
                                     </td>
                                     <td>
                                         <input name="label{{property.__hashKey}}" uib-tooltip="{{getMessage('label',dynamicModelUpdateForm['label' + property.__hashKey].$error,propertyControl.validateMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.label{{property.__hashKey}}.$invalid && dynamicModelUpdateForm.label{{property.__hashKey}}.$dirty"
-                                               ng-model="property.label" type="text" class="form-control input-sm" ng-maxlength="10" required/>
+                                               ng-model="property.label" type="text" class="form-control input-sm" ng-maxlength="20" required/>
                                     </td>
                                     <td>
                                         <input name="viewWidth{{property.__hashKey}}" uib-tooltip="{{getMessage('viewWidth',dynamicModelUpdateForm['viewWidth' + property.__hashKey].$error,propertyControl.validateMessages)}}"
@@ -413,7 +413,7 @@
                                 <tbody ui-sortable="predefinedAssociationControl.sortableOptions" ng-model="updateRequest.predefinedAssociation">
                                 <tr ng-repeat="propertyValue in updateRequest.predefinedAssociation">
                                     <th>{{$index + 1}}</th>
-                                    <td align="center" ng-repeat="property in updateRequest.association" ng-switch="property.type" ng-init="propertyValue.__hashKey = hashKey(propertyValue)">
+                                    <td ng-repeat="property in updateRequest.association" ng-switch="property.type" ng-init="propertyValue.__hashKey = hashKey(propertyValue)">
                                         <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelUpdateForm['$association$' + property.name + propertyValue.__hashKey].$error,associationMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dynamicModelUpdateForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
                                                ng-switch-when="Boolean" ng-model="propertyValue[property.name]" type="checkbox" ng-true-value="true" ng-false-value="false" ng-change="property.cascadeFunction(propertyValue)"/>

@@ -41,7 +41,7 @@
     <li class="list-group-item" ng-repeat="child in parent.children" ng-init="formatTag(child);">
         <i class="glyphicon glyphicon-plus" ng-class="child.children.length ? (child.$closed ? 'glyphicon-plus' : 'glyphicon-minus') : 'glyphicon-leaf'" ng-click="child.$closed =! child.$closed;"></i>
         <label>{{child.tagName}}</label>
-        <div class="input-group" ng-repeat="attribute in tagRules[child.tagName].attributes" style="margin-right: 5px;">
+        <div class="input-group" ng-repeat="attribute in tagRules[child.tagName].attributes" style="margin-right: 4px;">
             <span class="input-group-addon text-info">{{attribute.name}}</span>
             <span class="input-group-addon">{{child[attribute.name]}}</span>
         </div>

@@ -9,6 +9,10 @@ public class Continue extends Tag{
 
     public static class Exception extends RuntimeException{
 
+        public Exception(String message) {
+            super(message);
+        }
+
     }
 
     public Continue(){
@@ -22,7 +26,7 @@ public class Continue extends Tag{
 
     @Override
     public void execute(Context context) {
-        throw new Exception();
+        throw new Exception("Continue标签在Foreach标签之外");
     }
 
 }

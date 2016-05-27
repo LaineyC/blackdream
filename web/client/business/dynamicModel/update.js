@@ -194,7 +194,7 @@ define(
                     },
                     validateMessages: {
                         group:{
-                            maxlength:"最长10位"
+                            maxlength:"最长20位"
                         },
                         name:{
                             required:"必输项",
@@ -202,7 +202,7 @@ define(
                         },
                         label:{
                             required:"必输项",
-                            maxlength:"最长10位"
+                            maxlength:"最长20位"
                         },
                         type:{
                             required:"必输项"
