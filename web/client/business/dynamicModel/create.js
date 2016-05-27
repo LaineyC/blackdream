@@ -85,7 +85,7 @@ define(
                     property.hasScriptError = false;
                     if(property.cascadeScript){
                         try{
-                            property.cascadeFunction = new Function("property", property.cascadeScript);
+                            property.cascadeFunction = new Function("$property", property.cascadeScript);
                         }
                         catch (e){
                             property.hasScriptError = true;

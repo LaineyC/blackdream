@@ -95,6 +95,7 @@ define(
                             var fromGroup = dynamicModel.fromGroup = [];
                             for(j = 0 ; j < dynamicModel.properties.length ; j++){
                                 var property = dynamicModel.properties[j];
+
                                 if(property.type == "Date"){
                                     propertiesKeys.dateTypeKeys[property.name] = true;
                                 }
@@ -103,7 +104,7 @@ define(
                                 }
 
                                 if(property.cascadeScript){
-                                    property.cascadeFunction = new Function("property", property.cascadeScript);
+                                    property.cascadeFunction = new Function("$property", property.cascadeScript);
                                 }
 
                                 var validator = property.validator;
@@ -148,6 +149,7 @@ define(
                             var tableHead = dynamicModel.tableHead = {groupHeads:[], heads:[]};
                             for(j = 0 ; j < dynamicModel.association.length ; j++){
                                 var property = dynamicModel.association[j];
+
                                 if(property.type == "Date"){
                                     associationKeys.dateTypeKeys[property.name] = true;
                                 }
@@ -156,7 +158,7 @@ define(
                                 }
 
                                 if(property.cascadeScript){
-                                    property.cascadeFunction = new Function("property", property.cascadeScript);
+                                    property.cascadeFunction = new Function("$property", property.cascadeScript);
                                 }
 
                                 var validator = property.validator;

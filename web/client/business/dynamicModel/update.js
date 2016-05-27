@@ -16,6 +16,11 @@ define(
 
                     for(var j = 0 ; j < $scope.updateRequest.association.length ; j++){
                         var property = $scope.updateRequest.association[j];
+
+                        if(property.cascadeScript){
+                            property.cascadeFunction = new Function("$property", property.cascadeScript);
+                        }
+
                         var validator = property.validator;
                         if(validator){
                             var fieldMessages = $scope.associationMessages[property.name] = {};
@@ -103,7 +108,7 @@ define(
                     property.hasScriptError = false;
                     if(property.cascadeScript){
                         try{
-                            property.cascadeFunction = new Function("property", property.cascadeScript);
+                            property.cascadeFunction = new Function("$property", property.cascadeScript);
                         }
                         catch (e){
                             property.hasScriptError = true;
@@ -119,10 +124,12 @@ define(
                 };
 
                 $scope.getMessage = function(field, $error, validateMessages){
-                    if(!validateMessages)
+                    if(!validateMessages){
                         return;
-                    for(var k in $error)
+                    }
+                    for(var k in $error){
                         return validateMessages[field][k];
+                    }
 
                 };
 
