@@ -24,7 +24,7 @@ public class DataModel extends Domain{
 
     private User user;
 
-    private List<DataModel> children = new ArrayList<>();
+    private List<DataModel> children = Collections.synchronizedList(new ArrayList<>());
 
     private Map<String, Object> properties = new LinkedHashMap<>();
 
