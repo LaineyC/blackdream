@@ -330,8 +330,13 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             dynamicModelCache.put(newDynamicModel.getId(), newDynamicModel);
         });
 
+        List<Long> excludeIds = request.getExcludeIds();
+        Map<Long, Long> excludeIdCache = new HashMap<>();
+        excludeIds.forEach(excludeId -> excludeIdCache.put(excludeId, excludeId));
+
         Long dataModelId = generatorInstance.getDataModel().getId();
         DataModel rootDataModel = dataModelRepository.selectById(dataModelId);
+
         Map<Long, DataModel> dataModelSourceCache = new HashMap<>();
         Map<Long, DataModel> dataModelTargetCache = new HashMap<>();
         LinkedList<DataModel> stack = new LinkedList<>();
@@ -354,7 +359,12 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
                     dataModelTarget.setParent(parentTarget);
                 }
             }
-            dataModelSource.getChildren().forEach(child -> dataModelTarget.getChildren().add(dataModelTargetCache.get(child.getId())));
+            dataModelSource.getChildren().forEach(child -> {
+                Long childId = child.getId();
+                if(!excludeIdCache.containsKey(childId)) {
+                    dataModelTarget.getChildren().add(dataModelTargetCache.get(childId));
+                }
+            });
 
             if (!dataModelSource.equals(rootDataModel)) {
                 DynamicModel dynamicModel = dynamicModelCache.get(dataModelSource.getDynamicModel().getId());
@@ -621,8 +631,13 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             dynamicModelGroupData.put(newDynamicModel.getId(), groupData);
         });
 
+        List<Long> excludeIds = request.getExcludeIds();
+        Map<Long, Long> excludeIdCache = new HashMap<>();
+        excludeIds.forEach(excludeId -> excludeIdCache.put(excludeId, excludeId));
+
         Long dataModelId = generatorInstance.getDataModel().getId();
         DataModel rootDataModel = dataModelRepository.selectById(dataModelId);
+
         Map<Long, DataModel> dataModelSourceCache = new HashMap<>();
         Map<Long, DataModel> dataModelTargetCache = new HashMap<>();
         LinkedList<DataModel> stack = new LinkedList<>();
@@ -645,7 +660,12 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
                     dataModelTarget.setParent(parentTarget);
                 }
             }
-            dataModelSource.getChildren().forEach(child -> dataModelTarget.getChildren().add(dataModelTargetCache.get(child.getId())));
+            dataModelSource.getChildren().forEach(child -> {
+                Long childId = child.getId();
+                if(!excludeIdCache.containsKey(childId)) {
+                    dataModelTarget.getChildren().add(dataModelTargetCache.get(childId));
+                }
+            });
 
             if (!dataModelSource.equals(rootDataModel)) {
                 DynamicModel dynamicModel = dynamicModelCache.get(dataModelSource.getDynamicModel().getId());

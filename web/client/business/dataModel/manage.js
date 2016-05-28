@@ -219,9 +219,11 @@ define(
                                     id:sourceChild.id,
                                     name:sourceChild.name,
                                     parent:targetDataModel,
-                                    dynamicModel: dynamicModelCache[sourceChild.dynamicModel.id],
+                                    dynamicModel:dynamicModelCache[sourceChild.dynamicModel.id],
                                     properties:{},
-                                    association:[]
+                                    association:[],
+                                    $runChecked:true,
+                                    $dataDictionaryChecked:true
                                 };
                                 targetDataModel.children.push(targetChild);
                                 init(sourceChild, targetChild);
@@ -257,31 +259,83 @@ define(
 
                 $scope.run = function(templateStrategy){
                     $uibModal.open({
-                        size: "lg",
-                        templateUrl: "dataModel/console.html",
-                        controller: ["$scope","$uibModalInstance",function ($scope, $uibModalInstance){
-                            $scope.runResults = $outScope.runResults;
-                            $scope.runningText = "正在生成并压缩文件...";
-                            generatorInstanceApi.run({id:generatorInstanceId,templateStrategyId:templateStrategy.id}).success(function(runResult){
-                                $scope.runningText = "";
-                                if(!runResult.url){
-                                    $scope.runResults.push({type:"error",messages :runResult.messages});
-                                }
-                                else{
-                                    $scope.runResults.push({type:"url",url :runResult.url, fileName:runResult.fileName});
-                                }
-                            });
+                        templateUrl: "dataModel/dataModelRun.html",
+                        controller: ["$scope", "$uibModalInstance", function ($scope, $uibModalInstance){
+                            $scope.dataModel = $outScope.dataModel;
+                            $scope.title = templateStrategy.name;
 
-                            $scope.download = function(url){
-                                systemApi.download({url:url});
+                            $scope.cancel = function(){
+                                $uibModalInstance.close();
+                            };
+
+                            $scope.checkAll = function(){
+                                $scope.$checkAll = !$scope.$checkAll;
+                                var checkAll = function(dataModel){
+                                    if(!dataModel.children){
+                                        return;
+                                    }
+
+                                    var child;
+                                    for(var i = 0 ; i < dataModel.children.length ; i++){
+                                        child = dataModel.children[i];
+                                        child.$runChecked = $scope.$checkAll;
+                                        checkAll(child);
+                                    }
+                                };
+                                checkAll($outScope.dataModel);
                             };
 
                             $scope.confirm = function(){
                                 $uibModalInstance.close();
-                            };
+                                $uibModal.open({
+                                    size: "lg",
+                                    templateUrl: "dataModel/console.html",
+                                    controller: ["$scope","$uibModalInstance", function ($scope, $uibModalInstance){
+                                        $scope.runResults = $outScope.runResults;
+                                        $scope.runningText = "正在生成并压缩文件...";
 
-                            $scope.clear = function(){
-                                $scope.runResults.length = 0;
+                                        var excludeIds = [];
+                                        var getExcludeIds = function(dataModel){
+                                            if(!dataModel.children){
+                                                return;
+                                            }
+
+                                            var child;
+                                            for(var i = 0 ; i < dataModel.children.length ; i++){
+                                                child = dataModel.children[i];
+                                                if(child.$runChecked){
+                                                    getExcludeIds(child);
+                                                }
+                                                else{
+                                                    excludeIds.push(child.id);
+                                                }
+                                            }
+                                        };
+                                        getExcludeIds($outScope.dataModel);
+
+                                        generatorInstanceApi.run({id:generatorInstanceId, templateStrategyId:templateStrategy.id, excludeIds: excludeIds}).success(function(runResult){
+                                            $scope.runningText = "";
+                                            if(!runResult.url){
+                                                $scope.runResults.push({type:"error", messages :runResult.messages});
+                                            }
+                                            else{
+                                                $scope.runResults.push({type:"url", url :runResult.url, fileName:runResult.fileName});
+                                            }
+                                        });
+
+                                        $scope.download = function(url){
+                                            systemApi.download({url:url});
+                                        };
+
+                                        $scope.confirm = function(){
+                                            $uibModalInstance.close();
+                                        };
+
+                                        $scope.clear = function(){
+                                            $scope.runResults.length = 0;
+                                        };
+                                    }]
+                                });
                             };
                         }]
                     });
@@ -289,32 +343,83 @@ define(
 
                 $scope.dataDictionary =  function(){
                     $uibModal.open({
-                        size: "lg",
-                        templateUrl: "dataModel/console.html",
-                        controller: ["$scope","$uibModalInstance",function ($scope, $uibModalInstance){
-                            $scope.runResults = $outScope.runResults;
-                            $scope.runningText = "正在生成并压缩文件...";
-                            var theme = $cookies.get("theme") || "slate";
-                            generatorInstanceApi.dataDictionary({id:generatorInstanceId, theme:theme}).success(function(runResult){
-                                $scope.runningText = "";
-                                if(!runResult.url){
-                                    $scope.runResults.push({type:"error",messages :runResult.messages});
-                                }
-                                else{
-                                    $scope.runResults.push({type:"url",url :runResult.url, fileName:runResult.fileName});
-                                }
-                            });
+                        templateUrl: "dataModel/dataModelDataDictionary.html",
+                        controller: ["$scope", "$uibModalInstance", function ($scope, $uibModalInstance){
+                            $scope.dataModel = $outScope.dataModel;
 
-                            $scope.download = function(url){
-                                systemApi.download({url:url});
+                            $scope.cancel = function(){
+                                $uibModalInstance.close();
+                            };
+
+                            $scope.checkAll = function(){
+                                $scope.$checkAll = !$scope.$checkAll;
+                                var checkAll = function(dataModel){
+                                    if(!dataModel.children){
+                                        return;
+                                    }
+
+                                    var child;
+                                    for(var i = 0 ; i < dataModel.children.length ; i++){
+                                        child = dataModel.children[i];
+                                        child.$dataDictionaryChecked = $scope.$checkAll;
+                                        checkAll(child);
+                                    }
+                                };
+                                checkAll($outScope.dataModel);
                             };
 
                             $scope.confirm = function(){
                                 $uibModalInstance.close();
-                            };
+                                $uibModal.open({
+                                    size: "lg",
+                                    templateUrl: "dataModel/console.html",
+                                    controller: ["$scope","$uibModalInstance", function ($scope, $uibModalInstance){
+                                        $scope.runResults = $outScope.runResults;
+                                        $scope.runningText = "正在生成并压缩文件...";
+                                        var theme = $cookies.get("theme") || "slate";
 
-                            $scope.clear = function(){
-                                $scope.runResults.length = 0;
+                                        var excludeIds = [];
+                                        var getExcludeIds = function(dataModel){
+                                            if(!dataModel.children){
+                                                return;
+                                            }
+
+                                            var child;
+                                            for(var i = 0 ; i < dataModel.children.length ; i++){
+                                                child = dataModel.children[i];
+                                                if(child.$dataDictionaryChecked){
+                                                    getExcludeIds(child);
+                                                }
+                                                else{
+                                                    excludeIds.push(child.id);
+                                                }
+                                            }
+                                        };
+                                        getExcludeIds($outScope.dataModel);
+
+                                        generatorInstanceApi.dataDictionary({id:generatorInstanceId, theme:theme, excludeIds:excludeIds}).success(function(runResult){
+                                            $scope.runningText = "";
+                                            if(!runResult.url){
+                                                $scope.runResults.push({type:"error", messages :runResult.messages});
+                                            }
+                                            else{
+                                                $scope.runResults.push({type:"url", url :runResult.url, fileName:runResult.fileName});
+                                            }
+                                        });
+
+                                        $scope.download = function(url){
+                                            systemApi.download({url:url});
+                                        };
+
+                                        $scope.confirm = function(){
+                                            $uibModalInstance.close();
+                                        };
+
+                                        $scope.clear = function(){
+                                            $scope.runResults.length = 0;
+                                        };
+                                    }]
+                                });
                             };
                         }]
                     });
@@ -448,7 +553,7 @@ define(
                             }
                         }
 
-                        var dataModel = {id: 0 - id, dynamicModel: dynamicModel, parent:parent, properties:properties, association:[], name:"新建" + dynamicModel.name + "(" + id + ")",$view:true};
+                        var dataModel = {id: 0 - id, dynamicModel: dynamicModel, parent:parent, properties:properties, association:[], name:"新建" + dynamicModel.name + "(" + id + ")", $view:true, $runChecked:true, $dataDictionaryChecked:true};
                         dataModelApi.create({
                             rootId:$scope.generatorInstance.dataModel.id,
                             name:dataModel.name,

@@ -278,10 +278,60 @@
 <!-- 数据模型选择对话框使用的递归模板 -->
 <script id="dataModelPickerRecursion" type="text/ng-template">
     <a href="javascript:void(0)" class="list-group-item" ng-repeat="child in parent.children" ng-init="p=parent;">
-        <i class="glyphicon glyphicon-plus" ng-class="child.children.length ? (child.$$expend ? 'glyphicon-minus' : 'glyphicon-plus') : 'glyphicon-ban-circle'" ng-click="child.$$expend =! child.$$expend;"></i>
+        <i class="glyphicon glyphicon-plus" ng-class="child.children.length ? (child.$$expend ? 'glyphicon-minus' : 'glyphicon-plus') : 'glyphicon-leaf'" ng-click="child.$$expend =! child.$$expend;"></i>
         <label style="margin-right: 5px;">{{$index + 1}}</label>
         <span class="glyphicon glyphicon-{{child.dynamicModel.icon}}"></span>
         <label ng-dblclick="select(child);">{{child.name}}</label>
         <div class="list-group" ng-include="'dataModelPickerRecursion'" ng-show="child.$$expend && child.children.length" ng-init="parent=child;"></div>
+    </a>
+</script>
+<!-- 生成文件之前询问对话框 -->
+<script id="dataModel/dataModelRun.html" type="text/ng-template" >
+    <div class="modal-header">
+        <h3 class="modal-title">{{title}}</h3>
+    </div>
+    <div class="modal-body condensed-list">
+        <div style="padding-left: 0px;" ng-init="parent=dataModel;" ng-include="'dataModelRunRecursion'" class="list-group" ng-show="dataModel.children.length"></div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-sm btn-warning" type="button" ng-click="cancel()">取消</button>
+        <button class="btn btn-sm btn-success" type="button" ng-click="checkAll()"><span class="glyphicon" ng-class="{'glyphicon-unchecked':!$checkAll,'glyphicon-check':$checkAll}"></span> 全选</button>
+        <button class="btn btn-sm btn-primary" type="button" ng-click="confirm()">确定</button>
+    </div>
+</script>
+<!-- 生成文件之前询问对话框使用的递归模板 -->
+<script id="dataModelRunRecursion" type="text/ng-template">
+    <a href="javascript:void(0)" class="list-group-item" ng-repeat="child in parent.children" ng-init="p=parent;">
+        <input type="checkbox" ng-model="child.$runChecked"/>
+        <i class="glyphicon glyphicon-plus" ng-class="child.children.length ? (child.$runExpend ? 'glyphicon-minus' : 'glyphicon-plus') : 'glyphicon-leaf'" ng-click="child.$runExpend =! child.$runExpend;"></i>
+        <label style="margin-right: 5px;">{{$index + 1}}</label>
+        <span class="glyphicon glyphicon-{{child.dynamicModel.icon}}"></span>
+        <label>{{child.name}}</label>
+        <div class="list-group" ng-include="'dataModelRunRecursion'" ng-show="child.$runExpend && child.children.length" ng-init="parent=child;"></div>
+    </a>
+</script>
+<!-- 生成数据字典之前询问对话框 -->
+<script id="dataModel/dataModelDataDictionary.html" type="text/ng-template" >
+    <div class="modal-header">
+        <h3 class="modal-title">数据字典</h3>
+    </div>
+    <div class="modal-body condensed-list">
+        <div style="padding-left: 0px;" ng-init="parent=dataModel;" ng-include="'dataModelDataDictionaryRecursion'" class="list-group" ng-show="dataModel.children.length"></div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-sm btn-warning" type="button" ng-click="cancel()">取消</button>
+        <button class="btn btn-sm btn-success" type="button" ng-click="checkAll()"><span class="glyphicon" ng-class="{'glyphicon-unchecked':!$checkAll,'glyphicon-check':$checkAll}"></span> 全选</button>
+        <button class="btn btn-sm btn-primary" type="button" ng-click="confirm()">确定</button>
+    </div>
+</script>
+<!-- 生成数据字典之前询问对话框使用的递归模板 -->
+<script id="dataModelDataDictionaryRecursion" type="text/ng-template">
+    <a href="javascript:void(0)" class="list-group-item" ng-repeat="child in parent.children" ng-init="p=parent;">
+        <input type="checkbox" ng-model="child.$dataDictionaryChecked"/>
+        <i class="glyphicon glyphicon-plus" ng-class="child.children.length ? (child.$dataDictionaryExpend ? 'glyphicon-minus' : 'glyphicon-plus') : 'glyphicon-leaf'" ng-click="child.$dataDictionaryExpend =! child.$dataDictionaryExpend;"></i>
+        <label style="margin-right: 5px;">{{$index + 1}}</label>
+        <span class="glyphicon glyphicon-{{child.dynamicModel.icon}}"></span>
+        <label>{{child.name}}</label>
+        <div class="list-group" ng-include="'dataModelDataDictionaryRecursion'" ng-show="child.$dataDictionaryExpend && child.children.length" ng-init="parent=child;"></div>
     </a>
 </script>
