@@ -378,27 +378,35 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
                 Set<String> associationKeys_dateTypeKeys = associationKeys.get("dateTypeKeys");
                 Set<String> associationKeys_dataModelTypeKeys = associationKeys.get("dataModelTypeKeys");
                 dataModelSource.getProperties().forEach((name, value) -> {
-                    if (propertiesKeys_dateTypeKeys.contains(name)) {
-                        dataModelTarget.getProperties().put(name, new Date((Long) value));
+                    try {
+                        if (propertiesKeys_dateTypeKeys.contains(name)) {
+                            dataModelTarget.getProperties().put(name, new Date((Long) value));
+                        } else if (propertiesKeys_dataModelTypeKeys.contains(name)) {
+                            dataModelTarget.getProperties().put(name, dataModelTargetCache.get(value));
+                        } else {
+                            dataModelTarget.getProperties().put(name, value);
+                        }
                     }
-                    else if (propertiesKeys_dataModelTypeKeys.contains(name)) {
-                        dataModelTarget.getProperties().put(name, dataModelTargetCache.get(value));
-                    }
-                    else {
-                        dataModelTarget.getProperties().put(name, value);
+                    catch (Exception e){
+                        //
                     }
                 });
                 dataModelSource.getAssociation().forEach(property -> {
                     Map<String, Object> newProperty = new LinkedHashMap<>();
                     property.forEach((name, value) -> {
-                        if (associationKeys_dateTypeKeys.contains(name)) {
-                            newProperty.put(name, new Date((Long) value));
+                        try {
+                            if (associationKeys_dateTypeKeys.contains(name)) {
+                                newProperty.put(name, new Date((Long) value));
+                            }
+                            else if (associationKeys_dataModelTypeKeys.contains(name)) {
+                                newProperty.put(name, dataModelTargetCache.get(value));
+                            }
+                            else {
+                                newProperty.put(name, value);
+                            }
                         }
-                        else if (associationKeys_dataModelTypeKeys.contains(name)) {
-                            newProperty.put(name, dataModelTargetCache.get(value));
-                        }
-                        else {
-                            newProperty.put(name, value);
+                        catch (Exception e){
+                            //
                         }
                     });
                     dataModelTarget.getAssociation().add(newProperty);
@@ -593,7 +601,8 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             association.forEach(property -> {
                 if ("Date".equals(property.getType())) {
                     associationKeys_dateTypeKeys.add(property.getName());
-                } else if ("Model".equals(property.getType())) {
+                }
+                else if ("Model".equals(property.getType())) {
                     associationKeys_dataModelTypeKeys.add(property.getName());
                 }
 
@@ -679,27 +688,37 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
                 Set<String> associationKeys_dateTypeKeys = associationKeys.get("dateTypeKeys");
                 Set<String> associationKeys_dataModelTypeKeys = associationKeys.get("dataModelTypeKeys");
                 dataModelSource.getProperties().forEach((name, value) -> {
-                    if (propertiesKeys_dateTypeKeys.contains(name)) {
-                        dataModelTarget.getProperties().put(name, new Date((Long) value));
+                    try{
+                        if (propertiesKeys_dateTypeKeys.contains(name)) {
+                            dataModelTarget.getProperties().put(name, new Date((Long) value));
+                        }
+                        else if (propertiesKeys_dataModelTypeKeys.contains(name)) {
+                            dataModelTarget.getProperties().put(name, dataModelTargetCache.get(value));
+                        }
+                        else {
+                            dataModelTarget.getProperties().put(name, value);
+                        }
                     }
-                    else if (propertiesKeys_dataModelTypeKeys.contains(name)) {
-                        dataModelTarget.getProperties().put(name, dataModelTargetCache.get(value));
-                    }
-                    else {
-                        dataModelTarget.getProperties().put(name, value);
+                    catch (Exception e){
+                        //
                     }
                 });
                 dataModelSource.getAssociation().forEach(property -> {
                     Map<String, Object> newProperty = new LinkedHashMap<>();
                     property.forEach((name, value) -> {
-                        if (associationKeys_dateTypeKeys.contains(name)) {
-                            newProperty.put(name, new Date((Long) value));
+                        try{
+                            if (associationKeys_dateTypeKeys.contains(name)) {
+                                newProperty.put(name, new Date((Long) value));
+                            }
+                            else if (associationKeys_dataModelTypeKeys.contains(name)) {
+                                newProperty.put(name, dataModelTargetCache.get(value));
+                            }
+                            else {
+                                newProperty.put(name, value);
+                            }
                         }
-                        else if (associationKeys_dataModelTypeKeys.contains(name)) {
-                            newProperty.put(name, dataModelTargetCache.get(value));
-                        }
-                        else {
-                            newProperty.put(name, value);
+                        catch (Exception e){
+                            //
                         }
                     });
                     dataModelTarget.getAssociation().add(newProperty);

@@ -273,26 +273,31 @@ public class DataModelElementConverter extends BaseElementConverter<DataModel> {
                     Node propertyNode = propertiesNode.element(propertyName);
                     String propertyType = dynamicProperty.getType();
                     if (propertyNode != null) {
-                        if ("Boolean".equals(propertyType)) {
-                            entity.getProperties().put(propertyName, Boolean.valueOf(propertyNode.getText()));
+                        try{
+                            if ("Boolean".equals(propertyType)) {
+                                entity.getProperties().put(propertyName, Boolean.valueOf(propertyNode.getText()));
+                            }
+                            else if ("Long".equals(propertyType)) {
+                                entity.getProperties().put(propertyName, Long.valueOf(propertyNode.getText()));
+                            }
+                            else if ("Double".equals(propertyType)) {
+                                entity.getProperties().put(propertyName, Double.valueOf(propertyNode.getText()));
+                            }
+                            else if ("String".equals(propertyType)) {
+                                entity.getProperties().put(propertyName, propertyNode.getText());
+                            }
+                            else if ("Date".equals(propertyType)) {
+                                entity.getProperties().put(propertyName, Long.valueOf(propertyNode.getText()));
+                            }
+                            else if ("Enum".equals(propertyType)) {
+                                entity.getProperties().put(propertyName, propertyNode.getText());
+                            }
+                            else if ("Model".equals(propertyType)) {
+                                entity.getProperties().put(propertyName, Long.valueOf(propertyNode.getText()));
+                            }
                         }
-                        else if ("Long".equals(propertyType)) {
-                            entity.getProperties().put(propertyName, Long.valueOf(propertyNode.getText()));
-                        }
-                        else if ("Double".equals(propertyType)) {
-                            entity.getProperties().put(propertyName, Double.valueOf(propertyNode.getText()));
-                        }
-                        else if ("String".equals(propertyType)) {
-                            entity.getProperties().put(propertyName, propertyNode.getText());
-                        }
-                        else if ("Date".equals(propertyType)) {
-                            entity.getProperties().put(propertyName, Long.valueOf(propertyNode.getText()));
-                        }
-                        else if ("Enum".equals(propertyType)) {
-                            entity.getProperties().put(propertyName, propertyNode.getText());
-                        }
-                        else if ("Model".equals(propertyType)) {
-                            entity.getProperties().put(propertyName, Long.valueOf(propertyNode.getText()));
+                        catch (Exception e){
+                            //
                         }
                     }
                 });
@@ -308,26 +313,31 @@ public class DataModelElementConverter extends BaseElementConverter<DataModel> {
                         Node propertyNode = propertyElement.element(propertyName);
                         String propertyType = dynamicProperty.getType();
                         if (propertyNode != null) {
-                            if ("Boolean".equals(propertyType)) {
-                                property.put(propertyName, Boolean.valueOf(propertyNode.getText()));
+                            try{
+                                if ("Boolean".equals(propertyType)) {
+                                    property.put(propertyName, Boolean.valueOf(propertyNode.getText()));
+                                }
+                                else if ("Long".equals(propertyType)) {
+                                    property.put(propertyName, Long.valueOf(propertyNode.getText()));
+                                }
+                                else if ("Double".equals(propertyType)) {
+                                    property.put(propertyName, Double.valueOf(propertyNode.getText()));
+                                }
+                                else if ("String".equals(propertyType)) {
+                                    property.put(propertyName, propertyNode.getText());
+                                }
+                                else if ("Date".equals(propertyType)) {
+                                    property.put(propertyName, Long.valueOf(propertyNode.getText()));
+                                }
+                                else if ("Enum".equals(propertyType)) {
+                                    property.put(propertyName, propertyNode.getText());
+                                }
+                                else if ("Model".equals(propertyType)) {
+                                    property.put(propertyName, Long.valueOf(propertyNode.getText()));
+                                }
                             }
-                            else if ("Long".equals(propertyType)) {
-                                property.put(propertyName, Long.valueOf(propertyNode.getText()));
-                            }
-                            else if ("Double".equals(propertyType)) {
-                                property.put(propertyName, Double.valueOf(propertyNode.getText()));
-                            }
-                            else if ("String".equals(propertyType)) {
-                                property.put(propertyName, propertyNode.getText());
-                            }
-                            else if ("Date".equals(propertyType)) {
-                                property.put(propertyName, Long.valueOf(propertyNode.getText()));
-                            }
-                            else if ("Enum".equals(propertyType)) {
-                                property.put(propertyName, propertyNode.getText());
-                            }
-                            else if ("Model".equals(propertyType)) {
-                                property.put(propertyName, Long.valueOf(propertyNode.getText()));
+                            catch (Exception e){
+                                //
                             }
                         }
                     });
