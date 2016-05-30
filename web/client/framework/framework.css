@@ -61,3 +61,7 @@ html, body{
 .input-group-addon.text-danger{
     color: #a94442;
 }
+
+.modal-80-percent{
+    width:80%;
+}

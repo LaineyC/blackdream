@@ -50,7 +50,7 @@
                             <div class="col-sm-3">
                                 <input id="name" name="name" uib-tooltip="{{getMessage('name',dataModelEditForm.name.$error,validateMessages)}}"
                                        tooltip-trigger="none" tooltip-is-open="dataModelEditForm.name.$invalid && dataModelEditForm.name.$dirty"
-                                       ng-model="dataModel.name" type="text" class="form-control input-sm" placeholder="名称" ng-maxlength="50" required/>
+                                       ng-model="dataModel.name" type="text" class="form-control input-sm" placeholder="名称" ng-maxlength="32" required/>
                             </div>
                         </div>
                         <div class="form-group" ng-repeat="property in dataModel.dynamicModel.fromGroup">
@@ -134,16 +134,26 @@
                                     <caption>
                                         <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-success btn-sm" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.addProperty(dataModel);">添加属性</button>
-                                            <button type="button" class="btn btn-success btn-sm" ng-disabled="!dataModelControl.editable || !dataModel.dynamicModel.predefinedAssociation.length" ng-click="tabsControl.addPredefinedProperty(dataModel);">快捷添加</button>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-success btn-sm" ng-disabled="!dataModelControl.editable || !dataModel.dynamicModel.predefinedAssociation.length" ng-click="tabsControl.addPredefinedProperty(dataModel);">快捷添加</button>
+                                                <button type="button" class="btn btn-success btn-sm dropdown-toggle" ng-disabled="!dataModelControl.editable || !dataModel.dynamicModel.predefinedAssociation.length" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="javascript:void(0)" ng-click="tabsControl.predefinedPropertySetModalOpen(dataModel);">快捷设置</a></li>
+                                                </ul>
+                                            </div>
                                         </div>
                                         <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-sm" ng-class="{'btn-default':!dataModel.$copy,'btn-warning':dataModel.$copy}" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.copyProperty(dataModel);">复制属性</button>
-                                            <button type="button" class="btn btn-default btn-sm" ng-disabled="!dataModelControl.editable || !tabsControl.hasClipboard(dataModel)" ng-click="tabsControl.pasteProperty(dataModel);">粘贴属性</button>
+                                            <button ng-if="!dataModel.$copy" type="button" class="btn btn-sm btn-default" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.copyPropertyBegin(dataModel);">复制属性</button>
+                                            <button ng-if="dataModel.$copy" type="button" class="btn btn-sm btn-warning" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.copyPropertyCancel(dataModel);">取消</button>
+                                            <button ng-if="dataModel.$copy" type="button" class="btn btn-sm btn-default" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.copyProperty(dataModel);">确定</button>
+                                            <button type="button" class="btn btn-default btn-sm" ng-disabled="dataModel.$copy || !dataModelControl.editable || !tabsControl.hasClipboard(dataModel)" ng-click="tabsControl.pasteProperty(dataModel);">粘贴属性</button>
                                         </div>
                                     </caption>
                                     <thead>
                                     <tr class="active" ng-if="dataModel.dynamicModel.tableHead.heads.length">
-                                        <th width="30" rowspan="2">#</th>
+                                        <th width="30" rowspan="2" ng-click="dataModel.$copy && dataModelControl.copyAll(dataModel);"><input ng-if="dataModel.$copy" type="checkbox" ng-checked="dataModel.$copyAll"/><span ng-if="!dataModel.$copy">#</span></th>
                                         <th width="{{property.span ? '' : property.viewWidth}}" ng-repeat="property in dataModel.dynamicModel.tableHead.groupHeads" rowspan="{{property.span ? '' : 2}}" colspan="{{!property.span ? '' : property.span}}">
                                             <span ng-class="{'text-danger': property.validator.required}">{{property.span ? property.group : property.label}}</span>
                                         </th>
@@ -155,7 +165,7 @@
                                         </th>
                                     </tr>
                                     <tr class="active" ng-if="!dataModel.dynamicModel.tableHead.heads.length">
-                                        <th width="30">#</th>
+                                        <th width="30" ng-click="dataModel.$copy && dataModelControl.copyAll(dataModel);"><input ng-if="dataModel.$copy" type="checkbox" ng-checked="dataModel.$copyAll"/><span ng-if="!dataModel.$copy">#</span></th>
                                         <th width="{{property.viewWidth}}" ng-repeat="property in dataModel.dynamicModel.association">
                                             <span ng-class="{'text-danger': property.validator.required}">{{property.label}}</span>
                                         </th>
@@ -311,7 +321,7 @@
     </a>
 </script>
 <!-- 生成数据字典之前询问对话框 -->
-<script id="dataModel/dataModelDataDictionary.html" type="text/ng-template" >
+<script id="dataModel/dataModelDataDictionary.html" type="text/ng-template">
     <div class="modal-header">
         <h3 class="modal-title">数据字典</h3>
     </div>
@@ -334,4 +344,50 @@
         <label>{{child.name}}</label>
         <div class="list-group" ng-include="'dataModelDataDictionaryRecursion'" ng-show="child.$dataDictionaryExpend && child.children.length" ng-init="parent=child;"></div>
     </a>
+</script>
+<!-- 快捷添加设置对话框 -->
+<script id="dataModel/predefinedPropertySet.html" type="text/ng-template">
+    <div class="modal-header">
+        <h3 class="modal-title">{{title}}</h3>
+    </div>
+    <div class="modal-body">
+        <table class="table table-condensed table-hover">
+            <thead>
+            <tr class="active" ng-if="tableHead.heads.length">
+                <th width="30" rowspan="2">#</th>
+                <th width="{{property.span ? '' : property.viewWidth}}" ng-repeat="property in tableHead.groupHeads"
+                    rowspan="{{property.span ? '' : 2}}" colspan="{{!property.span ? '' : property.span}}">
+                    {{property.span ? property.group : property.label}}
+                </th>
+                <th rowspan="2">&nbsp;</th>
+            </tr>
+            <tr class="active" ng-if="tableHead.heads.length">
+                <th width="{{property.viewWidth}}" ng-repeat="property in tableHead.heads" >{{property.label}}</th>
+            </tr>
+            <tr class="active" ng-if="!tableHead.heads.length">
+                <th width="30">#</th>
+                <th width="{{property.viewWidth}}" ng-repeat="property in dynamicModel.association">{{property.label}}</th>
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody >
+            <tr ng-repeat="propertyValue in dynamicModel.predefinedAssociation track by $index">
+                <th><input type="checkbox" ng-model="propertyValue.$check" ng-checked="propertyValue.$check"/></th>
+                <td ng-repeat="property in dynamicModel.association" ng-switch="property.type">
+                    <span ng-switch-when="Boolean"><input onclick="return false;" type="checkbox" ng-checked="propertyValue[property.name]"/></span>
+                    <span ng-switch-when="Long">{{propertyValue[property.name]}}</span>
+                    <span ng-switch-when="Double">{{propertyValue[property.name]}}</span>
+                    <span ng-switch-when="String">{{propertyValue[property.name]}}</span>
+                    <span ng-switch-when="Date">{{propertyValue[property.name] | date : 'yyyy-MM-dd'}}</span>
+                    <span ng-switch-when="Enum">{{propertyValue[property.name]}}</span>
+                    <span ng-switch-when="Model">{{propertyValue[property.name]}}</span>
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-sm btn-primary" type="button" ng-click="confirm()">确定</button>
+    </div>
 </script>

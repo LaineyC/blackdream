@@ -23,7 +23,7 @@ define(
                 $scope.validateMessages = {
                     name:{
                         required:"必输项",
-                        maxlength:"最长50位"
+                        maxlength:"最长32位"
                     }
                 };
 
@@ -200,6 +200,11 @@ define(
                                 }
 
                             }
+
+                            for(j = 0 ; j < dynamicModel.predefinedAssociation.length ; j++){
+                                dynamicModel.predefinedAssociation[j].$check = true;
+                            }
+
                         }
                     });
 
@@ -612,6 +617,12 @@ define(
                         delete dataModelCache[child.id];
                         $scope.dataModelControl.dirtyData.addDeleteData(child);
                         $scope.tabsControl.remove(child);
+                    },
+                    copyAll:function(dataModel){
+                        dataModel.$copyAll = !dataModel.$copyAll;
+                        for(var i = 0 ; i < dataModel.association.length ; i++){
+                            dataModel.association[i].$copy = dataModel.$copyAll;
+                        }
                     }
                 };
 
@@ -670,10 +681,30 @@ define(
                         dataModel.association.push(record);
                         dataModel.$scope.dataModelEditForm.$setDirty();
                     },
+                    predefinedPropertySetModalOpen:function(dataModel){
+                        $uibModal.open({
+                            size:"80-percent",
+                            templateUrl: "dataModel/predefinedPropertySet.html",
+                            controller: ["$scope", "$uibModalInstance", function ($scope, $uibModalInstance){
+                                $scope.dataModel = $outScope.dataModel;
+                                $scope.dynamicModel = dataModel.dynamicModel;
+                                $scope.tableHead = dataModel.dynamicModel.tableHead;
+                                $scope.title = "快捷设置 - " + dataModel.dynamicModel.name;
+
+                                $scope.confirm = function(){
+                                    $uibModalInstance.close();
+                                };
+
+                            }]
+                        });
+                    },
                     addPredefinedProperty:function(dataModel){
                         var predefinedAssociation = dataModel.dynamicModel.predefinedAssociation;
                         for(var i = 0 ; i < predefinedAssociation.length ; i++){
                             var property = predefinedAssociation[i];
+                            if(!property.$check){
+                                continue;
+                            }
                             var record = {};
                             for(var k in property){
                                 record[k] = property[k];
@@ -682,26 +713,44 @@ define(
                         }
                         dataModel.$scope.dataModelEditForm.$setDirty();
                     },
-                    copyProperty:function(dataModel){
-                        if(dataModel.$copy){
-                            var association = [];
-                            for(var i = 0 ; i < dataModel.association.length ; i++){
-                                var property = dataModel.association[i];
-                                if(property.$copy){
-                                    delete property.$copy;
-                                    var record = {};
-                                    for(var k in property){
-                                        if(k == "$$hashKey" || k == "__hashKey"){
-                                            continue;
-                                        }
-                                        record[k] = property[k];
-                                    }
-                                    association.push(record);
-                                }
-                            }
-                            clipboard.copy(dataModel.dynamicModel.id, association);
+                    copyPropertyBegin:function(dataModel){
+                        dataModel.$copy = true;
+                    },
+                    copyPropertyCancel:function(dataModel){
+                        if(!dataModel.$copy){
+                            return;
                         }
-                        dataModel.$copy = !dataModel.$copy;
+                        for(var i = 0 ; i < dataModel.association.length ; i++){
+                            var property = dataModel.association[i];
+                            if(property.$copy){
+                                delete property.$copy;
+                            }
+                        }
+                        dataModel.$copyAll = false;
+                        dataModel.$copy = false;
+                    },
+                    copyProperty:function(dataModel){
+                        if(!dataModel.$copy){
+                            return;
+                        }
+                        var association = [];
+                        for(var i = 0 ; i < dataModel.association.length ; i++){
+                            var property = dataModel.association[i];
+                            if(property.$copy){
+                                delete property.$copy;
+                                var record = {};
+                                for(var k in property){
+                                    if(k == "$$hashKey" || k == "__hashKey"){
+                                        continue;
+                                    }
+                                    record[k] = property[k];
+                                }
+                                association.push(record);
+                            }
+                        }
+                        clipboard.copy(dataModel.dynamicModel.id, association);
+                        dataModel.$copyAll = false;
+                        dataModel.$copy = false;
                     },
                     hasClipboard:function(dataModel){
                         var association = clipboard.get(dataModel.dynamicModel.id);

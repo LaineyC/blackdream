@@ -131,9 +131,9 @@
                                 </thead>
                                 <tbody >
                                 <tr ng-repeat="propertyValue in dynamicModel.predefinedAssociation">
-                                    <td>{{$index + 1}}</td>
+                                    <th>{{$index + 1}}</th>
                                     <td ng-repeat="property in dynamicModel.association" ng-switch="property.type">
-                                        <span ng-switch-when="Boolean">{{propertyValue[property.name]}}</span>
+                                        <span ng-switch-when="Boolean"><input onclick="return false;" type="checkbox" ng-checked="propertyValue[property.name]"/></span>
                                         <span ng-switch-when="Long">{{propertyValue[property.name]}}</span>
                                         <span ng-switch-when="Double">{{propertyValue[property.name]}}</span>
                                         <span ng-switch-when="String">{{propertyValue[property.name]}}</span>
