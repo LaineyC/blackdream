@@ -51,7 +51,7 @@ define(
                         return;
                     }
                     confirm.open({
-                        title:"密码重置",
+                        title:"重置密码",
                         message:"确定重置【" + user.userName + "】密码？",
                         confirm:function(){
                             userApi.passwordReset({id: user.id});

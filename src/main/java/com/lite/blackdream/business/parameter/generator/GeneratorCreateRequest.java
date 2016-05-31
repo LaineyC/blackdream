@@ -9,7 +9,6 @@ public class GeneratorCreateRequest extends Request {
 
     private String name;
 
-
     private String description;
 
     public GeneratorCreateRequest(){

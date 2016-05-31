@@ -10,7 +10,7 @@
                             <span class="input-group-addon text-info">ID</span>
                             <span class="input-group-addon">{{updateRequest.id}}</span>
                         </div>
-                        <div class="input-group">
+                        <div class="input-group" style="margin-right: 4px;">
                             <span class="input-group-addon" ng-class="{'text-danger': templateStrategyUpdateForm.name.$error.required}">name</span>
                             <input name="name" uib-tooltip="{{getMessage('name',templateStrategyUpdateForm.name.$error,tagRules.TemplateStrategy.attributes)}}"
                                    tooltip-trigger="none" tooltip-is-open="templateStrategyUpdateForm.name.$invalid && templateStrategyUpdateForm.name.$dirty"
