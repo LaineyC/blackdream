@@ -15,19 +15,19 @@
                         <label class="col-sm-1 control-label"><span class="text-danger">图标</span></label>
                         <div class="col-sm-3">
                             <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span ng-if="!iconControl.selectedItem">选择图标</span>
-                                        <span ng-if="iconControl.selectedItem" class="glyphicon glyphicon-{{iconControl.selectedItem}}"></span>
-                                    </button>
-                                    <ul class="dropdown-menu" style="width:572px;">
-                                        <li>
-                                            <div class="clearfix">
-                                                <button type="button" ng-click="iconControl.select(icon);" ng-repeat="icon in iconControl.icons" class="btn btn-sm btn-default" style="margin: 2px;">
-                                                    <span class="glyphicon glyphicon-{{icon}}" aria-hidden="true"></span>
-                                                </button>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span ng-if="!iconControl.selectedItem">选择图标</span>
+                                    <span ng-if="iconControl.selectedItem" class="glyphicon glyphicon-{{iconControl.selectedItem}}"></span>
+                                </button>
+                                <ul class="dropdown-menu" style="width:572px;">
+                                    <li>
+                                        <div class="clearfix">
+                                            <button type="button" ng-click="iconControl.select(icon);" ng-repeat="icon in iconControl.icons" class="btn btn-sm btn-default" style="margin: 2px;">
+                                                <span class="glyphicon glyphicon-{{icon}}" aria-hidden="true"></span>
+                                            </button>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>

@@ -276,7 +276,6 @@ define(
                             }
                         }
                         $scope.createRequest.predefinedAssociation.push(properties);
-
                     },
                     delete:function(entity, index) {
                         $scope.createRequest.predefinedAssociation.splice(index, 1);
@@ -297,7 +296,7 @@ define(
                             }
                         }
                         var newPredefinedAssociation = [];
-                        for(var i = 0 ; i < predefinedAssociation.length ;i++){
+                        for(var i = 0 ; i < predefinedAssociation.length ; i++){
                             var property = predefinedAssociation[i];
                             var newProperty = {};
                             for(var k in property){
