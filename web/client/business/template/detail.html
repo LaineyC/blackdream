@@ -1,0 +1,33 @@
+<div class="container">
+    <div ng-controller="templateDetailController">
+        <div class="row">
+            <div class="col-sm-12">
+                <form name="templateDetailForm" class="form-horizontal" role="form" novalidate>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">ID</label>
+                        <div class="col-sm-3 form-control-static">{{template.id}}</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">名称</label>
+                        <div class="col-sm-3 form-control-static">{{template.name}}</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">代码</label>
+                        <div class="col-sm-11 form-control-static"><div style="min-height: 725px;margin-top: 5px;" ace-editor ace-theme="aceTheme" ng-model="template.code"></div></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3 col-sm-offset-5">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-primary btn-sm" location-back>返回</button>
+                                <button type="button" ng-disabled="template.developer.id != $security$.user.id" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="javascript:void(0);" ng-click="delete(template)">删除</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

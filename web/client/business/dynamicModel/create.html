@@ -19,10 +19,10 @@
                                     <span ng-if="!iconControl.selectedItem">选择图标</span>
                                     <span ng-if="iconControl.selectedItem" class="glyphicon glyphicon-{{iconControl.selectedItem}}"></span>
                                 </button>
-                                <ul class="dropdown-menu" style="width:572px;">
+                                <ul class="dropdown-menu" style="width:611px;">
                                     <li>
                                         <div class="clearfix">
-                                            <button type="button" ng-click="iconControl.select(icon);" ng-repeat="icon in iconControl.icons" class="btn btn-sm btn-default" style="margin: 2px;">
+                                            <button type="button" ng-click="iconControl.select(icon);" ng-repeat="icon in iconControl.icons" class="btn btn-sm" ng-class="{'btn-default':iconControl.selectedItem != icon,'btn-primary':iconControl.selectedItem == icon}" style="margin: 2px;">
                                                 <span class="glyphicon glyphicon-{{icon}}" aria-hidden="true"></span>
                                             </button>
                                         </div>

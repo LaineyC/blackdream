@@ -720,14 +720,20 @@ define(
         ]);
         //框架总控制器
         framework.controller("frameworkController", [
-            "$scope", "$cookies", "$window", "$uibModal", "$interval", "loadStatus", "tooltip", "alert", "security", "$http", "userApi", "location","viewPage", "systemApi",
-            function($scope, $cookies, $window, $uibModal, $interval, loadStatus, tooltip, alert, security, $http, userApi, location, viewPage, systemApi) {
+            "$scope", "$rootScope", "$cookies", "$window", "$uibModal", "$interval", "loadStatus", "tooltip", "alert", "security", "$http", "userApi", "location","viewPage", "systemApi",
+            function($scope, $rootScope, $cookies, $window, $uibModal, $interval, loadStatus, tooltip, alert, security, $http, userApi, location, viewPage, systemApi) {
                 //半小时会话心跳 防止session过期
                 $interval(function(){systemApi.heartbeat({});}, 30 * 60 * 1000);
+
+                //系统全局变量用 $变量名$ 方式命名
+                //系统安全信息变量
+                $rootScope.$security$ = {};
 
                 userApi.authGet({}).success(function(user){
                     security.setUser(user);
                     $scope.user = user;
+                    //系统用户信息
+                    $rootScope.$security$.user = user;
                 });
 
                 $scope.viewPage = viewPage.getViewPage();

@@ -56,7 +56,7 @@
                                             <td>{{user.loginCount}}</td>
                                             <td>{{user.creator ? user.creator.userName : '系统'}}</td>
                                             <td>{{user.modifyDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
-                                            <td><button disabled="disabled" type="button" class="btn btn-info btn-sm" location-go="/business/user/detail/{{user.id}}">详情</button></td>
+                                            <td><a class="btn btn-info btn-sm" ng-href="#/business/user/detail/{{user.id}}" role="button" target="_blank">详情</a></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -116,7 +116,7 @@
                                             <td>{{generatorInstance.generator.name}}</td>
                                             <td>{{generatorInstance.user.userName}}</td>
                                             <td>{{generatorInstance.modifyDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
-                                            <td><button disabled="disabled" type="button" class="btn btn-info btn-sm" location-go="/business/generatorInstance/detail/{{generatorInstance.id}}">详情</button></td>
+                                            <td><a class="btn btn-info btn-sm" ng-href="#/business/generatorInstance/detail/{{generatorInstance.id}}" role="button" target="_blank">详情</a></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -183,7 +183,7 @@
                                             <td>{{generator.instanceCount}}</td>
                                             <td>{{generator.developer.userName}}</td>
                                             <td>{{generator.modifyDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
-                                            <td><button disabled="disabled" type="button" class="btn btn-info btn-sm" location-go="/business/generator/detail/{{generator.id}}">详情</button></td>
+                                            <td><a class="btn btn-info btn-sm" ng-href="#/business/generator/detail/{{generator.id}}" role="button" target="_blank">详情</a></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -245,7 +245,7 @@
                                             <td>{{dynamicModel.generator.name}}</td>
                                             <td>{{dynamicModel.developer.userName}}</td>
                                             <td>{{dynamicModel.modifyDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
-                                            <td><button disabled="disabled" type="button" class="btn btn-info btn-sm" location-go="/business/dynamicModel/detail/{{dynamicModel.id}}">详情</button></td>
+                                            <td><a class="btn btn-info btn-sm" ng-href="#/business/dynamicModel/detail/{{dynamicModel.id}}" role="button" target="_blank">详情</a></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -305,7 +305,7 @@
                                             <td>{{template.generator.name}}</td>
                                             <td>{{template.developer.userName}}</td>
                                             <td>{{template.modifyDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
-                                            <td><button disabled="disabled" type="button" class="btn btn-info btn-sm" location-go="/business/template/detail/{{template.id}}">详情</button></td>
+                                            <td><a class="btn btn-info btn-sm" ng-href="#/business/template/detail/{{template.id}}" role="button" target="_blank">详情</a></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -365,7 +365,7 @@
                                             <td>{{templateStrategy.generator.name}}</td>
                                             <td>{{templateStrategy.developer.userName}}</td>
                                             <td>{{templateStrategy.modifyDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
-                                            <td><button disabled="disabled" type="button" class="btn btn-info btn-sm" location-go="/business/templateStrategy/detail/{{templateStrategy.id}}">详情</button></td>
+                                            <td><a class="btn btn-info btn-sm" ng-href="#/business/templateStrategy/detail/{{templateStrategy.id}}" role="button" target="_blank">详情</a></td>
                                         </tr>
                                         </tbody>
                                     </table>

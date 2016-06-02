@@ -21,10 +21,10 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-3 col-sm-offset-5">
-                            <button type="button" class="btn btn-sm" ng-class="{'btn-success':generatorInstance.generator.isOpen,'btn-danger':!generatorInstance.generator.isOpen}" location-go="/business/dataModel/manage/{{generatorInstance.id}}">工作台</button>
+                            <button type="button" ng-if="generatorInstance.user.id == $security$.user.id" class="btn btn-sm" ng-class="{'btn-success':generatorInstance.generator.isOpen,'btn-danger':!generatorInstance.generator.isOpen}" location-go="/business/dataModel/manage/{{generatorInstance.id}}">工作台</button>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-primary btn-sm" location-back>返回</button>
-                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                                <button type="button" ng-disabled="generatorInstance.user.id != $security$.user.id" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li><a href="javascript:void(0);" location-go="/business/generatorInstance/update/{{generatorInstance.id}}">修改</a></li>
                                     <li role="separator" class="divider"></li>

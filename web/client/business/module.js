@@ -22,6 +22,7 @@ define(
                 {path:"/business/generator/search", templateUrl:"business/generator/search.html", dependencies:["business/generator/search"], permission:null},
 
                 {path:"/business/template/manage/:generatorId", templateUrl:"business/template/manage.html", dependencies:["ace","business/template/manage"], permission:null},
+                {path:"/business/template/detail/:id", templateUrl:"business/template/detail.html", dependencies:["ace","business/template/detail"], permission:null},
 
                 {path:"/business/dynamicModel/manage/:generatorId", templateUrl:"business/dynamicModel/manage.html", dependencies:["business/dynamicModel/manage"], permission:null},
                 {path:"/business/dynamicModel/create/:generatorId", templateUrl:"business/dynamicModel/create.html", dependencies:["business/dynamicModel/create"], permission:null},

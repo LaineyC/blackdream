@@ -53,9 +53,10 @@ define(
 
                 $scope.sortableOptions = {
                     update: function(e, ui) {
+                        $scope.templateStrategyUpdateForm.$setDirty();
                     },
                     stop: function(e, ui) {
-                        $scope.templateStrategyUpdateForm.$setDirty();
+
                     }
                 };
 

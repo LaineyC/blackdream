@@ -658,9 +658,10 @@ define(
                         dataModel.$scope = $scope;
                         $scope.sortableOptions ={
                             update: function(e, ui) {
+                                $scope.dataModelEditForm.$setDirty();
                             },
                             stop: function(e, ui) {
-                                $scope.dataModelEditForm.$setDirty();
+
                             }
                         };
                         $scope.$watch("dataModelEditForm.$dirty",function(newValue, oldValue){
