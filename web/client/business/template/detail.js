@@ -7,7 +7,7 @@ define(
             "$scope", "$routeParams", "location", "templateApi", "viewPage", "confirm", "$cookies",
             function($scope, $routeParams, location, templateApi, viewPage, confirm, $cookies){
                 viewPage.setViewPageTitle("模板文件详情");
-                $scope.template = {};
+                $scope.template = {code:""};
 
                 var id = $routeParams.id;
                 templateApi.get({id: id}).success(function(template){
@@ -18,6 +18,7 @@ define(
                     $scope.template.code = code;
                 });
 
+                $scope.aceFontSize = $cookies.get("aceFontSize") || "12px";
                 $scope.aceTheme = $cookies.get("aceTheme") || "github";
 
                 $scope.delete = function(template){

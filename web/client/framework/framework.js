@@ -1,5 +1,5 @@
 define(
-    ["angular", "angular-locale", "bootstrap", "angular-bootstrap", "angular-touch", "angular-sanitize", "angular-animate", "angular-cookies", "angular-route", "angular-file-upload", "ui-sortable", "business/api"],
+    ["angular", "angular-locale", "bootstrap", "angular-bootstrap", "angular-touch", "angular-sanitize", "angular-animate", "angular-cookies", "angular-route", "angular-file-upload", "ui-sortable", "business/api", "ace"],
     function(angular){
         "use strict";
 
@@ -473,7 +473,7 @@ define(
             }
         ]);
         //ace指令
-        framework.directive("aceEditor", ['$timeout', function ($timeout) {
+        framework.directive("aceEditor", ["$timeout", function ($timeout) {
             var resizeEditor = function (editor, elem) {
                 /*
                 var lineHeight = editor.renderer.lineHeight;
@@ -487,27 +487,31 @@ define(
                 require: '?ngModel',
                 scope: {
                     aceTheme:"=",
-                    aceFontSize:"="
+                    aceFontSize:"=",
+                    aceReadOnly:"="
                 },
                 link: function (scope, elem, attrs, ngModel) {
                     var node = elem[0];
-
                     var editor = ace.edit(node);
+
                     node.style.fontSize = scope.aceFontSize || "12px";
                     scope.$watch("aceFontSize", function(newValue, oldValue){
-                        node.style.fontSize = scope.aceFontSize;
+                        node.style.fontSize = newValue || "12px";
                     });
-                    editor.setTheme('ace/theme/' + scope.aceTheme);
+                    editor.setTheme('ace/theme/' + (scope.aceTheme || "github"));
                     scope.$watch("aceTheme", function(newValue, oldValue){
-                        editor.setTheme('ace/theme/' + newValue);
+                        editor.setTheme('ace/theme/' + (newValue || "github"));
                     });
                     editor.getSession().setMode("ace/mode/velocity");
                     editor.setShowPrintMargin(false);
+                    editor.setReadOnly(!!scope.aceReadOnly);
                     ngModel.$render = function () {
-                        editor.setValue(ngModel.$viewValue);
-                        resizeEditor(editor, elem);
+                        if (ngModel.$viewValue !== undefined) {
+                            editor.setValue(ngModel.$viewValue);
+                            resizeEditor(editor, elem);
+                        }
                     };
-                    editor.on('change', function () {
+                    editor.on("change", function () {
                         $timeout(function () {
                             scope.$apply(function () {
                                 var value = editor.getValue();
@@ -516,7 +520,7 @@ define(
                         });
                         resizeEditor(editor, elem);
                     });
-                    elem.on('$destroy', function () {
+                    elem.on("$destroy", function () {
                         editor.destroy();
                         editor.container.remove();
                     });
