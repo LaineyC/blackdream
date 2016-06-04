@@ -24,18 +24,20 @@ define(
                                     location.go("/401");
                                     return;
                                 }
-                                tooltip.open({message:error.message,level:"danger"});
+                                tooltip.open({message:error.message, level:"danger"});
                             };
                             fileReader.readAsText(data);
                             return;
                         }
+
                         var document = $window.document;
-                        var aLink = document.createElement("a");
-                        var evt = document.createEvent("HTMLEvents");
-                        evt.initEvent("click", false, false);
-                        aLink.download = decodeURI(headers["filename"]);
-                        aLink.href = URL.createObjectURL(data);
-                        aLink.dispatchEvent(evt);
+                        var file = new Blob([data], {type: "octet/stream"});
+                        var a = document.createElement("a");
+                        document.body.appendChild(a);
+                        a.className = "hidden";
+                        a.href = $window.URL.createObjectURL(file);
+                        a.download = decodeURI(headers["filename"]);
+                        a.click();
                     });
                 };
 
@@ -105,18 +107,20 @@ define(
                                     location.go("/401");
                                     return;
                                 }
-                                tooltip.open({message:error.message,level:"danger"});
+                                tooltip.open({message:error.message, level:"danger"});
                             };
                             fileReader.readAsText(data);
                             return;
                         }
+
                         var document = $window.document;
-                        var aLink = document.createElement("a");
-                        var evt = document.createEvent("HTMLEvents");
-                        evt.initEvent("click", false, false);
-                        aLink.download = decodeURI(headers["filename"]);
-                        aLink.href = URL.createObjectURL(data);
-                        aLink.dispatchEvent(evt);
+                        var file = new Blob([data], {type: "octet/stream"});
+                        var a = document.createElement("a");
+                        document.body.appendChild(a);
+                        a.className = "hidden";
+                        a.href = $window.URL.createObjectURL(file);
+                        a.download = decodeURI(headers["filename"]);
+                        a.click();
                     });
                 };
 
