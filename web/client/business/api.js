@@ -3,43 +3,44 @@ define(
     function(module){
         "use strict";
 
+        var download = function($http, api, request, tooltip, location){
+            return $http.post(api, request, {responseType :"blob"}).success(function(data, status, headers){
+                headers = headers();
+                if(!headers["filename"]){
+                    var fileReader = new FileReader();
+                    fileReader.onload = function(event){
+                        var response = eval("(" + event.target.result + ")");
+                        var error = response.error;
+                        if(error.code == "401"){
+                            location.go("/401");
+                            return;
+                        }
+                        tooltip.open({message:error.message, level:"danger"});
+                    };
+                    fileReader.readAsText(data);
+                    return;
+                }
+
+                var file = new Blob([data], {type: "octet/stream"});
+                var a = document.createElement("a");
+                document.body.appendChild(a);
+                a.className = "hidden";
+                a.href = URL.createObjectURL(file);
+                a.download = decodeURI(headers["filename"]);
+                a.click();
+            });
+        };
+
         module.factory("systemApi",[
-            "$http","$window", "tooltip", "location",
-            function($http, $window, tooltip, location){
+            "$http", "tooltip", "location",
+            function($http, tooltip, location){
                 var provider = {};
 
                 provider.heartbeat = function(request) { return $http.post("/api?method=session.heartbeat", request); };
 
                 provider.statistic = function(request) { return $http.post("/api?method=data.statistic", request); };
 
-                provider.download = function(request) {
-                    return $http.post("/api?method=file.download", request, {responseType :"blob"}).success(function(data, status, headers){
-                        headers = headers();
-                        if(!headers["filename"]){
-                            var fileReader = new FileReader();
-                            fileReader.onload = function(event){
-                                var response = eval("(" + event.target.result + ")");
-                                var error = response.error;
-                                if(error.code == "401"){
-                                    location.go("/401");
-                                    return;
-                                }
-                                tooltip.open({message:error.message, level:"danger"});
-                            };
-                            fileReader.readAsText(data);
-                            return;
-                        }
-
-                        var document = $window.document;
-                        var file = new Blob([data], {type: "octet/stream"});
-                        var a = document.createElement("a");
-                        document.body.appendChild(a);
-                        a.className = "hidden";
-                        a.href = $window.URL.createObjectURL(file);
-                        a.download = decodeURI(headers["filename"]);
-                        a.click();
-                    });
-                };
+                provider.download = function(request) { return download($http, "/api?method=file.download", request, tooltip, location); };
 
                 provider.currentTime = function(request) { return $http.post("/api?method=date.currentTime", request); };
 
@@ -79,8 +80,8 @@ define(
         ]);
 
         module.factory("generatorApi",[
-            "$http", "$window", "tooltip", "location",
-            function($http, $window, tooltip, location){
+            "$http", "tooltip", "location",
+            function($http, tooltip, location){
                 var provider = {};
 
                 provider.create = function(request) { return $http.post("/api?method=generator.create", request); };
@@ -95,34 +96,7 @@ define(
 
                 provider.authSearch = function(request) { return $http.post("/api?method=generator.authSearch", request); };
 
-                provider.export = function(request) {
-                    return $http.post("/api?method=generator.export", request, {responseType :"blob"}).success(function(data, status, headers){
-                        headers = headers();
-                        if(!headers["filename"]){
-                            var fileReader = new FileReader();
-                            fileReader.onload = function(event){
-                                var response = eval("(" + event.target.result + ")");
-                                var error = response.error;
-                                if(error.code == "401"){
-                                    location.go("/401");
-                                    return;
-                                }
-                                tooltip.open({message:error.message, level:"danger"});
-                            };
-                            fileReader.readAsText(data);
-                            return;
-                        }
-
-                        var document = $window.document;
-                        var file = new Blob([data], {type: "octet/stream"});
-                        var a = document.createElement("a");
-                        document.body.appendChild(a);
-                        a.className = "hidden";
-                        a.href = $window.URL.createObjectURL(file);
-                        a.download = decodeURI(headers["filename"]);
-                        a.click();
-                    });
-                };
+                provider.export = function(request) { return download($http, "/api?method=generator.export", request, tooltip, location); };
 
                 provider.import = function(request) { return $http.post("/api?method=generator.import", request); };
 
