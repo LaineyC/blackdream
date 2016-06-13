@@ -1,5 +1,6 @@
 package com.lite.blackdream.business.test;
 
+import com.lite.blackdream.framework.el.Functions;
 import com.lite.blackdream.framework.util.IdWorker;
 
 /**
@@ -63,6 +64,10 @@ public class Test {
         System.out.println(a);
         System.out.println(a.length());
         System.out.println(idWorker.nextId());
+
+        System.out.println("dasda.dada.da".replace(".", "/"));
+
+        System.out.println(Functions.replace("dda.",".", "/9"));
 
     }
 

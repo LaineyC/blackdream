@@ -19,23 +19,23 @@ public class File extends Tag {
     private static final Map<String, Object> VAR_MAP = new HashMap<>();
 
     static{
-        VAR_MAP.put("alternator",new AlternatorTool());
-        VAR_MAP.put("class",new ClassTool());
-        VAR_MAP.put("context",new ContextTool());
-        VAR_MAP.put("conversion",new ConversionTool());
-        VAR_MAP.put("date",new ComparisonDateTool());
-        VAR_MAP.put("display",new DisplayTool());
-        VAR_MAP.put("escape",new EscapeTool());
-        VAR_MAP.put("field",new FieldTool());
-        VAR_MAP.put("loop",new LoopTool());
-        VAR_MAP.put("link",new LinkTool());
-        VAR_MAP.put("list",new ListTool());
-        VAR_MAP.put("math",new MathTool());
-        VAR_MAP.put("number",new NumberTool());
-        VAR_MAP.put("render",new RenderTool());
-        VAR_MAP.put("resource",new ResourceTool());
-        VAR_MAP.put("sort",new SortTool());
-        VAR_MAP.put("xml",new XmlTool());
+        VAR_MAP.put("alternatorTool",new AlternatorTool());
+        VAR_MAP.put("classTool",new ClassTool());
+        VAR_MAP.put("contextTool",new ContextTool());
+        VAR_MAP.put("conversionTool",new ConversionTool());
+        VAR_MAP.put("dateTool",new ComparisonDateTool());
+        VAR_MAP.put("displayTool",new DisplayTool());
+        VAR_MAP.put("escapeTool",new EscapeTool());
+        VAR_MAP.put("fieldTool",new FieldTool());
+        VAR_MAP.put("loopTool",new LoopTool());
+        VAR_MAP.put("linkTool",new LinkTool());
+        VAR_MAP.put("listTool",new ListTool());
+        VAR_MAP.put("mathTool",new MathTool());
+        VAR_MAP.put("numberTool",new NumberTool());
+        VAR_MAP.put("renderTool",new RenderTool());
+        VAR_MAP.put("resourceTool",new ResourceTool());
+        VAR_MAP.put("sortTool",new SortTool());
+        VAR_MAP.put("xmlTool",new XmlTool());
     }
 
     private Template template;

@@ -67,14 +67,14 @@ define(
                     File:{
                         children:["TemplateContext"],
                         attributes:{
-                            name:{size:50,required:{rule:true,message:"必输项"},placeholder:"文件名（可含文件夹目录）"},
+                            name:{size:100,required:{rule:true,message:"必输项"},placeholder:"文件名（可含文件夹目录）"},
                             template:{required:{rule:true,message:"必输项"},placeholder:"模板"}
                         }
                     },
                     Folder:{
                         children:[],
                         attributes:{
-                            name:{size:50,required:{rule:true,message:"必输项"},placeholder:"文件夹目录"}
+                            name:{size:100,required:{rule:true,message:"必输项"},placeholder:"文件夹目录"}
                         }
                     },
                     Foreach:{
@@ -98,7 +98,7 @@ define(
                     If:{
                         children:["Break","Call","Continue","File","Folder","Foreach","Function","If","Return","Set","Var"],
                         attributes:{
-                            test:{required:{rule:true,message:"必输项"},size:20,placeholder:"判断条件"}
+                            test:{required:{rule:true,message:"必输项"},size:50,placeholder:"判断条件"}
                         }
                     },
                     Return:{
@@ -109,14 +109,14 @@ define(
                         children:[],
                         attributes:{
                             "var":{required:{rule:true,message:"必输项"},size:20,placeholder:"变量名"},
-                            value:{required:{rule:true,message:"必输项"},size:20,placeholder:"变量值"}
+                            value:{required:{rule:true,message:"必输项"},size:50,placeholder:"变量值"}
                         }
                     },
                     TemplateContext:{
                         children:[],
                         attributes:{
                             "var":{required:{rule:true,message:"必输项"},size:20,placeholder:"变量名"},
-                            value:{required:{rule:true,message:"必输项"},size:20,placeholder:"变量值"}
+                            value:{required:{rule:true,message:"必输项"},size:50,placeholder:"变量值"}
                         }
                     },
                     TemplateStrategy:{
@@ -129,7 +129,7 @@ define(
                         children:[],
                         attributes:{
                             name:{required:{rule:true,message:"必输项"},size:20,placeholder:"变量名"},
-                            value:{required:{rule:true,message:"必输项"},size:20,placeholder:"变量值"}
+                            value:{required:{rule:true,message:"必输项"},size:50,placeholder:"变量值"}
                         }
                     }
                 };

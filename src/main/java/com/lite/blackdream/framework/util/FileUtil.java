@@ -39,6 +39,8 @@ public class FileUtil {
     public static void writeXml(Document document, String writeFile) throws IOException{
         try {
             OutputFormat format = OutputFormat.createPrettyPrint();
+            format.setNewlines(true);
+            format.setTrimText(false);
             format.setEncoding("UTF-8");
             XMLWriter writer = new XMLWriter(format);
             writer.setOutputStream(new BufferedOutputStream(new FileOutputStream(writeFile)));

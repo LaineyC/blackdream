@@ -138,7 +138,7 @@ public class Functions {
             buf.append(input.substring(startIndex, index)).append(substringAfter);
             startIndex = index + substringBefore.length();
         }
-        return input.substring(startIndex);
+        return buf.toString() + input.substring(startIndex);
     }
 
     public static String[] split(String input, String delimiters) {
