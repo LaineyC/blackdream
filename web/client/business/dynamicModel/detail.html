@@ -43,7 +43,7 @@
                                     <th width="150">名称</th>
                                     <th width="100">类型</th>
                                     <th width="150">默认值</th>
-                                    <th width="200">可选值</th>
+                                    <th width="150">可选值</th>
                                     <th width="300">级联脚本</th>
                                     <th width="300">验证规则</th>
                                 </tr>
@@ -55,11 +55,11 @@
                                     <td>{{property.label}}</td>
                                     <td>{{property.viewWidth}}</td>
                                     <td>{{property.name}}</td>
-                                    <td>{{property.type}}</td>
+                                    <td>{{typeOptions[property.type]}}</td>
                                     <td>{{property.defaultValue}}</td>
-                                    <td><span ng-repeat="optionalValue in property.optionalValues track by $index">{{optionalValue}}&nbsp;</span></td>
+                                    <td><div ng-repeat="optionalValue in property.optionalValues track by $index">{{optionalValue}}&nbsp;</div></td>
                                     <td>{{property.cascadeScript}}</td>
-                                    <td><span ng-repeat="(k,v) in property.validator track by $index">{{k}}:{{v}}&nbsp;</span></td>
+                                    <td><div ng-repeat="(k,v) in property.validator track by $index">{{validatorOptions[k]}}:{{v}}&nbsp;</div></td>
                                     <td>&nbsp;</td>
                                 </tr>
                                 </tbody>
@@ -84,7 +84,7 @@
                                     <th width="150">名称</th>
                                     <th width="100">类型</th>
                                     <th width="150">默认值</th>
-                                    <th width="200">可选值</th>
+                                    <th width="150">可选值</th>
                                     <th width="300">级联脚本</th>
                                     <th width="300">验证规则</th>
                                 </tr>
@@ -96,11 +96,11 @@
                                     <td>{{property.label}}</td>
                                     <td>{{property.viewWidth}}</td>
                                     <td>{{property.name}}</td>
-                                    <td>{{property.type}}</td>
+                                    <td>{{typeOptions[property.type]}}</td>
                                     <td>{{property.defaultValue}}</td>
-                                    <td><span ng-repeat="optionalValue in property.optionalValues track by $index">{{optionalValue}}&nbsp;</span></td>
+                                    <td><div ng-repeat="optionalValue in property.optionalValues track by $index">{{optionalValue}}&nbsp;</div></td>
                                     <td>{{property.cascadeScript}}</td>
-                                    <td><span ng-repeat="(k,v) in property.validator track by $index">{{k}}:{{v}}&nbsp;</span></td>
+                                    <td><div ng-repeat="(k,v) in property.validator track by $index">{{validatorOptions[k]}}:{{v}}&nbsp;</div></td>
                                     <td>&nbsp;</td>
                                 </tr>
                                 </tbody>

@@ -81,7 +81,7 @@ define(
                         children:["Break","Call","Continue","File","Folder","Foreach","Function","If","Return","Set","Var"],
                         attributes:{
                             item:{required:{rule:true,message:"必输项"},size:20,placeholder:"迭代变量"},
-                            items:{required:{rule:true,message:"必输项"},size:20,placeholder:"迭代集合"},
+                            items:{required:{rule:true,message:"必输项"},size:50,placeholder:"迭代集合"},
                             status:{size:20}
                         }
                     },

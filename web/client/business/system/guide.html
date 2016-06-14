@@ -11,6 +11,7 @@
                             <a href="javascript:void(0)" ng-click="anchorScroll('a3')" class="list-group-item"><label>模板文件</label></a>
                             <a href="javascript:void(0)" ng-click="anchorScroll('a4')" class="list-group-item"><label>生成策略</label></a>
                             <a href="javascript:void(0)" ng-click="anchorScroll('a5')" class="list-group-item"><label>数据结构</label></a>
+                            <a href="javascript:void(0)" ng-click="anchorScroll('a8')" class="list-group-item"><label>注意事项</label></a>
                         </div>
                     </div>
                     <div class="panel panel-default">
@@ -561,6 +562,14 @@
 <span class="text-warning">}</span>
                             </pre>
                         </p>
+                    </div>
+                </div>
+                <div class="panel panel-default" id="a8" ng-if="$security$.user.isDeveloper || !$security$.user.creator">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><label>注意事项</label></h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>开发设计生成器时，取变量名不要用<span class="text-warning">Java</span>关键字、保留字。</p>
                     </div>
                 </div>
                 <div class="panel panel-default" id="a6">

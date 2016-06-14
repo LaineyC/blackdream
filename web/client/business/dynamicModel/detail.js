@@ -33,6 +33,26 @@ define(
 
                 });
 
+                $scope.typeOptions = {
+                    Boolean:"布尔型",
+                    Long:"整数型",
+                    Double:"浮点型",
+                    String:"字符串型",
+                    Date:"日期型",
+                    Enum:"枚举型",
+                    Model:"数据模型"
+                };
+
+                $scope.validatorOptions = {
+                    required:"必输",
+                    min:"最小",
+                    max:"最大",
+                    minlength:"最短",
+                    maxlength:"最长",
+                    pattern:"正则",
+                    patternTooltip:"提示"
+                };
+
                 $scope.delete = function(dynamicModel){
                     if(dynamicModel.generator.isApplied){
                         return;
