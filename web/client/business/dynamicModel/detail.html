@@ -58,7 +58,7 @@
                                     <td>{{typeOptions[property.type]}}</td>
                                     <td>{{property.defaultValue}}</td>
                                     <td><div ng-repeat="optionalValue in property.optionalValues track by $index">{{optionalValue}}&nbsp;</div></td>
-                                    <td>{{property.cascadeScript}}</td>
+                                    <td><pre style="max-height: 500px;" ng-if="property.cascadeScript!=null">{{property.cascadeScript}}</pre></td>
                                     <td><div ng-repeat="(k,v) in property.validator track by $index">{{validatorOptions[k]}}:{{v}}&nbsp;</div></td>
                                     <td>&nbsp;</td>
                                 </tr>
@@ -99,7 +99,7 @@
                                     <td>{{typeOptions[property.type]}}</td>
                                     <td>{{property.defaultValue}}</td>
                                     <td><div ng-repeat="optionalValue in property.optionalValues track by $index">{{optionalValue}}&nbsp;</div></td>
-                                    <td>{{property.cascadeScript}}</td>
+                                    <td><pre style="max-height: 500px;" ng-if="property.cascadeScript!=null">{{property.cascadeScript}}</pre></td>
                                     <td><div ng-repeat="(k,v) in property.validator track by $index">{{validatorOptions[k]}}:{{v}}&nbsp;</div></td>
                                     <td>&nbsp;</td>
                                 </tr>
