@@ -183,7 +183,7 @@ define(
                 $scope.validateMessages = {
                     name:{
                         required:"必输项",
-                        maxlength:"最长20位"
+                        maxlength:"最长32位"
                     }
                 };
 

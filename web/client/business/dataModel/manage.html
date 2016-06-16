@@ -132,13 +132,14 @@
                             <div class="col-sm-12">
                                 <table class="table table-condensed table-hover">
                                     <caption>
-                                        <button type="button" class="btn btn-success btn-sm" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.addProperty(dataModel);">添加属性</button>
+
                                         <div class="btn-group">
-                                            <button type="button" class="btn btn-success btn-sm" ng-disabled="!dataModelControl.editable || !dataModel.dynamicModel.predefinedAssociation.length" ng-click="tabsControl.addPredefinedProperty(dataModel);">快捷添加</button>
+                                            <button type="button" class="btn btn-success btn-sm" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.addProperty(dataModel);">添加属性</button>
                                             <button type="button" class="btn btn-success btn-sm dropdown-toggle" ng-disabled="!dataModelControl.editable || !dataModel.dynamicModel.predefinedAssociation.length" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu">
+                                                <li><a href="javascript:void(0)" ng-click="tabsControl.addPredefinedProperty(dataModel);">快捷添加</a></li>
                                                 <li><a href="javascript:void(0)" ng-click="tabsControl.predefinedPropertySetModalOpen(dataModel);">快捷设置</a></li>
                                             </ul>
                                         </div>

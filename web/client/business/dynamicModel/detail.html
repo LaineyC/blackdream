@@ -44,7 +44,7 @@
                                     <th width="100">类型</th>
                                     <th width="150">默认值</th>
                                     <th width="150">可选值</th>
-                                    <th width="300">级联脚本</th>
+                                    <th width="400">级联脚本</th>
                                     <th width="300">验证规则</th>
                                 </tr>
                                 </thead>
@@ -58,7 +58,7 @@
                                     <td>{{typeOptions[property.type]}}</td>
                                     <td>{{property.defaultValue}}</td>
                                     <td><div ng-repeat="optionalValue in property.optionalValues track by $index">{{optionalValue}}&nbsp;</div></td>
-                                    <td><pre style="max-height: 500px;" ng-if="property.cascadeScript!=null">{{property.cascadeScript}}</pre></td>
+                                    <td><pre style="max-height: 200px;" ng-if="property.cascadeScript!=null">{{property.cascadeScript}}</pre></td>
                                     <td><div ng-repeat="(k,v) in property.validator track by $index">{{validatorOptions[k]}}:{{v}}&nbsp;</div></td>
                                     <td>&nbsp;</td>
                                 </tr>
@@ -85,7 +85,7 @@
                                     <th width="100">类型</th>
                                     <th width="150">默认值</th>
                                     <th width="150">可选值</th>
-                                    <th width="300">级联脚本</th>
+                                    <th width="400">级联脚本</th>
                                     <th width="300">验证规则</th>
                                 </tr>
                                 </thead>
@@ -99,7 +99,7 @@
                                     <td>{{typeOptions[property.type]}}</td>
                                     <td>{{property.defaultValue}}</td>
                                     <td><div ng-repeat="optionalValue in property.optionalValues track by $index">{{optionalValue}}&nbsp;</div></td>
-                                    <td><pre style="max-height: 500px;" ng-if="property.cascadeScript!=null">{{property.cascadeScript}}</pre></td>
+                                    <td><pre style="max-height: 200px;" ng-if="property.cascadeScript!=null">{{property.cascadeScript}}</pre></td>
                                     <td><div ng-repeat="(k,v) in property.validator track by $index">{{validatorOptions[k]}}:{{v}}&nbsp;</div></td>
                                     <td>&nbsp;</td>
                                 </tr>
