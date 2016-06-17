@@ -38,6 +38,12 @@ public class DataModelElementConverter extends BaseElementConverter<DataModel> {
             idElement.setText(id.toString());
         }
 
+        Date createDate = entity.getCreateDate();
+        if(createDate != null){
+            Element createDateElement = element.addElement("createDate");
+            createDateElement.setText(String.valueOf(createDate.getTime()));
+        }
+
         Date modifyDate = entity.getModifyDate();
         if(modifyDate != null){
             Element modifyDateElement = element.addElement("modifyDate");
@@ -194,6 +200,11 @@ public class DataModelElementConverter extends BaseElementConverter<DataModel> {
         Node idNode = element.element("id");
         if(idNode != null){
             entity.setId(Long.valueOf(idNode.getText()));
+        }
+
+        Node createDateNode = element.element("createDate");
+        if(createDateNode != null){
+            entity.setCreateDate(new Date(Long.valueOf(createDateNode.getText())));
         }
 
         Node modifyDateNode = element.element("modifyDate");

@@ -216,6 +216,7 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
         TemplateStrategy templateStrategy = new TemplateStrategy();
         templateStrategy.setId(idWorker.nextId());
         templateStrategy.setName(request.getName());
+        templateStrategy.setCreateDate(new Date());
         templateStrategy.setModifyDate(new Date());
         templateStrategy.setSequence(Integer.MAX_VALUE);
         templateStrategy.setIsDelete(false);
@@ -278,6 +279,7 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
         TemplateStrategy templateStrategy = new TemplateStrategy();
         templateStrategy.setId(templateStrategyPersistence.getId());
         templateStrategy.setName(templateStrategyPersistence.getName());
+        templateStrategy.setCreateDate(templateStrategyPersistence.getCreateDate());
         templateStrategy.setModifyDate(templateStrategyPersistence.getModifyDate());
         templateStrategy.setIsDelete(templateStrategyPersistence.getIsDelete());
         Long generatorId = templateStrategyPersistence.getGenerator().getId();
@@ -309,6 +311,7 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
             TemplateStrategy templateStrategy = new TemplateStrategy();
             templateStrategy.setId(t.getId());
             templateStrategy.setName(t.getName());
+            templateStrategy.setCreateDate(t.getCreateDate());
             templateStrategy.setModifyDate(t.getModifyDate());
             templateStrategy.setSequence(t.getSequence());
             templateStrategy.setIsDelete(t.getIsDelete());
@@ -358,6 +361,7 @@ public class TemplateStrategyServiceImpl extends BaseService implements Template
             TemplateStrategy templateStrategy = new TemplateStrategy();
             templateStrategy.setId(t.getId());
             templateStrategy.setName(t.getName());
+            templateStrategy.setCreateDate(t.getCreateDate());
             templateStrategy.setModifyDate(t.getModifyDate());
             templateStrategy.setIsDelete(t.getIsDelete());
             User userPersistence = userRepository.selectById(t.getDeveloper().getId());

@@ -42,6 +42,7 @@
                                             <th width="100">角色</th>
                                             <th width="100">登录次数</th>
                                             <th width="150">创建者</th>
+                                            <th width="150">创建日期</th>
                                             <th width="150">修改日期</th>
                                             <th>操作</th>
                                         </tr>
@@ -55,6 +56,7 @@
                                             <td>{{user.isDeveloper ? "开发者" : "使用者";}}</td>
                                             <td>{{user.loginCount}}</td>
                                             <td>{{user.creator ? user.creator.userName : '系统'}}</td>
+                                            <td>{{user.createDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                                             <td>{{user.modifyDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                                             <td><a class="btn btn-info btn-sm" ng-href="#/business/user/detail/{{user.id}}" role="button" target="_blank">详情</a></td>
                                         </tr>
@@ -104,6 +106,7 @@
                                             <th width="200">名称</th>
                                             <th width="200">生成器</th>
                                             <th width="150">创建者</th>
+                                            <th width="150">创建日期</th>
                                             <th width="150">修改日期</th>
                                             <th>操作</th>
                                         </tr>
@@ -115,6 +118,7 @@
                                             <td>{{generatorInstance.name}}</td>
                                             <td>{{generatorInstance.generator.name}}</td>
                                             <td>{{generatorInstance.user.userName}}</td>
+                                            <td>{{generatorInstance.createDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                                             <td>{{generatorInstance.modifyDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                                             <td><a class="btn btn-info btn-sm" ng-href="#/business/generatorInstance/detail/{{generatorInstance.id}}" role="button" target="_blank">详情</a></td>
                                         </tr>
@@ -170,6 +174,7 @@
                                             <th width="100">状态</th>
                                             <th width="100">实例量</th>
                                             <th width="150">创建者</th>
+                                            <th width="150">创建日期</th>
                                             <th width="150">修改日期</th>
                                             <th>操作</th>
                                         </tr>
@@ -182,6 +187,7 @@
                                             <td>{{generator.isOpen ? "发布" : "维护";}}</td>
                                             <td>{{generator.instanceCount}}</td>
                                             <td>{{generator.developer.userName}}</td>
+                                            <td>{{generator.createDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                                             <td>{{generator.modifyDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                                             <td><a class="btn btn-info btn-sm" ng-href="#/business/generator/detail/{{generator.id}}" role="button" target="_blank">详情</a></td>
                                         </tr>
@@ -232,6 +238,7 @@
                                             <th width="100">图标</th>
                                             <th width="200">生成器</th>
                                             <th width="150">创建者</th>
+                                            <th width="150">创建日期</th>
                                             <th width="150">修改日期</th>
                                             <th>操作</th>
                                         </tr>
@@ -244,6 +251,7 @@
                                             <td><span class="glyphicon glyphicon-{{dynamicModel.icon}}"></span></td>
                                             <td>{{dynamicModel.generator.name}}</td>
                                             <td>{{dynamicModel.developer.userName}}</td>
+                                            <td>{{dynamicModel.createDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                                             <td>{{dynamicModel.modifyDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                                             <td><a class="btn btn-info btn-sm" ng-href="#/business/dynamicModel/detail/{{dynamicModel.id}}" role="button" target="_blank">详情</a></td>
                                         </tr>
@@ -293,6 +301,7 @@
                                             <th width="200">名称</th>
                                             <th width="200">生成器</th>
                                             <th width="150">创建者</th>
+                                            <th width="150">创建日期</th>
                                             <th width="150">修改日期</th>
                                             <th>操作</th>
                                         </tr>
@@ -304,6 +313,7 @@
                                             <td>{{template.name}}</td>
                                             <td>{{template.generator.name}}</td>
                                             <td>{{template.developer.userName}}</td>
+                                            <td>{{template.createDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                                             <td>{{template.modifyDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                                             <td><a class="btn btn-info btn-sm" ng-href="#/business/template/detail/{{template.id}}" role="button" target="_blank">详情</a></td>
                                         </tr>
@@ -353,6 +363,7 @@
                                             <th width="200">名称</th>
                                             <th width="200">生成器</th>
                                             <th width="150">创建者</th>
+                                            <th width="150">创建日期</th>
                                             <th width="150">修改日期</th>
                                             <th>操作</th>
                                         </tr>
@@ -364,6 +375,7 @@
                                             <td>{{templateStrategy.name}}</td>
                                             <td>{{templateStrategy.generator.name}}</td>
                                             <td>{{templateStrategy.developer.userName}}</td>
+                                            <td>{{templateStrategy.createDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                                             <td>{{templateStrategy.modifyDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                                             <td><a class="btn btn-info btn-sm" ng-href="#/business/templateStrategy/detail/{{templateStrategy.id}}" role="button" target="_blank">详情</a></td>
                                         </tr>

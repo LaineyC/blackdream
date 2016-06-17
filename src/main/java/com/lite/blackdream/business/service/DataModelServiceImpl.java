@@ -68,6 +68,7 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
         dataModel.setId(idWorker.nextId());
         dataModel.setName(request.getName());
         dataModel.setIsDelete(false);
+        dataModel.setCreateDate(new Date());
         dataModel.setModifyDate(new Date());
         dataModel.setSequence(Integer.MAX_VALUE);
         dataModel.setIsExpand(request.getIsExpand());
@@ -146,6 +147,7 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
         DataModel dataModel = new DataModel();
         dataModel.setId(dataModelPersistence.getId());
         dataModel.setName(dataModelPersistence.getName());
+        dataModel.setCreateDate(dataModelPersistence.getCreateDate());
         dataModel.setModifyDate(dataModelPersistence.getModifyDate());
         dataModel.setProperties(dataModelPersistence.getProperties());
         dataModel.setAssociation(dataModelPersistence.getAssociation());

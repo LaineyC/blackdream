@@ -50,6 +50,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
         Template template = new Template();
         template.setId(idWorker.nextId());
         template.setName(request.getName());
+        template.setCreateDate(new Date());
         template.setModifyDate(new Date());
         template.setIsDelete(false);
         template.setSequence(Integer.MAX_VALUE);
@@ -149,6 +150,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
             Template template = new Template();
             template.setId(t.getId());
             template.setName(t.getName());
+            template.setCreateDate(t.getCreateDate());
             template.setModifyDate(t.getModifyDate());
             template.setIsDelete(t.getIsDelete());
             template.setSequence(t.getSequence());
@@ -198,6 +200,7 @@ public class TemplateServiceImpl extends BaseService implements TemplateService 
             Template template = new Template();
             template.setId(t.getId());
             template.setName(t.getName());
+            template.setCreateDate(t.getCreateDate());
             template.setModifyDate(t.getModifyDate());
             template.setIsDelete(t.getIsDelete());
             User userPersistence = userRepository.selectById(t.getDeveloper().getId());

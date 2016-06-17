@@ -1,13 +1,12 @@
 package com.lite.blackdream.business.domain;
 
-import com.lite.blackdream.framework.model.Domain;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author LaineyC
  */
-public class RunResult extends Domain{
+public class RunResult{
 
     private List<String> messages = new ArrayList<>();
 

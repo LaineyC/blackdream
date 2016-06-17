@@ -21,6 +21,7 @@
                         <th width="30"><span class="glyphicon glyphicon-sort-by-attributes text-info" aria-hidden="true"></span></th>
                         <th width="150">ID</th>
                         <th width="200">名称</th>
+                        <th width="150">创建日期</th>
                         <th width="150">修改日期</th>
                         <th>操作</th>
                     </tr>
@@ -30,6 +31,7 @@
                         <th>{{$index + 1}}</th>
                         <td>{{templateStrategy.id}}</td>
                         <td>{{templateStrategy.name}}</td>
+                        <td>{{templateStrategy.createDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                         <td>{{templateStrategy.modifyDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                         <td>
                             <div class="btn-group">

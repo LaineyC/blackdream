@@ -5,7 +5,6 @@ import com.lite.blackdream.business.parameter.user.*;
 import com.lite.blackdream.business.repository.UserRepository;
 import com.lite.blackdream.framework.exception.AppException;
 import com.lite.blackdream.framework.component.BaseService;
-import com.lite.blackdream.framework.model.Authentication;
 import com.lite.blackdream.framework.model.PagerResult;
 import com.lite.blackdream.framework.util.ConfigProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +40,7 @@ public class UserServiceImpl extends BaseService implements UserService {
 
         user.setId(idWorker.nextId());
         user.setPassword(passwordEncoder.encode(ConfigProperties.PASSWORD));
+        user.setCreateDate(new Date());
         user.setModifyDate(new Date());
         user.setIsDisable(false);
         user.setIsDeveloper(request.getIsDeveloper());
@@ -64,6 +64,7 @@ public class UserServiceImpl extends BaseService implements UserService {
             }
             user.setId(idWorker.nextId());
             user.setPassword(passwordEncoder.encode(ConfigProperties.PASSWORD));
+            user.setCreateDate(new Date());
             user.setModifyDate(new Date());
             user.setIsDisable(false);
             user.setIsDeveloper(true);
@@ -150,6 +151,7 @@ public class UserServiceImpl extends BaseService implements UserService {
         user.setId(userPersistence.getId());
         user.setLoginCount(userPersistence.getLoginCount());
         user.setUserName(userPersistence.getUserName());
+        user.setCreateDate(userPersistence.getCreateDate());
         user.setModifyDate(userPersistence.getModifyDate());
         user.setIsDisable(userPersistence.getIsDisable());
         user.setIsDeveloper(userPersistence.getIsDeveloper());
@@ -182,6 +184,7 @@ public class UserServiceImpl extends BaseService implements UserService {
             user.setId(u.getId());
             user.setLoginCount(u.getLoginCount());
             user.setUserName(u.getUserName());
+            user.setCreateDate(u.getCreateDate());
             user.setModifyDate(u.getModifyDate());
             user.setIsDisable(u.getIsDisable());
             user.setIsDeveloper(u.getIsDeveloper());

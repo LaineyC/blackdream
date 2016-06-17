@@ -45,6 +45,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
         DynamicModel dynamicModel = new DynamicModel();
         dynamicModel.setId(idWorker.nextId());
         dynamicModel.setName(request.getName());
+        dynamicModel.setCreateDate(new Date());
         dynamicModel.setModifyDate(new Date());
         dynamicModel.setSequence(Integer.MAX_VALUE);
         dynamicModel.setIcon(request.getIcon());
@@ -113,6 +114,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
         }
         DynamicModel dynamicModel = new DynamicModel();
         dynamicModel.setId(dynamicModelPersistence.getId());
+        dynamicModel.setCreateDate(dynamicModelPersistence.getCreateDate());
         dynamicModel.setModifyDate(dynamicModelPersistence.getModifyDate());
         dynamicModel.setName(dynamicModelPersistence.getName());
         dynamicModel.setIcon(dynamicModelPersistence.getIcon());
@@ -169,6 +171,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
             DynamicModel dynamicModel = new DynamicModel();
             dynamicModel.setId(d.getId());
             dynamicModel.setName(d.getName());
+            dynamicModel.setCreateDate(d.getCreateDate());
             dynamicModel.setModifyDate(d.getModifyDate());
             dynamicModel.setIcon(d.getIcon());
             dynamicModel.setIsRootChild(d.getIsRootChild());
@@ -206,6 +209,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
             DynamicModel dynamicModel = new DynamicModel();
             dynamicModel.setId(d.getId());
             dynamicModel.setName(d.getName());
+            dynamicModel.setCreateDate(d.getCreateDate());
             dynamicModel.setModifyDate(d.getModifyDate());
             dynamicModel.setSequence(d.getSequence());
             dynamicModel.setIcon(d.getIcon());

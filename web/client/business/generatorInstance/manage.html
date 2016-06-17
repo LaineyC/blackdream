@@ -22,6 +22,7 @@
                         <th width="150">ID</th>
                         <th width="200">名称</th>
                         <th width="200">生成器</th>
+                        <th width="150">创建日期</th>
                         <th width="150">修改日期<span class="glyphicon glyphicon-sort-by-attributes-alt text-info" aria-hidden="true"></span></th>
                         <th>操作</th>
                     </tr>
@@ -32,6 +33,7 @@
                         <td>{{generatorInstance.id}}</td>
                         <td>{{generatorInstance.name}}</td>
                         <td>{{generatorInstance.generator.name}}</td>
+                        <td>{{generatorInstance.createDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                         <td>{{generatorInstance.modifyDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                         <td>
                             <button type="button" class="btn btn-sm" ng-class="{'btn-success':generatorInstance.generator.isOpen,'btn-danger':!generatorInstance.generator.isOpen}" location-go="/business/dataModel/manage/{{generatorInstance.id}}">工作台</button>

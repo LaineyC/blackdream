@@ -11,6 +11,8 @@ public abstract class Domain {
 
     private Boolean isDelete;
 
+    private Date createDate;
+
     private Date modifyDate;
 
     public Domain(){
@@ -31,6 +33,14 @@ public abstract class Domain {
 
     public void setIsDelete(Boolean isDelete) {
         this.isDelete = isDelete;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     public Date getModifyDate() {

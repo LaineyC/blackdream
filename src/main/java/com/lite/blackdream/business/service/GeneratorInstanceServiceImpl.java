@@ -68,6 +68,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         GeneratorInstance generatorInstance = new GeneratorInstance();
         generatorInstance.setId(idWorker.nextId());
         generatorInstance.setName(request.getName());
+        generatorInstance.setCreateDate(new Date());
         generatorInstance.setModifyDate(new Date());
         generatorInstance.setIsDelete(false);
         Generator generator = new Generator();
@@ -80,6 +81,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
 
         DataModel dataModel = new DataModel();
         dataModel.setId(idWorker.nextId());
+        dataModel.setCreateDate(new Date());
         dataModel.setModifyDate(new Date());
         dataModel.setIsDelete(false);
         GeneratorInstance g = new GeneratorInstance();
@@ -137,6 +139,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
         GeneratorInstance generatorInstance = new GeneratorInstance();
         generatorInstance.setId(generatorInstancePersistence.getId());
         generatorInstance.setName(generatorInstancePersistence.getName());
+        generatorInstance.setCreateDate(generatorInstancePersistence.getCreateDate());
         generatorInstance.setModifyDate(generatorInstancePersistence.getModifyDate());
         generatorInstance.setIsDelete(generatorInstancePersistence.getIsDelete());
 
@@ -186,6 +189,7 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             GeneratorInstance generatorInstance = new GeneratorInstance();
             generatorInstance.setId(g.getId());
             generatorInstance.setName(g.getName());
+            generatorInstance.setCreateDate(g.getCreateDate());
             generatorInstance.setModifyDate(g.getModifyDate());
             generatorInstance.setIsDelete(g.getIsDelete());
             User userPersistence = userRepository.selectById(g.getUser().getId());

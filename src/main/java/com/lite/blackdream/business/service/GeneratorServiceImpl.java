@@ -70,6 +70,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
         Generator generator = new Generator();
         generator.setId(idWorker.nextId());
         generator.setName(request.getName());
+        generator.setCreateDate(new Date());
         generator.setModifyDate(new Date());
         generator.setIsDelete(false);
         generator.setIsOpen(false);
@@ -144,6 +145,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
         Generator generator = new Generator();
         generator.setId(generatorPersistence.getId());
         generator.setName(generatorPersistence.getName());
+        generator.setCreateDate(generatorPersistence.getCreateDate());
         generator.setModifyDate(generatorPersistence.getModifyDate());
         generator.setIsDelete(generatorPersistence.getIsDelete());
         generator.setIsOpen(generatorPersistence.getIsOpen());
@@ -200,6 +202,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
             Generator generator = new Generator();
             generator.setId(g.getId());
             generator.setName(g.getName());
+            generator.setCreateDate(g.getCreateDate());
             generator.setModifyDate(g.getModifyDate());
             generator.setIsDelete(g.getIsDelete());
             generator.setIsOpen(g.getIsOpen());
@@ -385,6 +388,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
             Element element = document.getRootElement();
             generator = generatorElementConverter.fromElement(element);
             generator.setId(idWorker.nextId());
+            generator.setCreateDate(new Date());
             generator.setModifyDate(new Date());
             generator.setIsOpen(false);
             generator.setInstanceCount(0);
@@ -412,6 +416,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
                     Long newId = idWorker.nextId();
                     dynamicModelIdMap.put(oldId, newId);
                     dynamicModel.setId(newId);
+                    dynamicModel.setCreateDate(new Date());
                     dynamicModel.setModifyDate(new Date());
                     dynamicModel.getDeveloper().setId(userId);
                     dynamicModel.getGenerator().setId(generator.getId());
@@ -444,6 +449,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
                     Long newId = idWorker.nextId();
                     templateIdMap.put(oldId, newId);
                     template.setId(newId);
+                    template.setCreateDate(new Date());
                     template.setModifyDate(new Date());
                     template.getDeveloper().setId(userId);
                     template.getGenerator().setId(generator.getId());
@@ -474,6 +480,7 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
                     Element element = document.getRootElement();
                     TemplateStrategy templateStrategy = templateStrategyElementConverter.fromElement(element);
                     templateStrategy.setId(idWorker.nextId());
+                    templateStrategy.setCreateDate(new Date());
                     templateStrategy.setModifyDate(new Date());
                     templateStrategy.getGenerator().setId(generator.getId());
                     templateStrategy.getDeveloper().setId(userId);

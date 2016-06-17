@@ -28,21 +28,24 @@
                         <div class="col-sm-3 form-control-static">{{generator.developer.userName}}</div>
                     </div>
                     <div class="form-group">
+                        <label class="col-sm-1 control-label">创建日期</label>
+                        <div class="col-sm-3 form-control-static">{{generator.createDate | date : "yyyy-MM-dd HH:mm:ss"}}</div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-sm-1 control-label">修改日期</label>
                         <div class="col-sm-3 form-control-static">{{generator.modifyDate | date : "yyyy-MM-dd HH:mm:ss"}}</div>
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-6 col-sm-offset-3">
-                            <div class="btn-group" ng-if="generator.developer.id == $security$.user.id">
-                                <button type="button" class="btn btn-info btn-sm" location-go="/business/dynamicModel/manage/{{generator.id}}">数据模型</button>
-                                <button type="button" class="btn btn-info btn-sm" location-go="/business/template/manage/{{generator.id}}">模板文件</button>
-                                <button type="button" class="btn btn-info btn-sm" location-go="/business/templateStrategy/manage/{{generator.id}}">生成策略</button>
-                                <button type="button" class="btn btn-success btn-sm" location-go="/business/generatorInstance/create/{{generator.id}}">新建实例</button>
-                            </div>
+                        <div class="col-sm-3 col-sm-offset-5">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-primary btn-sm" location-back>返回</button>
                                 <button type="button" ng-disabled="generator.developer.id != $security$.user.id" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
                                 <ul class="dropdown-menu">
+                                    <li><a href="javascript:void(0);" location-go="/business/dynamicModel/manage/{{generator.id}}">数据模型</a></li>
+                                    <li><a href="javascript:void(0);" location-go="/business/template/manage/{{generator.id}}">模板文件</a></li>
+                                    <li><a href="javascript:void(0);" location-go="/business/templateStrategy/manage/{{generator.id}}">生成策略</a></li>
+                                    <li><a href="javascript:void(0);" location-go="/business/generatorInstance/create/{{generator.id}}">新建实例</a></li>
+                                    <li role="separator" class="divider"></li>
                                     <li><a href="javascript:void(0);" location-go="/business/generator/update/{{generator.id}}">修改</a></li>
                                     <li><a href="javascript:void(0);" ng-click="openOrClose(generator)">{{generator.isOpen ? "维护" : "发布"}}</a></li>
                                     <li><a href="javascript:void(0);" ng-click="export(generator)">导出</a></li>
