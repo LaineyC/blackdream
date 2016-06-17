@@ -20,7 +20,9 @@ define(
 
                 $scope.formatTag = function(tag){
                     if(tag.tagName == "File"){
-                        tag.template && (tag.template = tag.template.id);
+                        if(tag.template && angular.isObject(tag.template)) {
+                            tag.template = tag.template.id;
+                        }
                     }
                     else if(tag.tagName == "Call" || tag.tagName == "Function"){
                         var argumentList = tag.arguments;
@@ -164,6 +166,60 @@ define(
                     templateStrategyApi.update($scope.updateRequest).success(function(){
                         location.go("/business/templateStrategy/manage/" + $scope.updateRequest.generator.id);
                     });
+                };
+
+                $scope.copy = function(node){
+                    $scope.copyNode = node;
+                };
+
+                $scope.canCopy = function(node){
+                    if(!$scope.copyNode){
+                        return false;
+                    }
+                    var children = $scope.tagRules[node.tagName].children;
+                    if(!children || !children.length){
+                        return false;
+                    }
+                    for(var i = 0 ; i < children.length ; i++){
+                        if(children[i] == $scope.copyNode.tagName){
+                            return true;
+                        }
+                    }
+                    return false;
+                };
+
+                var copyNode = function(sourceNode, targetNode){
+                    for(var k in sourceNode){
+                        if(k == "$$hashKey" || k == "__hashKey"){
+                            continue;
+                        }
+                        if(k == "arguments"){
+                            if(targetNode.tagName == "Call" || targetNode.tagName == "Function"){
+                                targetNode.arguments = [];
+                                for(var i = 0 ; i < sourceNode.arguments.length ; i++){
+                                    targetNode.arguments.push(sourceNode.arguments[i]);
+                                }
+                            }
+                        }
+                        else if(k == "children"){
+                            targetNode.children = [];
+                            for(var i = 0 ; i < sourceNode.children.length ; i++){
+                                targetNode.children.push(copyNode(sourceNode.children[i], {}));
+                            }
+                        }
+                        else{
+                            targetNode[k] = sourceNode[k];
+                        }
+                    }
+                    return targetNode;
+                };
+
+                $scope.paste = function(node){
+                    if(!node.children) {
+                        node.children = [];
+                    }
+                    node.children.push(copyNode($scope.copyNode, {}));
+                    $scope.templateStrategyUpdateForm.$setDirty();
                 };
 
             }

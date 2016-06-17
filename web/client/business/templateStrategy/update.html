@@ -57,6 +57,8 @@
         </div>
         <div class="btn-group">
             <button type="button" class="btn btn-danger btn-sm" ng-click="delete(child,p);"><span class="glyphicon glyphicon-remove"></span></button>
+            <button ng-disabled="copyNode==child" type="button" class="btn btn-success btn-sm" ng-click="copy(child);"><span class="glyphicon glyphicon-copy"></span></button>
+            <button ng-if="tagRules[child.tagName].children.length" ng-disabled="!canCopy(child)" type="button" class="btn btn-success btn-sm" ng-click="paste(child);"><span class="glyphicon glyphicon-paste"></span></button>
             <button ng-if="tagRules[child.tagName].children.length" type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
             </button>
