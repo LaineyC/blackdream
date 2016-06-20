@@ -144,7 +144,7 @@
                                             </ul>
                                         </div>
                                         <div class="btn-group" role="group">
-                                            <button ng-if="!dataModel.$copy" type="button" class="btn btn-sm btn-default" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.copyPropertyBegin(dataModel);">复制属性</button>
+                                            <button ng-if="!dataModel.$copy" type="button" class="btn btn-sm btn-default" ng-disabled="!dataModelControl.editable || !dataModel.association.length" ng-click="tabsControl.copyPropertyBegin(dataModel);">复制属性</button>
                                             <button ng-if="dataModel.$copy" type="button" class="btn btn-sm btn-warning" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.copyPropertyCancel(dataModel);">取消</button>
                                             <button ng-if="dataModel.$copy" type="button" class="btn btn-sm btn-default" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.copyProperty(dataModel);">确定</button>
                                             <button type="button" class="btn btn-default btn-sm" ng-disabled="dataModel.$copy || !dataModelControl.editable || !tabsControl.hasClipboard(dataModel)" ng-click="tabsControl.pasteProperty(dataModel);">粘贴属性</button>

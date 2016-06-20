@@ -20,6 +20,7 @@ define(
 
                 $scope.formatTag = function(tag){
                     if(tag.tagName == "File"){
+                        tag.$closed = true;
                         if(tag.template && angular.isObject(tag.template)) {
                             tag.template = tag.template.id;
                         }

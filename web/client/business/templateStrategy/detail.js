@@ -19,6 +19,7 @@ define(
 
                 $scope.formatTag = function(tag){
                     if(tag.tagName == "File"){
+                        tag.$closed = true;
                         for(var i = 0 ; i < $scope.templates.length ; i++){
                             var template = $scope.templates[i];
                             if(template.id == tag.template.id){
