@@ -19,6 +19,12 @@ public class DynamicPropertyElementConverter extends BaseElementConverter<Dynami
     public Element toElement(DynamicProperty entity){
         Element element = DocumentHelper.createElement(beanDefinition.getBeanName());
 
+        Boolean canHide = entity.getCanHide();
+        if(canHide != null){
+            Element canHideElement = element.addElement("canHide");
+            canHideElement.setText(canHide.toString());
+        }
+
         String group = entity.getGroup();
         if(group != null){
             Element groupElement = element.addElement("group");
@@ -87,6 +93,11 @@ public class DynamicPropertyElementConverter extends BaseElementConverter<Dynami
 
     public DynamicProperty fromElement(Element element){
         DynamicProperty entity = new DynamicProperty();
+
+        Node canHideNode = element.element("canHide");
+        if(canHideNode != null){
+            entity.setCanHide(Boolean.valueOf(canHideNode.getText()));
+        }
 
         Node groupNode = element.element("group");
         if(groupNode != null){

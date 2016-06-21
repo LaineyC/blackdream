@@ -9,6 +9,8 @@ import java.util.Map;
  */
 public class DynamicProperty extends Domain{
 
+    private Boolean canHide;
+
     private String group;
 
     private String name;
@@ -32,6 +34,14 @@ public class DynamicProperty extends Domain{
 
     public DynamicProperty(){
 
+    }
+
+    public Boolean getCanHide() {
+        return canHide;
+    }
+
+    public void setCanHide(Boolean canHide) {
+        this.canHide = canHide;
     }
 
     public String getGroup() {

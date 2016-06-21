@@ -290,6 +290,7 @@ define(
                     tableHead.heads.length = 0;
                     for(var j = 0 ; j < $scope.updateRequest.association.length ; j++){
                         var property = $scope.updateRequest.association[j];
+                        property.$hide = property.canHide;
                         var group = property.group;
                         if(!group){
                             tableHead.groupHeads.push(property);
@@ -299,7 +300,7 @@ define(
                             if(!prevHead || group != prevHead.group){
                                 tableHead.groupHeads.push({group:group, span:1});
                             }
-                            if(prevHead && group == prevHead.group){
+                            if(prevHead && group == prevHead.group && !property.$hide){
                                 prevHead.span++;
                             }
                             tableHead.heads.push(property);

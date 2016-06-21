@@ -61,11 +61,12 @@
                                 <thead>
                                 <tr class="active">
                                     <th width="30" rowspan="2">#</th>
-                                    <th colspan="3">布局设置</th>
+                                    <th colspan="4">布局设置</th>
                                     <th colspan="6">数据设置</th>
                                     <th rowspan="2">操作</th>
                                 </tr>
                                 <tr class="active">
+                                    <th width="75">可隐藏</th>
                                     <th width="150">分组</th>
                                     <th width="150"><span class="text-danger">标题</span></th>
                                     <th width="100"><span class="text-danger">宽度</span></th>
@@ -80,6 +81,9 @@
                                 <tbody ui-sortable="propertiesControl.sortableOptions" ng-model="updateRequest.properties">
                                 <tr ng-repeat="property in updateRequest.properties" ng-init="property.__hashKey = hashKey(property)">
                                     <th>{{$index + 1}}</th>
+                                    <td>
+                                        <input name="canHide{{property.__hashKey}}" type="checkbox" ng-model="property.canHide"/>
+                                    </td>
                                     <td>
                                         <input name="group{{property.__hashKey}}" uib-tooltip="{{getMessage('group',dynamicModelUpdateForm['group' + property.__hashKey].$error,propertyControl.validateMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.group{{property.__hashKey}}.$invalid && dynamicModelUpdateForm.group{{property.__hashKey}}.$dirty"
@@ -226,11 +230,12 @@
                                 <thead>
                                 <tr class="active">
                                     <th width="30" rowspan="2">#</th>
-                                    <th colspan="3">布局设置</th>
+                                    <th colspan="4">布局设置</th>
                                     <th colspan="6">数据设置</th>
                                     <th rowspan="2">操作</th>
                                 </tr>
                                 <tr class="active">
+                                    <th width="75">可隐藏</th>
                                     <th width="150">分组</th>
                                     <th width="150"><span class="text-danger">标题</span></th>
                                     <th width="100"><span class="text-danger">宽度</span></th>
@@ -245,6 +250,9 @@
                                 <tbody ui-sortable="associationControl.sortableOptions" ng-model="updateRequest.association">
                                 <tr ng-repeat="property in updateRequest.association" ng-init="property.__hashKey = hashKey(property)">
                                     <th>{{$index + 1}}</th>
+                                    <td>
+                                        <input name="canHide{{property.__hashKey}}" type="checkbox" ng-model="property.canHide" ng-change="resetHead()"/>
+                                    </td>
                                     <td>
                                         <input name="group{{property.__hashKey}}" uib-tooltip="{{getMessage('group',dynamicModelUpdateForm['group' + property.__hashKey].$error,propertyControl.validateMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.group{{property.__hashKey}}.$invalid && dynamicModelUpdateForm.group{{property.__hashKey}}.$dirty"
@@ -391,20 +399,20 @@
                                 <thead>
                                 <tr class="active" ng-if="predefinedAssociationControl.tableHead.heads.length">
                                     <th width="30" rowspan="2">#</th>
-                                    <th width="{{property.span ? '' : property.viewWidth}}" ng-repeat="property in predefinedAssociationControl.tableHead.groupHeads"
+                                    <th ng-show="!property.$hide" width="{{property.span ? '' : property.viewWidth}}" ng-repeat="property in predefinedAssociationControl.tableHead.groupHeads"
                                         rowspan="{{property.span ? '' : 2}}" colspan="{{!property.span ? '' : property.span}}">
                                         <span ng-class="{'text-danger': property.validator.required}">{{property.span ? property.group : property.label}}</span>
                                     </th>
                                     <th rowspan="2">操作</th>
                                 </tr>
                                 <tr class="active" ng-if="predefinedAssociationControl.tableHead.heads.length">
-                                    <th width="{{property.viewWidth}}" ng-repeat="property in predefinedAssociationControl.tableHead.heads">
+                                    <th ng-show="!property.$hide" width="{{property.viewWidth}}" ng-repeat="property in predefinedAssociationControl.tableHead.heads">
                                         <span ng-class="{'text-danger': property.validator.required}">{{property.label}}</span>
                                     </th>
                                 </tr>
                                 <tr class="active" ng-if="!predefinedAssociationControl.tableHead.heads.length">
                                     <th width="30">#</th>
-                                    <th width="{{property.viewWidth}}" ng-repeat="property in updateRequest.association">
+                                    <th ng-show="!property.$hide" width="{{property.viewWidth}}" ng-repeat="property in updateRequest.association">
                                         <span ng-class="{'text-danger': property.validator.required}">{{property.label}}</span>
                                     </th>
                                     <th>操作</th>
@@ -413,7 +421,7 @@
                                 <tbody ui-sortable="predefinedAssociationControl.sortableOptions" ng-model="updateRequest.predefinedAssociation">
                                 <tr ng-repeat="propertyValue in updateRequest.predefinedAssociation">
                                     <th>{{$index + 1}}</th>
-                                    <td ng-repeat="property in updateRequest.association" ng-switch="property.type" ng-init="propertyValue.__hashKey = hashKey(propertyValue)">
+                                    <td ng-show="!property.$hide" ng-repeat="property in updateRequest.association" ng-switch="property.type" ng-init="propertyValue.__hashKey = hashKey(propertyValue)">
                                         <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dynamicModelUpdateForm['$association$' + property.name + propertyValue.__hashKey].$error,associationMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dynamicModelUpdateForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
                                                ng-switch-when="Boolean" ng-model="propertyValue[property.name]" type="checkbox" ng-true-value="true" ng-false-value="false" ng-change="property.cascadeFunction(propertyValue)"/>
