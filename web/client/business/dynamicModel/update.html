@@ -395,7 +395,10 @@
                         <label class="col-sm-1 control-label">快捷预设</label>
                         <div class="col-sm-11">
                             <table class="table table-condensed table-hover">
-                                <caption><button type="button" class="btn btn-success btn-sm" ng-click="predefinedAssociationControl.add();">添加</button></caption>
+                                <caption>
+                                    <button type="button" class="btn btn-success btn-sm" ng-click="predefinedAssociationControl.add();">添加</button>
+                                    <button type="button" class="btn btn-info btn-sm" ng-click="predefinedAssociationControl.showOrHideCols();">{{predefinedAssociationControl.hideCols  ? "显示" : "隐藏"}}列</button>
+                                </caption>
                                 <thead>
                                 <tr class="active" ng-if="predefinedAssociationControl.tableHead.heads.length">
                                     <th width="30" rowspan="2">#</th>

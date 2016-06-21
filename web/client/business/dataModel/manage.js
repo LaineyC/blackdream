@@ -184,6 +184,7 @@ define(
                                     }
                                 }
 
+                                property.$hide = property.canHide;
                                 var group = property.group;
                                 if(!group){
                                     tableHead.groupHeads.push(property);
@@ -193,7 +194,7 @@ define(
                                     if(!prevHead || group != prevHead.group){
                                         tableHead.groupHeads.push({group:group, span:1});
                                     }
-                                    if(prevHead && group == prevHead.group){
+                                    if(prevHead && group == prevHead.group && !property.$hide){
                                         prevHead.span++;
                                     }
                                     tableHead.heads.push(property);
@@ -775,6 +776,29 @@ define(
                     removeProperty:function(dataModel, $index){
                         dataModel.association.splice($index, 1);
                         dataModel.$scope.dataModelEditForm.$setDirty();
+                    },
+                    showOrHideCols:function(dataModel){
+                        var dynamicModel = dataModel.dynamicModel;
+                        dynamicModel.$hideCols = dynamicModel.$hideCols == undefined ? false : !dynamicModel.$hideCols;
+                        var tableHead = dynamicModel.tableHead = {groupHeads:[], heads:[]};
+                        for(var j = 0 ; j < dynamicModel.association.length ; j++){
+                            var property = dynamicModel.association[j];
+                            property.$hide = property.canHide && dynamicModel.$hideCols;
+                            var group = property.group;
+                            if(!group){
+                                tableHead.groupHeads.push(property);
+                            }
+                            else{
+                                var prevHead = tableHead.groupHeads[tableHead.groupHeads.length - 1];
+                                if(!prevHead || group != prevHead.group){
+                                    tableHead.groupHeads.push({group:group, span:1});
+                                }
+                                if(prevHead && group == prevHead.group && !property.$hide){
+                                    prevHead.span++;
+                                }
+                                tableHead.heads.push(property);
+                            }
+                        }
                     }
                 };
 

@@ -231,13 +231,13 @@ define(
                     }
                 };
 
-                $scope.resetHead = function(){
+                $scope.resetHead = function(hide){
                     var tableHead = $scope.predefinedAssociationControl.tableHead;
                     tableHead.groupHeads.length = 0;
                     tableHead.heads.length = 0;
                     for(var j = 0 ; j < $scope.createRequest.association.length ; j++){
                         var property = $scope.createRequest.association[j];
-                        property.$hide = property.canHide;
+                        property.$hide = hide != undefined ? property.canHide && hide : property.canHide;
                         var group = property.group;
                         if(!group){
                             tableHead.groupHeads.push(property);
@@ -267,6 +267,11 @@ define(
                         stop: function(e, ui) {
 
                         }
+                    },
+                    hideCols:true,
+                    showOrHideCols: function(){
+                        $scope.predefinedAssociationControl.hideCols = !$scope.predefinedAssociationControl.hideCols;
+                        $scope.resetHead($scope.predefinedAssociationControl.hideCols);
                     },
                     add:function() {
                         var properties = {};
