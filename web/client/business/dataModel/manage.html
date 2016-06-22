@@ -148,25 +148,25 @@
                                             <button ng-if="dataModel.$copy" type="button" class="btn btn-sm btn-default" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.copyProperty(dataModel);">确定</button>
                                             <button type="button" class="btn btn-default btn-sm" ng-disabled="dataModel.$copy || !dataModelControl.editable || !tabsControl.hasClipboard(dataModel)" ng-click="tabsControl.pasteProperty(dataModel);">粘贴属性</button>
                                         </div>
-                                        <button type="button" class="btn btn-info btn-sm" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.showOrHideCols(dataModel);">{{(dataModel.dynamicModel.$hideCols == undefined || dataModel.dynamicModel.$hideCols) ? "显示": "隐藏"}}列</button>
+                                        <button type="button" class="btn btn-info btn-sm" ng-if="dataModel.dynamicModel.hasHideCols" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.showOrHideCols(dataModel);">{{(dataModel.dynamicModel.$hideCols == undefined || dataModel.dynamicModel.$hideCols) ? "显示": "隐藏"}}列</button>
                                     </caption>
                                     <thead>
                                     <tr class="active" ng-if="dataModel.dynamicModel.tableHead.heads.length">
                                         <th width="30" rowspan="2" ng-click="dataModel.$copy && dataModelControl.copyAll(dataModel);"><input ng-if="dataModel.$copy" type="checkbox" ng-checked="dataModel.$copyAll"/><span ng-if="!dataModel.$copy">#</span></th>
                                         <th ng-show="!property.$hide" width="{{property.span ? '' : property.viewWidth}}" ng-repeat="property in dataModel.dynamicModel.tableHead.groupHeads" rowspan="{{property.span ? '' : 2}}" colspan="{{!property.span ? '' : property.span}}">
-                                            <span ng-class="{'text-danger': property.validator.required}">{{property.span ? property.group : property.label}}</span>
+                                            <span ng-class="{'text-danger': property.validator.required, 'hide-col':property.canHide}">{{property.span ? property.group : property.label}}</span>
                                         </th>
                                         <th rowspan="2">操作</th>
                                     </tr>
                                     <tr class="active" ng-if="dataModel.dynamicModel.tableHead.heads.length">
                                         <th ng-show="!property.$hide" width="{{property.viewWidth}}" ng-repeat="property in dataModel.dynamicModel.tableHead.heads">
-                                            <span ng-class="{'text-danger': property.validator.required}">{{property.label}}</span>
+                                            <span ng-class="{'text-danger': property.validator.required, 'hide-col':property.canHide}">{{property.label}}</span>
                                         </th>
                                     </tr>
                                     <tr class="active" ng-if="!dataModel.dynamicModel.tableHead.heads.length">
                                         <th width="30" ng-click="dataModel.$copy && dataModelControl.copyAll(dataModel);"><input ng-if="dataModel.$copy" type="checkbox" ng-checked="dataModel.$copyAll"/><span ng-if="!dataModel.$copy">#</span></th>
                                         <th ng-show="!property.$hide" width="{{property.viewWidth}}" ng-repeat="property in dataModel.dynamicModel.association">
-                                            <span ng-class="{'text-danger': property.validator.required}">{{property.label}}</span>
+                                            <span ng-class="{'text-danger': property.validator.required, 'hide-col':property.canHide}">{{property.label}}</span>
                                         </th>
                                         <th>操作</th>
                                     </tr>

@@ -397,26 +397,26 @@
                             <table class="table table-condensed table-hover">
                                 <caption>
                                     <button type="button" class="btn btn-success btn-sm" ng-click="predefinedAssociationControl.add();">添加</button>
-                                    <button type="button" class="btn btn-info btn-sm" ng-click="predefinedAssociationControl.showOrHideCols();">{{predefinedAssociationControl.hideCols  ? "显示" : "隐藏"}}列</button>
+                                    <button type="button" class="btn btn-info btn-sm" ng-if="predefinedAssociationControl.hasHideCols" ng-click="predefinedAssociationControl.showOrHideCols();">{{predefinedAssociationControl.hideCols  ? "显示" : "隐藏"}}列</button>
                                 </caption>
                                 <thead>
                                 <tr class="active" ng-if="predefinedAssociationControl.tableHead.heads.length">
                                     <th width="30" rowspan="2">#</th>
                                     <th ng-show="!property.$hide" width="{{property.span ? '' : property.viewWidth}}" ng-repeat="property in predefinedAssociationControl.tableHead.groupHeads"
                                         rowspan="{{property.span ? '' : 2}}" colspan="{{!property.span ? '' : property.span}}">
-                                        <span ng-class="{'text-danger': property.validator.required}">{{property.span ? property.group : property.label}}</span>
+                                        <span ng-class="{'text-danger': property.validator.required, 'hide-col':property.canHide}">{{property.span ? property.group : property.label}}</span>
                                     </th>
                                     <th rowspan="2">操作</th>
                                 </tr>
                                 <tr class="active" ng-if="predefinedAssociationControl.tableHead.heads.length">
                                     <th ng-show="!property.$hide" width="{{property.viewWidth}}" ng-repeat="property in predefinedAssociationControl.tableHead.heads">
-                                        <span ng-class="{'text-danger': property.validator.required}">{{property.label}}</span>
+                                        <span ng-class="{'text-danger': property.validator.required, 'hide-col':property.canHide}">{{property.label}}</span>
                                     </th>
                                 </tr>
                                 <tr class="active" ng-if="!predefinedAssociationControl.tableHead.heads.length">
                                     <th width="30">#</th>
                                     <th ng-show="!property.$hide" width="{{property.viewWidth}}" ng-repeat="property in updateRequest.association">
-                                        <span ng-class="{'text-danger': property.validator.required}">{{property.label}}</span>
+                                        <span ng-class="{'text-danger': property.validator.required, 'hide-col':property.canHide}">{{property.label}}</span>
                                     </th>
                                     <th>操作</th>
                                 </tr>

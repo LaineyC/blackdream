@@ -185,6 +185,9 @@ define(
                                 }
 
                                 property.$hide = property.canHide;
+                                if(property.canHide){
+                                    dynamicModel.hasHideCols = true;
+                                }
                                 var group = property.group;
                                 if(!group){
                                     tableHead.groupHeads.push(property);

@@ -65,3 +65,7 @@ html, body{
 .modal-80-percent{
     width:80%;
 }
+
+.hide-col{
+    text-decoration: underline;
+}
