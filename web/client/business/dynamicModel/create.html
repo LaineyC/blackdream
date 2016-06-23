@@ -392,8 +392,18 @@
                             <table class="table table-condensed table-hover">
                                 <caption>
                                     <button type="button" class="btn btn-success btn-sm" ng-click="predefinedAssociationControl.add();">添加</button>
-                                    <button type="button" class="btn btn-info btn-sm" ng-if="predefinedAssociationControl.hasHideCols" ng-click="predefinedAssociationControl.showOrHideCols();">{{predefinedAssociationControl.hideCols  ? "显示" : "隐藏"}}列</button>
-                                </caption>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-info btn-sm" ng-if="predefinedAssociationControl.hasHideCols" ng-click="predefinedAssociationControl.showOrHideCols();">{{predefinedAssociationControl.hideCols  ? "显示" : "隐藏"}}列</button>
+                                        <button type="button" class="btn btn-info btn-sm dropdown-toggle" ng-if="predefinedAssociationControl.hasHideCols" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            <li ng-repeat="property in createRequest.association | filter:{canHide:true}">
+                                                <a href="javascript:void(0);"><input type="checkbox" ng-click="property.$hide=!property.$hide;resetHead(true)" ng-checked="!property.$hide"/> {{property.group ? property.group : ""}} {{property.group ? "-" : ""}} {{property.label}}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                               </caption>
                                 <thead>
                                 <tr class="active" ng-if="predefinedAssociationControl.tableHead.heads.length">
                                     <th width="30" rowspan="2">#</th>

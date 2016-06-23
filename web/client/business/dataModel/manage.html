@@ -148,7 +148,17 @@
                                             <button ng-if="dataModel.$copy" type="button" class="btn btn-sm btn-default" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.copyProperty(dataModel);">确定</button>
                                             <button type="button" class="btn btn-default btn-sm" ng-disabled="dataModel.$copy || !dataModelControl.editable || !tabsControl.hasClipboard(dataModel)" ng-click="tabsControl.pasteProperty(dataModel);">粘贴属性</button>
                                         </div>
-                                        <button type="button" class="btn btn-info btn-sm" ng-if="dataModel.dynamicModel.hasHideCols" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.showOrHideCols(dataModel);">{{(dataModel.dynamicModel.$hideCols == undefined || dataModel.dynamicModel.$hideCols) ? "显示": "隐藏"}}列</button>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-info btn-sm" ng-if="dataModel.dynamicModel.hasHideCols" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.showOrHideCols(dataModel);">{{(dataModel.dynamicModel.$hideCols == undefined || dataModel.dynamicModel.$hideCols) ? "显示": "隐藏"}}列</button>
+                                            <button type="button" class="btn btn-info btn-sm dropdown-toggle" ng-if="dataModel.dynamicModel.hasHideCols" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                <li ng-repeat="property in dataModel.dynamicModel.association | filter:{canHide:true}">
+                                                    <a href="javascript:void(0);"><input type="checkbox" ng-click="property.$hide=!property.$hide;tabsControl.resetHead(dataModel)" ng-checked="!property.$hide"/> {{property.group ? property.group : ""}} {{property.group ? "-" : ""}} {{property.label}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </caption>
                                     <thead>
                                     <tr class="active" ng-if="dataModel.dynamicModel.tableHead.heads.length">

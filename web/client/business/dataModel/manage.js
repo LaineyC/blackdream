@@ -802,6 +802,27 @@ define(
                                 tableHead.heads.push(property);
                             }
                         }
+                    },
+                    resetHead:function(dataModel){
+                        var dynamicModel = dataModel.dynamicModel;
+                        var tableHead = dynamicModel.tableHead = {groupHeads:[], heads:[]};
+                        for(var j = 0 ; j < dynamicModel.association.length ; j++){
+                            var property = dynamicModel.association[j];
+                            var group = property.group;
+                            if(!group){
+                                tableHead.groupHeads.push(property);
+                            }
+                            else{
+                                var prevHead = tableHead.groupHeads[tableHead.groupHeads.length - 1];
+                                if(!prevHead || group != prevHead.group){
+                                    tableHead.groupHeads.push({group:group, span:1});
+                                }
+                                if(prevHead && group == prevHead.group && !property.$hide){
+                                    prevHead.span++;
+                                }
+                                tableHead.heads.push(property);
+                            }
+                        }
                     }
                 };
 
