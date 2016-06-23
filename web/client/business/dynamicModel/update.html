@@ -416,7 +416,7 @@
                                         rowspan="{{property.span ? '' : 2}}" colspan="{{!property.span ? '' : property.span}}">
                                         <span ng-class="{'text-danger': property.validator.required, 'hide-col':property.canHide}">{{property.span ? property.group : property.label}}</span>
                                     </th>
-                                    <th rowspan="2">操作</th>
+                                    <th rowspan="2" style="min-width: 45px;">操作</th>
                                 </tr>
                                 <tr class="active" ng-if="predefinedAssociationControl.tableHead.heads.length">
                                     <th ng-show="!property.$hide" width="{{property.viewWidth}}" ng-repeat="property in predefinedAssociationControl.tableHead.heads">
@@ -428,7 +428,7 @@
                                     <th ng-show="!property.$hide" width="{{property.viewWidth}}" ng-repeat="property in updateRequest.association">
                                         <span ng-class="{'text-danger': property.validator.required, 'hide-col':property.canHide}">{{property.label}}</span>
                                     </th>
-                                    <th>操作</th>
+                                    <th style="min-width: 45px;">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody ui-sortable="predefinedAssociationControl.sortableOptions" ng-model="updateRequest.predefinedAssociation">

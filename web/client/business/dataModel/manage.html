@@ -133,7 +133,7 @@
                                 <table class="table table-condensed table-hover">
                                     <caption>
                                         <div class="btn-group">
-                                            <button type="button" class="btn btn-success btn-sm" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.addProperty(dataModel);">添加属性</button>
+                                            <button type="button" class="btn btn-success btn-sm" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.addProperty(dataModel);">添加</button>
                                             <button type="button" class="btn btn-success btn-sm dropdown-toggle" ng-disabled="!dataModelControl.editable || !dataModel.dynamicModel.predefinedAssociation.length" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <span class="caret"></span>
                                             </button>
@@ -143,10 +143,10 @@
                                             </ul>
                                         </div>
                                         <div class="btn-group" role="group">
-                                            <button ng-if="!dataModel.$copy" type="button" class="btn btn-sm btn-default" ng-disabled="!dataModelControl.editable || !dataModel.association.length" ng-click="tabsControl.copyPropertyBegin(dataModel);">复制属性</button>
+                                            <button ng-if="!dataModel.$copy" type="button" class="btn btn-sm btn-success" ng-disabled="!dataModelControl.editable || !dataModel.association.length" ng-click="tabsControl.copyPropertyBegin(dataModel);">复制</button>
                                             <button ng-if="dataModel.$copy" type="button" class="btn btn-sm btn-warning" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.copyPropertyCancel(dataModel);">取消</button>
-                                            <button ng-if="dataModel.$copy" type="button" class="btn btn-sm btn-default" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.copyProperty(dataModel);">确定</button>
-                                            <button type="button" class="btn btn-default btn-sm" ng-disabled="dataModel.$copy || !dataModelControl.editable || !tabsControl.hasClipboard(dataModel)" ng-click="tabsControl.pasteProperty(dataModel);">粘贴属性</button>
+                                            <button ng-if="dataModel.$copy" type="button" class="btn btn-sm btn-primary" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.copyProperty(dataModel);">确定</button>
+                                            <button ng-if="!dataModel.$copy" type="button" class="btn btn-success btn-sm" ng-disabled="dataModel.$copy || !dataModelControl.editable || !tabsControl.hasClipboard(dataModel)" ng-click="tabsControl.pasteProperty(dataModel);">粘贴</button>
                                         </div>
                                         <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-info btn-sm" ng-if="dataModel.dynamicModel.hasHideCols" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.showOrHideCols(dataModel);">{{(dataModel.dynamicModel.$hideCols == undefined || dataModel.dynamicModel.$hideCols) ? "显示": "隐藏"}}列</button>
@@ -166,7 +166,7 @@
                                         <th ng-show="!property.$hide" width="{{property.span ? '' : property.viewWidth}}" ng-repeat="property in dataModel.dynamicModel.tableHead.groupHeads" rowspan="{{property.span ? '' : 2}}" colspan="{{!property.span ? '' : property.span}}">
                                             <span ng-class="{'text-danger': property.validator.required, 'hide-col':property.canHide}">{{property.span ? property.group : property.label}}</span>
                                         </th>
-                                        <th rowspan="2">操作</th>
+                                        <th rowspan="2" style="min-width: 45px;">操作</th>
                                     </tr>
                                     <tr class="active" ng-if="dataModel.dynamicModel.tableHead.heads.length">
                                         <th ng-show="!property.$hide" width="{{property.viewWidth}}" ng-repeat="property in dataModel.dynamicModel.tableHead.heads">
@@ -178,7 +178,7 @@
                                         <th ng-show="!property.$hide" width="{{property.viewWidth}}" ng-repeat="property in dataModel.dynamicModel.association">
                                             <span ng-class="{'text-danger': property.validator.required, 'hide-col':property.canHide}">{{property.label}}</span>
                                         </th>
-                                        <th>操作</th>
+                                        <th style="min-width: 45px;">操作</th>
                                     </tr>
                                     </thead>
                                     <tbody ui-sortable="sortableOptions" ng-model="dataModel.association">

@@ -244,6 +244,9 @@ define(
                         if(property.canHide){
                             $scope.predefinedAssociationControl.hasHideCols = true;
                         }
+                        if(property.$hide){
+                            continue;
+                        }
                         var group = property.group;
                         if(!group){
                             tableHead.groupHeads.push(property);
@@ -253,7 +256,7 @@ define(
                             if(!prevHead || group != prevHead.group){
                                 tableHead.groupHeads.push({group:group, span:1});
                             }
-                            if(prevHead && group == prevHead.group && !property.$hide){
+                            if(prevHead && group == prevHead.group){
                                 prevHead.span++;
                             }
                             tableHead.heads.push(property);

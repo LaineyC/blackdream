@@ -188,6 +188,9 @@ define(
                                 if(property.canHide){
                                     dynamicModel.hasHideCols = true;
                                 }
+                                if(property.$hide){
+                                    continue;
+                                }
                                 var group = property.group;
                                 if(!group){
                                     tableHead.groupHeads.push(property);
@@ -197,7 +200,7 @@ define(
                                     if(!prevHead || group != prevHead.group){
                                         tableHead.groupHeads.push({group:group, span:1});
                                     }
-                                    if(prevHead && group == prevHead.group && !property.$hide){
+                                    if(prevHead && group == prevHead.group){
                                         prevHead.span++;
                                     }
                                     tableHead.heads.push(property);
@@ -743,14 +746,7 @@ define(
                             var property = dataModel.association[i];
                             if(property.$copy){
                                 delete property.$copy;
-                                var record = {};
-                                for(var k in property){
-                                    if(k == "$$hashKey" || k == "__hashKey"){
-                                        continue;
-                                    }
-                                    record[k] = property[k];
-                                }
-                                association.push(record);
+                                association.push(property);
                             }
                         }
                         clipboard.copy(dataModel.dynamicModel.id, association);
@@ -770,6 +766,9 @@ define(
                             var property = association[i];
                             var record = {};
                             for(var k in property){
+                                if(k == "$$hashKey" || k == "__hashKey"){
+                                    continue;
+                                }
                                 record[k] = property[k];
                             }
                             dataModel.association.push(record);
@@ -787,6 +786,9 @@ define(
                         for(var j = 0 ; j < dynamicModel.association.length ; j++){
                             var property = dynamicModel.association[j];
                             property.$hide = property.canHide && dynamicModel.$hideCols;
+                            if(property.$hide){
+                                continue;
+                            }
                             var group = property.group;
                             if(!group){
                                 tableHead.groupHeads.push(property);
@@ -796,7 +798,7 @@ define(
                                 if(!prevHead || group != prevHead.group){
                                     tableHead.groupHeads.push({group:group, span:1});
                                 }
-                                if(prevHead && group == prevHead.group && !property.$hide){
+                                if(prevHead && group == prevHead.group){
                                     prevHead.span++;
                                 }
                                 tableHead.heads.push(property);
@@ -808,6 +810,9 @@ define(
                         var tableHead = dynamicModel.tableHead = {groupHeads:[], heads:[]};
                         for(var j = 0 ; j < dynamicModel.association.length ; j++){
                             var property = dynamicModel.association[j];
+                            if(property.$hide){
+                                continue;
+                            }
                             var group = property.group;
                             if(!group){
                                 tableHead.groupHeads.push(property);
@@ -817,7 +822,7 @@ define(
                                 if(!prevHead || group != prevHead.group){
                                     tableHead.groupHeads.push({group:group, span:1});
                                 }
-                                if(prevHead && group == prevHead.group && !property.$hide){
+                                if(prevHead && group == prevHead.group){
                                     prevHead.span++;
                                 }
                                 tableHead.heads.push(property);
