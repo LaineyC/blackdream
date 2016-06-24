@@ -59,9 +59,11 @@
                                 <div class="form-inline">
                                     <div class="form-group" ng-repeat="property in property.children" style="margin-left: 0;margin-right: 0;" ng-switch="property.type">
                                         <label for="${{dataModel.id}}$properties${{property.name}}"><span ng-class="{'text-danger': property.validator.required}">{{property.label}}</span></label>
-                                        <input id="${{dataModel.id}}$properties${{property.name}}" name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
-                                               tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
-                                               ng-switch-when="Boolean" ng-model="dataModel.properties[property.name]" type="checkbox" ng-true-value="true" ng-false-value="false" ng-change="property.cascadeFunction(dataModel.properties)"/>
+                                        <span ng-switch-when="Boolean" ng-style="{'width':property.viewWidth}" style="display: inline-block;">
+                                            <input id="${{dataModel.id}}$properties${{property.name}}" name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
+                                                   tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
+                                                   ng-model="dataModel.properties[property.name]" type="checkbox" ng-true-value="true" ng-false-value="false" ng-change="property.cascadeFunction(dataModel.properties)"/>
+                                        </span>
                                         <input id="${{dataModel.id}}$properties${{property.name}}"  name="$properties${{property.name}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$properties$' + property.name].$error,validateMessageCache[dataModel.dynamicModel.id].propertiesMessages)}}"
                                                tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$properties${{property.name}}.$invalid && dataModelEditForm.$properties${{property.name}}.$dirty"
                                                ng-switch-when="Long" ng-model="dataModel.properties[property.name]" type="number" class="form-control input-sm" ng-change="property.cascadeFunction(dataModel.properties)"  ng-style="{'width':property.viewWidth}"

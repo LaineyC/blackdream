@@ -30,7 +30,7 @@
                     </div>
                     <div class="panel-body">
                         <p>一个生成器由<span class="text-warning">数据模型</span>、<span class="text-warning">模板文件</span>、<span class="text-warning">生成策略</span>三部分构成。</p>
-                        <p>用户先是在工作台根据生成器定义的<span class="text-warning">数据模型</span>输入相应生成数据，然后选择<span class="text-warning">生成策略</span>执行生成操作，最后生成器根据<span class="text-warning">生成策略</span>及其对应的<span class="text-warning">模板文件</span>来生成相应的文件及文件夹。</p>
+                        <p>用户先是在工作台根据生成器定义的<span class="text-warning">数据模型</span>输入相应的生成数据，然后选择<span class="text-warning">生成策略</span>执行生成操作，最后生成器根据<span class="text-warning">生成策略</span>及其对应的<span class="text-warning">模板文件</span>来生成相应的文件及文件夹。</p>
                         <p>生成器有<span class="text-warning">发布</span>和<span class="text-warning">维护</span>两个状态，对<span class="text-warning">数据模型</span>、<span class="text-warning">模板文件</span>、<span class="text-warning">生成策略</span>进行编辑（增删改）后，生成器自动进入<span class="text-warning">维护</span>状态，开发者需手动发布才能更改生成器状态为<span class="text-warning">发布</span>状态。在<span class="text-warning">维护</span>状态只有该生成器开发者能够编辑生成数据，使用者必须等待开发者<span class="text-warning">发布</span>生成器后才能编辑。</p>
                         <p>
                             生成器被（除了开发者自己以外的）使用者新建实例后，生成器就不得删除了（同时该生成器定义的<span class="text-warning">数据模型</span>也不能删除了）。
@@ -577,7 +577,11 @@
                         <h3 class="panel-title"><label>注意事项</label></h3>
                     </div>
                     <div class="panel-body">
-                        <p>开发设计生成器时，取变量名不要用<span class="text-warning">Java</span>关键字、保留字。</p>
+                        <p>1. 在开发设计生成器时，对需要采集的用户数据和最终生成的文件结构要有清晰的认知。</p>
+                        <p>2. 通过对用户数据的抽象封装成一组<span class="text-warning">数据模型</span>来接收用户输入的生成数据。</p>
+                        <p>3. 通过对生成文件结构的抽象封装成一组<span class="text-warning">模板文件</span>和<span class="text-warning">生成策略</span>。</p>
+                        <p>4. <span class="text-warning">生成策略</span>结合<span class="text-warning">数据模型</span>和<span class="text-warning">模板文件</span>生成相应的文件和文件结构。</p>
+                        <p>5. 在开发设计生成器取变量名时（特别是定义数据模型普通属性名称和联合属性名称时），<strong class="text-warning">不要用<span class="text-warning">Java</span>关键字、保留字！</strong></p>
                     </div>
                 </div>
                 <div class="panel panel-default" id="a6">
@@ -585,7 +589,7 @@
                         <h3 class="panel-title"><label>他们的生成器</label></h3>
                     </div>
                     <div class="panel-body">
-                       <p>由开发者制定好的生成器。</p>
+                       <p>由开发者制定好的生成器，使用者搜索出目标生成器即可使用（新建实例）。</p>
                     </div>
                 </div>
                 <div class="panel panel-default" id="a7">
