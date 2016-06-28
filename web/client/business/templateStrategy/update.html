@@ -1,4 +1,5 @@
-<div ng-controller="templateStrategyUpdateController">
+<div class="container-fluid">
+    <div ng-controller="templateStrategyUpdateController">
     <div class="row">
         <div class="col-sm-12 condensed-list">
             <form name="templateStrategyUpdateForm" class="form-inline" role="form" novalidate>
@@ -39,6 +40,7 @@
             </form>
         </div>
     </div>
+</div>
 </div>
 <script id="recursion" type="text/ng-template">
     <li class="list-group-item" ng-repeat="child in parent.children" ng-init="p=parent;child.__hashKey = hashKey(child);formatTag(child);">

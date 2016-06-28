@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
     <div ng-controller="templateDetailController">
         <div class="row">
             <div class="col-sm-12">
@@ -13,7 +13,7 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-1 control-label">代码</label>
-                        <div class="col-sm-11 form-control-static"><div style="min-height: 700px;" ace-editor ace-read-only="true" ace-theme="aceTheme" ace-font-size="aceFontSize" ng-model="template.code"></div></div>
+                        <div class="col-sm-11 form-control-static"><div style="min-height: 800px;" ace-editor ace-read-only="true" ace-theme="aceTheme" ace-font-size="aceFontSize" ng-model="template.code"></div></div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-3 col-sm-offset-5">
@@ -21,6 +21,8 @@
                                 <button type="button" class="btn btn-primary btn-sm" location-back>返回</button>
                                 <button type="button" ng-disabled="template.developer.id != $security$.user.id" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
                                 <ul class="dropdown-menu">
+                                    <li><a href="javascript:void(0);" location-go="/business/template/update/{{template.id}}">修改</a></li>
+                                    <li role="separator" class="divider"></li>
                                     <li><a href="javascript:void(0);" ng-click="delete(template)">删除</a></li>
                                 </ul>
                             </div>
