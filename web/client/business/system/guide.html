@@ -286,7 +286,7 @@
                             <tr>
                                 <td><span class="text-info">File</span></td>
                                 <td>
-                                    <p>动态根据模板文件动态生成一个文件。</p>
+                                    <p>动态根据模板文件动态生成一个文件。用 <span class="text-warning">/</span> 符号来分割文件夹目录，会自动生成文件夹及子文件夹。</p>
                                     <p><span class="text-primary">name</span>（支持EL表达式的字符串） 生成文件名称（全路径）。</p>
                                     <p>示例值：com/xx/${module.name}/domain/${domain.name}.java</p>
                                     <p><span class="text-primary">template</span>（选择预定义的模板文件） 生成文件用到的模板文件。</p>
@@ -295,7 +295,7 @@
                             <tr>
                                 <td><span class="text-info">Folder</span></td>
                                 <td>
-                                    <p>动态生成一个文件夹。</p>
+                                    <p>动态生成一个文件夹。用 <span class="text-warning">/</span> 符号来分割文件夹目录，会自动生成文件夹及子文件夹。</p>
                                     <p><span class="text-primary">name</span>（支持EL表达式的字符串） 生成文件夹名称（全路径）。</p>
                                     <p>示例值：com/${project.name}/${module.name}/domain</p>
                                 </td>
