@@ -224,11 +224,11 @@ define(
             function() {
                 var provider = {};
                 /**与服务端接口对接
-                *  {
-                *      "error":{message:,code:,level},
-                *      "body":{}
-                *  }
-                */
+                 *  {
+                 *      "error":{message:,code:,level},
+                 *      "body":{}
+                 *  }
+                 */
                 provider.parseBody = function(response){
                     return response.data.body;
                 };
