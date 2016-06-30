@@ -261,8 +261,12 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             throw new AppException("生成器不存在");
         }
 
+        if(generatorInstance.getVersion() < generator.getVersion()){
+            throw new AppException("当前生成器已升级发布，请刷新数据，重新操作！");
+        }
+
         if(!generator.getIsOpen() && !generator.getDeveloper().getId().equals(userId)){
-            throw new AppException("当前生成器正在维护，请暂停操作等待发布！");
+            throw new AppException("当前生成器正在维护，请暂停操作，等待发布！");
         }
 
         Long templateStrategyId = request.getTemplateStrategyId();
@@ -520,8 +524,12 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             throw new AppException("生成器不存在");
         }
 
+        if(generatorInstance.getVersion() < generator.getVersion()){
+            throw new AppException("当前生成器已升级发布，请刷新数据，重新操作！");
+        }
+
         if(!generator.getIsOpen() && !generator.getDeveloper().getId().equals(userId)){
-            throw new AppException("当前生成器正在维护，请暂停操作等待发布！");
+            throw new AppException("当前生成器正在维护，请暂停操作，等待发布！");
         }
 
         DynamicModelQueryRequest dynamicModelQueryRequest = new DynamicModelQueryRequest();

@@ -60,8 +60,12 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
         }
 
         Generator generatorPersistence = generatorRepository.selectById(rootPersistence.getGenerator().getId());
+        if(generatorInstancePersistence.getVersion() < generatorPersistence.getVersion()){
+            throw new AppException("当前生成器已升级发布，请刷新数据，重新操作！");
+        }
+
         if(!generatorPersistence.getIsOpen() && !generatorPersistence.getDeveloper().getId().equals(userId)){
-            throw new AppException("当前生成器正在维护，请暂停操作等待发布！");
+            throw new AppException("当前生成器正在维护，请暂停操作，等待发布！");
         }
 
         DataModel dataModel = new DataModel();
@@ -117,8 +121,12 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
         }
 
         Generator generatorPersistence = generatorRepository.selectById(dataModelPersistence.getGenerator().getId());
+        if(generatorInstancePersistence.getVersion() < generatorPersistence.getVersion()){
+            throw new AppException("当前生成器已升级发布，请刷新数据，重新操作！");
+        }
+
         if(!generatorPersistence.getIsOpen() && !generatorPersistence.getDeveloper().getId().equals(userId)){
-            throw new AppException("当前生成器正在维护，请暂停操作等待发布！");
+            throw new AppException("当前生成器正在维护，请暂停操作，等待发布！");
         }
 
         dataModelRepository.delete(dataModelPersistence, rootPersistence);
@@ -187,8 +195,12 @@ public class DataModelServiceImpl extends BaseService implements DataModelServic
         }
 
         Generator generatorPersistence = generatorRepository.selectById(dataModelPersistence.getGenerator().getId());
+        if(generatorInstancePersistence.getVersion() < generatorPersistence.getVersion()){
+            throw new AppException("当前生成器已升级发布，请刷新数据，重新操作！");
+        }
+
         if(!generatorPersistence.getIsOpen() && !generatorPersistence.getDeveloper().getId().equals(userId)){
-            throw new AppException("当前生成器正在维护，请暂停操作等待发布！");
+            throw new AppException("当前生成器正在维护，请暂停操作，等待发布！");
         }
 
         dataModelPersistence.setIsExpand(request.getIsExpand());
