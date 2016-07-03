@@ -136,13 +136,24 @@
                                     <caption>
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-success btn-sm" ng-disabled="!dataModelControl.editable" ng-click="tabsControl.addProperty(dataModel);">添加</button>
-                                            <button type="button" class="btn btn-success btn-sm dropdown-toggle" ng-disabled="!dataModelControl.editable || !dataModel.dynamicModel.predefinedAssociation.length" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="javascript:void(0)" ng-click="tabsControl.addPredefinedProperty(dataModel);">快捷添加</a></li>
-                                                <li><a href="javascript:void(0)" ng-click="tabsControl.predefinedPropertySetModalOpen(dataModel);">快捷设置</a></li>
-                                            </ul>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-success btn-sm dropdown-toggle" ng-disabled="!dataModelControl.editable" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="javascript:void(0)" ng-click="tabsControl.addMultiProperty(dataModel,5);">添加5条</a></li>
+                                                    <li><a href="javascript:void(0)" ng-click="tabsControl.addMultiProperty(dataModel,10);">添加10条</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-success btn-sm dropdown-toggle" ng-disabled="!dataModelControl.editable || !dataModel.dynamicModel.predefinedAssociation.length" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span class="glyphicon glyphicon-pushpin"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="javascript:void(0)" ng-click="tabsControl.addPredefinedProperty(dataModel);">快捷添加</a></li>
+                                                    <li><a href="javascript:void(0)" ng-click="tabsControl.predefinedPropertySetModalOpen(dataModel);">快捷设置</a></li>
+                                                </ul>
+                                            </div>
                                         </div>
                                         <div class="btn-group" role="group">
                                             <button ng-if="!dataModel.$copy" type="button" class="btn btn-sm btn-success" ng-disabled="!dataModelControl.editable || !dataModel.association.length" ng-click="tabsControl.copyPropertyBegin(dataModel);">复制</button>

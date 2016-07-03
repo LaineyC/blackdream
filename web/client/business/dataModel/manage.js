@@ -689,6 +689,11 @@ define(
                         dataModel.association.push(record);
                         dataModel.$scope.dataModelEditForm.$setDirty();
                     },
+                    addMultiProperty:function(dataModel, n){
+                        for(var i = 1 ; i <= n ; i++){
+                            $scope.tabsControl.addProperty(dataModel);
+                        }
+                    },
                     predefinedPropertySetModalOpen:function(dataModel){
                         $uibModal.open({
                             size:"80-percent",
