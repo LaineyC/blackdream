@@ -41,7 +41,7 @@
         </div>
         <div class="col-sm-10" style="width: 80%;margin-left: 20%;">
             <uib-tabset ng-if="tabsControl.data.length">
-                <uib-tab ng-repeat="dataModel in tabsControl.data" active="dataModel.active" ng-init="tabsControl.initScope(dataModel,this)">
+                <uib-tab ng-repeat="dataModel in tabsControl.data track by dataModel.id" ng-show="$index<10" active="dataModel.active" ng-init="tabsControl.initScope(dataModel,this)">
                     <uib-tab-heading><i class="text-info glyphicon glyphicon-{{dataModel.dynamicModel.icon}}"></i> <label>{{dataModel.name}}</label></uib-tab-heading>
                     <br/>
                     <form name="dataModelEditForm" class="form-horizontal" role="form" novalidate>
@@ -195,9 +195,9 @@
                                     </tr>
                                     </thead>
                                     <tbody ui-sortable="sortableOptions" ng-model="dataModel.association">
-                                    <tr ng-repeat="propertyValue in dataModel.association" ng-class="{'warning':propertyValue.$copy}">
+                                    <tr ng-repeat="propertyValue in dataModel.association track by propertyValue.__hashKey" ng-class="{'warning':propertyValue.$copy}">
                                         <th ng-click="dataModel.$copy && (propertyValue.$copy = !propertyValue.$copy)"><input ng-if="dataModel.$copy" type="checkbox" ng-checked="propertyValue.$copy"/><span ng-if="!dataModel.$copy">{{$index + 1}}</span></th>
-                                        <td ng-show="!property.$hide" ng-repeat="property in dataModel.dynamicModel.association" ng-switch="property.type" ng-init="propertyValue.__hashKey = hashKey(propertyValue)">
+                                        <td ng-show="!property.$hide" ng-repeat="property in dataModel.dynamicModel.association track by property.__hashKey" ng-switch="property.type">
                                             <input name="$association${{property.name + propertyValue.__hashKey}}" uib-tooltip="{{getMessage(property.name,dataModelEditForm['$association$' + property.name + propertyValue.__hashKey].$error,validateMessageCache[dataModel.dynamicModel.id].associationMessages)}}"
                                                    tooltip-trigger="none" tooltip-is-open="dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$invalid && dataModelEditForm.$association${{property.name + propertyValue.__hashKey}}.$dirty"
                                                    ng-switch-when="Boolean" ng-model="propertyValue[property.name]" type="checkbox" ng-true-value="true" ng-false-value="false" ng-change="property.cascadeFunction(propertyValue)"/>

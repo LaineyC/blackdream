@@ -7,6 +7,10 @@ define(
             "$scope", "$uibModal", "$routeParams", "dataModelApi", "templateStrategyApi", "dynamicModelApi", "generatorInstanceApi", "$q", "viewPage", "clipboard","systemApi", "$cookies", "alert",
             function($scope, $uibModal, $routeParams, dataModelApi, templateStrategyApi, dynamicModelApi, generatorInstanceApi, $q, viewPage, clipboard, systemApi, $cookies, alert){
                 viewPage.setViewPageTitle("工作台");
+                var id = 1;
+                var nextId = function(){
+                    return id++;
+                };
 
                 var generatorInstanceId = $routeParams.generatorInstanceId;
                 var dynamicModelCache = {};
@@ -149,6 +153,7 @@ define(
                             var tableHead = dynamicModel.tableHead = {groupHeads:[], heads:[]};
                             for(j = 0 ; j < dynamicModel.association.length ; j++){
                                 var property = dynamicModel.association[j];
+                                property.__hashKey = nextId();
 
                                 if(property.type == "Date"){
                                     associationKeys.dateTypeKeys[property.name] = true;
@@ -613,6 +618,7 @@ define(
                                             property[k] = {id:propertyDataModel.id,name:propertyDataModel.name};
                                         }
                                     }
+                                    property.__hashKey = nextId();
                                 }
 
                                 $scope.tabsControl.add(dataModel);
@@ -639,8 +645,8 @@ define(
                         $scope.tabsControl.remove(dataModel);
                         dataModel.active = true;
                         $scope.tabsControl.data.splice(0, 0, dataModel);
-                        if($scope.tabsControl.data.length > 10){
-                            $scope.tabsControl.data.length = 10;
+                        if($scope.tabsControl.data.length > 100){
+                            $scope.tabsControl.data.length = 100;
                         }
                     },
                     contains:function(dataModel){
@@ -679,7 +685,7 @@ define(
                     },
                     addProperty:function(dataModel){
                         var association = dataModel.dynamicModel.association;
-                        var record = {};
+                        var record = {__hashKey:nextId()};
                         for(var i = 0 ; i < association.length ; i++){
                             var property = association[i];
                             if(property.defaultValue != null){
@@ -718,7 +724,7 @@ define(
                             if(!property.$check){
                                 continue;
                             }
-                            var record = {};
+                            var record = {__hashKey:nextId()};
                             for(var k in property){
                                 record[k] = property[k];
                             }
@@ -769,7 +775,7 @@ define(
                         }
                         for(var i = 0 ; i < association.length ; i++){
                             var property = association[i];
-                            var record = {};
+                            var record = {__hashKey:nextId()};
                             for(var k in property){
                                 if(k == "$$hashKey" || k == "__hashKey"){
                                     continue;
