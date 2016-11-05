@@ -856,7 +856,7 @@ define(
                             $scope.confirm = function(){
                                 userApi.logout({}).success(function(){
                                     $uibModalInstance.close();
-                                    window.location = "/client/login.html";
+                                    window.location = "/login.html";
                                 });
                             }
                         }]

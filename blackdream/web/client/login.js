@@ -23,7 +23,7 @@
                 $progress.find("div").attr("aria-valuenow", status.now).css("width", status.now + "%");
                 if(status.now >= 100 && !hasError){
                     window.setTimeout(function(){
-                        window.location = "/client/framework/framework.html";
+                        window.location = "/framework.html";
                     }, 250);
                     return;
                 }
