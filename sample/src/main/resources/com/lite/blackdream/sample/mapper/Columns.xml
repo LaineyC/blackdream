@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lite.blackdream.sample.dao.ColumnsDao">
+
+    <resultMap id="po" type="com.lite.blackdream.sample.po.ColumnsPo">
+        <result property="TABLE_SCHEMA" jdbcType="VARCHAR" column="TABLE_SCHEMA"/>
+        <result property="TABLE_NAME" jdbcType="VARCHAR" column="TABLE_NAME"/>
+        <result property="COLUMN_NAME" jdbcType="VARCHAR" column="COLUMN_NAME"/>
+        <result property="DATA_TYPE" jdbcType="VARCHAR" column="DATA_TYPE"/>
+        <result property="COLUMN_TYPE" jdbcType="VARCHAR" column="COLUMN_TYPE"/>
+        <result property="COLUMN_KEY" jdbcType="VARCHAR" column="COLUMN_KEY"/>
+        <result property="EXTRA" jdbcType="VARCHAR" column="EXTRA"/>
+        <result property="COLUMN_COMMENT" jdbcType="VARCHAR" column="COLUMN_COMMENT"/>
+    </resultMap>
+    
+    <sql id="tableName">Columns</sql>
+
+    <sql id="selectFields">
+        TABLE_SCHEMA,
+        TABLE_NAME,
+        DATA_TYPE,
+        COLUMN_NAME,
+        COLUMN_TYPE,
+        COLUMN_KEY,
+        EXTRA,
+        COLUMN_COMMENT
+    </sql>
+
+    <sql id="whereFields">
+        <where>
+            <if test="po.TABLE_SCHEMA != null"> AND TABLE_SCHEMA = #{ po.TABLE_SCHEMA }</if>
+            <if test="po.TABLE_NAME != null"> AND TABLE_NAME = #{ po.TABLE_NAME }</if>
+            <if test="po.COLUMN_NAME != null"> AND COLUMN_NAME = #{ po.COLUMN_NAME }</if>
+            <if test="po.DATA_TYPE != null"> AND DATA_TYPE = #{ po.DATA_TYPE }</if>
+            <if test="po.COLUMN_TYPE != null"> AND COLUMN_TYPE = #{ po.COLUMN_TYPE }</if>
+            <if test="po.COLUMN_KEY != null"> AND COLUMN_KEY = #{ po.COLUMN_KEY }</if>
+            <if test="po.EXTRA != null"> AND EXTRA = #{ po.EXTRA }</if>
+            <if test="po.COLUMN_COMMENT != null"> AND COLUMN_COMMENT = #{ po.COLUMN_COMMENT }</if>
+        </where>
+    </sql>
+
+    <select id="selectList" resultMap="po">
+        SELECT <include refid="selectFields"/> FROM <include refid="tableName"/> <include refid="whereFields"/>
+    </select>
+
+</mapper>
