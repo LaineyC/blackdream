@@ -1,6 +1,11 @@
 package com.lite.blackdream.business.test;
 
+import com.lite.blackdream.business.parameter.user.UserGetRequest;
+import com.lite.blackdream.business.parameter.user.UserGetResponse;
+import com.lite.blackdream.business.parameter.user.UserLoginRequest;
+import com.lite.blackdream.business.parameter.user.UserLoginResponse;
 import com.lite.blackdream.framework.el.Functions;
+import com.lite.blackdream.framework.util.Client;
 import com.lite.blackdream.framework.util.IdWorker;
 
 /**
@@ -69,6 +74,23 @@ public class Test {
 
         System.out.println(Functions.replace("dda.",".", "/9"));
 
+    }
+
+    private Client client = new Client("http://localhost:8080/api");
+
+    @org.junit.Test
+    public void client(){
+        UserLoginRequest userLoginRequest = new UserLoginRequest();
+        userLoginRequest.setUserName("root");
+        userLoginRequest.setPassword("000000");
+
+
+        UserLoginResponse userLoginResponse = client.execute(userLoginRequest, UserLoginResponse.class, "user.login");
+
+        UserGetRequest userGetRequest = new UserGetRequest();
+
+        UserGetResponse userGetResponse = client.execute(userGetRequest, UserGetResponse.class, "user.authGet");
+        userGetResponse.getBody();
     }
 
 }

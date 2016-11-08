@@ -19,7 +19,8 @@
                     <thead>
                     <tr class="active">
                         <th width="30">#</th>
-                        <th width="150">ID</th>
+                        <th width="125">ID</th>
+                        <th width="125">RootID</th>
                         <th width="200">名称</th>
                         <th width="200">生成器</th>
                         <th width="150">创建日期</th>
@@ -31,6 +32,7 @@
                     <tr ng-repeat="generatorInstance in pagerResult.records track by $index">
                         <th>{{$index + 1}}</th>
                         <td>{{generatorInstance.id}}</td>
+                        <td>{{generatorInstance.dataModel.id}}</td>
                         <td>{{generatorInstance.name}}</td>
                         <td>{{generatorInstance.generator.name}}</td>
                         <td>{{generatorInstance.createDate | date : "yyyy-MM-dd HH:mm:ss"}}</td>

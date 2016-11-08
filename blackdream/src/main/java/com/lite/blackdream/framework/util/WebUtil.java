@@ -142,7 +142,7 @@ public abstract class WebUtil {
         return rsp;
     }
 
-    private static HttpURLConnection getConnection(URL url, String method, String contentType, Map<String, String> headerMap) throws IOException {
+    public static HttpURLConnection getConnection(URL url, String method, String contentType, Map<String, String> headerMap) throws IOException {
         HttpURLConnection conn;
         if ("https".equals(url.getProtocol())) {
             SSLContext ctx;

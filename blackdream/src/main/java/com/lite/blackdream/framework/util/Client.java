@@ -1,7 +1,11 @@
 package com.lite.blackdream.framework.util;
 
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.lite.blackdream.framework.model.Request;
 import com.lite.blackdream.framework.model.Response;
@@ -12,6 +16,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class Client {
 
+    private static ObjectMapper MAPPER = new ObjectMapper();
+    static{
+        MAPPER.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
+
     private String serverUrl;
 
     private String session;
@@ -21,18 +31,43 @@ public class Client {
     }
 
     public <T extends Response> T execute(Request request, Class<T> responseClass, String method) {
+      return execute(request, responseClass, method, null);
+    }
+
+    public <T extends Response> T execute(Request request, Class<T> responseClass, String method, String version) {
         T response;
         byte[] content;
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         try {
-            content = objectMapper.writeValueAsString(request).getBytes("UTF-8");
+            content = MAPPER.writeValueAsString(request).getBytes("UTF-8");
 
             Map<String, String> params = new HashMap<>();
             params.put("method", method);
+            if(version != null){
+                params.put("version", version);
+            }
 
-            String responseText = WebUtil.doPost(serverUrl, params, content, 3000, 15000);
-            response = objectMapper.readValue(responseText, responseClass);
+            Map<String, String> headerMap = new HashMap<>();
+            if(session != null){
+                headerMap.put("Cookie", session);
+            }
+
+            String charset = "UTF-8";
+            String contentType = "application/json;charset=" + charset;
+            String query = WebUtil.buildQuery(params, charset);
+            String url = serverUrl;
+            if (query != null) {
+                url += (url.lastIndexOf("?") == -1 ? "?" : "&") + query;
+            }
+
+            HttpURLConnection conn = WebUtil.getConnection(new URL(url), "POST", contentType, headerMap);
+            conn.setConnectTimeout(3000);
+            conn.setReadTimeout(15000);
+            OutputStream out = conn.getOutputStream();
+            out.write(content);
+
+            String responseText = WebUtil.getResponseAsString(conn);
+            session = session == null ? conn.getHeaderField("Set-Cookie").split(";")[0] : session;
+            response = MAPPER.readValue(responseText, responseClass);
         }
         catch (Exception e){
             throw new RuntimeException(e);
