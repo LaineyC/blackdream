@@ -11,13 +11,14 @@
 * 比如，代码生成器C生成的代码一定要分Controller层、Service层、Dao层，限制了用户的程序设计。
 
 上面的举例只是生成Java项目，C、C++、C#、Python？HTML、JavaScript？又或者说一定要拘泥于生成代码？
-BlackDream是文件生成器构建平台，可快速灵活地构建和共享文件生成器。
 
-####部署的应该是blackdream项目，sample项目是基于程序接口操作数据的示例。
-
-BlackDream前期定位于公司内部服务或者个人使用，数据量不会很多，采用xml存储数据，不采用数据库。
+BlackDream是文件生成器构建平台，可快速灵活地构建和共享文件生成器。前期定位于公司内部服务或者个人使用，数据量不会很多，采用xml存储数据，不采用数据库。
 
 ##部署手册
+
+###部署的应该是blackdream项目，sample项目是基于程序接口操作数据的示例。
+
+###系统部署成功后，其余的文档在系统导航条-帮助-用户指南可翻阅。
 
 * 服务端：依赖Java8，Tomcat8。
 * 配置文件：blackdream.properties。<
@@ -32,8 +33,6 @@ BlackDream前期定位于公司内部服务或者个人使用，数据量不会�
 * root用户：拥有所有权限，有且只有一个root用户，开发者账号和使用者账号只能通过root账号新建。
 * 开发者：拥有开发和使用权限，开发生成器需掌握JAVA、JS、VTL、EL。
 * 使用者：只有使用权限，根据生成器规则输入数据生成目标文件。
-
-###系统部署成功后，其余的文档在系统导航条-帮助-用户指南可翻阅。
 
 ##如何打造属于你的生成器
 
@@ -124,3 +123,16 @@ public class ${po.name}Po {
 
 ####另外生成器还可以导出来，满足一些如复制、备份的需求，有导出就有导入！！！
 ![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/site/image/generator-export.png?raw=true)
+
+####示例中的生成器在blackdream/site/JavaBean代码生成器.zip
+ 点击下载[JavaBean代码生成器.zip](https://github.com/LaineyC/blackdream/blob/master/blackdream/site/JavaBean代码生成器.zip?raw=true)
+ 
+##sample项目说明
+
+由于生成器所需的数据只能通过手动输入，不能实现自动化的需求，比如通过数据库表导入数据。
+
+sample项目演示了如何通过简单的miniSDK来操作blackdream某个制定的生成器的数据。
+
+sample/site/Employee.sql是sql脚本方便测试用建表。
+
+sample/site/java数据层代码生成器.zip是一个比教程更为复杂一点的生成器文件，部署成功后导入即可，sample项目通过程序接口对其操作数据。
