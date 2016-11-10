@@ -21,7 +21,7 @@ BlackDream是文件生成器构建平台，可快速灵活地构建和共享文�
 ###系统部署成功后，其余的文档在系统导航条-帮助-用户指南可翻阅。
 
 * 服务端：依赖Java8，Tomcat8。
-* 配置文件：blackdream.properties。<
+* 配置文件：blackdream.properties。
 * blackdream.username：系统root用户的用户名。
 * blackdream.password：系统root用户的密码及新建系统用户时的默认密码。
 * blackdream.datapath：系统数据存储的根路径。
