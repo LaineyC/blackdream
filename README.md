@@ -124,7 +124,7 @@ public class ${po.name}Po {
 ####另外生成器还可以导出来，满足一些如复制、备份的需求，有导出就有导入！！！
 ![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/src/site/image/generator-export.png?raw=true)
 
-####示例中的生成器在blackdream/site/JavaBean代码生成器.zip
+####示例中的生成器在blackdream/src/site/JavaBean代码生成器.zip
  点击下载[JavaBean代码生成器.zip](https://github.com/LaineyC/blackdream/blob/master/blackdream/src/site/JavaBean代码生成器.zip?raw=true)
  
 ##sample项目说明
