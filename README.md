@@ -37,22 +37,22 @@ BlackDream是文件生成器构建平台，可快速灵活地构建和共享文�
 ##如何打造属于你的生成器
 
 ####进行登陆。
-![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/site/image/login.png?raw=true)
+![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/src/site/image/login.png?raw=true)
 
 ####进入首页。
-![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/site/image/main.png?raw=true)
+![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/src/site/image/main.png?raw=true)
 
 ####点击我的生成器，进入生成器管理界面。
-![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/site/image/generator-manage.png?raw=true)
+![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/src/site/image/generator-manage.png?raw=true)
 
 ####新建生成器。
-![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/site/image/generator-create.png?raw=true)
+![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/src/site/image/generator-create.png?raw=true)
 
 ####生成器有三部分组成：数据模型、模板文件、生成策略。详细文档参见帮助-用户指南。
-![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/site/image/generator-manage2.png?raw=true)
+![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/src/site/image/generator-manage2.png?raw=true)
 
 ####新建数据模型，数据模型定义了生成器所需生成数据的数据类型结构，每个生成器可制定多个数据模型。
-![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/site/image/dynamicModel-create.png?raw=true)
+![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/src/site/image/dynamicModel-create.png?raw=true)
 
 ####新建模板文件，模板文件定义了生成文件的模板，采用Velocity模板实现。
 ```java  
@@ -98,34 +98,34 @@ public class ${po.name}Po {
 }
   
 ```
-![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/site/image/template-create.png?raw=true)
+![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/src/site/image/template-create.png?raw=true)
 
 ####新建生成策略，生成策略是一组标签集，定义了生成文件和生成文件夹的规则，标签中的属性采用EL表达式访问变量。
-![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/site/image/templateStrategy-create.png?raw=true)
+![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/src/site/image/templateStrategy-create.png?raw=true)
 
 ####新建实例，每个生成器可以创建多个实例，一个实例一份数据。
-![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/site/image/generatorInstance-create.png?raw=true)
+![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/src/site/image/generatorInstance-create.png?raw=true)
 
 ####进入工作台输入生成器所需数据。
-![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/site/image/dataModel-manage.png?raw=true)
+![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/src/site/image/dataModel-manage.png?raw=true)
 
 ####点击工具按钮，选择自定义的生成策略。
-![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/site/image/dataModel-manage1.png?raw=true)
+![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/src/site/image/dataModel-manage1.png?raw=true)
 
 ####弹出对话框，点击确定即可生成。
-![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/site/image/dataModel-manage2.png?raw=true)
+![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/src/site/image/dataModel-manage2.png?raw=true)
 
 ####生成后下载文件即可获得目标代码。
-![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/site/image/generatorInstance-run.png?raw=true)
+![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/src/site/image/generatorInstance-run.png?raw=true)
 
 ####此时再进入首页，就不是空空如也了
-![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/site/image/main1.png?raw=true)
+![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/src/site/image/main1.png?raw=true)
 
 ####另外生成器还可以导出来，满足一些如复制、备份的需求，有导出就有导入！！！
-![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/site/image/generator-export.png?raw=true)
+![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/src/site/image/generator-export.png?raw=true)
 
 ####示例中的生成器在blackdream/site/JavaBean代码生成器.zip
- 点击下载[JavaBean代码生成器.zip](https://github.com/LaineyC/blackdream/blob/master/blackdream/site/JavaBean代码生成器.zip?raw=true)
+ 点击下载[JavaBean代码生成器.zip](https://github.com/LaineyC/blackdream/blob/master/blackdream/src/site/JavaBean代码生成器.zip?raw=true)
  
 ##sample项目说明
 
@@ -133,6 +133,6 @@ public class ${po.name}Po {
 
 sample项目演示了如何通过简单的miniSDK来操作blackdream某个制定的生成器的数据。
 
-sample/site/Employee.sql是sql脚本方便测试用建表。
+sample/src/site/Employee.sql是sql脚本方便测试用建表。
 
-sample/site/java数据层代码生成器.zip是一个比教程更为复杂一点的生成器文件，部署成功后导入即可，sample项目通过程序接口对其操作数据。
+sample/src/site/java数据层代码生成器.zip是一个比教程更为复杂一点的生成器文件，部署成功后导入即可，sample项目通过程序接口对其操作数据。
