@@ -108,7 +108,7 @@ define(
                                 }
 
                                 if(property.cascadeScript){
-                                    property.cascadeFunction = new Function("$property", property.cascadeScript);
+                                    property.cascadeFunction = new Function("$property", "$model", property.cascadeScript);
                                 }
 
                                 var validator = property.validator;
@@ -163,7 +163,7 @@ define(
                                 }
 
                                 if(property.cascadeScript){
-                                    property.cascadeFunction = new Function("$property", property.cascadeScript);
+                                    property.cascadeFunction = new Function("$property", "$model", property.cascadeScript);
                                 }
 
                                 var validator = property.validator;
