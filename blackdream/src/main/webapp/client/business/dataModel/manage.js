@@ -20,7 +20,7 @@ define(
                 $scope.dataModel = {};
                 $scope.validateMessageCache = {};
 
-                $scope.$dataModel = $scope.dataModel;
+                $scope.$modelTree = $scope.dataModel;
                 $scope.$global = {
                     dataModelCache: dataModelCache
                 };
@@ -113,7 +113,7 @@ define(
                                 }
 
                                 if(property.cascadeScript){
-                                    property.cascadeFunction = new Function("$property", "$model", "$dataModel", "$global", property.cascadeScript);
+                                    property.cascadeFunction = new Function("$property", "$model", "$modelTree", "$global", property.cascadeScript);
                                 }
 
                                 var validator = property.validator;
@@ -168,7 +168,7 @@ define(
                                 }
 
                                 if(property.cascadeScript){
-                                    property.cascadeFunction = new Function("$property", "$model", "$dataModel", "$global", property.cascadeScript);
+                                    property.cascadeFunction = new Function("$property", "$model", "$modelTree", "$global", property.cascadeScript);
                                 }
 
                                 var validator = property.validator;
