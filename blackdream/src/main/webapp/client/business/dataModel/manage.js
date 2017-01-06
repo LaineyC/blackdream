@@ -20,6 +20,11 @@ define(
                 $scope.dataModel = {};
                 $scope.validateMessageCache = {};
 
+                $scope.$dataModel = $scope.dataModel;
+                $scope.$global = {
+                    dataModelCache: dataModelCache
+                };
+
                 $scope.hashKey = function(entity){
                     return entity.$$hashKey.split(":")[1];
                 };
@@ -108,7 +113,7 @@ define(
                                 }
 
                                 if(property.cascadeScript){
-                                    property.cascadeFunction = new Function("$property", "$model", property.cascadeScript);
+                                    property.cascadeFunction = new Function("$property", "$model", "$dataModel", "$global", property.cascadeScript);
                                 }
 
                                 var validator = property.validator;
@@ -163,7 +168,7 @@ define(
                                 }
 
                                 if(property.cascadeScript){
-                                    property.cascadeFunction = new Function("$property", "$model", property.cascadeScript);
+                                    property.cascadeFunction = new Function("$property", "$model", "$dataModel", "$global", property.cascadeScript);
                                 }
 
                                 var validator = property.validator;
