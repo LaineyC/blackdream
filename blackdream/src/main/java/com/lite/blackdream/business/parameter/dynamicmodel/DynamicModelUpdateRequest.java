@@ -15,6 +15,8 @@ public class DynamicModelUpdateRequest extends Request {
 
     private String name;
 
+    private String cascadeScript;
+
     private String icon;
 
     private Boolean isRootChild;
@@ -45,6 +47,14 @@ public class DynamicModelUpdateRequest extends Request {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCascadeScript() {
+        return cascadeScript;
+    }
+
+    public void setCascadeScript(String cascadeScript) {
+        this.cascadeScript = cascadeScript;
     }
 
     public String getIcon() {

@@ -273,6 +273,7 @@ define(
                     dynamicModelApi.update({
                         id:$scope.updateRequest.id,
                         name: $scope.updateRequest.name,
+                        cascadeScript:$scope.updateRequest.cascadeScript,
                         icon: $scope.updateRequest.icon,
                         isRootChild: $scope.updateRequest.isRootChild,
                         children: $scope.updateRequest.children,

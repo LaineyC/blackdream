@@ -14,6 +14,17 @@
                                    tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.name.$invalid && dynamicModelUpdateForm.name.$dirty"
                                    ng-model="updateRequest.name" type="text" class="form-control input-sm" placeholder="名称" ng-maxlength="20" required/>
                         </div>
+                        <div class="col-sm-3">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">编写脚本 <span class="caret"></span></button>
+                                <ul class="dropdown-menu" style="width:500px;">
+                                    <li>
+                                        <textarea style="width: 480px;margin-left: 10px; height:500px;"  ng-model="updateRequest.cascadeScript" placeholder="内置变量$model、$modelTree、$global"
+                                                  ng-change="resetScript(updateRequest)" uib-tooltip="脚本有语法错误" tooltip-trigger="none" tooltip-is-open="updateRequest.hasScriptError"></textarea>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-1 control-label"><span class="text-danger">图标</span></label>

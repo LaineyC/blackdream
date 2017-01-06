@@ -84,6 +84,10 @@ define(
                             var j;
                             dynamicModel = dynamicModels[i];
 
+                            if(dynamicModel.cascadeScript){
+                                dynamicModel.cascadeFunction = new Function("$model", "$modelTree", "$global", dynamicModel.cascadeScript);
+                            }
+
                             var children = dynamicModel.children;
                             dynamicModel.children = [];
                             for(j = 0 ; j < children.length ; j++){

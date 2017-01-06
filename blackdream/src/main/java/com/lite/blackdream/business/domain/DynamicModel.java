@@ -14,6 +14,8 @@ public class DynamicModel extends Domain{
 
     private String name;
 
+    private String cascadeScript;
+
     private String icon;
 
     private Boolean isRootChild;
@@ -48,6 +50,14 @@ public class DynamicModel extends Domain{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCascadeScript() {
+        return cascadeScript;
+    }
+
+    public void setCascadeScript(String cascadeScript) {
+        this.cascadeScript = cascadeScript;
     }
 
     public String getIcon() {

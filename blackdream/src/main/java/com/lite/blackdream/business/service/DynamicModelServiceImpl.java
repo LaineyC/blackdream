@@ -45,6 +45,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
         DynamicModel dynamicModel = new DynamicModel();
         dynamicModel.setId(idWorker.nextId());
         dynamicModel.setName(request.getName());
+        dynamicModel.setCascadeScript(request.getCascadeScript());
         dynamicModel.setCreateDate(new Date());
         dynamicModel.setModifyDate(new Date());
         dynamicModel.setSequence(Integer.MAX_VALUE);
@@ -117,6 +118,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
         dynamicModel.setCreateDate(dynamicModelPersistence.getCreateDate());
         dynamicModel.setModifyDate(dynamicModelPersistence.getModifyDate());
         dynamicModel.setName(dynamicModelPersistence.getName());
+        dynamicModel.setCascadeScript(dynamicModelPersistence.getCascadeScript());
         dynamicModel.setIcon(dynamicModelPersistence.getIcon());
         dynamicModel.setIsRootChild(dynamicModelPersistence.getIsRootChild());
         dynamicModel.setProperties(dynamicModelPersistence.getProperties());
@@ -171,6 +173,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
             DynamicModel dynamicModel = new DynamicModel();
             dynamicModel.setId(d.getId());
             dynamicModel.setName(d.getName());
+            dynamicModel.setCascadeScript(d.getCascadeScript());
             dynamicModel.setCreateDate(d.getCreateDate());
             dynamicModel.setModifyDate(d.getModifyDate());
             dynamicModel.setIcon(d.getIcon());
@@ -209,6 +212,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
             DynamicModel dynamicModel = new DynamicModel();
             dynamicModel.setId(d.getId());
             dynamicModel.setName(d.getName());
+            dynamicModel.setCascadeScript(d.getCascadeScript());
             dynamicModel.setCreateDate(d.getCreateDate());
             dynamicModel.setModifyDate(d.getModifyDate());
             dynamicModel.setSequence(d.getSequence());
@@ -265,6 +269,7 @@ public class DynamicModelServiceImpl extends BaseService implements DynamicModel
         }
 
         dynamicModelPersistence.setName(request.getName());
+        dynamicModelPersistence.setCascadeScript(request.getCascadeScript());
         dynamicModelPersistence.setModifyDate(new Date());
         dynamicModelPersistence.setIcon(request.getIcon());
         dynamicModelPersistence.setIsRootChild(request.getIsRootChild());

@@ -16,6 +16,11 @@
                         <div class="col-sm-3 form-control-static"><span class="glyphicon glyphicon-{{dynamicModel.icon}}"></span></div>
                     </div>
                     <div class="form-group">
+                        <label class="col-sm-1 control-label">脚本</label>
+                        <div class="col-sm-3 form-control-static"><pre style="max-height: 200px;" ng-if="dynamicModel.cascadeScript!=null">{{dynamicModel.cascadeScript}}</pre></div>
+                    </div>
+
+                    <div class="form-group">
                         <label class="col-sm-1 control-label">顶级模型</label>
                         <div class="col-sm-3 form-control-static"><input onclick="return false;" type="checkbox" ng-checked="dynamicModel.isRootChild"/></div>
                     </div>

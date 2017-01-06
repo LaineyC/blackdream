@@ -31,6 +31,7 @@ define(
                     dynamicModelApi.create({
                         generatorId:generatorId,
                         name: $scope.createRequest.name,
+                        cascadeScript:$scope.createRequest.cascadeScript,
                         icon: $scope.createRequest.icon,
                         isRootChild: $scope.createRequest.isRootChild,
                         children: $scope.createRequest.children,

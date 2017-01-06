@@ -64,6 +64,12 @@ public class DynamicModelElementConverter extends BaseElementConverter<DynamicMo
             nameElement.setText(name);
         }
 
+        String cascadeScript = entity.getCascadeScript();
+        if(cascadeScript != null){
+            Element cascadeScriptElement = element.addElement("cascadeScript");
+            cascadeScriptElement.setText(cascadeScript);
+        }
+
         String icon = entity.getIcon();
         if(icon != null){
             Element iconElement = element.addElement("icon");
@@ -191,6 +197,11 @@ public class DynamicModelElementConverter extends BaseElementConverter<DynamicMo
         Node nameNode = element.element("name");
         if(nameNode != null){
             entity.setName(nameNode.getText());
+        }
+
+        Node cascadeScriptNode = element.element("cascadeScript");
+        if(cascadeScriptNode != null){
+            entity.setCascadeScript(cascadeScriptNode.getText());
         }
 
         Node iconNode = element.element("icon");
