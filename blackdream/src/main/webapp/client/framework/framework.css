@@ -69,3 +69,11 @@ html, body{
 .hide-col{
     text-decoration: underline;
 }
+
+.input-sm{
+    padding: 5px;
+}
+
+select.input-sm{
+    padding: 5px 1px;
+}
