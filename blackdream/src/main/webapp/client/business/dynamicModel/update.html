@@ -14,13 +14,84 @@
                                    tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.name.$invalid && dynamicModelUpdateForm.name.$dirty"
                                    ng-model="updateRequest.name" type="text" class="form-control input-sm" placeholder="名称" ng-maxlength="20" required/>
                         </div>
-                        <div class="col-sm-3">
+                        <label class="col-sm-1 control-label" style="width: 60px;"><span class="text-danger">宽度</span></label>
+                        <div class="col-sm-1" style="width: 100px;">
+                            <input name="nameViewWidth" uib-tooltip="{{getMessage('viewWidth',dynamicModelUpdateForm.nameViewWidth.$error,propertyControl.validateMessages)}}"
+                                   tooltip-trigger="none" tooltip-is-open="dynamicModelUpdateForm.nameViewWidth.$invalid && dynamicModelUpdateForm.nameViewWidth.$dirty"
+                                   ng-model="updateRequest.nameViewWidth" type="number" class="form-control input-sm" min="1" max="1000" required/>
+                        </div>
+                        <div class="col-sm-1" style="width: 100px;">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">编写脚本 <span class="caret"></span></button>
                                 <ul class="dropdown-menu" style="width:500px;">
                                     <li>
-                                        <textarea style="width: 480px;margin-left: 10px; height:500px;"  ng-model="updateRequest.cascadeScript" placeholder="内置变量$model、$modelTree、$global"
-                                                  ng-change="resetScript(updateRequest)" uib-tooltip="脚本有语法错误" tooltip-trigger="none" tooltip-is-open="updateRequest.hasScriptError"></textarea>
+                                        <textarea style="width: 480px;margin-left: 10px; height:500px;"  ng-model="updateRequest.nameCascadeScript" placeholder="内置变量$model、$modelTree、$global"
+                                            ng-change="resetNameScript()" uib-tooltip="脚本有语法错误" tooltip-trigger="none" tooltip-is-open="updateRequest.hasScriptError"></textarea>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-1" style="width: 100px;">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">设置规则 <span class="caret"></span></button>
+                                <ul class="dropdown-menu" style="width:250px;">
+                                    <!--
+                                    <li>
+                                        <a href="javascript:void(0)">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">必输</span>&nbsp;
+                                                <input type="checkbox" ng-model="updateRequest.nameValidator.required"/>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">最小</span>
+                                                <input ng-model="updateRequest.nameValidator.min" type="number" class="form-control input-sm"/>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">最大</span>
+                                                <input ng-model="updateRequest.nameValidator.max" type="number" class="form-control input-sm"/>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    -->
+                                    <li>
+                                        <a href="javascript:void(0)">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">最短</span>
+                                                <input ng-model="updateRequest.nameValidator.minlength" type="number" class="form-control input-sm"/>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">最长</span>
+                                                <input ng-model="updateRequest.nameValidator.maxlength" type="number" class="form-control input-sm"/>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">正则</span>
+                                                <input ng-model="updateRequest.nameValidator.pattern" type="text" class="form-control input-sm"/>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">提示</span>
+                                                <input ng-model="updateRequest.nameValidator.patternTooltip" type="text" class="form-control input-sm"/>
+                                            </div>
+                                        </a>
                                     </li>
                                 </ul>
                             </div>

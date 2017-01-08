@@ -11,6 +11,18 @@ define(
 
                 $scope.createRequest = {generatorId: generatorId,isRootChild:false,children:[],properties:[],association:[],predefinedAssociation:[]};
 
+                $scope.resetNameScript = function(){
+                    $scope.createRequest.hasScriptError = false;
+                    if($scope.createRequest.nameCascadeScript){
+                        try{
+                            $scope.createRequest.cascadeFunction = new Function("$property", $scope.createRequest.nameCascadeScript);
+                        }
+                        catch (e){
+                            $scope.createRequest.hasScriptError = true;
+                        }
+                    }
+                };
+
                 $scope.childrenControl = {
                     $checkedSelf:false
                 };
@@ -31,7 +43,9 @@ define(
                     dynamicModelApi.create({
                         generatorId:generatorId,
                         name: $scope.createRequest.name,
-                        cascadeScript:$scope.createRequest.cascadeScript,
+                        nameCascadeScript:$scope.createRequest.nameCascadeScript,
+                        nameViewWidth:$scope.createRequest.nameViewWidth,
+                        nameValidator:$scope.createRequest.nameValidator,
                         icon: $scope.createRequest.icon,
                         isRootChild: $scope.createRequest.isRootChild,
                         children: $scope.createRequest.children,

@@ -3,6 +3,7 @@ package com.lite.blackdream.business.parameter.dynamicmodel;
 import com.lite.blackdream.business.domain.DynamicProperty;
 import com.lite.blackdream.framework.model.Request;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +14,11 @@ public class DynamicModelCreateRequest extends Request {
 
     private String name;
 
-    private String cascadeScript;
+    private String nameCascadeScript;
+
+    private Double nameViewWidth;
+
+    private Map<String, Object> nameValidator = new LinkedHashMap<>();
 
     private String icon;
 
@@ -41,12 +46,28 @@ public class DynamicModelCreateRequest extends Request {
         this.name = name;
     }
 
-    public String getCascadeScript() {
-        return cascadeScript;
+    public String getNameCascadeScript() {
+        return nameCascadeScript;
     }
 
-    public void setCascadeScript(String cascadeScript) {
-        this.cascadeScript = cascadeScript;
+    public void setNameCascadeScript(String nameCascadeScript) {
+        this.nameCascadeScript = nameCascadeScript;
+    }
+
+    public Double getNameViewWidth() {
+        return nameViewWidth;
+    }
+
+    public void setNameViewWidth(Double nameViewWidth) {
+        this.nameViewWidth = nameViewWidth;
+    }
+
+    public Map<String, Object> getNameValidator() {
+        return nameValidator;
+    }
+
+    public void setNameValidator(Map<String, Object> nameValidator) {
+        this.nameValidator = nameValidator;
     }
 
     public String getIcon() {

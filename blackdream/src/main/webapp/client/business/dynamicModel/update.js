@@ -9,6 +9,18 @@ define(
                 viewPage.setViewPageTitle("数据模型修改");
                 $scope.updateRequest = {};
 
+                $scope.resetNameScript = function(){
+                    $scope.updateRequest.hasScriptError = false;
+                    if($scope.updateRequest.nameCascadeScript){
+                        try{
+                            $scope.updateRequest.cascadeFunction = new Function("$property", $scope.updateRequest.nameCascadeScript);
+                        }
+                        catch (e){
+                            $scope.updateRequest.hasScriptError = true;
+                        }
+                    }
+                };
+
                 var id = $routeParams.id;
                 dynamicModelApi.get({id: id}).success(function(dynamicModel){
                     angular.extend($scope.updateRequest, dynamicModel);
@@ -273,7 +285,9 @@ define(
                     dynamicModelApi.update({
                         id:$scope.updateRequest.id,
                         name: $scope.updateRequest.name,
-                        cascadeScript:$scope.updateRequest.cascadeScript,
+                        nameCascadeScript:$scope.updateRequest.nameCascadeScript,
+                        nameViewWidth:$scope.updateRequest.nameViewWidth,
+                        nameValidator:$scope.updateRequest.nameValidator,
                         icon: $scope.updateRequest.icon,
                         isRootChild: $scope.updateRequest.isRootChild,
                         children: $scope.updateRequest.children,

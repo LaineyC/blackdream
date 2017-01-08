@@ -9,17 +9,20 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-1 control-label">名称</label>
-                        <div class="col-sm-3 form-control-static">{{dynamicModel.name}}</div>
+                        <div class="col-sm-2 form-control-static">{{dynamicModel.name}}</div>
+                        <label class="col-sm-1 control-label" style="width: 60px;">宽度</label>
+                        <div class="col-sm-2 form-control-static" style="width: 100px;">{{dynamicModel.nameViewWidth}}</div>
+                        <label class="col-sm-1 control-label" style="width: 60px;">脚本</label>
+                        <div class="col-sm-3 form-control-static" style="width: 450px;"><pre style="max-height: 200px;max-width: 450px;" ng-if="dynamicModel.nameCascadeScript!=null">{{dynamicModel.nameCascadeScript}}</pre></div>
+                        <label class="col-sm-1 control-label" style="width: 100px;">验证规则</label>
+                        <div class="col-sm-2">
+                            <div ng-repeat="(k,v) in dynamicModel.nameValidator track by $index">{{validatorOptions[k]}}:{{v}}&nbsp;</div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-1 control-label">图标</label>
                         <div class="col-sm-3 form-control-static"><span class="glyphicon glyphicon-{{dynamicModel.icon}}"></span></div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label">脚本</label>
-                        <div class="col-sm-3 form-control-static"><pre style="max-height: 200px;" ng-if="dynamicModel.cascadeScript!=null">{{dynamicModel.cascadeScript}}</pre></div>
-                    </div>
-
                     <div class="form-group">
                         <label class="col-sm-1 control-label">顶级模型</label>
                         <div class="col-sm-3 form-control-static"><input onclick="return false;" type="checkbox" ng-checked="dynamicModel.isRootChild"/></div>
@@ -42,7 +45,7 @@
                                     <th rowspan="2">&nbsp;</th>
                                 </tr>
                                 <tr class="active">
-                                    <th width="100">可隐藏</th>
+                                    <th width="75">可隐藏</th>
                                     <th width="100">分组</th>
                                     <th width="100">标题</th>
                                     <th width="50">宽度</th>
@@ -65,7 +68,7 @@
                                     <td>{{typeOptions[property.type]}}</td>
                                     <td>{{property.defaultValue}}</td>
                                     <td><div ng-repeat="optionalValue in property.optionalValues track by $index">{{optionalValue}}&nbsp;</div></td>
-                                    <td><pre style="max-height: 200px;" ng-if="property.cascadeScript!=null">{{property.cascadeScript}}</pre></td>
+                                    <td><pre style="max-height: 200px;max-width: 400px;" ng-if="property.cascadeScript!=null">{{property.cascadeScript}}</pre></td>
                                     <td><div ng-repeat="(k,v) in property.validator track by $index">{{validatorOptions[k]}}:{{v}}&nbsp;</div></td>
                                     <td>&nbsp;</td>
                                 </tr>
@@ -108,7 +111,7 @@
                                     <td>{{typeOptions[property.type]}}</td>
                                     <td>{{property.defaultValue}}</td>
                                     <td><div ng-repeat="optionalValue in property.optionalValues track by $index">{{optionalValue}}&nbsp;</div></td>
-                                    <td><pre style="max-height: 200px;" ng-if="property.cascadeScript!=null">{{property.cascadeScript}}</pre></td>
+                                    <td><pre style="max-height: 200px;max-width: 400px;" ng-if="property.cascadeScript!=null">{{property.cascadeScript}}</pre></td>
                                     <td><div ng-repeat="(k,v) in property.validator track by $index">{{validatorOptions[k]}}:{{v}}&nbsp;</div></td>
                                     <td>&nbsp;</td>
                                 </tr>

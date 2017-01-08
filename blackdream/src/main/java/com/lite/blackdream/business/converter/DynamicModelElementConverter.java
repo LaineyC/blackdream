@@ -5,6 +5,7 @@ import com.lite.blackdream.business.domain.DynamicProperty;
 import com.lite.blackdream.business.domain.Generator;
 import com.lite.blackdream.business.domain.User;
 import com.lite.blackdream.framework.component.BaseElementConverter;
+import org.dom4j.Attribute;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.Node;
@@ -64,10 +65,26 @@ public class DynamicModelElementConverter extends BaseElementConverter<DynamicMo
             nameElement.setText(name);
         }
 
-        String cascadeScript = entity.getCascadeScript();
-        if(cascadeScript != null){
-            Element cascadeScriptElement = element.addElement("cascadeScript");
-            cascadeScriptElement.setText(cascadeScript);
+        String nameCascadeScript = entity.getNameCascadeScript();
+        if(nameCascadeScript != null){
+            Element nameCascadeScriptElement = element.addElement("nameCascadeScript");
+            nameCascadeScriptElement.setText(nameCascadeScript);
+        }
+
+        Double nameViewWidth = entity.getNameViewWidth();
+        if(nameViewWidth != null){
+            Element nameViewWidthElement = element.addElement("nameViewWidth");
+            nameViewWidthElement.setText(nameViewWidth.toString());
+        }
+
+        Map<String, Object> nameValidator = entity.getNameValidator();
+        if(nameValidator != null) {
+            Element nameValidatorElement = element.addElement("nameValidator");
+            nameValidator.forEach((key, value) -> {
+                if (value != null) {
+                    nameValidatorElement.addAttribute(key, value.toString());
+                }
+            });
         }
 
         String icon = entity.getIcon();
@@ -199,9 +216,45 @@ public class DynamicModelElementConverter extends BaseElementConverter<DynamicMo
             entity.setName(nameNode.getText());
         }
 
-        Node cascadeScriptNode = element.element("cascadeScript");
-        if(cascadeScriptNode != null){
-            entity.setCascadeScript(cascadeScriptNode.getText());
+        Node nameCascadeScriptNode = element.element("nameCascadeScript");
+        if(nameCascadeScriptNode != null){
+            entity.setNameCascadeScript(nameCascadeScriptNode.getText());
+        }
+
+        Node nameViewWidthNode = element.element("nameViewWidth");
+        if(nameViewWidthNode != null){
+            entity.setNameViewWidth(Double.valueOf(nameViewWidthNode.getText()));
+        }
+
+        Element nameValidatorNode = element.element("nameValidator");
+        if(nameValidatorNode != null){
+            ((List<Attribute>)nameValidatorNode.attributes()).forEach(attribute -> {
+                String attributeName = attribute.getName();
+                String attributeValue = attribute.getValue();
+                if(attributeValue != null){
+                    if("required".equals(attributeName)){
+                        entity.getNameValidator().put(attributeName, Boolean.valueOf(attributeValue));
+                    }
+                    else if("min".equals(attributeName)){
+                        entity.getNameValidator().put(attributeName, Double.valueOf(attributeValue));
+                    }
+                    else if("max".equals(attributeName)){
+                        entity.getNameValidator().put(attributeName, Double.valueOf(attributeValue));
+                    }
+                    else if("minlength".equals(attributeName)){
+                        entity.getNameValidator().put(attributeName, Long.valueOf(attributeValue));
+                    }
+                    else if("maxlength".equals(attributeName)){
+                        entity.getNameValidator().put(attributeName, Long.valueOf(attributeValue));
+                    }
+                    else if("pattern".equals(attributeName)){
+                        entity.getNameValidator().put(attributeName,attributeValue);
+                    }
+                    else if("patternTooltip".equals(attributeName)){
+                        entity.getNameValidator().put(attributeName,attributeValue);
+                    }
+                }
+            });
         }
 
         Node iconNode = element.element("icon");

@@ -31,8 +31,7 @@ define(
 
                 $scope.validateMessages = {
                     name:{
-                        required:"必输项",
-                        maxlength:"最长32位"
+                        required:"必输项"
                     }
                 };
 
@@ -84,8 +83,31 @@ define(
                             var j;
                             dynamicModel = dynamicModels[i];
 
-                            if(dynamicModel.cascadeScript){
-                                dynamicModel.cascadeFunction = new Function("$model", "$modelTree", "$global", dynamicModel.cascadeScript);
+                            if(dynamicModel.nameCascadeScript){
+                                dynamicModel.nameCascadeFunction = new Function("$model", "$modelTree", "$global", dynamicModel.nameCascadeScript);
+                            }
+
+                            var nameValidator = dynamicModel.nameValidator;
+                            var nameMessages = $scope.validateMessages.name;
+                            if(nameValidator){
+                                if(nameValidator.required){
+                                    nameMessages.required = "必输项";
+                                }
+                                if(nameValidator.min != null && nameValidator.min != undefined){
+                                    nameMessages.min = "最小" + nameValidator.min;
+                                }
+                                if(nameValidator.max != null && nameValidator.max != undefined){
+                                    nameMessages.max = "最大" + nameValidator.max;
+                                }
+                                if(nameValidator.minlength != null && nameValidator.minlength != undefined){
+                                    nameMessages.minlength = "最短" + nameValidator.minlength + "位";
+                                }
+                                if(nameValidator.maxlength != null && nameValidator.maxlength != undefined){
+                                    nameMessages.maxlength = "最长" + nameValidator.maxlength + "位";
+                                }
+                                if(nameValidator.pattern != null && nameValidator.pattern != undefined){
+                                    nameMessages.pattern = nameValidator.patternTooltip || "格式不匹配" + nameValidator.pattern;
+                                }
                             }
 
                             var children = dynamicModel.children;
