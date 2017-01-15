@@ -36,10 +36,10 @@ BlackDream是文件生成器构建平台，可快速灵活地构建和共享文�
 
 ##如何打造属于你的生成器
 
-####进行登陆。
+####进行登陆，地址http://localhost:8080/login.html 或者 http://localhost:8080/client/login.html。
 ![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/src/site/image/login.png?raw=true)
 
-####进入首页，地址http://localhost:8080/login.html 或者 http://localhost:8080/client/login.html。
+####进入首页。
 ![image](https://github.com/LaineyC/blackdream/blob/master/blackdream/src/site/image/main.png?raw=true)
 
 ####点击我的生成器，进入生成器管理界面。
