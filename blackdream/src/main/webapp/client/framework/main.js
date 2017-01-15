@@ -23,60 +23,19 @@ require.config({
         }
     },
     shim:{
-        "jquery": {
-            exports: "jquery"
-        },
-        "angular": {
-            deps: ["jquery"],
-            exports: "angular"
-        },
-        "bootstrap": {
-            deps: ["jquery"],
-            exports: "bootstrap"
-        },
-        "angular-bootstrap": {
-            deps: ["angular"],
-            exports: "angular-bootstrap"
-        },
-        "angular-route": {
-            deps: ["angular"],
-            exports:"angular-route"
-        },
-        "angular-touch": {
-            deps: ["angular"],
-            exports: "angular-touch"
-        },
-        "angular-sanitize": {
-            deps: ["angular"],
-            exports: "angular-sanitize"
-        },
-        "angular-animate": {
-            deps: ["angular"],
-            exports: "angular-animate"
-        },
-        "angular-cookies": {
-            deps: ["angular"],
-            exports: "angular-cookies"
-        },
-        "angular-locale": {
-            deps: ["angular"],
-            exports:"angular-locale"
-        },
-        "angular-file-upload": {
-            deps: [
-                "angular",
-                "library/angular-file-upload/ng-file-upload-shim.min"
-            ],
-            exports: "angular-file-upload"
-        },
-        "ui-sortable": {
-            deps: ["jquery" ,"jquery-ui", "angular"],
-            exports:"ui-sortable"
-        },
-        "jquery-ui": {
-            deps: ["jquery"],
-            exports:"jquery-ui"
-        }
+        "jquery": {exports: "jquery"},
+        "angular": {deps: ["jquery"], exports: "angular"},
+        "bootstrap": {deps: ["jquery"], exports: "bootstrap"},
+        "angular-bootstrap": {deps: ["angular"], exports: "angular-bootstrap"},
+        "angular-route": {deps: ["angular"], exports:"angular-route"},
+        "angular-touch": {deps: ["angular"], exports: "angular-touch"},
+        "angular-sanitize": {deps: ["angular"], exports: "angular-sanitize"},
+        "angular-animate": {deps: ["angular"], exports: "angular-animate"},
+        "angular-cookies": {deps: ["angular"], exports: "angular-cookies"},
+        "angular-locale": {deps: ["angular"], exports:"angular-locale"},
+        "angular-file-upload": {deps: ["angular", "library/angular-file-upload/ng-file-upload-shim.min"], exports: "angular-file-upload"},
+        "ui-sortable": {deps: ["jquery", "jquery-ui", "angular"], exports:"ui-sortable"},
+        "jquery-ui": {deps: ["jquery"], exports:"jquery-ui"}
     },
     urlArgs: "_v=" + window.BLACKDREAM_VERSION
 });

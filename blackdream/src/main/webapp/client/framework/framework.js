@@ -34,7 +34,7 @@ define(
         }
         //框架总模块
         var framework = angular.module("framework", [
-            "ngRoute", "ngTouch", "ngAnimate", "ngCookies", "ui.bootstrap", "ngFileUpload", "ngSanitize" ,"ui.sortable"
+            "ngRoute", "ngTouch", "ngAnimate", "ngCookies", "ui.bootstrap", "ngFileUpload", "ngSanitize", "ui.sortable"
         ]);
         //因为注入都是单例的 缓存provider引用后 后续可以用
         var providers = {};
