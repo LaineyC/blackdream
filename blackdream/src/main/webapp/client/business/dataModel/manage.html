@@ -17,7 +17,7 @@
                             </ul>
                         </div>
                         <div class="btn-group" role="group">
-                            <button uib-tooltip="请及时保存数据" tooltip-placement="bottom" tooltip-trigger="none" tooltip-is-open="!(!dataModelControl.editable || !dataModelControl.dirtyData.hasDirtyData())"
+                            <button uib-tooltip="10秒自动保存数据" tooltip-placement="bottom" tooltip-trigger="none" tooltip-is-open="!(!dataModelControl.editable || !dataModelControl.dirtyData.hasDirtyData())"
                                     type="button" ng-click="dataModelControl.saveDirty();" ng-disabled="!dataModelControl.editable || !dataModelControl.dirtyData.hasDirtyData()" class="btn btn-sm btn-warning">
                                 保存
                             </button>

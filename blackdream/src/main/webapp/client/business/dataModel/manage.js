@@ -4,8 +4,8 @@ define(
         "use strict";
 
         module.controller("dataModelManageController", [
-            "$scope", "$uibModal", "$routeParams", "dataModelApi", "templateStrategyApi", "dynamicModelApi", "generatorInstanceApi", "$q", "viewPage", "clipboard","systemApi", "$cookies", "alert",
-            function($scope, $uibModal, $routeParams, dataModelApi, templateStrategyApi, dynamicModelApi, generatorInstanceApi, $q, viewPage, clipboard, systemApi, $cookies, alert){
+            "$scope", "$uibModal", "$routeParams", "dataModelApi", "templateStrategyApi", "dynamicModelApi", "generatorInstanceApi", "$q", "viewPage", "clipboard","systemApi", "$cookies", "alert", "$timeout",
+            function($scope, $uibModal, $routeParams, dataModelApi, templateStrategyApi, dynamicModelApi, generatorInstanceApi, $q, viewPage, clipboard, systemApi, $cookies, alert, $timeout){
                 viewPage.setViewPageTitle("工作台");
                 var id = 1;
                 var nextId = function(){
@@ -472,6 +472,17 @@ define(
                         }]
                     });
                 };
+
+                var promise;
+                //10秒自动保存
+                $scope.$watch(function(){
+                    if($scope.dataModelControl.dirtyData.hasDirtyData()){
+                        promise && $timeout.cancel(promise);
+                        promise = $timeout(function(){
+                            $scope.dataModelControl.saveDirty();
+                        }, 10 * 1000);
+                    }
+                });
 
                 $scope.dataModelControl = {
                     editable:true,

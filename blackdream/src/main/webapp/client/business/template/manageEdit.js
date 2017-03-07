@@ -4,8 +4,8 @@ define(
         "use strict";
 
         module.controller("templateManageEditController", [
-            "$scope", "$routeParams", "templateApi","base64", "$cookies", "viewPage",
-            function($scope, $routeParams, templateApi, base64, $cookies, viewPage){
+            "$scope", "$routeParams", "templateApi","base64", "$cookies", "viewPage", "$timeout",
+            function($scope, $routeParams, templateApi, base64, $cookies, viewPage, $timeout){
                 viewPage.setViewPageTitle("模板文件编辑");
 
                 var generatorId = $routeParams.generatorId;
@@ -38,6 +38,17 @@ define(
                         $scope.aceTheme = aceTheme;
                     }
                 };
+
+                var promise;
+                //10秒自动保存
+                $scope.$watch(function(){
+                    if($scope.dirtyData.hasDirtyData()){
+                        promise && $timeout.cancel(promise);
+                        promise = $timeout(function(){
+                            $scope.dirtyData.saveDirty();
+                        }, 10 * 1000);
+                    }
+                });
 
                 $scope.dirtyData = {
                     deleteData:{},
@@ -93,6 +104,7 @@ define(
                         }
                     }
                 };
+
                 $scope.templateControl = {
                     index: 1,
                     add: function(){
