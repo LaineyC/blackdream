@@ -472,7 +472,7 @@ define(
                         }]
                     });
                 };
-
+/*
                 var promise;
                 //10秒自动保存
                 $scope.$watch(function(){
@@ -483,8 +483,9 @@ define(
                         }, 10 * 1000);
                     }
                 });
-
+*/
                 $scope.dataModelControl = {
+                    activeItem:null,
                     editable:true,
                     sortableOptions : {
                         update: function(e, ui) {
@@ -638,6 +639,7 @@ define(
                     view:function(dataModel){
                         if(dataModel.$view || $scope.tabsControl.contains(dataModel)){
                             $scope.tabsControl.add(dataModel);
+                            $scope.dataModelControl.activeItem = {id:dataModel.id};
                         }
                         else{
                             dataModelApi.get({id:dataModel.id, rootId: $scope.generatorInstance.dataModel.id}).success(function(dm){
@@ -664,6 +666,7 @@ define(
                                 }
 
                                 $scope.tabsControl.add(dataModel);
+                                $scope.dataModelControl.activeItem = {id:dataModel.id};
                             });
                         }
                     },

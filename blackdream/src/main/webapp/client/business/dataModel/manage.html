@@ -17,7 +17,7 @@
                             </ul>
                         </div>
                         <div class="btn-group" role="group">
-                            <button uib-tooltip="10秒自动保存数据" tooltip-placement="bottom" tooltip-trigger="none" tooltip-is-open="!(!dataModelControl.editable || !dataModelControl.dirtyData.hasDirtyData())"
+                            <button uib-tooltip="保存数据" tooltip-placement="bottom" tooltip-trigger="none" tooltip-is-open="!(!dataModelControl.editable || !dataModelControl.dirtyData.hasDirtyData())"
                                     type="button" ng-click="dataModelControl.saveDirty();" ng-disabled="!dataModelControl.editable || !dataModelControl.dirtyData.hasDirtyData()" class="btn btn-sm btn-warning">
                                 保存
                             </button>
@@ -41,7 +41,7 @@
         </div>
         <div class="col-sm-10" style="width: 80%;margin-left: 20%;">
             <uib-tabset ng-if="tabsControl.data.length">
-                <uib-tab ng-repeat="dataModel in tabsControl.data track by dataModel.id" ng-show="$index<10" active="dataModel.active" ng-init="tabsControl.initScope(dataModel,this)">
+                <uib-tab ng-repeat="dataModel in tabsControl.data track by dataModel.id" ng-show="$index<10" select="dataModelControl.activeItem = {id:dataModel.id};" active="dataModel.active" ng-init="tabsControl.initScope(dataModel,this)">
                     <uib-tab-heading><i class="text-info glyphicon glyphicon-{{dataModel.dynamicModel.icon}}"></i> <label>{{dataModel.name}}</label></uib-tab-heading>
                     <br/>
                     <form name="dataModelEditForm" class="form-horizontal" role="form" novalidate>
@@ -272,7 +272,7 @@
 </script>
 <!-- 生成数据导航使用的递归模板 -->
 <script id="dataModelRecursion" type="text/ng-template">
-    <li class="list-group-item" ng-repeat="child in parent.children" ng-init="p=parent;">
+    <li class="list-group-item" ng-repeat="child in parent.children" ng-init="p=parent;" ng-class="{active:dataModelControl.activeItem.id==child.id}">
         <i class="glyphicon glyphicon-plus" ng-class="child.children.length ? (child.$expend ? 'glyphicon-minus' : 'glyphicon-plus') : 'glyphicon-leaf'" ng-click="child.$expend =! child.$expend;"></i>
         <label style="margin-right: 5px;">{{$index + 1}}</label>
         <span class="text-info glyphicon glyphicon-{{child.dynamicModel.icon}}"></span>

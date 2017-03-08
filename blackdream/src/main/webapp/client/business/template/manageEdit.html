@@ -30,7 +30,7 @@
                             </ul>
                         </div>
                         <div class="btn-group" role="group">
-                            <button uib-tooltip="10秒自动保存数据" tooltip-placement="bottom" tooltip-trigger="none" tooltip-is-open="dirtyData.hasDirtyData()"
+                            <button uib-tooltip="保存数据" tooltip-placement="bottom" tooltip-trigger="none" tooltip-is-open="dirtyData.hasDirtyData()"
                                     type="button" class="btn btn-sm btn-warning" ng-click="dirtyData.saveDirty()"  ng-disabled="!dirtyData.hasDirtyData();">
                                 保存
                             </button>
@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col-sm-12 condensed-list" style="width: 20%;position: fixed;top: 100px; bottom: 0;overflow: auto;">
                     <div ui-sortable="templateControl.sortableOptions" ng-model="templates" class="list-group" style="padding-left: 0;">
-                        <a ng-repeat="template in templates" ng-dblclick="templateControl.view(template)" href="javascript:void(0)" class="list-group-item">
+                        <a ng-repeat="template in templates" ng-dblclick="templateControl.view(template)" href="javascript:void(0)" ng-class="{active:templateControl.activeItem.id==template.id}" class="list-group-item">
                             <label style="margin-right: 5px;">{{$index + 1}}</label>
                             <label>{{template.name}}</label>
                             <button ng-if="!child.children.length" type="button" class="btn btn-danger btn-xs pull-right" ng-click="templateControl.delete(template,$index);">
@@ -57,7 +57,7 @@
         </div>
         <div class="col-sm-10" style="width: 80%;margin-left: 20%;">
             <uib-tabset ng-if="tabsControl.data.length">
-                <uib-tab ng-repeat="template in tabsControl.data" active="template.active" ng-init="tabsControl.initScope(template, this)">
+                <uib-tab ng-repeat="template in tabsControl.data" active="template.active" select="templateControl.activeItem={id:template.id}" ng-init="tabsControl.initScope(template, this)">
                     <uib-tab-heading><label>{{template.name}}</label></uib-tab-heading>
                     <br/>
                     <form name="templateUpdateForm" class="form-horizontal" role="form" novalidate>

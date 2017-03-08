@@ -38,7 +38,7 @@ define(
                         $scope.aceTheme = aceTheme;
                     }
                 };
-
+/*
                 var promise;
                 //10秒自动保存
                 $scope.$watch(function(){
@@ -49,7 +49,7 @@ define(
                         }, 10 * 1000);
                     }
                 });
-
+*/
                 $scope.dirtyData = {
                     deleteData:{},
                     updateData:{},
@@ -107,6 +107,7 @@ define(
 
                 $scope.templateControl = {
                     index: 1,
+                    activeItem:null,
                     add: function(){
                         var id = $scope.templateControl.index++;
                         var template = {id: 0 - id, name:"新建模板" + "(" + id + ")",code:"hello blackdream",$view:true};
@@ -126,12 +127,14 @@ define(
                     view:function(template){
                         if(template.$view || $scope.tabsControl.contains(template)){
                             $scope.tabsControl.add(template);
+                            $scope.templateControl.activeItem = {id:template.id};
                         }
                         else{
                             templateApi.codeGet({id:template.id}).success(function(code){
                                 template.code = code;
                                 template.$view = true;
                                 $scope.tabsControl.add(template);
+                                $scope.templateControl.activeItem = {id:template.id};
                             });
                         }
                     },
