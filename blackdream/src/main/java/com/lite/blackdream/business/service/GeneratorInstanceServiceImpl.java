@@ -179,6 +179,19 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             }
             return true;
         });
+
+        String sortField = request.getSortField();
+        String sortDirection = request.getSortDirection();
+        if("modifyDate".equals(sortField)){
+            if("DESC".equalsIgnoreCase(sortDirection)){
+                records.sort((g1, g2) -> {
+                    long t1 = g1.getModifyDate().getTime();
+                    long t2 = g2.getModifyDate().getTime();
+                    return t2 > t1 ? 1 :(t2 < t1 ? -1 : 0);
+                });
+            }
+        }
+
         Integer page = request.getPage();
         Integer pageSize = request.getPageSize();
         Integer fromIndex = (page - 1) * pageSize;
@@ -202,14 +215,6 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
             generatorInstance.setDataModel(g.getDataModel());
             generatorInstance.setVersion(g.getVersion());
             result.add(generatorInstance);
-        }
-
-        String sortField = request.getSortField();
-        String sortDirection = request.getSortDirection();
-        if("modifyDate".equals(sortField)){
-            if("DESC".equalsIgnoreCase(sortDirection)){
-                result.sort((g1, g2) -> (int)(g2.getModifyDate().getTime() - g1.getModifyDate().getTime()));
-            }
         }
 
         return new PagerResult<>(result, (long)records.size());

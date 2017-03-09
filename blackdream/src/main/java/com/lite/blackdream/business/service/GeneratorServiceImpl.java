@@ -192,6 +192,24 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
             }
             return true;
         });
+
+        String sortField = request.getSortField();
+        String sortDirection = request.getSortDirection();
+        if("modifyDate".equals(sortField)){
+            if("DESC".equalsIgnoreCase(sortDirection)){
+                records.sort((g1, g2) -> {
+                    long t1 = g1.getModifyDate().getTime();
+                    long t2 = g2.getModifyDate().getTime();
+                    return t2 > t1 ? 1 :(t2 < t1 ? -1 : 0);
+                });
+            }
+        }
+        else if("instanceCount".equals(sortField)){
+            if("DESC".equalsIgnoreCase(sortDirection)){
+                records.sort((g1, g2) -> g2.getInstanceCount() - g1.getInstanceCount());
+            }
+        }
+
         Integer page = request.getPage();
         Integer pageSize = request.getPageSize();
         Integer fromIndex = (page - 1) * pageSize;
@@ -213,19 +231,6 @@ public class GeneratorServiceImpl extends BaseService implements GeneratorServic
             User developerPersistence = userRepository.selectById(g.getDeveloper().getId());
             generator.setDeveloper(developerPersistence);
             result.add(generator);
-        }
-
-        String sortField = request.getSortField();
-        String sortDirection = request.getSortDirection();
-        if("modifyDate".equals(sortField)){
-            if("DESC".equalsIgnoreCase(sortDirection)){
-                result.sort((g1, g2) -> (int)(g2.getModifyDate().getTime() - g1.getModifyDate().getTime()));
-            }
-        }
-        else if("instanceCount".equals(sortField)){
-            if("DESC".equalsIgnoreCase(sortDirection)){
-                result.sort((g1, g2) -> g2.getInstanceCount() - g1.getInstanceCount());
-            }
         }
 
         return new PagerResult<>(result, (long)records.size());
