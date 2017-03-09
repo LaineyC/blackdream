@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col-sm-12 condensed-list" style="width: 20%;position: fixed;top: 100px; bottom: 0;overflow: auto;">
                     <div ui-sortable="templateControl.sortableOptions" ng-model="templates" class="list-group" style="padding-left: 0;">
-                        <a ng-repeat="template in templates" ng-dblclick="templateControl.view(template)" href="javascript:void(0)" ng-class="{active:templateControl.activeItem.id==template.id}" class="list-group-item">
+                        <a ng-repeat="template in templates" ng-click="templateControl.view(template)" href="javascript:void(0)" ng-class="{active:templateControl.activeItem.id==template.id}" class="list-group-item">
                             <label style="margin-right: 5px;">{{$index + 1}}</label>
                             <label>{{template.name}}</label>
                             <button ng-if="!child.children.length" type="button" class="btn btn-danger btn-xs pull-right" ng-click="templateControl.delete(template,$index);">
