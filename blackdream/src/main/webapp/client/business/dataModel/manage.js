@@ -771,6 +771,9 @@ define(
                             }
                             var record = {__hashKey:nextId()};
                             for(var k in property){
+                                if(k == "__hashKey"){
+                                    continue;
+                                }
                                 record[k] = property[k];
                             }
                             dataModel.association.push(record);
