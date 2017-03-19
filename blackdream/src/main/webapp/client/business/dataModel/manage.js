@@ -659,6 +659,9 @@ define(
                                     for(var k in property){
                                         if(k in dynamicModelKeys.associationKeys.dataModelTypeKeys){
                                             var propertyDataModel = dataModelCache[property[k]];
+                                            if(!propertyDataModel){
+                                                continue;
+                                            }
                                             property[k] = {id:propertyDataModel.id,name:propertyDataModel.name};
                                         }
                                     }
