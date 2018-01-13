@@ -396,7 +396,11 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
                             dataModelTarget.getProperties().put(name, new Date((Long) value));
                         }
                         else if (propertiesKeys_dataModelTypeKeys.contains(name)) {
-                            dataModelTarget.getProperties().put(name, dataModelTargetCache.get(value));
+                            DataModel dataModel = dataModelTargetCache.get(value);
+                            //前端会提交rootDataModel错误数据bug 暂时后端解决
+                            if(dataModel != rootDataModel){
+                                dataModelTarget.getProperties().put(name, dataModel);
+                            }
                         }
                         else {
                             dataModelTarget.getProperties().put(name, value);

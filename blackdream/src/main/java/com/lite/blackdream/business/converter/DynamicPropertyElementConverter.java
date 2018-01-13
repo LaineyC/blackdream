@@ -72,6 +72,12 @@ public class DynamicPropertyElementConverter extends BaseElementConverter<Dynami
             }
         }
 
+        String initScript = entity.getInitScript();
+        if(initScript != null){
+            Element initScriptElement = element.addElement("initScript");
+            initScriptElement.setText(initScript);
+        }
+
         String cascadeScript = entity.getCascadeScript();
         if(cascadeScript != null){
             Element cascadeScriptElement = element.addElement("cascadeScript");
@@ -159,6 +165,11 @@ public class DynamicPropertyElementConverter extends BaseElementConverter<Dynami
             for (int i = 0; i < optionalValuesElements.size() ; i++) {
                 optionalValues[i] = optionalValuesElements.get(i).getText();
             }
+        }
+
+        Node initScriptNode = element.element("initScript");
+        if(initScriptNode != null){
+            entity.setInitScript(initScriptNode.getText());
         }
 
         Node cascadeScriptNode = element.element("cascadeScript");

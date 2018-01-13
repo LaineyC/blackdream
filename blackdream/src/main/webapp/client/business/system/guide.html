@@ -118,7 +118,7 @@
                                     </tr>
                                     <tr>
                                         <td><span class="text-info">名称</span></td>
-                                        <td><span class="text-info">properties</span>对应的<span class="text-info">Key</span>。</td>
+                                        <td><span class="text-info">properties</span>对应的<span class="text-info">Key</span><span class="text-warning">（命名不能包含字符$）</span>。</td>
                                     </tr>
                                     <tr id="typeApi">
                                         <td><span class="text-info">类型</span></td>
@@ -145,12 +145,13 @@
                                     <tr>
                                         <td><span class="text-info">级联脚本</span></td>
                                         <td>
-                                            <p><span class="text-warning">HTML</span>控件<span class="text-info">change</span>事件所触发执行的脚本，一般用作级联操作。</p>
+                                            <p><span class="text-warning">HTML</span>控件<span class="text-info">change</span>事件（数据初始化时也会触发）所触发执行的脚本，一般用作级联操作。</p>
                                             <p>级联脚本用<span class="text-warning">JavaScript</span>编写， 脚本内置变量<span class="text-info">$property</span>、<span class="text-info">$model</span>、<span class="text-info">$modelTree</span>、<span class="text-info">$global</span>。</p>
                                             <p><span class="text-info">$property</span>的引用等于<span class="text-info">properties</span>，通过<span class="text-info">$property[名称]</span>或者<span class="text-info">$property.名称</span>来访问属性的值。</p>
                                             <p><span class="text-info">$model</span>的引用等于当前编辑<span class="text-warning">DataModel</span>的对象实例。</p>
                                             <p><span class="text-info">$modelTree</span>的引用等于<span class="text-warning">工作台导航树结构</span>的对象。</p>
                                             <p><span class="text-info">$global</span>的结构{dataModelCache:dataModelCache}，也可用于级联脚本存储数据。</p>
+                                            <p>每个<span class="text-warning">HTML</span>控件都会对应一个<span class="text-info">$property[$名称+Control]</span>的属性，<span class="text-info">$property[$名称+Control]</span>里面有一个<span class="text-info">disabled</span>属性来控制每个控件的禁用状态</p>
                                         </td>
                                     </tr>
                                     <tr>
@@ -191,7 +192,7 @@
                                     </tr>
                                     <tr>
                                         <td><span class="text-info">名称</span></td>
-                                        <td>集合元素对应的<span class="text-info">Key</span>。</td>
+                                        <td>集合元素对应的<span class="text-info">Key</span><span class="text-warning">（命名不能包含字符$）</span>。</td>
                                     </tr>
                                     <tr>
                                         <td><span class="text-info">类型</span></td>
@@ -211,12 +212,13 @@
                                     <tr>
                                         <td><span class="text-info">级联脚本</span></td>
                                         <td>
-                                            <p><span class="text-warning">HTML</span>控件<span class="text-info">change</span>事件所触发执行的脚本，一般用作级联操作。</p>
+                                            <p><span class="text-warning">HTML</span>控件<span class="text-info">change</span>事件（数据初始化时也会触发）所触发执行的脚本，一般用作级联操作。</p>
                                             <p>级联脚本用<span class="text-warning">JavaScript</span>编写， 脚本内置变量<span class="text-info">$property</span>、<span class="text-info">$model</span>、<span class="text-info">$modelTree</span>、<span class="text-info">$global</span>。</p>
                                             <p><span class="text-info">$property</span>的引用等于集合元素，通过<span class="text-info">$property[名称]</span>或者<span class="text-info">$property.名称</span>来访问属性的值。</p>
                                             <p><span class="text-info">$model</span>的引用等于当前编辑<span class="text-warning">DataModel</span>的对象实例。</p>
                                             <p><span class="text-info">$modelTree</span>的引用等于<span class="text-warning">工作台导航树结构</span>的对象。</p>
                                             <p><span class="text-info">$global</span>的结构{dataModelCache:dataModelCache}，也可用于级联脚本存储数据。</p>
+                                            <p>每个<span class="text-warning">HTML</span>控件都会对应一个<span class="text-info">$property[$名称+Control]</span>的属性，<span class="text-info">$property[$名称+Control]</span>里面有一个<span class="text-info">disabled</span>属性来控制每个控件的禁用状态</p>
                                         </td>
                                     </tr>
                                     <tr>

@@ -28,6 +28,8 @@ public class DynamicProperty extends Domain{
 
     private String[] optionalValues;
 
+    private String initScript;
+
     private String cascadeScript;
 
     private Map<String, Object> validator = new LinkedHashMap<>();
@@ -98,6 +100,14 @@ public class DynamicProperty extends Domain{
 
     public void setOptionalValues(String[] optionalValues) {
         this.optionalValues = optionalValues;
+    }
+
+    public String getInitScript() {
+        return initScript;
+    }
+
+    public void setInitScript(String initScript) {
+        this.initScript = initScript;
     }
 
     public String getCascadeScript() {

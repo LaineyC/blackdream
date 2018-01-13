@@ -81,3 +81,13 @@ html, body{
 select.input-sm{
     padding: 5px 0;
 }
+
+.form-control[readonly] {
+    background-color: #ffffff;
+    opacity: 1;
+}
+
+.form-control[disabled][readonly]{
+    background-color: #999999;
+    opacity: 1;
+}

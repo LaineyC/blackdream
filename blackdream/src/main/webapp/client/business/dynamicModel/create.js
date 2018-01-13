@@ -312,6 +312,13 @@ define(
                                 properties[property.name] = property.defaultValue;
                             }
                         }
+                        for(var i = 0 ; i < $scope.createRequest.association.length ; i++){
+                            var property = $scope.createRequest.association[i];
+                            if(property.cascadeScript){
+                                property.initFunction = new Function("$property", property.cascadeScript);
+                                property.initFunction(properties);
+                            }
+                        }
                         $scope.createRequest.predefinedAssociation.push(properties);
                     },
                     delete:function(entity, index) {

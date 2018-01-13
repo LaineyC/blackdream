@@ -365,6 +365,13 @@ define(
                                 properties[property.name] = property.defaultValue;
                             }
                         }
+                        for(var i = 0 ; i < $scope.updateRequest.association.length ; i++){
+                            var property = $scope.updateRequest.association[i];
+                            if(property.cascadeScript){
+                                property.initFunction = new Function("$property", property.cascadeScript);
+                                property.initFunction(properties);
+                            }
+                        }
                         $scope.updateRequest.predefinedAssociation.push(properties);
                         $scope.dynamicModelUpdateForm.$setDirty();
                     },

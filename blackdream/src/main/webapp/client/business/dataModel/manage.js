@@ -527,14 +527,16 @@ define(
                         var newProperties = {};
                         var dynamicModelKeys = dynamicModelKeysCache[dynamicModel.id];
                         for(var k in properties){
-                            if(properties[k] == undefined || properties[k] == null){
+                            if(properties[k] == undefined || properties[k] == null || k.indexOf("$") != -1){
                                 continue;
                             }
                             if(k in dynamicModelKeys.propertiesKeys.dateTypeKeys){
                                 newProperties[k] = new Date(properties[k]).getTime();
                             }
                             else if(k in dynamicModelKeys.propertiesKeys.dataModelTypeKeys){
-                                newProperties[k] = properties[k].id;
+                                if(properties[k].id != $scope.generatorInstance.dataModel.id){
+                                    newProperties[k] = properties[k].id;
+                                }
                             }
                             else{
                                 newProperties[k] = properties[k];
@@ -549,14 +551,16 @@ define(
                             var property = association[i];
                             var newProperty = {};
                             for(var k in property){
-                                if(k == "__hashKey" || property[k] == undefined || property[k] == null){
+                                if(k == "__hashKey" || property[k] == undefined || property[k] == null || k.indexOf("$") != -1){
                                     continue;
                                 }
                                 if(k in dynamicModelKeys.associationKeys.dateTypeKeys){
                                     newProperty[k] = new Date(property[k]).getTime();
                                 }
                                 else if(k in dynamicModelKeys.associationKeys.dataModelTypeKeys){
-                                    newProperty[k] = property[k].id;
+                                    if(property[k].id != $scope.generatorInstance.dataModel.id){
+                                        newProperty[k] = property[k].id;
+                                    }
                                 }
                                 else{
                                     newProperty[k] = property[k];
@@ -606,6 +610,7 @@ define(
 
                         var dynamicModelProperties = dynamicModel.properties;
                         var properties = {};
+                        var dataModel = {id: 0 - id, dynamicModel: dynamicModel, parent:parent, properties:properties, association:[], name:"新建" + dynamicModel.name + "(" + id + ")", $view:true, $runChecked:true, $dataDictionaryChecked:true};
                         for(var i = 0 ; i < dynamicModelProperties.length ; i++){
                             var property = dynamicModelProperties[i];
                             if(property.defaultValue != null){
@@ -613,8 +618,15 @@ define(
                             }
                         }
 
-                        var dataModel = {id: 0 - id, dynamicModel: dynamicModel, parent:parent, properties:properties, association:[], name:"新建" + dynamicModel.name + "(" + id + ")", $view:true, $runChecked:true, $dataDictionaryChecked:true};
-                        dataModelApi.create({
+                        for(var i = 0 ; i < dynamicModelProperties.length ; i++){
+                            var property = dynamicModelProperties[i];
+                            if(property.cascadeScript){
+                                property.initFunction = new Function("$property", "$model", "$modelTree", "$global", property.cascadeScript);
+                                property.initFunction(properties, dataModel, $scope.$modelTree, $scope.$global);
+                            }
+                        }
+
+                       dataModelApi.create({
                             rootId:$scope.generatorInstance.dataModel.id,
                             name:dataModel.name,
                             dynamicModelId:dataModel.dynamicModel.id,
@@ -654,8 +666,17 @@ define(
                                         dataModel.properties[k] = {id:propertyDataModel.id,name:propertyDataModel.name};
                                     }
                                 }
+                                for(var i = 0 ; i < dataModel.dynamicModel.properties.length ; i++){
+                                    var p = dataModel.dynamicModel.properties[i];
+                                    if(p.cascadeScript){
+                                        p.initFunction = new Function("$property", "$model", "$modelTree", "$global", p.cascadeScript);
+                                        p.initFunction(dataModel.properties, dataModel, $scope.$modelTree, $scope.$global);
+                                    }
+                                }
+
                                 for(var i = 0 ; i < dataModel.association.length ;i++){
                                     var property = dataModel.association[i];
+
                                     for(var k in property){
                                         if(k in dynamicModelKeys.associationKeys.dataModelTypeKeys){
                                             var propertyDataModel = dataModelCache[property[k]];
@@ -666,8 +687,16 @@ define(
                                         }
                                     }
                                     property.__hashKey = nextId();
-                                }
 
+                                    for(var j = 0 ; j < dataModel.dynamicModel.association.length ; j++){
+                                        var p = dataModel.dynamicModel.association[j];
+
+                                        if(p.cascadeScript){
+                                            p.initFunction = new Function("$property", "$model", "$modelTree", "$global", p.cascadeScript);
+                                            p.initFunction(property, dataModel, $scope.$modelTree, $scope.$global);
+                                        }
+                                    }
+                                }
                                 $scope.tabsControl.add(dataModel);
                                 $scope.dataModelControl.activeItem = {id:dataModel.id};
                             });
@@ -741,6 +770,13 @@ define(
                             }
                         }
                         dataModel.association.push(record);
+                        for(var i = 0 ; i < association.length ; i++){
+                            var property = association[i];
+                            if(property.cascadeScript){
+                                property.initFunction = new Function("$property", "$model", "$modelTree", "$global", property.cascadeScript);
+                                property.initFunction(record, dataModel, $scope.$modelTree, $scope.$global);
+                            }
+                        }
                         dataModel.$scope.dataModelEditForm.$setDirty();
                     },
                     addMultiProperty:function(dataModel, n){
@@ -779,7 +815,16 @@ define(
                                 }
                                 record[k] = property[k];
                             }
+
                             dataModel.association.push(record);
+
+                            for(var j = 0 ; j < dataModel.dynamicModel.association.length ; j++){
+                                var p = dataModel.dynamicModel.association[j];
+                                if(p.cascadeScript){
+                                    p.initFunction = new Function("$property", "$model", "$modelTree", "$global", p.cascadeScript);
+                                    p.initFunction(record, dataModel, $scope.$modelTree, $scope.$global);
+                                }
+                            }
                         }
                         dataModel.$scope.dataModelEditForm.$setDirty();
                     },
@@ -834,6 +879,14 @@ define(
                                 record[k] = property[k];
                             }
                             dataModel.association.push(record);
+
+                            for(var j = 0 ; j < dataModel.dynamicModel.association.length ; j++) {
+                                var p = dataModel.dynamicModel.association[j];
+                                if (p.cascadeScript) {
+                                    p.initFunction = new Function("$property", "$model", "$modelTree", "$global", p.cascadeScript);
+                                    p.initFunction(property, dataModel, $scope.$modelTree, $scope.$global);
+                                }
+                            }
                         }
                         dataModel.$scope.dataModelEditForm.$setDirty();
                     },
