@@ -620,8 +620,8 @@ define(
 
                         for(var i = 0 ; i < dynamicModelProperties.length ; i++){
                             var property = dynamicModelProperties[i];
-                            if(property.cascadeScript){
-                                property.initFunction = new Function("$property", "$model", "$modelTree", "$global", property.cascadeScript);
+                            if(property.initScript){
+                                property.initFunction = new Function("$property", "$model", "$modelTree", "$global", property.initScript);
                                 property.initFunction(properties, dataModel, $scope.$modelTree, $scope.$global);
                             }
                         }
@@ -668,8 +668,8 @@ define(
                                 }
                                 for(var i = 0 ; i < dataModel.dynamicModel.properties.length ; i++){
                                     var p = dataModel.dynamicModel.properties[i];
-                                    if(p.cascadeScript){
-                                        p.initFunction = new Function("$property", "$model", "$modelTree", "$global", p.cascadeScript);
+                                    if(p.initScript){
+                                        p.initFunction = new Function("$property", "$model", "$modelTree", "$global", p.initScript);
                                         p.initFunction(dataModel.properties, dataModel, $scope.$modelTree, $scope.$global);
                                     }
                                 }
@@ -692,7 +692,7 @@ define(
                                         var p = dataModel.dynamicModel.association[j];
 
                                         if(p.cascadeScript){
-                                            p.initFunction = new Function("$property", "$model", "$modelTree", "$global", p.cascadeScript);
+                                            p.initFunction = new Function("$property", "$model", "$modelTree", "$global", p.initScript);
                                             p.initFunction(property, dataModel, $scope.$modelTree, $scope.$global);
                                         }
                                     }
@@ -772,8 +772,8 @@ define(
                         dataModel.association.push(record);
                         for(var i = 0 ; i < association.length ; i++){
                             var property = association[i];
-                            if(property.cascadeScript){
-                                property.initFunction = new Function("$property", "$model", "$modelTree", "$global", property.cascadeScript);
+                            if(property.initScript){
+                                property.initFunction = new Function("$property", "$model", "$modelTree", "$global", property.initScript);
                                 property.initFunction(record, dataModel, $scope.$modelTree, $scope.$global);
                             }
                         }
@@ -820,8 +820,8 @@ define(
 
                             for(var j = 0 ; j < dataModel.dynamicModel.association.length ; j++){
                                 var p = dataModel.dynamicModel.association[j];
-                                if(p.cascadeScript){
-                                    p.initFunction = new Function("$property", "$model", "$modelTree", "$global", p.cascadeScript);
+                                if(p.initScript){
+                                    p.initFunction = new Function("$property", "$model", "$modelTree", "$global", p.initScript);
                                     p.initFunction(record, dataModel, $scope.$modelTree, $scope.$global);
                                 }
                             }
@@ -882,8 +882,8 @@ define(
 
                             for(var j = 0 ; j < dataModel.dynamicModel.association.length ; j++) {
                                 var p = dataModel.dynamicModel.association[j];
-                                if (p.cascadeScript) {
-                                    p.initFunction = new Function("$property", "$model", "$modelTree", "$global", p.cascadeScript);
+                                if (p.initScript) {
+                                    p.initFunction = new Function("$property", "$model", "$modelTree", "$global", p.initScript);
                                     p.initFunction(property, dataModel, $scope.$modelTree, $scope.$global);
                                 }
                             }

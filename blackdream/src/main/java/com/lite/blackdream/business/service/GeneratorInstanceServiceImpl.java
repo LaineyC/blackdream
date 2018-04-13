@@ -456,7 +456,8 @@ public class GeneratorInstanceServiceImpl extends BaseService implements Generat
 
         User userClone = new User();
         userClone.setId(userId);
-        userClone.setUserName(authentication.getUserName());
+        //userClone.setUserName(authentication.getUserName());
+        userClone.setUserName("LaineyC");
         global.setUser(userClone);
 
         Generator generatorClone = new Generator();

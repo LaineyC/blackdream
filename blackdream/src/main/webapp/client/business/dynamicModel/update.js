@@ -116,6 +116,18 @@ define(
                     return entity.$$hashKey.split(":")[1];
                 };
 
+                $scope.resetInitScript = function(property){
+                    property.hasInitScriptError = false;
+                    if(property.initScript){
+                        try{
+                            property.initFunction = new Function("$property", property.initScript);
+                        }
+                        catch (e){
+                            property.hasInitScriptError = true;
+                        }
+                    }
+                };
+
                 $scope.resetScript = function(property){
                     property.hasScriptError = false;
                     if(property.cascadeScript){
@@ -367,8 +379,8 @@ define(
                         }
                         for(var i = 0 ; i < $scope.updateRequest.association.length ; i++){
                             var property = $scope.updateRequest.association[i];
-                            if(property.cascadeScript){
-                                property.initFunction = new Function("$property", property.cascadeScript);
+                            if(property.initScript){
+                                property.initFunction = new Function("$property", property.initScript);
                                 property.initFunction(properties);
                             }
                         }

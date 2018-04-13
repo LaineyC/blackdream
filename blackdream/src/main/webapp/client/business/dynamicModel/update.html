@@ -156,6 +156,7 @@
                                     <th width="125"><span class="text-danger">类型</span></th>
                                     <th width="150">默认值</th>
                                     <th width="150">可选值</th>
+                                    <th width="100">初始脚本</th>
                                     <th width="100">级联脚本</th>
                                     <th width="100">验证规则</th>
                                 </tr>
@@ -218,6 +219,17 @@
                                                     </li>
                                                 </ul>
                                             </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">编写脚本 <span class="caret"></span></button>
+                                            <ul class="dropdown-menu" style="width:500px;">
+                                                <li>
+                                                    <textarea style="width: 480px;margin-left: 10px; height:500px;" ng-model="property.initScript" placeholder="内置变量$property、$model、$modelTree、$global"
+                                                              ng-change="resetInitScript(property)" uib-tooltip="脚本有语法错误" tooltip-trigger="none" tooltip-is-open="property.hasInitScriptError"></textarea>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </td>
                                     <td>
@@ -325,6 +337,7 @@
                                     <th width="125"><span class="text-danger">类型</span></th>
                                     <th width="150">默认值</th>
                                     <th width="150">可选值</th>
+                                    <th width="100">初始脚本</th>
                                     <th width="100">级联脚本</th>
                                     <th width="100">验证规则</th>
                                 </tr>
@@ -387,6 +400,17 @@
                                                     </li>
                                                 </ul>
                                             </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">编写脚本 <span class="caret"></span></button>
+                                            <ul class="dropdown-menu" style="width:500px;">
+                                                <li>
+                                                    <textarea style="width: 480px;margin-left: 10px; height:500px;" ng-model="property.initScript" placeholder="内置变量$property、$model、$modelTree、$global"
+                                                              ng-change="resetInitScript(property)" uib-tooltip="脚本有语法错误" tooltip-trigger="none" tooltip-is-open="property.hasInitScriptError"></textarea>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </td>
                                     <td>
